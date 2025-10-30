@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches-ignore:
-      - main
+      - api-v3
   schedule:
     - cron: "0 5 * * *"
 

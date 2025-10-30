@@ -2,8 +2,7 @@ name: 'coverage-diff'
 on:
   pull_request:
     branches:
-      - master
-      - main
+      - api-v3
 jobs:
   coverage-diff:
     runs-on: ubuntu-latest

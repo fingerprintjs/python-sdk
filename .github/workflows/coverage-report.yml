@@ -2,8 +2,7 @@ name: 'coverage-report'
 on:
   push:
     branches:
-      - main
-      - coverage # remove before merge to main
+      - api-v3
 
 permissions:
   contents: write

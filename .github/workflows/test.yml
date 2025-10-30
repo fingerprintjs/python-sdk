@@ -3,7 +3,7 @@ name: test
 on:
   push:
     branches-ignore:
-      - main
+      - api-v3
   workflow_dispatch:
 
 jobs:
