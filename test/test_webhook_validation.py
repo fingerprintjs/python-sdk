@@ -1,6 +1,6 @@
 import unittest
 
-from fingerprint_pro_server_api_sdk import WebhookValidation
+from fingerprint_server_sdk import WebhookValidation
 
 
 class TestWebhookValidation(unittest.TestCase):

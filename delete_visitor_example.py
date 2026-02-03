@@ -1,18 +1,18 @@
 import os
 
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
 # configure
-configuration = fingerprint_pro_server_api_sdk.Configuration(
+configuration = fingerprint_server_sdk.Configuration(
     api_key=os.environ["PRIVATE_KEY"], region=os.environ.get("REGION", "us"))
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 visitor_id = os.environ["VISITOR_ID_TO_DELETE"]
 
 try:

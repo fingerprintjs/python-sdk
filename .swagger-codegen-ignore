@@ -27,6 +27,6 @@
 git_push.sh
 tox.ini
 test/*.py
-fingerprint_pro_server_api_sdk/models/error_plain_response.py
+fingerprint_server_sdk/models/error_plain_response.py
 requirements.txt
 test-requirements.txt

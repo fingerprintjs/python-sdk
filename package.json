@@ -1,5 +1,5 @@
 {
-  "name": "fingerprint-pro-server-api-python-sdk",
+  "name": "@fingerprint/python-sdk",
   "version": "8.11.0",
   "private": true,
   "devDependencies": {

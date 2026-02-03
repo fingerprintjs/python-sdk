@@ -1,9 +1,9 @@
 import os
 import argparse
 
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
-from fingerprint_pro_server_api_sdk.models import EventsUpdateRequest
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk.models import EventsUpdateRequest
 
 from dotenv import load_dotenv
 
@@ -17,11 +17,11 @@ args = parser.parse_args()
 print(f'args: {args.linked_id}, {args.tag}, {args.suspect}')
 
 # configure
-configuration = fingerprint_pro_server_api_sdk.Configuration(
+configuration = fingerprint_server_sdk.Configuration(
     api_key=os.environ["PRIVATE_KEY"], region=os.environ.get("REGION", "us"))
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 request_id = os.environ["REQUEST_ID_TO_UPDATE"]
 
 try:

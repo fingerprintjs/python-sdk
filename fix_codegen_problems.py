@@ -52,7 +52,7 @@ def process_file(file_path: str):
 
 def process_models():
     """Run through all models."""
-    directory = './fingerprint_pro_server_api_sdk/models'
+    directory = './fingerprint_server_sdk/models'
     for root, _, files in os.walk(directory):
         for file in files:
             if file.endswith('.py'):

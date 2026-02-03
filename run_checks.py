@@ -5,8 +5,8 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from typing import Tuple
 
-from fingerprint_pro_server_api_sdk import FingerprintApi, Configuration
-from fingerprint_pro_server_api_sdk.rest import ApiException
+from fingerprint_server_sdk import FingerprintApi, Configuration
+from fingerprint_server_sdk.rest import ApiException
 
 @dataclass(frozen=True)
 class AppConfig:
