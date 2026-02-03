@@ -35,7 +35,7 @@ REQUIRES = [
 here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 long_description = re.sub("<source[^>]*>\n", '', long_description.replace("<picture>\n", "").replace("</picture>\n", ""))
-long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/blob/main/\g<postfix>', long_description)
+long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>https://github.com/fingerprintjs/python-sdk/blob/main/\g<postfix>', long_description)
 
 setup(
     name=NAME,
@@ -47,9 +47,9 @@ setup(
     author="Fingerprint",
     author_email="support@fingerprint.com",
     project_urls={
-        "Changelog": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/blob/main/CHANGELOG.md",
-        "Code": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk",
-        "Issue Tracker": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/issues",
+        "Changelog": "https://github.com/fingerprintjs/python-sdk/blob/main/CHANGELOG.md",
+        "Code": "https://github.com/fingerprintjs/python-sdk",
+        "Issue Tracker": "https://github.com/fingerprintjs/python-sdk/issues",
     },
     keywords=["Swagger", "Fingerprint Server API", "browser", "detection", "fingerprint", "identification",
               "fingerprinting", "browser-fingerprinting", "browser-fingerprint", "fraud-detection", "fraud",
