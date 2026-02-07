@@ -1,12 +1,8 @@
 import base64
-import io
-import json
 import unittest
-from unittest import expectedFailure
 
-from fingerprint_server_sdk import ApiClientDeserializer, DecryptionAlgorithm, DecryptionKey, \
-    unseal_event_response, UnsealError, UnsealAggregateError, EventsGetResponse, Products, \
-    ProductIdentification, BrowserDetails
+from fingerprint_server_sdk import DecryptionAlgorithm, DecryptionKey, \
+    unseal_event_response, UnsealError, UnsealAggregateError, Event
 
 class TestSealed(unittest.TestCase):
     valid_key = base64.b64decode('p2PA7MGy5tx56cnyJaFZMr96BCFwZeHjZV2EqMvTq53=')
@@ -14,88 +10,177 @@ class TestSealed(unittest.TestCase):
 
     def test_unseal_aes256gcm(self):
         sealed_result = '''{
-  "products": {
-    "identification": {
-      "data": {
-        "visitorId": "2ZEDCZEfOfXjEmMuE3tq",
-        "requestId": "1703067132750.Z5hutJ",
-        "browserDetails": {
-          "browserName": "Safari",
-          "browserMajorVersion": "17",
-          "browserFullVersion": "17.3",
-          "os": "Mac OS X",
-          "osVersion": "10.15.7",
-          "device": "Other",
-          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Safari/605.1.15"
-        },
-        "incognito": false,
-        "ip": "::1",
-        "ipLocation": {
-          "accuracyRadius": 1000,
-          "latitude": 59.3241,
-          "longitude": 18.0517,
-          "postalCode": "100 05",
-          "timezone": "Europe/Stockholm",
-          "city": {
-            "name": "Stockholm"
-          },
-          "country": {
-            "code": "SE",
-            "name": "Sweden"
-          },
-          "continent": {
-            "code": "EU",
-            "name": "Europe"
-          },
-          "subdivisions": [
-            {
-              "isoCode": "AB",
-              "name": "Stockholm County"
-            }
-          ]
-        },
-        "timestamp": 1703067136286,
-        "time": "2023-12-20T10:12:16Z",
-        "url": "http://localhost:8080/",
-        "tag": {
-          "foo": "bar"
-        },
-        "confidence": {
-          "score": 1
-        },
-        "visitorFound": true,
-        "firstSeenAt": {
-          "global": "2023-12-15T12:13:55.103Z",
-          "subscription": "2023-12-15T12:13:55.103Z"
-        },
-        "lastSeenAt": {
-          "global": "2023-12-19T11:39:51.52Z",
-          "subscription": "2023-12-19T11:39:51.52Z"
-        },
-        "replayed": false
-      }
+  "linked_id": "somelinkedId",
+  "tags": {},
+  "timestamp": 1708102555327,
+  "event_id": "1708102555327.NLOjmg",
+  "url": "https://www.example.com/login?hope{this{works[!",
+  "ip_address": "61.127.217.15",
+  "user_agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....",
+  "browser_details": {
+    "browser_name": "Chrome",
+    "browser_major_version": "74",
+    "browser_full_version": "74.0.3729",
+    "os": "Windows",
+    "os_version": "7",
+    "device": "Other"
+  },
+  "identification": {
+    "visitor_id": "Ibk1527CUFmcnjLwIs4A9",
+    "confidence": {
+      "score": 0.97,
+      "version": "1.1"
     },
-    "botd": {
-      "data": {
-        "bot": {
-          "result": "notDetected"
-        },
-        "meta": {
-          "foo": "bar"
-        },
-        "url": "http://localhost:8080/",
-        "ip": "::1",
-        "time": "2023-12-20T10:12:13.894Z",
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Safari/605.1.15",
-        "requestId": "1703067132750.Z5hutJ"
-      }
+    "visitor_found": false,
+    "first_seen_at": 1708102555327,
+    "last_seen_at": 1708102555327
+  },
+  "supplementary_id_high_recall": {
+    "visitor_id": "3HNey93AkBW6CRbxV6xP",
+    "visitor_found": true,
+    "confidence": {
+      "score": 0.97,
+      "version": "1.1"
+    },
+    "first_seen_at": 1708102555327,
+    "last_seen_at": 1708102555327
+  },
+  "bot": "not_detected",
+  "root_apps": false,
+  "emulator": false,
+  "ip_info": {
+    "v4": {
+      "address": "94.142.239.124",
+      "geolocation": {
+        "accuracy_radius": 20,
+        "latitude": 50.05,
+        "longitude": 14.4,
+        "postal_code": "150 00",
+        "timezone": "Europe/Prague",
+        "city_name": "Prague",
+        "country_code": "CZ",
+        "country_name": "Czechia",
+        "continent_code": "EU",
+        "continent_name": "Europe",
+        "subdivisions": [
+          {
+            "iso_code": "10",
+            "name": "Hlavni mesto Praha"
+          }
+        ]
+      },
+      "asn": "7922",
+      "asn_name": "COMCAST-7922",
+      "asn_network": "73.136.0.0/13",
+      "datacenter_result": true,
+      "datacenter_name": "DediPath"
+    },
+    "v6": {
+      "address": "2001:db8:3333:4444:5555:6666:7777:8888",
+      "geolocation": {
+        "accuracy_radius": 5,
+        "latitude": 49.982,
+        "longitude": 36.2566,
+        "postal_code": "10112",
+        "timezone": "Europe/Berlin",
+        "city_name": "Berlin",
+        "country_code": "DE",
+        "country_name": "Germany",
+        "continent_code": "EU",
+        "continent_name": "Europe",
+        "subdivisions": [
+          {
+            "iso_code": "BE",
+            "name": "Land Berlin"
+          }
+        ]
+      },
+      "asn": "6805",
+      "asn_name": "Telefonica Germany",
+      "asn_network": "2a02:3100::/24",
+      "datacenter_result": false,
+      "datacenter_name": ""
     }
-  }
+  },
+  "ip_blocklist": {
+    "email_spam": false,
+    "attack_source": false,
+    "tor_node": false
+  },
+  "proxy": true,
+  "proxy_confidence": "low",
+  "proxy_details": {
+    "proxy_type": "residential",
+    "last_seen_at": 1708102555327
+  },
+  "vpn": false,
+  "vpn_confidence": "high",
+  "vpn_origin_timezone": "Europe/Berlin",
+  "vpn_origin_country": "unknown",
+  "vpn_methods": {
+    "timezone_mismatch": false,
+    "public_vpn": false,
+    "auxiliary_mobile": false,
+    "os_mismatch": false,
+    "relay": false
+  },
+  "incognito": false,
+  "tampering": false,
+  "tampering_details": {
+    "anomaly_score": 0.1955,
+    "anti_detect_browser": false
+  },
+  "cloned_app": false,
+  "factory_reset_timestamp": 0,
+  "jailbroken": false,
+  "frida": false,
+  "privacy_settings": false,
+  "virtual_machine": false,
+  "location_spoofing": false,
+  "velocity": {
+    "distinct_ip": {
+      "5_minutes": 1,
+      "1_hour": 1,
+      "24_hours": 1
+    },
+    "distinct_country": {
+      "5_minutes": 1,
+      "1_hour": 2,
+      "24_hours": 2
+    },
+    "events": {
+      "5_minutes": 1,
+      "1_hour": 5,
+      "24_hours": 5
+    },
+    "ip_events": {
+      "5_minutes": 1,
+      "1_hour": 5,
+      "24_hours": 5
+    },
+    "distinct_ip_by_linked_id": {
+      "5_minutes": 1,
+      "1_hour": 5,
+      "24_hours": 5
+    },
+    "distinct_visitor_id_by_linked_id": {
+      "5_minutes": 1,
+      "1_hour": 5,
+      "24_hours": 5
+    }
+  },
+  "developer_tools": false,
+  "mitm_attack": false,
+  "sdk": {
+    "platform": "js",
+    "version": "3.11.10"
+  },
+  "replayed": false
 }'''
-        expected_result = ApiClientDeserializer.deserialize(json.loads(sealed_result), 'EventsGetResponse')
+        expected_result = Event.from_json(sealed_result)
 
         sealed_data = base64.b64decode(
-            'noXc7etL3WJZn6BSZLV4tcjBr0uFr4+qvDrSdcZ9M1bb1MB+/le7UKY+6FJNFQHBm64X1/GVE3xkjBuW4mveH3jEK8cOSWBhl71tgYegxm+MkRHRAYM7vDPOS4sw1rb6xqdVZ/sovFP6yIqNRhrKWdO/B99vtext6l/NWlmXfTCoX3LHXYK94yr0O4eptZBwBK70fMB0YBR6iw1/zJOs9W6LZ50d2ml4wl/Ah1qJKmQueraKJaIIAQEUNbOm8ReoRsDrAWsVbIv2IscKEGNwZEjd5V1nZFkHLzOUQGKLjFQqGxFFmxV/PuDZve/lHyjmn9q3+UFJzJKXVOLyPTjhwQdjouvdJn5k9FEpH0hua+/KgSrcIKnKXtk7zPXAFEo9FeQJA3XJH8+dHcDgadl6/FIrAxtqrMRbngp7wKpltIySaCMi9P0qYoWnVvQC3gyc5xoW00UxcdPfXnQR9F21QfZ3EzULIbJQ5sUjwcg31h/IszlBXueHnGEiszhdXAIOHU865FLJsvLAqZD1A+R9/gurAG3kck1A/t8Vf8znmd8WeMezj0KObenNhHeDpjAFcAZS6evr8gDb/IZ6Ge3CUzBvfXUZNNlhEujS6yo/eK/plFACtbbIMiosQq1zRIMlLmAvlb42jNAwPtjb2JQhO+AP+EUUEe8nTDjyytZIHThzuipfVIRpxEbV9MdYt0Ri5EqI4LA2YiAMmphdaio4grw51oD63GgSeKXEUi1YoLUGmXCNbn5Q1vcQiGd5O+TJ3WzacMcBcPDFd9ZxVxe8qmn3gXWXlod4NmS5nhksiiYY0UUWqMMqEEZou5LhwV8FrQdebBNDQ9GKoGkaadJoJzkKZWYlO0ju5EYTlQCUTvHenefVmrHUccteVuwz6Fsp3d5p3SBGumpbdECjUMnO2OWkOzf4S0TArorl8KnB3TidzsM94eTr0M+/uz910HmnOqIYms80IBV3yFS0CEvcvuyjnEpW/vfOIbs0qFycNx34Hltqa0PdSSzcrFfMJjR5h9g/hORaO4MNXu9ORw==')
+            'noXc7Xu7PIKu1tbMkMxLbQG4XU46Bv5dED98hqTkPYZnmb8PG81Q83Kpg541Vt4NQdkzfezDSVk8FP9ZzJ08L0MMb4S8bT78c10Op1LyKwZU6DGr1e3V+ZWcNzHVG1rPoL+eUHN6yR9MQp8/CmSUBQUPOOAUXdoqWohbfIGxoQIuQ5BtfpSJuYD6kTyswSi56wxzY/s24dMwgS2KnA81Y1pdi3ZVJKBdwGYGg4T5Dvcqu0GWv3sScKD9b4Tagfbe2m8nbXY/QtN770c7J1xo/TNXXdq4lyqaMyqIayHOwRBP58tNF8mACusm1pogOVIt456wIMetCGKxicPJr7m/Q02ONzhkMtzzXwgwriglGHfM7UbtTsCytCBP7J2vp0tEkHiq/X3qtuvSLJqNyRzwFJhgisKGftc5CIaT2VxVKKxkL/6Ws6FPm4sQB1UGtMCMftKpyb1lFzG9lwFkKvYN9+FGtvRM50mbrzz7ONDxbwykkxihAab36MIuk7dfhvnVLFAjrpuCkEFdWrtjVyWmM0xVeXpEUtP6Ijk5P+VuPZ1alV/JV1q4WvfrGMizEZbwbp6eQZg9mwKe4IX+FVi7sPF2S/CCLI/d90S5Yz6bBP9uiQ3pCVlYbVOkpwS0YQxnR+h5J50qodY7LuswNO5VlEgI0ztkjPQBr8koT4SM54X2z14tA2tKCxSv1psEL5HOk4IWN+9f3RVfDKBDruDiDd+BtZquhYLmOFat9K4h41NrPGAqv5tKmmJtx3llMs6LFHPKBlNlI5zgqE7T47xv2AWw5nqWM107t8lpRETIgJx+YN/Jv6byJSQm7afaeDtHXGceMPOKMziH1XgsiQiS56OsmyyRgaq5YCmMuaPw8gcgVa7RNZSafkP34aQBAuJOA3JFs5xcYcubKutD3h1mk697A8vwdtR/Gj0zTvuUnQ/9o3qHSLseAEIiY9/dS6WJnKXRKTonQi2F6DV9NTzFVQl99AH22jq6lIsjbEEKcq/ydFDUpgAq4lyp9nPBHuPXSojdG+1BWuUyjYykaqnLzzqKgRalGzeWmRHd2qeNw8Bz5OWYBw82C3gHRS2BB9VquIgEYktDvgJ5yRfDYkp8qgxHoYeR88ijccWgdvk+WH78OPdwqA7rqdAYcWqn9KNozoxuYddc0fnrHbgaWpanCmPp0gNEeb4r+i9FDGPSkgYBdyrEPHblsDN/Ad1dhLIHEDEtQyv13s6tDRgLVvhowrzqIM+5cm/abyTDhXzSYDfCw2Wf90cBOMsbQBB2N2YRqnrpA50PGp+0IwlPL7qZj1N4JGhvQD0ux8Ood6AiXpdguj7DMP+T0laHIjWee5/xGZB6g3EsCdOZJjVj7hSE/L3eV4No0WcLqJ5DPOgw+FnvQpxndCTc8DW83tNm624lm7scu0A499vEFj1dhtq5gUxsGcqzm09+Vk2V/d0sa77Xocqe3bcfS5lXc/pHrOc1qKlK8kTr2AYNwjeJJ14euuin361WBETd1I6n8eIs02HyBas09o9lT7Nq05jsnbxej6d0q6GH7IYusiBFTJaAZ6UXOV5i1NOcw9jaGyHms3M2N/b2cmXFYTIFZSjSfbqoI6YZF73sMPhEZqfZ5Jjq+ZLMC3A+yFPFJOW/0oolUGbcC8TBVmLi37Z9Wgc338w2Jf+I94SdViku')
 
         result = unseal_event_response(sealed_data, [
             DecryptionKey(self.invalid_key, DecryptionAlgorithm['Aes256Gcm']),
@@ -103,15 +188,12 @@ class TestSealed(unittest.TestCase):
         ])
 
         self.assertEqual(result, expected_result)
-        self.assertIsInstance(result, EventsGetResponse)
-        self.assertIsInstance(result.products, Products)
-        self.assertIsInstance(result.products.identification, ProductIdentification)
-        self.assertIsInstance(result.products.identification.data.browser_details, BrowserDetails)
+        self.assertIsInstance(result, Event)
 
 
     def test_unseal_invalid_header(self):
         sealed_data = base64.b64decode(
-            'xzXc7SXO+mqeAGrvBMgObi/S0fXTpP3zupk8qFqsO/1zdtWCD169iLA3VkkZh9ICHpZ0oWRzqG0M9/TnCeKFohgBLqDp6O0zEfXOv6i5q++aucItznQdLwrKLP+O0blfb4dWVI8/aSbd4ELAZuJJxj9bCoVZ1vk+ShbUXCRZTD30OIEAr3eiG9aw00y1UZIqMgX6CkFlU9L9OnKLsNsyomPIaRHTmgVTI5kNhrnVNyNsnzt9rY7fUD52DQxJILVPrUJ1Q+qW7VyNslzGYBPG0DyYlKbRAomKJDQIkdj/Uwa6bhSTq4XYNVvbk5AJ/dGwvsVdOnkMT2Ipd67KwbKfw5bqQj/cw6bj8Cp2FD4Dy4Ud4daBpPRsCyxBM2jOjVz1B/lAyrOp8BweXOXYugwdPyEn38MBZ5oL4D38jIwR/QiVnMHpERh93jtgwh9Abza6i4/zZaDAbPhtZLXSM5ztdctv8bAb63CppLU541Kf4OaLO3QLvfLRXK2n8bwEwzVAqQ22dyzt6/vPiRbZ5akh8JB6QFXG0QJF9DejsIspKF3JvOKjG2edmC9o+GfL3hwDBiihYXCGY9lElZICAdt+7rZm5UxMx7STrVKy81xcvfaIp1BwGh/HyMsJnkE8IczzRFpLlHGYuNDxdLoBjiifrmHvOCUDcV8UvhSV+UAZtAVejdNGo5G/bz0NF21HUO4pVRPu6RqZIs/aX4hlm6iO/0Ru00ct8pfadUIgRcephTuFC2fHyZxNBC6NApRtLSNLfzYTTo/uSjgcu6rLWiNo5G7yfrM45RXjalFEFzk75Z/fu9lCJJa5uLFgDNKlU+IaFjArfXJCll3apbZp4/LNKiU35ZlB7ZmjDTrji1wLep8iRVVEGht/DW00MTok7Zn7Fv+MlxgWmbZB3BuezwTmXb/fNw==')
+            'noXc7xXO+mqeAGrvBMgObi/S0fXTpP3zupk8qFqsO/1zdtWCD169iLA3VkkZh9ICHpZ0oWRzqG0M9/TnCeKFohgBLqDp6O0zEfXOv6i5q++aucItznQdLwrKLP+O0blfb4dWVI8/aSbd4ELAZuJJxj9bCoVZ1vk+ShbUXCRZTD30OIEAr3eiG9aw00y1UZIqMgX6CkFlU9L9OnKLsNsyomPIaRHTmgVTI5kNhrnVNyNsnzt9rY7fUD52DQxJILVPrUJ1Q+qW7VyNslzGYBPG0DyYlKbRAomKJDQIkdj/Uwa6bhSTq4XYNVvbk5AJ/dGwvsVdOnkMT2Ipd67KwbKfw5bqQj/cw6bj8Cp2FD4Dy4Ud4daBpPRsCyxBM2jOjVz1B/lAyrOp8BweXOXYugwdPyEn38MBZ5oL4D38jIwR/QiVnMHpERh93jtgwh9Abza6i4/zZaDAbPhtZLXSM5ztdctv8bAb63CppLU541Kf4OaLO3QLvfLRXK2n8bwEwzVAqQ22dyzt6/vPiRbZ5akh8JB6QFXG0QJF9DejsIspKF3JvOKjG2edmC9o+GfL3hwDBiihYXCGY9lElZICAdt+7rZm5UxMx7STrVKy81xcvfaIp1BwGh/HyMsJnkE8IczzRFpLlHGYuNDxdLoBjiifrmHvOCUDcV8UvhSV+UAZtAVejdNGo5G/bz0NF21HUO4pVRPu6RqZIs/aX4hlm6iO/0Ru00ct8pfadUIgRcephTuFC2fHyZxNBC6NApRtLSNLfzYTTo/uSjgcu6rLWiNo5G7yfrM45RXjalFEFzk75Z/fu9lCJJa5uLFgDNxlU+IaFjArfXJCll3apbZp4/LNKiU35ZlB7ZmjDTrji1wLep8iRVVEGht/DW00MTok7Zn7Fv+MlxgWmbZB3BuezwTmXb/fNw==')
 
         with self.assertRaisesRegex(ValueError, "Invalid sealed data header"):
             unseal_event_response(sealed_data, [
@@ -121,7 +203,7 @@ class TestSealed(unittest.TestCase):
 
     def test_unseal_invalid_algorithm(self):
         sealed_data = base64.b64decode(
-            'noXc7SXO+mqeAGrvBMgObi/S0fXTpP3zupk8qFqsO/1zdtWCD169iLA3VkkZh9ICHpZ0oWRzqG0M9/TnCeKFohgBLqDp6O0zEfXOv6i5q++aucItznQdLwrKLP+O0blfb4dWVI8/aSbd4ELAZuJJxj9bCoVZ1vk+ShbUXCRZTD30OIEAr3eiG9aw00y1UZIqMgX6CkFlU9L9OnKLsNsyomPIaRHTmgVTI5kNhrnVNyNsnzt9rY7fUD52DQxJILVPrUJ1Q+qW7VyNslzGYBPG0DyYlKbRAomKJDQIkdj/Uwa6bhSTq4XYNVvbk5AJ/dGwvsVdOnkMT2Ipd67KwbKfw5bqQj/cw6bj8Cp2FD4Dy4Ud4daBpPRsCyxBM2jOjVz1B/lAyrOp8BweXOXYugwdPyEn38MBZ5oL4D38jIwR/QiVnMHpERh93jtgwh9Abza6i4/zZaDAbPhtZLXSM5ztdctv8bAb63CppLU541Kf4OaLO3QLvfLRXK2n8bwEwzVAqQ22dyzt6/vPiRbZ5akh8JB6QFXG0QJF9DejsIspKF3JvOKjG2edmC9o+GfL3hwDBiihYXCGY9lElZICAdt+7rZm5UxMx7STrVKy81xcvfaIp1BwGh/HyMsJnkE8IczzRFpLlHGYuNDxdLoBjiifrmHvOCUDcV8UvhSV+UAZtAVejdNGo5G/bz0NF21HUO4pVRPu6RqZIs/aX4hlm6iO/0Ru00ct8pfadUIgRcephTuFC2fHyZxNBC6NApRtLSNLfzYTTo/uSjgcu6rLWiNo5G7yfrM45RXjalFEFzk75Z/fu9lCJJa5uLFgDNKlU+IaFjArfXJCll3apbZp4/LNKiU35ZlB7ZmjDTrji1wLep8iRVVEGht/DW00MTok7Zn7Fv+MlxgWmbZB3BuezwTmXb/fNw==')
+            'noXc7Xu7PIKu1tbMkMxLbQG4XU46Bv5dED98hqTkPYZnmb8PG81Q83Kpg541Vt4NQdkzfezDSVk8FP9ZzJ08L0MMb4S8bT78c10Op1LyKwZU6DGr1e3V+ZWcNzHVG1rPoL+eUHN6yR9MQp8/CmSUBQUPOOAUXdoqWohbfIGxoQIuQ5BtfpSJuYD6kTyswSi56wxzY/s24dMwgS2KnA81Y1pdi3ZVJKBdwGYGg4T5Dvcqu0GWv3sScKD9b4Tagfbe2m8nbXY/QtN770c7J1xo/TNXXdq4lyqaMyqIayHOwRBP58tNF8mACusm1pogOVIt456wIMetCGKxicPJr7m/Q02ONzhkMtzzXwgwriglGHfM7UbtTsCytCBP7J2vp0tEkHiq/X3qtuvSLJqNyRzwFJhgisKGftc5CIaT2VxVKKxkL/6Ws6FPm4sQB1UGtMCMftKpyb1lFzG9lwFkKvYN9+FGtvRM50mbrzz7ONDxbwykkxihAab36MIuk7dfhvnVLFAjrpuCkEFdWrtjVyWmM0xVeXpEUtP6Ijk5P+VuPZ1alV/JV1q4WvfrGMizEZbwbp6eQZg9mwKe4IX+FVi7sPF2S/CCLI/d90S5Yz6bBP9uiQ3pCVlYbVOkpwS0YQxnR+h5J50qodY7LuswNO5VlEgI0ztkjPQBr8koT4SM54X2z14tA2tKCxSv1psEL5HOk4IWN+9f3RVfDKBDruDiDd+BtZquhYLmOFat9K4h41NrPGAqv5tKmmJtx3llMs6LFHPKBlNlI5zgqE7T47xv2AWw5nqWM107t8lpRETIgJx+YN/Jv6byJSQm7afaeDtHXGceMPOKMziH1XgsiQiS56OsmyyRgaq5YCmMuaPw8gcgVa7RNZSafkP34aQBAuJOA3JFs5xcYcubKutD3h1mk697A8vwdtR/Gj0zTvuUnQ/9o3qHSLseAEIiY9/dS6WJnKXRKTonQi2F6DV9NTzFVQl99AH22jq6lIsjbEEKcq/ydFDUpgAq4lyp9nPBHuPXSojdG+1BWuUyjYykaqnLzzqKgRalGzeWmRHd2qeNw8Bz5OWYBw82C3gHRS2BB9VquIgEYktDvgJ5yRfDYkp8qgxHoYeR88ijccWgdvk+WH78OPdwqA7rqdAYcWqn9KNozoxuYddc0fnrHbgaWpanCmPp0gNEeb4r+i9FDGPSkgYBdyrEPHblsDN/Ad1dhLIHEDEtQyv13s6tDRgLVvhowrzqIM+5cm/abyTDhXzSYDfCw2Wf90cBOMsbQBB2N2YRqnrpA50PGp+0IwlPL7qZj1N4JGhvQD0ux8Ood6AiXpdguj7DMP+T0laHIjWee5/xGZB6g3EsCdOZJjVj7hSE/L3eV4No0WcLqJ5DPOgw+FnvQpxndCTc8DW83tNm624lm7scu0A499vEFj1dhtq5gUxsGcqzm09+Vk2V/d0sa77Xocqe3bcfS5lXc/pHrOc1qKlK8kTr2AYNwjeJJ14euuin361WBETd1I6n8eIs02HyBas09o9lT7Nq05jsnbxej6d0q6GH7IYusiBFTJaAZ6UXOV5i1NOcw9jaGyHms3M2N/b2cmXFYTIFZSjSfbqoI6YZF73sMPhEZqfZ5Jjq+ZLMC3A+yFPFJOW/0oolUGbcC8TBVmLi37Z9Wgc338w2Jf+I94SdViku')
 
         with self.assertRaisesRegex(ValueError, "Unsupported decryption algorithm: invalid"):
             unseal_event_response(sealed_data, [

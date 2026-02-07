@@ -2,76 +2,60 @@
 
 {{>partial_header}}
 
-import pathlib
-import re
 
 from setuptools import setup, find_packages  # noqa: H301
 
-NAME = "{{{projectName}}}"
-{{#apiInfo}}
-{{#apis}}
-{{^hasMore}}
 # To install the library, run the following
 #
 # python setup.py install
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-
+NAME = "{{{projectName}}}"
+VERSION = "{{packageVersion}}"
+PYTHON_REQUIRES = ">= 3.9"
 REQUIRES = [
-    "certifi>=2023.7.22",
-    "python-dateutil>=2.5.3",
-    "urllib3>=1.23",
-    "cryptography",
-    "typing_extensions>=4.5"
-]
-
+{{^async}}
+    "urllib3 >= 2.1.0, < 3.0.0",
+{{/async}}
+    "python-dateutil >= 2.8.2",
 {{#asyncio}}
-REQUIRES.append("aiohttp")
+    "aiohttp >= 3.8.4",
+    "aiohttp-retry >= 2.8.3",
 {{/asyncio}}
+{{#httpx}}
+    "httpx >= 0.28.1",
+{{/httpx}}
 {{#tornado}}
-REQUIRES.append("tornado")
+    "tornado>=4.2, < 5",
 {{/tornado}}
-
-here = pathlib.Path(__file__).parent.resolve()
-long_description = (here / 'README.md').read_text(encoding='utf-8')
-long_description = re.sub("<source[^>]*>\n", '', long_description.replace("<picture>\n", "").replace("</picture>\n", ""))
-long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>https://github.com/{{{gitUserId}}}/{{{gitRepoId}}}/blob/main/\g<postfix>', long_description)
+{{#hasHttpSignatureMethods}}
+    "pem >= 19.3.0",
+    "pycryptodome >= 3.9.0",
+{{/hasHttpSignatureMethods}}
+    "pydantic >= 2",
+    "typing-extensions >= 4.7.1",
+{{#lazyImports}}
+    "lazy-imports >= 1, < 2",
+{{/lazyImports}}
+    "cryptography",
+]
 
 setup(
     name=NAME,
-    description="{{{appDescription}}}",
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    license="MIT",
-    license_files=["LICENSE"],
-    author="Fingerprint",
-    author_email="{{infoEmail}}",
-    project_urls={
-        "Changelog": "https://github.com/fingerprintjs/python-sdk/blob/main/CHANGELOG.md",
-        "Code": "https://github.com/fingerprintjs/python-sdk",
-        "Issue Tracker": "https://github.com/fingerprintjs/python-sdk/issues",
-    },
-    keywords=["Swagger", "{{appName}}", "browser", "detection", "fingerprint", "identification",
-              "fingerprinting", "browser-fingerprinting", "browser-fingerprint", "fraud-detection", "fraud",
-              "audio-fingerprinting", "fingerprintjs", "fingerprintjs-pro", "visitor-identifier"],
+    version=VERSION,
+    description="{{appName}}",
+    author="{{infoName}}{{^infoName}}OpenAPI Generator community{{/infoName}}",
+    author_email="{{infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}",
+    url="{{packageUrl}}",
+    keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
     install_requires=REQUIRES,
-    packages=find_packages(),
+    packages=find_packages(exclude=["test"]),
     include_package_data=True,
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.9',
-        'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Security',
-    ],
+    {{#licenseInfo}}license="{{.}}",
+    {{/licenseInfo}}long_description_content_type='text/markdown',
+    long_description="""\
+    {{appDescription}}
+    """,  # noqa: E501
+    package_data={"{{{packageName}}}": ["py.typed"]},
 )
-{{/hasMore}}
-{{/apis}}
-{{/apiInfo}}

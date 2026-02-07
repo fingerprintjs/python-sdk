@@ -6,12 +6,13 @@ from dotenv import load_dotenv
 from typing import Tuple
 
 from fingerprint_server_sdk import FingerprintApi, Configuration
+from fingerprint_server_sdk.configuration import Region
 from fingerprint_server_sdk.rest import ApiException
 
 @dataclass(frozen=True)
 class AppConfig:
     api_key: str
-    region: str
+    region: Region
 
 def load_config() -> AppConfig:
     load_dotenv()
@@ -19,7 +20,8 @@ def load_config() -> AppConfig:
     if not api_key:
         print("Error: PRIVATE_KEY environment variable not set", file=sys.stderr)
         sys.exit(1)
-    region = (os.getenv("REGION") or "us").lower()
+    region_str = (os.getenv("REGION") or "us").upper()
+    region = Region[region_str]
     return AppConfig(api_key=api_key, region=region)
 
 def make_client(cfg: AppConfig) -> FingerprintApi:
@@ -44,9 +46,8 @@ def main() -> int:
             print("FingerprintApi.search_events: is empty", file=sys.stderr)
             return 1
         first_event = search_events_response.events[0]
-        first_event_identification_data = first_event.products.identification.data
-        visitor_id = first_event_identification_data.visitor_id
-        request_id = first_event_identification_data.request_id
+        visitor_id = first_event.identification.visitor_id
+        event_id = first_event.event_id
         print("\n\n\nSearch events response: \n", search_events_response)
         search_events_response_second_page = api.search_events(2, start=start, end=end,
                                                                         pagination_key=search_events_response.pagination_key)
@@ -59,34 +60,13 @@ def main() -> int:
         print("Exception when calling FingerprintApi.search_events: %s\n" % e, file=sys.stderr)
         return 1
 
-    # Use existing visitor_id from FingerprintApi->search_events response to check FingerprintApi->get_visits method
+    # Use existing event_id from FingerprintApi->search_events response to check get_event method
     try:
-        visits_response = api.get_visits(visitor_id, limit=2)
-        print("\n\n\nVisits response: \n", visits_response)
-
-    except ApiException as e:
-        print("Exception when calling FingerprintApi.get_visits: %s\n" % e, file=sys.stderr)
-        return 1
-
-    # Use existing request_id from FingerprintApi->search_events response to check FingerprintApi->get_event method
-    try:
-        events_response = api.get_event(request_id)
-        print("\n\n\nEvent response: \n", events_response.products)
+        event_response = api.get_event(event_id)
+        print("\n\n\nEvent response: \n", event_response)
 
     except ApiException as e:
         print("Exception when calling FingerprintApi.get_event: %s\n" % e, file=sys.stderr)
-        return 1
-
-    # Async methods examples
-    try:
-        visits_response_request = api.get_visits(visitor_id, limit=2, async_req=True)
-        events_response_request = api.get_event(request_id, async_req=True)
-        visits_response = visits_response_request.get()
-        print("\n\n\nVisits async response: \n", visits_response)
-        events_response = events_response_request.get()
-        print("\n\n\nEvent async response: \n", events_response.products)
-    except ApiException as e:
-        print("Exception when calling Async example: %s\n" % e, file=sys.stderr)
         return 1
 
     # Check that old events are still match expected format
@@ -95,16 +75,14 @@ def main() -> int:
         if len(search_events_response_old.events) == 0:
             print("FingerprintApi.search_events: is empty for old events\n", file=sys.stderr)
             return 1
-        old_event_identification_data = search_events_response_old.events[0].products.identification.data
-        visitor_id_old = old_event_identification_data.visitor_id
-        request_id_old = old_event_identification_data.request_id
+        old_event = search_events_response_old.events[0]
+        event_id_old = old_event.event_id
 
-        if request_id_old == request_id:
+        if event_id_old == event_id:
             print("Old events are identical to new\n", file=sys.stderr)
             return 1
 
-        api.get_visits(visitor_id_old, limit=2)
-        api.get_event(request_id_old)
+        api.get_event(event_id_old)
         print("\n\n\nOld events are good\n")
     except ApiException as e:
         print("Exception when trying to read old data: %s\n" % e, file=sys.stderr)
