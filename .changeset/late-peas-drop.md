@@ -9,7 +9,7 @@ Changed library name to `fingerprint_server_sdk`
 
 **MIGRATION_GUIDE**:
 - Replace imports to new name:
-  ```diff
+```diff
 - import fingerprint_pro_server_api_sdk
 + import fingerprint_server_sdk
-  ```
+ ```
