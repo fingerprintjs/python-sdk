@@ -12,4 +12,4 @@ Changed library name to `fingerprint_server_sdk`
 ```diff
 - import fingerprint_pro_server_api_sdk
 + import fingerprint_server_sdk
- ```
+```
