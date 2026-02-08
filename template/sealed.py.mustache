@@ -1,9 +1,8 @@
 import json
-from typing import List
-
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
 import zlib
+
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from {{packageName}}.models.event import Event
 
@@ -15,7 +14,7 @@ DecryptionAlgorithm = {
 
 class DecryptionKey:
     """Key for decryption of sealed data."""
-    exception: Exception
+    key: bytes
     algorithm: str
 
     def __init__(self, key: bytes, algorithm: str):
@@ -35,14 +34,14 @@ class UnsealError(Exception):
 
 class UnsealAggregateError(Exception):
     """Aggregated error during unsealing."""
-    errors: List[UnsealError]
+    errors: list[UnsealError]
 
-    def __init__(self, errors: List[UnsealError]):
+    def __init__(self, errors: list[UnsealError]):
         self.errors = errors
         super().__init__("Unable to decrypt sealed data")
 
 
-def unseal_event_response(sealed_data: bytes, decryption_keys: List[DecryptionKey]) -> Event:
+def unseal_event_response(sealed_data: bytes, decryption_keys: list[DecryptionKey]) -> Event:
     """Unseal event response with one of the provided keys."""
     unsealed = __unseal(sealed_data, decryption_keys)
     return __parse_event_response(unsealed)
@@ -59,7 +58,7 @@ def __parse_event_response(unsealed: str) -> Event:
     return result
 
 
-def __unseal(sealed_data: bytes, decryption_keys: List[DecryptionKey]) -> str:
+def __unseal(sealed_data: bytes, decryption_keys: list[DecryptionKey]) -> str:
     """Unseal data with one of the provided keys."""
     if sealed_data[:len(SEALED_HEADER)].hex() != SEALED_HEADER.hex():
         raise ValueError('Invalid sealed data header')

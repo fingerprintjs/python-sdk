@@ -31,6 +31,8 @@ tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"
 types-python-dateutil = ">= 2.8.19.14"
 mypy = ">= 1.5"
+ruff = ">= 0.8.0"
+pre-commit = ">= 4.0.0"
 
 
 [build-system]
@@ -75,3 +77,32 @@ disallow_incomplete_defs = true
 disallow_untyped_defs = true
 no_implicit_reexport = true
 warn_return_any = true
+
+[tool.ruff]
+line-length = 99
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+  "E",      # pycodestyle errors
+  "W",      # pycodestyle warnings
+  "F",      # Pyflakes
+  "I",      # isort
+  "UP",     # pyupgrade
+  "B",      # flake8-bugbear
+  "SIM",    # flake8-simplify
+]
+# UP007/UP045 require Python 3.10+, we target Python 3.9+
+# SIM108: ternary operators can reduce readability for longer expressions
+ignore = ["UP007", "UP045", "SIM108"]
+
+[tool.ruff.lint.per-file-ignores]
+# Generated files have long descriptions from OpenAPI spec
+"fingerprint_server_sdk/models/*" = ["E501"]
+"fingerprint_server_sdk/api/*" = ["E501"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

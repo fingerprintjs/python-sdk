@@ -1,9 +1,10 @@
-# coding: utf-8
-
 {{>partial_header}}
 
+import contextlib
 from typing import Any, Optional
+
 from typing_extensions import Self
+
 
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
@@ -35,7 +36,7 @@ class ApiTypeError(OpenApiException, TypeError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiTypeError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiValueError(OpenApiException, ValueError):
@@ -53,7 +54,7 @@ class ApiValueError(OpenApiException, ValueError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiValueError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiAttributeError(OpenApiException, AttributeError):
@@ -72,7 +73,7 @@ class ApiAttributeError(OpenApiException, AttributeError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiAttributeError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiKeyError(OpenApiException, KeyError):
@@ -89,7 +90,7 @@ class ApiKeyError(OpenApiException, KeyError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiKeyError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiException(OpenApiException):
@@ -115,10 +116,8 @@ class ApiException(OpenApiException):
             if self.reason is None:
                 self.reason = http_resp.reason
             if self.body is None:
-                try:
+                with contextlib.suppress(UnicodeDecodeError):
                     self.body = http_resp.data.decode('utf-8')
-                except Exception:
-                    pass
             self.headers = http_resp.headers
 
     @classmethod
@@ -207,7 +206,7 @@ class TooManyRequestsException(ApiException):
     pass
 
 
-def render_path(path_to_item):
+def render_path(path_to_item: list) -> str:
     """Returns a string representation of a path"""
     result = ""
     for pth in path_to_item:

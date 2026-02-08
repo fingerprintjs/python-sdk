@@ -16,6 +16,39 @@ You can just run `./generate.sh` script and it will do all the work.
 
 To download fresh OpenAPI schema run `./sync.sh`
 
+## Linting and Formatting
+
+This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting, and [MyPy](https://mypy.readthedocs.io/) for type checking.
+
+### Running locally
+
+```bash
+# Format code
+ruff format .
+
+# Run linter
+ruff check --fix .
+
+# Run type checker
+mypy fingerprint_server_sdk
+```
+
+### Updating templates
+
+When modifying templates in the `template/` directory, try to generate code that minimizes formatter changes. This includes:
+
+- Using single quotes instead of double quotes
+- Sorting imports (standard library -> third-party -> local)
+- Using modern type annotations (`list`, `dict`, `tuple` instead of `List`, `Dict`, `Tuple`)
+- Removing `# coding: utf-8` headers (we are already aiming Python 3.9+)
+
+However, some formatting issues are difficult or impossible to fix in Mustache templates due to:
+- Vendor extensions injecting imports that may duplicate template imports
+- Conditional blocks creating extra whitespaces
+- Mustache's limited control over output formatting
+
+In these cases, it's acceptable to let the formatter handle the adjustments. The goal is to minimize unnecessary changes, not eliminate them entirely.
+
 ### Configuration
 
 Project configuration is described in `config.json` file. To read about available parameters run the command below:

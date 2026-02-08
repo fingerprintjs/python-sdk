@@ -30,3 +30,7 @@ docker run --rm -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli
   -t ./template \
   -c ./config.json \
   --additional-properties=packageVersion="$VERSION"
+
+# Linting and formatting
+ruff format .
+ruff check --fix --unsafe-fixes .

@@ -1,11 +1,6 @@
-# coding: utf-8
-
 {{>partial_header}}
 
-
 import datetime
-from dateutil.parser import parse
-from enum import Enum
 import decimal
 import json
 import mimetypes
@@ -13,29 +8,28 @@ import os
 import re
 import tempfile
 import uuid
-
+from enum import Enum
+from typing import Any, Optional, Union
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union, Any
+
+from dateutil.parser import parse
 from pydantic import SecretStr
 {{#tornado}}
 import tornado.gen
 {{/tornado}}
 
-from {{packageName}}.configuration import Configuration
-from {{packageName}}.api_response import ApiResponse, T as ApiResponseT
 import {{modelPackage}}
-from {{packageName}} import rest, __version__
+from {{packageName}} import __version__, rest
+from {{packageName}}.api_response import ApiResponse
+from {{packageName}}.api_response import T as ApiResponseT
+from {{packageName}}.configuration import Configuration
 from {{packageName}}.exceptions import (
-    ApiValueError,
     ApiException,
-    BadRequestException,
-    UnauthorizedException,
-    ForbiddenException,
-    NotFoundException,
-    ServiceException
+    ApiValueError,
 )
 
-RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
+RequestSerialized = tuple[str, str, dict[str, str], Optional[str], list[str]]
+
 
 class ApiClient:
     """Generic API client for OpenAPI client library builds.
@@ -56,7 +50,6 @@ class ApiClient:
     PRIMITIVE_TYPES = (float, bool, bytes, str, int)
     NATIVE_TYPES_MAPPING = {
         'int': int,
-        'long': int, # TODO remove as only py3 is supported?
         'float': float,
         'str': str,
         'bool': bool,
@@ -68,10 +61,10 @@ class ApiClient:
 
     def __init__(
         self,
-        configuration,
-        header_name=None,
-        header_value=None,
-        cookie=None
+        configuration: Configuration,
+        header_name: Optional[str] = None,
+        header_value: Optional[str] = None,
+        cookie: Optional[str] = None
     ) -> None:
         self.configuration = configuration
 
@@ -81,7 +74,7 @@ class ApiClient:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = '{{{httpUserAgent}}}{{^httpUserAgent}}fingerprint-server-python-sdk/{__version__}{{/httpUserAgent}}'
+        self.user_agent = {{#httpUserAgent}}'{{{httpUserAgent}}}'{{/httpUserAgent}}{{^httpUserAgent}}f'fingerprint-server-python-sdk/{__version__}'{{/httpUserAgent}}
         self.client_side_validation = configuration.client_side_validation
 
 {{#async}}
@@ -176,7 +169,7 @@ class ApiClient:
             for k, v in path_params:
                 # specified safe chars, encode everything
                 resource_path = resource_path.replace(
-                    '{%s}' % k,
+                    '{' + k + '}',
                     quote(str(v), safe=config.safe_chars_for_path_param)
                 )
 
@@ -239,9 +232,9 @@ class ApiClient:
         self,
         method: str,
         url: str,
-        header_params: Optional[Dict[str, Any]] = None,
+        header_params: Optional[dict[str, Any]] = None,
         body: Any = None,
-        post_params: Optional[List[Tuple[str, Any]]] = None,
+        post_params: Optional[list[tuple[str, Any]]] = None,
         _request_timeout: Optional[int] = None
     ) -> rest.RESTResponse:
         """Makes the HTTP request (synchronous)
@@ -275,7 +268,7 @@ class ApiClient:
     def response_deserialize(
         self,
         response_data: rest.RESTResponse,
-        response_types_map: Optional[Dict[str, ApiResponseT]]=None
+        response_types_map: Optional[dict[str, ApiResponseT]] = None
     ) -> ApiResponse[ApiResponseT]:
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.
@@ -380,7 +373,8 @@ class ApiClient:
                 obj_dict = obj.__dict__
 
         if isinstance(obj_dict, list):
-            # here we handle instances that can either be a list or something else, and only became a real list by calling to_dict()
+            # here we handle instances that can either be a list or something else,
+            # and only became a real list by calling to_dict()
             return self.sanitize_for_serialization(obj_dict)
 
         return {
@@ -474,7 +468,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: Parameters as list of tuples, collections formatted
         """
-        new_params: List[Tuple[str, str]] = []
+        new_params: list[tuple[str, str]] = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -504,7 +498,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: URL query string (e.g. a=Hello%20World&b=123)
         """
-        new_params: List[Tuple[str, str]] = []
+        new_params: list[tuple[str, str]] = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -538,7 +532,7 @@ class ApiClient:
 
     def files_parameters(
         self,
-        files: Dict[str, Union[str, bytes, List[str], List[bytes], Tuple[str, bytes]]],
+        files: dict[str, Union[str, bytes, list[str], list[bytes], tuple[str, bytes]]],
     ):
         """Builds form parameters.
 
@@ -571,7 +565,7 @@ class ApiClient:
             )
         return params
 
-    def select_header_accept(self, accepts: List[str]) -> Optional[str]:
+    def select_header_accept(self, accepts: list[str]) -> Optional[str]:
         """Returns `Accept` based on an array of accepts provided.
 
         :param accepts: List of headers.
@@ -751,11 +745,11 @@ class ApiClient:
             return parse(string).date()
         except ImportError:
             return string
-        except ValueError:
+        except ValueError as err:
             raise rest.ApiException(
                 status=0,
                 reason="Failed to parse `{0}` as date object".format(string)
-            )
+            ) from err
 
     def __deserialize_datetime(self, string):
         """Deserializes string to datetime.
@@ -769,14 +763,14 @@ class ApiClient:
             return parse(string)
         except ImportError:
             return string
-        except ValueError:
+        except ValueError as err:
             raise rest.ApiException(
                 status=0,
                 reason=(
                     "Failed to parse `{0}` as datetime object"
                     .format(string)
                 )
-            )
+            ) from err
 
     def __deserialize_enum(self, data, klass):
         """Deserializes primitive type to enum.
@@ -787,14 +781,14 @@ class ApiClient:
         """
         try:
             return klass(data)
-        except ValueError:
+        except ValueError as err:
             raise rest.ApiException(
                 status=0,
                 reason=(
                     "Failed to parse `{0}` as `{1}`"
                     .format(data, klass)
                 )
-            )
+            ) from err
 
     def __deserialize_model(self, data, klass):
         """Deserializes list or dict to model.
