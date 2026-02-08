@@ -24,14 +24,14 @@ from typing_extensions import Self
 class WebGlBasics(BaseModel):
     """
     Render and vendor strings reported by the WebGL context.
-    """  # noqa: E501
+    """
 
-    version: Optional[StrictStr] = None  # noqa: E501
-    vendor: Optional[StrictStr] = None  # noqa: E501
-    vendor_unmasked: Optional[StrictStr] = None  # noqa: E501
-    renderer: Optional[StrictStr] = None  # noqa: E501
-    renderer_unmasked: Optional[StrictStr] = None  # noqa: E501
-    shading_language_version: Optional[StrictStr] = None  # noqa: E501
+    version: Optional[StrictStr] = None
+    vendor: Optional[StrictStr] = None
+    vendor_unmasked: Optional[StrictStr] = None
+    renderer: Optional[StrictStr] = None
+    renderer_unmasked: Optional[StrictStr] = None
+    shading_language_version: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = [
         'version',
         'vendor',

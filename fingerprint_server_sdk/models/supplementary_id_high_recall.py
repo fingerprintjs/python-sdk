@@ -26,23 +26,23 @@ from fingerprint_server_sdk.models.identification_confidence import Identificati
 class SupplementaryIDHighRecall(BaseModel):
     """
     A supplementary browser identifier that prioritizes coverage over precision. The High Recall ID algorithm matches more generously, i.e., this identifier will remain the same even when there are subtle differences between two requests. This algorithm does not create as many new visitor IDs as the standard algorithms do, but there could be an increase in false-positive identification.
-    """  # noqa: E501
+    """
 
     visitor_id: StrictStr = Field(
         description="String of 20 characters that uniquely identifies the visitor's browser or mobile device."
-    )  # noqa: E501
+    )
     visitor_found: StrictBool = Field(
         description='Attribute represents if a visitor had been identified before.'
-    )  # noqa: E501
-    confidence: Optional[IdentificationConfidence] = None  # noqa: E501
+    )
+    confidence: Optional[IdentificationConfidence] = None
     first_seen_at: Optional[StrictInt] = Field(
         default=None,
         description='Unix epoch time milliseconds timestamp indicating the time at which this ID was first seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )  # noqa: E501
+    )
     last_seen_at: Optional[StrictInt] = Field(
         default=None,
         description='Unix epoch time milliseconds timestamp indicating the time at which this ID was last seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = [
         'visitor_id',
         'visitor_found',

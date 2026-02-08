@@ -26,9 +26,9 @@ from fingerprint_server_sdk.models.error import Error
 class ErrorResponse(BaseModel):
     """
     ErrorResponse
-    """  # noqa: E501
+    """
 
-    error: Error  # noqa: E501
+    error: Error
     __properties: ClassVar[list[str]] = ['error']
 
     model_config = ConfigDict(

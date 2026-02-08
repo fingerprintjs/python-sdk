@@ -42,151 +42,151 @@ from fingerprint_server_sdk.models.vpn_methods import VpnMethods
 class Event(BaseModel):
     """
     Contains results from Fingerprint Identification and all active Smart Signals.
-    """  # noqa: E501
+    """
 
     event_id: StrictStr = Field(
         description="Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp For example: `1758130560902.8tRtrH` "
-    )  # noqa: E501
+    )
     timestamp: StrictInt = Field(
         description='Timestamp of the event with millisecond precision in Unix time.'
-    )  # noqa: E501
+    )
     linked_id: Optional[StrictStr] = Field(
         default=None, description='A customer-provided id that was sent with the request.'
-    )  # noqa: E501
+    )
     environment_id: Optional[StrictStr] = Field(
         default=None,
         description='Environment Id of the event. For example: `ae_47abaca3db2c7c43` ',
-    )  # noqa: E501
+    )
     suspect: Optional[StrictBool] = Field(
         default=None,
         description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://dev.fingerprint.com/reference/updateevent).',
-    )  # noqa: E501
-    sdk: Optional[SDK] = None  # noqa: E501
+    )
+    sdk: Optional[SDK] = None
     replayed: Optional[StrictBool] = Field(
         default=None,
         description='`true` if we determined that this payload was replayed, `false` otherwise. ',
-    )  # noqa: E501
-    identification: Optional[Identification] = None  # noqa: E501
-    supplementary_id_high_recall: Optional[SupplementaryIDHighRecall] = None  # noqa: E501
+    )
+    identification: Optional[Identification] = None
+    supplementary_id_high_recall: Optional[SupplementaryIDHighRecall] = None
     tags: Optional[dict[str, Any]] = Field(
         default=None,
         description='A customer-provided value or an object that was sent with the identification request or updated later.',
-    )  # noqa: E501
+    )
     url: Optional[StrictStr] = Field(
         default=None,
         description='Page URL from which the request was sent. For example `https://example.com/` ',
-    )  # noqa: E501
+    )
     bundle_id: Optional[StrictStr] = Field(
         default=None,
         description='Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. For example: `com.foo.app` ',
-    )  # noqa: E501
+    )
     package_name: Optional[StrictStr] = Field(
         default=None,
         description='Package name of the Android application integrated with the Fingerprint SDK for the event. For example: `com.foo.app` ',
-    )  # noqa: E501
+    )
     ip_address: Optional[StrictStr] = Field(
         default=None, description='IP address of the requesting browser or bot.'
-    )  # noqa: E501
+    )
     user_agent: Optional[StrictStr] = Field(
         default=None,
         description='User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....` ',
-    )  # noqa: E501
+    )
     client_referrer: Optional[StrictStr] = Field(
         default=None,
         description='Client Referrer field corresponds to the `document.referrer` field gathered during an identification request. The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark) For example: `https://example.com/blog/my-article` ',
-    )  # noqa: E501
-    browser_details: Optional[BrowserDetails] = None  # noqa: E501
-    proximity: Optional[Proximity] = None  # noqa: E501
-    bot: Optional[BotResult] = None  # noqa: E501
+    )
+    browser_details: Optional[BrowserDetails] = None
+    proximity: Optional[Proximity] = None
+    bot: Optional[BotResult] = None
     bot_type: Optional[StrictStr] = Field(
         default=None, description='Additional classification of the bot type if detected. '
-    )  # noqa: E501
-    bot_info: Optional[BotInfo] = None  # noqa: E501
+    )
+    bot_info: Optional[BotInfo] = None
     cloned_app: Optional[StrictBool] = Field(
         default=None,
         description='Android specific cloned application detection. There are 2 values:  * `true` - Presence of app cloners work detected (e.g. fully cloned application found or launch of it inside of a not main working profile detected). * `false` - No signs of cloned application detected or the client is not Android. ',
-    )  # noqa: E501
+    )
     developer_tools: Optional[StrictBool] = Field(
         default=None,
         description='`true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise. ',
-    )  # noqa: E501
+    )
     emulator: Optional[StrictBool] = Field(
         default=None,
         description='Android specific emulator detection. There are 2 values:  * `true` - Emulated environment detected (e.g. launch inside of AVD).  * `false` - No signs of emulated environment detected or the client is not Android. ',
-    )  # noqa: E501
+    )
     factory_reset_timestamp: Optional[StrictInt] = Field(
         default=None,
         description='The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time. When a factory reset cannot be detected on the mobile device or when the request is initiated from a browser,  this field will correspond to the *epoch* time (i.e 1 Jan 1970 UTC) as a value of 0. See [Factory Reset Detection](https://dev.fingerprint.com/docs/smart-signals-overview#factory-reset-detection) to learn more about this Smart Signal. ',
-    )  # noqa: E501
+    )
     frida: Optional[StrictBool] = Field(
         default=None,
         description='[Frida](https://frida.re/docs/) detection for Android and iOS devices. There are 2 values: * `true` - Frida detected * `false` - No signs of Frida or the client is not a mobile device. ',
-    )  # noqa: E501
-    ip_blocklist: Optional[IPBlockList] = None  # noqa: E501
-    ip_info: Optional[IPInfo] = None  # noqa: E501
+    )
+    ip_blocklist: Optional[IPBlockList] = None
+    ip_info: Optional[IPInfo] = None
     proxy: Optional[StrictBool] = Field(
         default=None,
         description='IP address was used by a public proxy provider or belonged to a known recent residential proxy ',
-    )  # noqa: E501
-    proxy_confidence: Optional[ProxyConfidence] = None  # noqa: E501
-    proxy_details: Optional[ProxyDetails] = None  # noqa: E501
+    )
+    proxy_confidence: Optional[ProxyConfidence] = None
+    proxy_details: Optional[ProxyDetails] = None
     incognito: Optional[StrictBool] = Field(
         default=None,
         description='`true` if we detected incognito mode used in the browser, `false` otherwise. ',
-    )  # noqa: E501
+    )
     jailbroken: Optional[StrictBool] = Field(
         default=None,
         description='iOS specific jailbreak detection. There are 2 values:  * `true` - Jailbreak detected. * `false` - No signs of jailbreak or the client is not iOS. ',
-    )  # noqa: E501
+    )
     location_spoofing: Optional[StrictBool] = Field(
         default=None,
         description='Flag indicating whether the request came from a mobile device with location spoofing enabled.',
-    )  # noqa: E501
+    )
     mitm_attack: Optional[StrictBool] = Field(
         default=None,
         description="* `true` - When requests made from your users' mobile devices to Fingerprint servers have been intercepted and potentially modified.  * `false` - Otherwise or when the request originated from a browser. See [MitM Attack Detection](https://dev.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection) to learn more about this Smart Signal. ",
-    )  # noqa: E501
+    )
     privacy_settings: Optional[StrictBool] = Field(
         default=None,
         description='`true` if the request is from a privacy aware browser (e.g. Tor) or from a browser in which fingerprinting is blocked. Otherwise `false`. ',
-    )  # noqa: E501
+    )
     root_apps: Optional[StrictBool] = Field(
         default=None,
         description="Android specific root management apps detection. There are 2 values:  * `true` - Root Management Apps detected (e.g. Magisk). * `false` - No Root Management Apps detected or the client isn't Android. ",
-    )  # noqa: E501
-    rule_action: Optional[EventRuleAction] = None  # noqa: E501
+    )
+    rule_action: Optional[EventRuleAction] = None
     suspect_score: Optional[StrictInt] = Field(
         default=None,
         description='Suspect Score is an easy way to integrate Smart Signals into your fraud protection work flow.  It is a weighted representation of all Smart Signals present in the payload that helps identify suspicious activity. The value range is [0; S] where S is sum of all Smart Signals weights.  See more details here: https://dev.fingerprint.com/docs/suspect-score ',
-    )  # noqa: E501
+    )
     tampering: Optional[StrictBool] = Field(
         default=None,
         description='Flag indicating browser tampering was detected. This happens when either:   * There are inconsistencies in the browser configuration that cross internal tampering thresholds (see `tampering_details.anomaly_score`).   * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`). ',
-    )  # noqa: E501
-    tampering_details: Optional[TamperingDetails] = None  # noqa: E501
-    velocity: Optional[Velocity] = None  # noqa: E501
+    )
+    tampering_details: Optional[TamperingDetails] = None
+    velocity: Optional[Velocity] = None
     virtual_machine: Optional[StrictBool] = Field(
         default=None,
         description='`true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise. ',
-    )  # noqa: E501
+    )
     vpn: Optional[StrictBool] = Field(
         default=None,
         description='VPN or other anonymizing service has been used when sending the request. ',
-    )  # noqa: E501
-    vpn_confidence: Optional[VpnConfidence] = None  # noqa: E501
+    )
+    vpn_confidence: Optional[VpnConfidence] = None
     vpn_origin_timezone: Optional[StrictStr] = Field(
         default=None, description='Local timezone which is used in timezone_mismatch method. '
-    )  # noqa: E501
+    )
     vpn_origin_country: Optional[StrictStr] = Field(
         default=None,
         description='Country of the request (only for Android SDK version >= 2.4.0, ISO 3166 format or unknown). ',
-    )  # noqa: E501
-    vpn_methods: Optional[VpnMethods] = None  # noqa: E501
+    )
+    vpn_methods: Optional[VpnMethods] = None
     high_activity_device: Optional[StrictBool] = Field(
         default=None,
         description='Flag indicating if the request came from a high-activity visitor.',
-    )  # noqa: E501
-    raw_device_attributes: Optional[RawDeviceAttributes] = None  # noqa: E501
+    )
+    raw_device_attributes: Optional[RawDeviceAttributes] = None
     __properties: ClassVar[list[str]] = [
         'event_id',
         'timestamp',

@@ -24,19 +24,19 @@ from typing_extensions import Self
 class IdentificationConfidence(BaseModel):
     """
     IdentificationConfidence
-    """  # noqa: E501
+    """
 
     score: Union[
         Annotated[float, Field(le=1, strict=True, ge=0)],
         Annotated[int, Field(le=1, strict=True, ge=0)],
     ] = Field(
         description='The confidence score is a floating-point number between 0 and 1 that represents the probability of accurate identification.'
-    )  # noqa: E501
+    )
     version: Optional[StrictStr] = Field(
         default=None,
         description='The version name of the method used to calculate the Confidence score. This field is only present for customers who opted in to an alternative calculation method.',
-    )  # noqa: E501
-    comment: Optional[StrictStr] = None  # noqa: E501
+    )
+    comment: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = ['score', 'version', 'comment']
 
     model_config = ConfigDict(

@@ -26,23 +26,23 @@ from fingerprint_server_sdk.models.identification_confidence import Identificati
 class Identification(BaseModel):
     """
     Identification
-    """  # noqa: E501
+    """
 
     visitor_id: StrictStr = Field(
         description="String of 20 characters that uniquely identifies the visitor's browser or mobile device."
-    )  # noqa: E501
-    confidence: Optional[IdentificationConfidence] = None  # noqa: E501
+    )
+    confidence: Optional[IdentificationConfidence] = None
     visitor_found: StrictBool = Field(
         description='Attribute represents if a visitor had been identified before.'
-    )  # noqa: E501
+    )
     first_seen_at: Optional[StrictInt] = Field(
         default=None,
         description='Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was first seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )  # noqa: E501
+    )
     last_seen_at: Optional[StrictInt] = Field(
         default=None,
         description='Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was last seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = [
         'visitor_id',
         'confidence',

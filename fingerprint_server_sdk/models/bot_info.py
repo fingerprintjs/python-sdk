@@ -24,18 +24,18 @@ from typing_extensions import Self
 class BotInfo(BaseModel):
     """
     Extended bot information.
-    """  # noqa: E501
+    """
 
-    category: StrictStr = Field(description='The type and purpose of the bot.')  # noqa: E501
-    provider: StrictStr = Field(description='The organization or company operating the bot.')  # noqa: E501
+    category: StrictStr = Field(description='The type and purpose of the bot.')
+    provider: StrictStr = Field(description='The organization or company operating the bot.')
     provider_url: Optional[StrictStr] = Field(
         default=None, description="The URL of the bot provider's website."
-    )  # noqa: E501
-    name: StrictStr = Field(description='The specific name or identifier of the bot.')  # noqa: E501
+    )
+    name: StrictStr = Field(description='The specific name or identifier of the bot.')
     identity: StrictStr = Field(
         description="The verification status of the bot's identity:  * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.  * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider’s customers.  * `spoofed` - bot that claims a public identity but fails verification.  * `unknown` - bot that does not publish a verifiable identity. "
-    )  # noqa: E501
-    confidence: StrictStr = Field(description='Confidence level of the bot identification.')  # noqa: E501
+    )
+    confidence: StrictStr = Field(description='Confidence level of the bot identification.')
     __properties: ClassVar[list[str]] = [
         'category',
         'provider',

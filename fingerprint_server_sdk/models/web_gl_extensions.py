@@ -24,14 +24,14 @@ from typing_extensions import Self
 class WebGlExtensions(BaseModel):
     """
     Hashes of WebGL context attributes and extension support.
-    """  # noqa: E501
+    """
 
-    context_attributes: Optional[StrictStr] = None  # noqa: E501
-    parameters: Optional[StrictStr] = None  # noqa: E501
-    shader_precisions: Optional[StrictStr] = None  # noqa: E501
-    extensions: Optional[StrictStr] = None  # noqa: E501
-    extension_parameters: Optional[StrictStr] = None  # noqa: E501
-    unsupported_extensions: Optional[list[StrictStr]] = None  # noqa: E501
+    context_attributes: Optional[StrictStr] = None
+    parameters: Optional[StrictStr] = None
+    shader_precisions: Optional[StrictStr] = None
+    extensions: Optional[StrictStr] = None
+    extension_parameters: Optional[StrictStr] = None
+    unsupported_extensions: Optional[list[StrictStr]] = None
     __properties: ClassVar[list[str]] = [
         'context_attributes',
         'parameters',

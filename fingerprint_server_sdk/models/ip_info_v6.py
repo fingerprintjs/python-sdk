@@ -26,16 +26,16 @@ from fingerprint_server_sdk.models.geolocation import Geolocation
 class IPInfoV6(BaseModel):
     """
     IPInfoV6
-    """  # noqa: E501
+    """
 
-    address: StrictStr  # noqa: E501
-    geolocation: Optional[Geolocation] = None  # noqa: E501
-    asn: Optional[StrictStr] = None  # noqa: E501
-    asn_name: Optional[StrictStr] = None  # noqa: E501
-    asn_network: Optional[StrictStr] = None  # noqa: E501
-    asn_type: Optional[StrictStr] = None  # noqa: E501
-    datacenter_result: Optional[StrictBool] = None  # noqa: E501
-    datacenter_name: Optional[StrictStr] = None  # noqa: E501
+    address: StrictStr
+    geolocation: Optional[Geolocation] = None
+    asn: Optional[StrictStr] = None
+    asn_name: Optional[StrictStr] = None
+    asn_network: Optional[StrictStr] = None
+    asn_type: Optional[StrictStr] = None
+    datacenter_result: Optional[StrictBool] = None
+    datacenter_name: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = [
         'address',
         'geolocation',

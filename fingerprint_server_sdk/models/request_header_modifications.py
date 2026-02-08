@@ -26,18 +26,18 @@ from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHea
 class RequestHeaderModifications(BaseModel):
     """
     The set of header modifications to apply, in the following order: remove, set, append.
-    """  # noqa: E501
+    """
 
     remove: Optional[list[StrictStr]] = Field(
         default=None, description='The list of headers to remove.'
-    )  # noqa: E501
+    )
     set: Optional[list[RuleActionHeaderField]] = Field(
         default=None,
         description='The list of headers to set, overwriting any existing headers with the same name.',
-    )  # noqa: E501
+    )
     append: Optional[list[RuleActionHeaderField]] = Field(
         default=None, description='The list of headers to append.'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['remove', 'set', 'append']
 
     model_config = ConfigDict(

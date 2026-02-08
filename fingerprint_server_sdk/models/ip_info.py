@@ -27,10 +27,10 @@ from fingerprint_server_sdk.models.ip_info_v6 import IPInfoV6
 class IPInfo(BaseModel):
     """
     Details about the request IP address. Has separate fields for v4 and v6 IP address versions.
-    """  # noqa: E501
+    """
 
-    v4: Optional[IPInfoV4] = None  # noqa: E501
-    v6: Optional[IPInfoV6] = None  # noqa: E501
+    v4: Optional[IPInfoV4] = None
+    v6: Optional[IPInfoV6] = None
     __properties: ClassVar[list[str]] = ['v4', 'v6']
 
     model_config = ConfigDict(

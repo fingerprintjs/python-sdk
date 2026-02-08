@@ -24,10 +24,10 @@ from typing_extensions import Self
 class GeolocationSubdivisionsInner(BaseModel):
     """
     GeolocationSubdivisionsInner
-    """  # noqa: E501
+    """
 
-    iso_code: StrictStr  # noqa: E501
-    name: StrictStr  # noqa: E501
+    iso_code: StrictStr
+    name: StrictStr
     __properties: ClassVar[list[str]] = ['iso_code', 'name']
 
     model_config = ConfigDict(

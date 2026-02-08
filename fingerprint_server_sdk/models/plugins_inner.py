@@ -26,11 +26,11 @@ from fingerprint_server_sdk.models.plugins_inner_mime_types_inner import Plugins
 class PluginsInner(BaseModel):
     """
     PluginsInner
-    """  # noqa: E501
+    """
 
-    name: StrictStr  # noqa: E501
-    description: Optional[StrictStr] = None  # noqa: E501
-    mime_types: Optional[list[PluginsInnerMimeTypesInner]] = Field(default=None, alias='mimeTypes')  # noqa: E501
+    name: StrictStr
+    description: Optional[StrictStr] = None
+    mime_types: Optional[list[PluginsInnerMimeTypesInner]] = Field(default=None, alias='mimeTypes')
     __properties: ClassVar[list[str]] = ['name', 'description', 'mimeTypes']
 
     model_config = ConfigDict(

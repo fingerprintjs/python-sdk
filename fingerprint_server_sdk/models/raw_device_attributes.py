@@ -32,69 +32,69 @@ from fingerprint_server_sdk.models.web_gl_extensions import WebGlExtensions
 class RawDeviceAttributes(BaseModel):
     """
     A curated subset of raw browser/device attributes that the API surface exposes. Each property contains a value or object with the data for the collected signal.
-    """  # noqa: E501
+    """
 
-    font_preferences: Optional[FontPreferences] = None  # noqa: E501
-    emoji: Optional[Emoji] = None  # noqa: E501
+    font_preferences: Optional[FontPreferences] = None
+    emoji: Optional[Emoji] = None
     fonts: Optional[list[StrictStr]] = Field(
         default=None, description='List of fonts detected on the device.'
-    )  # noqa: E501
+    )
     device_memory: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
         default=None, description='Rounded amount of RAM (in gigabytes) reported by the browser.'
-    )  # noqa: E501
+    )
     timezone: Optional[StrictStr] = Field(
         default=None, description='Timezone identifier detected on the client.'
-    )  # noqa: E501
-    canvas: Optional[Canvas] = None  # noqa: E501
+    )
+    canvas: Optional[Canvas] = None
     languages: Optional[list[list[StrictStr]]] = Field(
         default=None,
         description='Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. ',
-    )  # noqa: E501
-    webgl_extensions: Optional[WebGlExtensions] = None  # noqa: E501
-    webgl_basics: Optional[WebGlBasics] = None  # noqa: E501
+    )
+    webgl_extensions: Optional[WebGlExtensions] = None
+    webgl_basics: Optional[WebGlBasics] = None
     screen_resolution: Optional[Annotated[list[StrictInt], Field(min_length=2, max_length=2)]] = (
         Field(default=None, description='Current screen resolution.')
-    )  # noqa: E501
-    touch_support: Optional[TouchSupport] = None  # noqa: E501
-    oscpu: Optional[StrictStr] = Field(default=None, description='Navigator `oscpu` string.')  # noqa: E501
+    )
+    touch_support: Optional[TouchSupport] = None
+    oscpu: Optional[StrictStr] = Field(default=None, description='Navigator `oscpu` string.')
     architecture: Optional[StrictInt] = Field(
         default=None,
         description='Integer representing the CPU architecture exposed by the browser.',
-    )  # noqa: E501
+    )
     cookies_enabled: Optional[StrictBool] = Field(
         default=None, description='Whether the cookies are enabled in the browser.'
-    )  # noqa: E501
+    )
     hardware_concurrency: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(
         default=None, description='Number of logical CPU cores reported by the browser.'
-    )  # noqa: E501
+    )
     date_time_locale: Optional[StrictStr] = Field(
         default=None,
         description='Locale derived from the Intl.DateTimeFormat API. Negative values indicate known error states. The negative statuses can be: - "-1": A permanent status for browsers that don\'t support Intl API. - "-2": A permanent status for browsers that don\'t supportDateTimeFormat constructor. - "-3": A permanent status for browsers in which DateTimeFormat locale is undefined or null. ',
-    )  # noqa: E501
-    vendor: Optional[StrictStr] = Field(default=None, description='Navigator vendor string.')  # noqa: E501
+    )
+    vendor: Optional[StrictStr] = Field(default=None, description='Navigator vendor string.')
     color_depth: Optional[StrictInt] = Field(
         default=None, description='Screen color depth in bits.'
-    )  # noqa: E501
-    platform: Optional[StrictStr] = Field(default=None, description='Navigator platform string.')  # noqa: E501
+    )
+    platform: Optional[StrictStr] = Field(default=None, description='Navigator platform string.')
     session_storage: Optional[StrictBool] = Field(
         default=None, description='Whether sessionStorage is available.'
-    )  # noqa: E501
+    )
     local_storage: Optional[StrictBool] = Field(
         default=None, description='Whether localStorage is available.'
-    )  # noqa: E501
+    )
     audio: Optional[Union[StrictFloat, StrictInt]] = Field(
         default=None,
         description="AudioContext fingerprint or negative status when unavailable. The negative statuses can be: - -1: A permanent status for those browsers which are known to always suspend audio context - -2: A permanent status for browsers that don't support the signal - -3: A temporary status that means that an unexpected timeout has happened ",
-    )  # noqa: E501
+    )
     plugins: Optional[list[PluginsInner]] = Field(
         default=None, description='Browser plugins reported by `navigator.plugins`.'
-    )  # noqa: E501
+    )
     indexed_db: Optional[StrictBool] = Field(
         default=None, description='Whether IndexedDB is available.'
-    )  # noqa: E501
+    )
     math: Optional[StrictStr] = Field(
         default=None, description='Hash of Math APIs used for entropy collection.'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = [
         'font_preferences',
         'emoji',

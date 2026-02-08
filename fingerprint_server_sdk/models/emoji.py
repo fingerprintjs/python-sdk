@@ -24,19 +24,19 @@ from typing_extensions import Self
 class Emoji(BaseModel):
     """
     Bounding box metrics describing how the emoji glyph renders.
-    """  # noqa: E501
+    """
 
     font: Optional[StrictStr] = Field(
         default=None, description='Font family reported by the browser when drawing the emoji.'
-    )  # noqa: E501
-    width: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    height: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    top: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    bottom: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    left: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    right: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    x: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    y: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
+    )
+    width: Optional[Union[StrictFloat, StrictInt]] = None
+    height: Optional[Union[StrictFloat, StrictInt]] = None
+    top: Optional[Union[StrictFloat, StrictInt]] = None
+    bottom: Optional[Union[StrictFloat, StrictInt]] = None
+    left: Optional[Union[StrictFloat, StrictInt]] = None
+    right: Optional[Union[StrictFloat, StrictInt]] = None
+    x: Optional[Union[StrictFloat, StrictInt]] = None
+    y: Optional[Union[StrictFloat, StrictInt]] = None
     __properties: ClassVar[list[str]] = [
         'font',
         'width',

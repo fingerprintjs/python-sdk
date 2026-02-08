@@ -24,15 +24,15 @@ from typing_extensions import Self
 class Canvas(BaseModel):
     """
     Canvas fingerprint containing winding flag plus geometry/text hashes.
-    """  # noqa: E501
+    """
 
-    winding: Optional[StrictBool] = None  # noqa: E501
+    winding: Optional[StrictBool] = None
     geometry: Optional[StrictStr] = Field(
         default=None, description='Hash of geometry rendering output or `unsupported` markers.'
-    )  # noqa: E501
+    )
     text: Optional[StrictStr] = Field(
         default=None, description='Hash of text rendering output or `unsupported` markers.'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['winding', 'geometry', 'text']
 
     model_config = ConfigDict(

@@ -27,10 +27,10 @@ from fingerprint_server_sdk.models.rule_action_type import RuleActionType
 class EventRuleActionAllow(BaseModel):
     """
     Informs the client that the request should be forwarded to the origin with optional request header modifications.
-    """  # noqa: E501
+    """
 
-    type: RuleActionType  # noqa: E501
-    request_header_modifications: Optional[RequestHeaderModifications] = None  # noqa: E501
+    type: RuleActionType
+    request_header_modifications: Optional[RequestHeaderModifications] = None
     __properties: ClassVar[list[str]] = ['type', 'request_header_modifications']
 
     model_config = ConfigDict(

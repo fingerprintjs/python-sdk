@@ -26,10 +26,10 @@ from fingerprint_server_sdk.models.error_code import ErrorCode
 class Error(BaseModel):
     """
     Error
-    """  # noqa: E501
+    """
 
-    code: ErrorCode  # noqa: E501
-    message: StrictStr  # noqa: E501
+    code: ErrorCode
+    message: StrictStr
     __properties: ClassVar[list[str]] = ['code', 'message']
 
     model_config = ConfigDict(

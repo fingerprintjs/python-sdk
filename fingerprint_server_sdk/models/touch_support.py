@@ -24,11 +24,11 @@ from typing_extensions import Self
 class TouchSupport(BaseModel):
     """
     Browser-reported touch capabilities.
-    """  # noqa: E501
+    """
 
-    touch_event: Optional[StrictBool] = None  # noqa: E501
-    touch_start: Optional[StrictBool] = None  # noqa: E501
-    max_touch_points: Optional[StrictInt] = None  # noqa: E501
+    touch_event: Optional[StrictBool] = None
+    touch_start: Optional[StrictBool] = None
+    max_touch_points: Optional[StrictInt] = None
     __properties: ClassVar[list[str]] = ['touch_event', 'touch_start', 'max_touch_points']
 
     model_config = ConfigDict(

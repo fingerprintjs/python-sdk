@@ -24,11 +24,11 @@ from typing_extensions import Self
 class PluginsInnerMimeTypesInner(BaseModel):
     """
     PluginsInnerMimeTypesInner
-    """  # noqa: E501
+    """
 
-    type: Optional[StrictStr] = None  # noqa: E501
-    suffixes: Optional[StrictStr] = None  # noqa: E501
-    description: Optional[StrictStr] = None  # noqa: E501
+    type: Optional[StrictStr] = None
+    suffixes: Optional[StrictStr] = None
+    description: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = ['type', 'suffixes', 'description']
 
     model_config = ConfigDict(

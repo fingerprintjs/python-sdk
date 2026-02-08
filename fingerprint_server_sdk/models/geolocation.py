@@ -28,32 +28,32 @@ from fingerprint_server_sdk.models.geolocation_subdivisions_inner import (
 class Geolocation(BaseModel):
     """
     Geolocation
-    """  # noqa: E501
+    """
 
     accuracy_radius: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
         default=None,
         description='The IP address is likely to be within this radius (in km) of the specified location.',
-    )  # noqa: E501
+    )
     latitude: Optional[
         Union[
             Annotated[float, Field(le=90, strict=True, ge=-90)],
             Annotated[int, Field(le=90, strict=True, ge=-90)],
         ]
-    ] = None  # noqa: E501
+    ] = None
     longitude: Optional[
         Union[
             Annotated[float, Field(le=180, strict=True, ge=-180)],
             Annotated[int, Field(le=180, strict=True, ge=-180)],
         ]
-    ] = None  # noqa: E501
-    postal_code: Optional[StrictStr] = None  # noqa: E501
-    timezone: Optional[StrictStr] = None  # noqa: E501
-    city_name: Optional[StrictStr] = None  # noqa: E501
-    country_code: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=2)]] = None  # noqa: E501
-    country_name: Optional[StrictStr] = None  # noqa: E501
-    continent_code: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=2)]] = None  # noqa: E501
-    continent_name: Optional[StrictStr] = None  # noqa: E501
-    subdivisions: Optional[list[GeolocationSubdivisionsInner]] = None  # noqa: E501
+    ] = None
+    postal_code: Optional[StrictStr] = None
+    timezone: Optional[StrictStr] = None
+    city_name: Optional[StrictStr] = None
+    country_code: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=2)]] = None
+    country_name: Optional[StrictStr] = None
+    continent_code: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=2)]] = None
+    continent_name: Optional[StrictStr] = None
+    subdivisions: Optional[list[GeolocationSubdivisionsInner]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = [
         'accuracy_radius',

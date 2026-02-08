@@ -24,17 +24,17 @@ from typing_extensions import Self
 class IPBlockList(BaseModel):
     """
     IPBlockList
-    """  # noqa: E501
+    """
 
     email_spam: Optional[StrictBool] = Field(
         default=None, description='IP address was part of a known email spam attack (SMTP).'
-    )  # noqa: E501
+    )
     attack_source: Optional[StrictBool] = Field(
         default=None, description='IP address was part of a known network attack (SSH/HTTPS).'
-    )  # noqa: E501
+    )
     tor_node: Optional[StrictBool] = Field(
         default=None, description='IP address was part of known TOR network activity.'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['email_spam', 'attack_source', 'tor_node']
 
     model_config = ConfigDict(

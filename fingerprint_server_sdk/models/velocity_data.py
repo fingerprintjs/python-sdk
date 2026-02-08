@@ -24,21 +24,21 @@ from typing_extensions import Self
 class VelocityData(BaseModel):
     """
     Is absent if the velocity data could not be generated for the visitor Id.
-    """  # noqa: E501
+    """
 
     var_5_minutes: StrictInt = Field(
         description='Count for the last 5 minutes of velocity data, from the time of the event. ',
         alias='5_minutes',
-    )  # noqa: E501
+    )
     var_1_hour: StrictInt = Field(
         description='Count for the last 1 hour of velocity data, from the time of the event. ',
         alias='1_hour',
-    )  # noqa: E501
+    )
     var_24_hours: Optional[StrictInt] = Field(
         default=None,
         description="The `24_hours` interval of `distinct_ip`, `distinct_linked_id`, `distinct_country`, `distinct_ip_by_linked_id` and `distinct_visitor_id_by_linked_id` will be omitted if the number of `events` for the visitor Id in the last 24 hours (`events.['24_hours']`) is higher than 20.000. ",
         alias='24_hours',
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['5_minutes', '1_hour', '24_hours']
 
     model_config = ConfigDict(

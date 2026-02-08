@@ -24,19 +24,19 @@ from typing_extensions import Self
 class ProxyDetails(BaseModel):
     """
     Proxy detection details (present if `proxy` is `true`)
-    """  # noqa: E501
+    """
 
     proxy_type: StrictStr = Field(
         description='Residential proxies use real user IP addresses to appear as legitimate traffic,  while data center proxies are public proxies hosted in data centers '
-    )  # noqa: E501
+    )
     last_seen_at: Optional[StrictInt] = Field(
         default=None,
         description='Unix millisecond timestamp with hourly resolution of when this IP was last seen as a proxy ',
-    )  # noqa: E501
+    )
     provider: Optional[StrictStr] = Field(
         default=None,
         description='String representing the last proxy service provider detected when this IP was synced. An IP can be shared by multiple service providers. ',
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['proxy_type', 'last_seen_at', 'provider']
 
     @field_validator('proxy_type')

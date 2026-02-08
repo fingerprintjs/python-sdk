@@ -26,15 +26,15 @@ from fingerprint_server_sdk.models.integration import Integration
 class SDK(BaseModel):
     """
     Contains information about the SDK used to perform the request.
-    """  # noqa: E501
+    """
 
     platform: StrictStr = Field(
         description='Platform of the SDK used for the identification request.'
-    )  # noqa: E501
+    )
     version: StrictStr = Field(
         description='Version string of the SDK used for the identification request. For example: `"3.12.1"` '
-    )  # noqa: E501
-    integrations: Optional[list[Integration]] = None  # noqa: E501
+    )
+    integrations: Optional[list[Integration]] = None
     __properties: ClassVar[list[str]] = ['platform', 'version', 'integrations']
 
     @field_validator('platform')

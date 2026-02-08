@@ -24,14 +24,14 @@ from typing_extensions import Self
 class BrowserDetails(BaseModel):
     """
     BrowserDetails
-    """  # noqa: E501
+    """
 
-    browser_name: StrictStr  # noqa: E501
-    browser_major_version: StrictStr  # noqa: E501
-    browser_full_version: StrictStr  # noqa: E501
-    os: StrictStr  # noqa: E501
-    os_version: StrictStr  # noqa: E501
-    device: StrictStr  # noqa: E501
+    browser_name: StrictStr
+    browser_major_version: StrictStr
+    browser_full_version: StrictStr
+    os: StrictStr
+    os_version: StrictStr
+    device: StrictStr
     __properties: ClassVar[list[str]] = [
         'browser_name',
         'browser_major_version',

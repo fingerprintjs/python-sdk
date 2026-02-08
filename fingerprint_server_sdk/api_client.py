@@ -378,9 +378,7 @@ class ApiClient:
         elif re.match(r'^text\/[a-z.+-]+\s*(;|$)', content_type, re.IGNORECASE):
             data = response_text
         else:
-            raise ApiException(
-                status=0, reason=f'Unsupported content type: {content_type}'
-            )
+            raise ApiException(status=0, reason=f'Unsupported content type: {content_type}')
 
         return self.__deserialize(data, response_type)
 

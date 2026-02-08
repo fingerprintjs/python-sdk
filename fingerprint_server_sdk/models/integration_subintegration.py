@@ -24,14 +24,14 @@ from typing_extensions import Self
 class IntegrationSubintegration(BaseModel):
     """
     IntegrationSubintegration
-    """  # noqa: E501
+    """
 
     name: Optional[StrictStr] = Field(
         default=None, description='The name of the specific subintegration, e.g. "preact".'
-    )  # noqa: E501
+    )
     version: Optional[StrictStr] = Field(
         default=None, description='The version of the specific subintegration, e.g. "10.21.0".'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['name', 'version']
 
     model_config = ConfigDict(

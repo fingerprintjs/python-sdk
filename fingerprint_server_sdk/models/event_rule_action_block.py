@@ -27,16 +27,16 @@ from fingerprint_server_sdk.models.rule_action_type import RuleActionType
 class EventRuleActionBlock(BaseModel):
     """
     Informs the client the request should be blocked using the response described by this rule action.
-    """  # noqa: E501
+    """
 
-    type: RuleActionType  # noqa: E501
-    status_code: Optional[StrictInt] = Field(default=None, description='A valid HTTP status code.')  # noqa: E501
+    type: RuleActionType
+    status_code: Optional[StrictInt] = Field(default=None, description='A valid HTTP status code.')
     headers: Optional[list[RuleActionHeaderField]] = Field(
         default=None, description='A list of headers to send.'
-    )  # noqa: E501
+    )
     body: Optional[StrictStr] = Field(
         default=None, description='The response body to send to the client.'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['type', 'status_code', 'headers', 'body']
 
     model_config = ConfigDict(

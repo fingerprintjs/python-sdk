@@ -26,16 +26,16 @@ from fingerprint_server_sdk.models.integration_subintegration import Integration
 class Integration(BaseModel):
     """
     Integration
-    """  # noqa: E501
+    """
 
     name: Optional[StrictStr] = Field(
         default=None,
         description='The name of the specific integration, e.g. "fingerprint-pro-react".',
-    )  # noqa: E501
+    )
     version: Optional[StrictStr] = Field(
         default=None, description='The version of the specific integration, e.g. "3.11.10".'
-    )  # noqa: E501
-    subintegration: Optional[IntegrationSubintegration] = None  # noqa: E501
+    )
+    subintegration: Optional[IntegrationSubintegration] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ['name', 'version', 'subintegration']
 

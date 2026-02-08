@@ -24,10 +24,10 @@ from typing_extensions import Self
 class RuleActionHeaderField(BaseModel):
     """
     RuleActionHeaderField
-    """  # noqa: E501
+    """
 
-    name: StrictStr = Field(description='The header field name.')  # noqa: E501
-    value: StrictStr = Field(description='The value of the header field.')  # noqa: E501
+    name: StrictStr = Field(description='The header field name.')
+    value: StrictStr = Field(description='The value of the header field.')
     __properties: ClassVar[list[str]] = ['name', 'value']
 
     model_config = ConfigDict(

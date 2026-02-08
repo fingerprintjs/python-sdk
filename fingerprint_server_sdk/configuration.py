@@ -49,6 +49,7 @@ BearerFormatAuthSetting = TypedDict(
     },
 )
 
+
 class AuthSettings(TypedDict, total=False):
     bearerAuth: BearerFormatAuthSetting
 

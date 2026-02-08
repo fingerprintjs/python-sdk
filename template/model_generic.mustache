@@ -28,10 +28,10 @@ if TYPE_CHECKING:
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}
-    """  # noqa: E501
+    """
 
 {{#vars}}
-    {{name}}: {{{vendorExtensions.x-py-typing}}}  # noqa: E501
+    {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
     additional_properties: dict[str, Any] = {}

@@ -24,20 +24,20 @@ from typing_extensions import Self
 class Proximity(BaseModel):
     """
     Proximity ID represents a fixed geographical zone in a discrete global grid within which the device is observed.
-    """  # noqa: E501
+    """
 
     id: StrictStr = Field(
         description='A stable privacy-preserving identifier for a given proximity zone. '
-    )  # noqa: E501
+    )
     precision_radius: StrictInt = Field(
         description='The radius of the proximity zone’s precision level, in meters. '
-    )  # noqa: E501
+    )
     confidence: Union[
         Annotated[float, Field(le=1, strict=True, ge=0)],
         Annotated[int, Field(le=1, strict=True, ge=0)],
     ] = Field(
         description='A value between `0` and `1` representing the likelihood that the true device location lies within the mapped proximity zone.   * Scores closer to `1` indicate high confidence that the location is inside the mapped proximity zone.   * Scores closer to `0` indicate lower confidence, suggesting the true location may fall in an adjacent zone. '
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['id', 'precision_radius', 'confidence']
 
     @field_validator('precision_radius')

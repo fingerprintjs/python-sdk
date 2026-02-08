@@ -24,11 +24,11 @@ from typing_extensions import Self
 class TriggeredByInner(BaseModel):
     """
     TriggeredByInner
-    """  # noqa: E501
+    """
 
-    id: StrictStr  # noqa: E501
-    name: StrictStr  # noqa: E501
-    description: StrictStr  # noqa: E501
+    id: StrictStr
+    name: StrictStr
+    description: StrictStr
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ['id', 'name', 'description']
 

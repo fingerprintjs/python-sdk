@@ -24,18 +24,18 @@ from typing_extensions import Self
 class EventUpdate(BaseModel):
     """
     EventUpdate
-    """  # noqa: E501
+    """
 
     linked_id: Optional[StrictStr] = Field(
         default=None, description='Linked Id value to assign to the existing event'
-    )  # noqa: E501
+    )
     tags: Optional[dict[str, Any]] = Field(
         default=None,
         description='A customer-provided value or an object that was sent with the identification request or updated later.',
-    )  # noqa: E501
+    )
     suspect: Optional[StrictBool] = Field(
         default=None, description='Suspect flag indicating observed suspicious or fraudulent event'
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['linked_id', 'tags', 'suspect']
 
     model_config = ConfigDict(

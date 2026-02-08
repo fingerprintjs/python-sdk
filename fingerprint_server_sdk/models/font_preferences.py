@@ -24,15 +24,15 @@ from typing_extensions import Self
 class FontPreferences(BaseModel):
     """
     Baseline measurement of canonical fonts rendered on the device. Numeric width metrics, in CSS pixels, for the canonical fonts collected by the agent.
-    """  # noqa: E501
+    """
 
-    default: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    serif: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    sans: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    mono: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    apple: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    min: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
-    system: Optional[Union[StrictFloat, StrictInt]] = None  # noqa: E501
+    default: Optional[Union[StrictFloat, StrictInt]] = None
+    serif: Optional[Union[StrictFloat, StrictInt]] = None
+    sans: Optional[Union[StrictFloat, StrictInt]] = None
+    mono: Optional[Union[StrictFloat, StrictInt]] = None
+    apple: Optional[Union[StrictFloat, StrictInt]] = None
+    min: Optional[Union[StrictFloat, StrictInt]] = None
+    system: Optional[Union[StrictFloat, StrictInt]] = None
     __properties: ClassVar[list[str]] = [
         'default',
         'serif',

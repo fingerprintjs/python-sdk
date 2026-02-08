@@ -26,17 +26,17 @@ from fingerprint_server_sdk.models.event import Event
 class EventSearch(BaseModel):
     """
     Contains a list of all identification events matching the specified search criteria.
-    """  # noqa: E501
+    """
 
-    events: list[Event]  # noqa: E501
+    events: list[Event]
     pagination_key: Optional[StrictStr] = Field(
         default=None,
         description='Use this value in the `pagination_key` parameter to request the next page of search results.',
-    )  # noqa: E501
+    )
     total_hits: Optional[StrictInt] = Field(
         default=None,
         description='This value represents the total number of events matching the search query, up to the limit provided in the `total_hits` query parameter. Only present if the `total_hits` query parameter was provided.',
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['events', 'pagination_key', 'total_hits']
 
     model_config = ConfigDict(

@@ -24,7 +24,7 @@ from typing_extensions import Self
 class TamperingDetails(BaseModel):
     """
     TamperingDetails
-    """  # noqa: E501
+    """
 
     anomaly_score: Optional[
         Union[
@@ -34,11 +34,11 @@ class TamperingDetails(BaseModel):
     ] = Field(
         default=None,
         description='Confidence score (`0.0 - 1.0`) for tampering detection:   * Values above `0.5` indicate tampering.   * Values below `0.5` indicate genuine browsers. ',
-    )  # noqa: E501
+    )
     anti_detect_browser: Optional[StrictBool] = Field(
         default=None,
         description='True if the identified browser resembles an "anti-detect" browser, such as Incognition, which attempts to evade identification by manipulating its fingerprint. ',
-    )  # noqa: E501
+    )
     __properties: ClassVar[list[str]] = ['anomaly_score', 'anti_detect_browser']
 
     model_config = ConfigDict(
