@@ -19,7 +19,7 @@ from enum import Enum
 from logging import FileHandler
 from typing import Any, ClassVar, Literal, Optional, TypedDict, Union
 
-from typing_extensions import NotRequired, Self
+from typing_extensions import Self
 
 from fingerprint_server_sdk import __version__
 
@@ -52,18 +52,6 @@ BearerFormatAuthSetting = TypedDict(
 
 class AuthSettings(TypedDict, total=False):
     bearerAuth: BearerFormatAuthSetting
-
-
-class HostSettingVariable(TypedDict):
-    description: str
-    default_value: str
-    enum_values: list[str]
-
-
-class HostSetting(TypedDict):
-    url: str
-    description: str
-    variables: NotRequired[dict[str, HostSettingVariable]]
 
 
 class Region(Enum):

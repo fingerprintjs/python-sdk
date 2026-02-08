@@ -71,23 +71,12 @@ class {{classname}}:
     def _{{operationId}}_serialize(
         self,
         {{#allParams}}
-        {{paramName}},
+        {{paramName}}: {{#isNullable}}Optional[{{/isNullable}}{{{dataType}}}{{#isNullable}}]{{/isNullable}},
         {{/allParams}}
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
+        _request_auth: Optional[dict[StrictStr, Any]],
+        _content_type: Optional[StrictStr],
+        _headers: Optional[dict[StrictStr, Any]],
     ) -> RequestSerialized:
-
-        {{#servers.0}}
-        _hosts = [{{#servers}}
-            '{{{url}}}'{{^-last}},{{/-last}}{{/servers}}
-        ]
-        _host = _hosts[_host_index]
-        {{/servers.0}}
-        {{^servers.0}}
-        _host = None
-        {{/servers.0}}
 
         _collection_formats: dict[str, str] = {
             {{#allParams}}
@@ -235,8 +224,7 @@ class {{classname}}:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
+            _request_auth=_request_auth,
         )
 
 

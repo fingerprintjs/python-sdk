@@ -60,7 +60,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Delete data by visitor ID
 
@@ -83,10 +82,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -95,7 +90,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -129,7 +123,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Delete data by visitor ID
 
@@ -152,10 +145,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -164,7 +153,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -198,7 +186,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Delete data by visitor ID
 
@@ -221,10 +208,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -233,7 +216,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -252,10 +234,7 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
-        _host_index,
     ) -> RequestSerialized:
-
-        _host = None
 
         _collection_formats: dict[str, str] = {}
 
@@ -291,7 +270,6 @@ class FingerprintApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=_host,
             _request_auth=_request_auth,
         )
 
@@ -318,7 +296,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Event:
         """Get an event by event ID
 
@@ -343,10 +320,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -356,7 +329,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -397,7 +369,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Event]:
         """Get an event by event ID
 
@@ -422,10 +393,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -435,7 +402,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -476,7 +442,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Get an event by event ID
 
@@ -501,10 +466,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -514,7 +475,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -535,10 +495,7 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
-        _host_index,
     ) -> RequestSerialized:
-
-        _host = None
 
         _collection_formats: dict[str, str] = {}
 
@@ -578,7 +535,6 @@ class FingerprintApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=_host,
             _request_auth=_request_auth,
         )
 
@@ -815,7 +771,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> EventSearch:
         """Search events
 
@@ -914,10 +869,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -964,7 +915,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -1213,7 +1163,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[EventSearch]:
         """Search events
 
@@ -1312,10 +1261,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -1362,7 +1307,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -1611,7 +1555,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Search events
 
@@ -1710,10 +1653,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -1760,7 +1699,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -1816,10 +1754,7 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
-        _host_index,
     ) -> RequestSerialized:
-
-        _host = None
 
         _collection_formats: dict[str, str] = {
             'environment': 'multi',
@@ -2009,7 +1944,6 @@ class FingerprintApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=_host,
             _request_auth=_request_auth,
         )
 
@@ -2031,7 +1965,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
         """Update an event
 
@@ -2056,10 +1989,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -2069,7 +1998,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -2104,7 +2032,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
         """Update an event
 
@@ -2129,10 +2056,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -2142,7 +2065,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -2177,7 +2099,6 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Update an event
 
@@ -2202,10 +2123,6 @@ class FingerprintApi:
                          request; this effectively ignores the headers
                          in the spec for a single request.
         :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
         :return: Returns the result object.
         """  # noqa: E501
 
@@ -2215,7 +2132,6 @@ class FingerprintApi:
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
-            _host_index=_host_index,
         )
 
         _response_types_map: dict[str, Optional[str]] = {
@@ -2235,10 +2151,7 @@ class FingerprintApi:
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
-        _host_index,
     ) -> RequestSerialized:
-
-        _host = None
 
         _collection_formats: dict[str, str] = {}
 
@@ -2288,6 +2201,5 @@ class FingerprintApi:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=_host,
             _request_auth=_request_auth,
         )

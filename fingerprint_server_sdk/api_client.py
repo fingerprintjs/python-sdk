@@ -125,7 +125,6 @@ class ApiClient:
         files: Optional[FilesType] = None,
         auth_settings: Optional[list[str]] = None,
         collection_formats: Optional[dict[str, str]] = None,
-        _host: Optional[str] = None,
         _request_auth: Optional[dict[str, Any]] = None,
     ) -> RequestSerialized:
         """Builds the HTTP request params needed by the request.
@@ -200,11 +199,7 @@ class ApiClient:
             body = self.sanitize_for_serialization(body)
 
         # request url
-        if _host is None:
-            url = self.configuration.host + resource_path
-        else:
-            # use server/host defined in path or operation instead
-            url = _host + resource_path
+        url = self.configuration.host + resource_path
 
         query_params = list(query_params or [])
         if getattr(self.configuration, 'default_query_params', None):

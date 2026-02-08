@@ -14,5 +14,4 @@
         _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le={{#servers.size}}{{servers.size}}{{/servers.size}}{{^servers.size}}1{{/servers.size}})] = 0,
     )
