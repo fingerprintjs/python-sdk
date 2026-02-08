@@ -38,7 +38,7 @@ class SDK(BaseModel):
     __properties: ClassVar[list[str]] = ['platform', 'version', 'integrations']
 
     @field_validator('platform')
-    def platform_validate_enum(cls, value):
+    def platform_validate_enum(cls, value: Any) -> Any:
         """Validates the enum"""
         if value not in set(['js', 'android', 'ios', 'unknown']):
             raise ValueError("must be one of enum values ('js', 'android', 'ios', 'unknown')")

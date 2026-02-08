@@ -1,4 +1,5 @@
 {{>partial_header}}
+from __future__ import annotations
 
 import datetime
 import decimal
@@ -9,6 +10,7 @@ import re
 import tempfile
 import uuid
 from enum import Enum
+from types import TracebackType
 from typing import Any, Optional, Union
 from urllib.parse import quote
 
@@ -28,7 +30,10 @@ from {{packageName}}.exceptions import (
     ApiValueError,
 )
 
-RequestSerialized = tuple[str, str, dict[str, str], Optional[str], list[str]]
+RequestSerialized = tuple[str, str, dict[str, Any], Optional[Any], Any]
+FilesType = dict[
+    str, Union[str, bytes, list[str], list[bytes], tuple[str, bytes], list[tuple[str, bytes]]]
+]
 
 
 class ApiClient:
@@ -69,8 +74,8 @@ class ApiClient:
         self.configuration = configuration
 
         self.rest_client = rest.RESTClientObject(configuration)
-        self.default_headers = {}
-        if header_name is not None:
+        self.default_headers: dict[str, str] = {}
+        if header_name is not None and header_value is not None:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
@@ -88,40 +93,45 @@ class ApiClient:
         await self.rest_client.close()
 {{/async}}
 {{^async}}
-    def __enter__(self):
+    def __enter__(self) -> ApiClient:
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
         pass
 {{/async}}
 
     @property
-    def user_agent(self) -> Optional[str]:
+    def user_agent(self) -> str:
         """User agent for this API client"""
         return self.default_headers['User-Agent']
 
     @user_agent.setter
-    def user_agent(self, value: str):
+    def user_agent(self, value: str) -> None:
         self.default_headers['User-Agent'] = value
 
-    def set_default_header(self, header_name: str, header_value: str):
+    def set_default_header(self, header_name: str, header_value: str) -> None:
         self.default_headers[header_name] = header_value
 
 
     def param_serialize(
         self,
-        method,
-        resource_path,
-        path_params=None,
-        query_params=None,
-        header_params=None,
-        body=None,
-        post_params=None,
-        files=None,
-        auth_settings=None,
-        collection_formats=None,
-        _host=None,
-        _request_auth=None
+        method: str,
+        resource_path: str,
+        path_params: Optional[dict[str, Any]] = None,
+        query_params: Optional[list[tuple[str, Any]]] = None,
+        header_params: Optional[dict[str, Any]] = None,
+        body: Optional[Any] = None,
+        post_params: Optional[list[tuple[str, Any]]] = None,
+        files: Optional[FilesType] = None,
+        auth_settings: Optional[list[str]] = None,
+        collection_formats: Optional[dict[str, str]] = None,
+        _host: Optional[str] = None,
+        _request_auth: Optional[dict[str, Any]] = None,
     ) -> RequestSerialized:
 
         """Builds the HTTP request params needed by the request.
@@ -234,8 +244,8 @@ class ApiClient:
         url: str,
         header_params: Optional[dict[str, Any]] = None,
         body: Any = None,
-        post_params: Optional[list[tuple[str, Any]]] = None,
-        _request_timeout: Optional[int] = None
+        post_params: Optional[list[Any]] = None,
+        _request_timeout: Optional[Union[int, float, tuple[float, float]]] = None,
     ) -> rest.RESTResponse:
         """Makes the HTTP request (synchronous)
         :param method: Method to call.
@@ -279,15 +289,17 @@ class ApiClient:
         msg = "RESTResponse.read() must be called before passing it to response_deserialize()"
         assert response_data.data is not None, msg
 
-        response_type = response_types_map.get(str(response_data.status), None)
+        if response_types_map is None:
+            response_types_map = {}
+
+        response_type = response_types_map.get(str(response_data.status))
         if (
             not response_type
             and isinstance(response_data.status, int)
             and 100 <= response_data.status <= 599
         ):
             # if not found, look for '1XX', '2XX', etc.
-            response_type = response_types_map.get(
-              str(response_data.status)[0] + "XX", None)
+            response_type = response_types_map.get(str(response_data.status)[0] + 'XX')
 
         # deserialize response data
         response_text = None
@@ -320,7 +332,7 @@ class ApiClient:
             raw_data = response_data.data
         )
 
-    def sanitize_for_serialization(self, obj):
+    def sanitize_for_serialization(self, obj: Any) -> Any:
         """Builds a JSON POST object.
 
         If obj is None, return None.
@@ -382,7 +394,9 @@ class ApiClient:
             for key, val in obj_dict.items()
         }
 
-    def deserialize(self, response_text: str, response_type: str, content_type: Optional[str]):
+    def deserialize(
+        self, response_text: str, response_type: str, content_type: Optional[str]
+    ) -> Any:
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
@@ -414,7 +428,7 @@ class ApiClient:
 
         return self.__deserialize(data, response_type)
 
-    def __deserialize(self, data, klass):
+    def __deserialize(self, data: Any, klass: Any) -> Any:
         """Deserializes dict, list, str into an object.
 
         :param data: dict, list or str.
@@ -461,7 +475,11 @@ class ApiClient:
         else:
             return self.__deserialize_model(data, klass)
 
-    def parameters_to_tuples(self, params, collection_formats):
+    def parameters_to_tuples(
+        self,
+        params: Union[dict[str, Any], list[tuple[str, Any]]],
+        collection_formats: Optional[dict[str, str]],
+    ) -> list[tuple[str, str]]:
         """Get parameters as list of tuples, formatting collections.
 
         :param params: Parameters as dict or list of two-tuples
@@ -491,7 +509,11 @@ class ApiClient:
                 new_params.append((k, v))
         return new_params
 
-    def parameters_to_url_query(self, params, collection_formats):
+    def parameters_to_url_query(
+        self,
+        params: Union[dict[str, Any], list[tuple[str, Any]]],
+        collection_formats: Optional[dict[str, str]],
+    ) -> str:
         """Get parameters as list of tuples, formatting collections.
 
         :param params: Parameters as dict or list of two-tuples
@@ -532,8 +554,8 @@ class ApiClient:
 
     def files_parameters(
         self,
-        files: dict[str, Union[str, bytes, list[str], list[bytes], tuple[str, bytes]]],
-    ):
+        files: FilesType,
+    ) -> list[tuple[Any, Any]]:
         """Builds form parameters.
 
         :param files: File parameters.
@@ -560,9 +582,7 @@ class ApiClient:
                 mimetypes.guess_type(filename)[0]
                 or 'application/octet-stream'
             )
-            params.append(
-                tuple([k, tuple([filename, filedata, mimetype])])
-            )
+            params.append((k, (filename, filedata, mimetype)))
         return params
 
     def select_header_accept(self, accepts: list[str]) -> Optional[str]:
@@ -580,7 +600,7 @@ class ApiClient:
 
         return accepts[0]
 
-    def select_header_content_type(self, content_types):
+    def select_header_content_type(self, content_types: list[str]) -> Optional[str]:
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
@@ -597,13 +617,13 @@ class ApiClient:
 
     def update_params_for_auth(
         self,
-        headers,
-        queries,
-        auth_settings,
-        resource_path,
-        method,
-        body,
-        request_auth=None
+        headers: dict[str, str],
+        queries: Optional[list[tuple[str, Any]]],
+        auth_settings: Optional[list[str]],
+        resource_path: str,
+        method: str,
+        body: Any,
+        request_auth: Optional[dict[str, Any]] = None,
     ) -> None:
         """Updates header and query params based on authentication setting.
 
@@ -644,12 +664,12 @@ class ApiClient:
 
     def _apply_auth_params(
         self,
-        headers,
-        queries,
-        resource_path,
-        method,
-        body,
-        auth_setting
+        headers: dict[str, str],
+        queries: Optional[list[tuple[str, Any]]],
+        resource_path: str,
+        method: str,
+        body: Any,
+        auth_setting: dict[str, Any],
     ) -> None:
         """Updates the request parameters based on a single auth_setting
 
@@ -682,7 +702,7 @@ class ApiClient:
                 'Authentication token must be in `query` or `header`'
             )
 
-    def __deserialize_file(self, response):
+    def __deserialize_file(self, response: rest.RESTResponse) -> Any:
         """Deserializes body to file
 
         Saves response body into a file in a temporary folder,
@@ -694,7 +714,7 @@ class ApiClient:
         :param response:  RESTResponse.
         :return: file path.
         """
-        fd, path = tempfile.mkstemp(dir=self.configuration.temp_folder_path)
+        fd, path = tempfile.mkstemp(dir=getattr(self.configuration, "temp_folder_path", None))
         os.close(fd)
         os.remove(path)
 
@@ -713,7 +733,7 @@ class ApiClient:
 
         return path
 
-    def __deserialize_primitive(self, data, klass):
+    def __deserialize_primitive(self, data: Any, klass: type) -> Any:
         """Deserializes string to primitive type.
 
         :param data: str.
@@ -728,14 +748,14 @@ class ApiClient:
         except TypeError:
             return data
 
-    def __deserialize_object(self, value):
+    def __deserialize_object(self, value: Any) -> Any:
         """Return an original value.
 
         :return: object.
         """
         return value
 
-    def __deserialize_date(self, string):
+    def __deserialize_date(self, string: str) -> datetime.date:
         """Deserializes string to date.
 
         :param string: str.
@@ -744,14 +764,14 @@ class ApiClient:
         try:
             return parse(string).date()
         except ImportError:
-            return string
+            return string  # type: ignore[return-value]
         except ValueError as err:
-            raise rest.ApiException(
+            raise ApiException(
                 status=0,
                 reason="Failed to parse `{0}` as date object".format(string)
             ) from err
 
-    def __deserialize_datetime(self, string):
+    def __deserialize_datetime(self, string: str) -> datetime.datetime:
         """Deserializes string to datetime.
 
         The string should be in iso8601 datetime format.
@@ -762,9 +782,9 @@ class ApiClient:
         try:
             return parse(string)
         except ImportError:
-            return string
+            return string  # type: ignore[return-value]
         except ValueError as err:
-            raise rest.ApiException(
+            raise ApiException(
                 status=0,
                 reason=(
                     "Failed to parse `{0}` as datetime object"
@@ -772,7 +792,7 @@ class ApiClient:
                 )
             ) from err
 
-    def __deserialize_enum(self, data, klass):
+    def __deserialize_enum(self, data: Any, klass: type[Enum]) -> Enum:
         """Deserializes primitive type to enum.
 
         :param data: primitive type.
@@ -782,7 +802,7 @@ class ApiClient:
         try:
             return klass(data)
         except ValueError as err:
-            raise rest.ApiException(
+            raise ApiException(
                 status=0,
                 reason=(
                     "Failed to parse `{0}` as `{1}`"
@@ -790,7 +810,7 @@ class ApiClient:
                 )
             ) from err
 
-    def __deserialize_model(self, data, klass):
+    def __deserialize_model(self, data: Any, klass: Any) -> Any:
         """Deserializes list or dict to model.
 
         :param data: dict, list.

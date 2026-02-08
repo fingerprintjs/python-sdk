@@ -57,7 +57,9 @@ def __parse_event_response(unsealed: str) -> Event:
     if 'event_id' not in json_data:
         raise ValueError('Sealed data is not valid event response')
 
-    result: Event = Event.from_dict(json_data)
+    result = Event.from_dict(json_data)
+    if result is None:
+        raise ValueError('Failed to parse event response')
     return result
 
 

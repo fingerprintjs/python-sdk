@@ -40,7 +40,7 @@ class ProxyDetails(BaseModel):
     __properties: ClassVar[list[str]] = ['proxy_type', 'last_seen_at', 'provider']
 
     @field_validator('proxy_type')
-    def proxy_type_validate_enum(cls, value):
+    def proxy_type_validate_enum(cls, value: Any) -> Any:
         """Validates the enum"""
         if value not in set(['residential', 'data_center']):
             raise ValueError("must be one of enum values ('residential', 'data_center')")

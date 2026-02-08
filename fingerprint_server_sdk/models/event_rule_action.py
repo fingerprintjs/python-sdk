@@ -44,7 +44,7 @@ class EventRuleAction(BaseModel):
 
     discriminator_value_class_map: dict[str, str] = {}
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         if args:
             if len(args) > 1:
                 raise ValueError(
@@ -59,7 +59,7 @@ class EventRuleAction(BaseModel):
             super().__init__(**kwargs)
 
     @field_validator('actual_instance')
-    def actual_instance_must_validate_oneof(cls, v):
+    def actual_instance_must_validate_oneof(cls, v: Any) -> Any:
         EventRuleAction.model_construct()
         error_messages = []
         match = 0

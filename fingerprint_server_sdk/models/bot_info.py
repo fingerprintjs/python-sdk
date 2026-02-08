@@ -46,7 +46,7 @@ class BotInfo(BaseModel):
     ]
 
     @field_validator('identity')
-    def identity_validate_enum(cls, value):
+    def identity_validate_enum(cls, value: Any) -> Any:
         """Validates the enum"""
         if value not in set(['verified', 'signed', 'spoofed', 'unknown']):
             raise ValueError(
@@ -55,7 +55,7 @@ class BotInfo(BaseModel):
         return value
 
     @field_validator('confidence')
-    def confidence_validate_enum(cls, value):
+    def confidence_validate_enum(cls, value: Any) -> Any:
         """Validates the enum"""
         if value not in set(['low', 'medium', 'high']):
             raise ValueError("must be one of enum values ('low', 'medium', 'high')")

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # ruff: noqa: E501, F401, I001
 """
 Server API

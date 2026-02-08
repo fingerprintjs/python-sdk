@@ -41,7 +41,7 @@ class Proximity(BaseModel):
     __properties: ClassVar[list[str]] = ['id', 'precision_radius', 'confidence']
 
     @field_validator('precision_radius')
-    def precision_radius_validate_enum(cls, value):
+    def precision_radius_validate_enum(cls, value: Any) -> Any:
         """Validates the enum"""
         if value not in set([10, 25, 65, 175, 450, 1200, 3300, 8500, 22500]):
             raise ValueError(
