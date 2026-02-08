@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# flake8: noqa
+# ruff: noqa: E501, F401, I001
 """
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
