@@ -32,5 +32,6 @@ docker run --rm -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli
   --additional-properties=packageVersion="$VERSION"
 
 # Linting and formatting
-ruff format .
-ruff check --fix --unsafe-fixes .
+PYTHON_CMD="${PYTHON:-$(command -v python3 || command -v python)}"
+"$PYTHON_CMD" -m ruff format .
+"$PYTHON_CMD" -m ruff check --fix --unsafe-fixes .
