@@ -23,7 +23,7 @@ rm -Rf docs
 
 OPENAPI_GENERATOR_IMAGE_VERSION="v7.19.0"
 
-docker run --rm -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_IMAGE_VERSION}" generate \
+docker run --rm -u "$(id -u):$(id -g)" -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_IMAGE_VERSION}" generate \
   -i ./res/fingerprint-server-api.yaml \
   -g python \
   -o ./ \
