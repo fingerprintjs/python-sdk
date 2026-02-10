@@ -1,0 +1,6 @@
+# ruff: noqa: E501, F401, I001
+{{>partial_header}}
+
+# import models into model package
+{{#models}}{{#model}}from {{modelPackage}}.{{classFilename}} import {{classname}}
+{{/model}}{{/models}}

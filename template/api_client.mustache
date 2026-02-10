@@ -170,28 +170,26 @@ class ApiClient:
 
         # path parameters
         if path_params:
-            path_params = self.sanitize_for_serialization(path_params)
-            path_params = self.parameters_to_tuples(
-                path_params,
-                collection_formats
+            path_params_sanitized = self.sanitize_for_serialization(path_params)
+            path_params_tuples = self.parameters_to_tuples(
+                path_params_sanitized, collection_formats
             )
-            for k, v in path_params:
+            for k, v in path_params_tuples:
                 # specified safe chars, encode everything
                 resource_path = resource_path.replace(
-                    '{' + k + '}',
-                    quote(str(v), safe=config.safe_chars_for_path_param)
+                    '{' + k + '}', quote(str(v), safe=config.safe_chars_for_path_param)
                 )
 
         # post parameters
+        post_params_result: Any = None
         if post_params or files:
-            post_params = post_params if post_params else []
-            post_params = self.sanitize_for_serialization(post_params)
-            post_params = self.parameters_to_tuples(
-                post_params,
-                collection_formats
+            post_params_list = post_params if post_params else []
+            post_params_sanitized = self.sanitize_for_serialization(post_params_list)
+            post_params_result = self.parameters_to_tuples(
+                post_params_sanitized, collection_formats
             )
             if files:
-                post_params.extend(self.files_parameters(files))
+                post_params_result.extend(self.files_parameters(files))
 
         # auth setting
         self.update_params_for_auth(
@@ -227,7 +225,7 @@ class ApiClient:
             )
             url += "?" + url_query
 
-        return method, url, header_params, body, post_params
+        return method, url, header_params, body, post_params_result
 
 
     {{#tornado}}
@@ -273,7 +271,7 @@ class ApiClient:
     def response_deserialize(
         self,
         response_data: rest.RESTResponse,
-        response_types_map: Optional[dict[str, ApiResponseT]] = None
+        response_types_map: Optional[dict[str, Any]] = None,
     ) -> ApiResponse[ApiResponseT]:
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.
@@ -297,8 +295,8 @@ class ApiClient:
             response_type = response_types_map.get(str(response_data.status)[0] + 'XX')
 
         # deserialize response data
-        response_text = None
-        return_data = None
+        response_text: Optional[str] = None
+        return_data: Any = None
         try:
             if response_type == "bytearray":
                 return_data = response_data.data
@@ -374,7 +372,7 @@ class ApiClient:
             # and attributes which value is not None.
             # Convert attribute name to json key in
             # model definition for request.
-            if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
+            if hasattr(obj, 'to_dict') and callable(obj.to_dict):
                 obj_dict = obj.to_dict()
             else:
                 obj_dict = obj.__dict__
@@ -416,10 +414,7 @@ class ApiClient:
         elif re.match(r'^text\/[a-z.+-]+\s*(;|$)', content_type, re.IGNORECASE):
             data = response_text
         else:
-            raise ApiException(
-                status=0,
-                reason="Unsupported content type: {0}".format(content_type)
-            )
+            raise ApiException(status=0, reason=f'Unsupported content type: {content_type}')
 
         return self.__deserialize(data, response_type)
 
@@ -654,7 +649,7 @@ class ApiClient:
                         resource_path,
                         method,
                         body,
-                        auth_setting
+                        auth_setting,  # type: ignore[arg-type]
                     )
 
     def _apply_auth_params(
@@ -691,7 +686,8 @@ class ApiClient:
                 headers.update(auth_headers)
             {{/hasHttpSignatureMethods}}
         elif auth_setting['in'] == 'query':
-            queries.append((auth_setting['key'], auth_setting['value']))
+            if queries is not None:
+                queries.append((auth_setting['key'], auth_setting['value']))
         else:
             raise ApiValueError(
                 'Authentication token must be in `query` or `header`'
@@ -723,8 +719,9 @@ class ApiClient:
             filename = m.group(1)
             path = os.path.join(os.path.dirname(path), filename)
 
-        with open(path, "wb") as f:
-            f.write(response.data)
+        with open(path, 'wb') as f:
+            if response.data is not None:
+                f.write(response.data)
 
         return path
 

@@ -99,6 +99,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         self.api_client.response_deserialize(
@@ -162,6 +163,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
@@ -225,12 +227,13 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         return response_data.response
 
     def _delete_visitor_data_serialize(
         self,
-        visitor_id: StrictStr,
+        visitor_id: str,
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -339,6 +342,7 @@ class FingerprintApi:
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
@@ -412,6 +416,7 @@ class FingerprintApi:
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
@@ -485,13 +490,14 @@ class FingerprintApi:
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         return response_data.response
 
     def _get_event_serialize(
         self,
-        event_id: StrictStr,
-        ruleset_id: Optional[StrictStr],
+        event_id: str,
+        ruleset_id: Optional[str],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -923,6 +929,7 @@ class FingerprintApi:
             '403': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
@@ -1315,6 +1322,7 @@ class FingerprintApi:
             '403': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
@@ -1707,50 +1715,51 @@ class FingerprintApi:
             '403': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         return response_data.response
 
     def _search_events_serialize(
         self,
         limit: Optional[int],
-        pagination_key: Optional[StrictStr],
-        visitor_id: Optional[StrictStr],
-        bot: Optional[StrictStr],
-        ip_address: Optional[StrictStr],
-        asn: Optional[StrictStr],
-        linked_id: Optional[StrictStr],
-        url: Optional[StrictStr],
-        bundle_id: Optional[StrictStr],
-        package_name: Optional[StrictStr],
-        origin: Optional[StrictStr],
-        start: Optional[StrictInt],
-        end: Optional[StrictInt],
-        reverse: Optional[StrictBool],
-        suspect: Optional[StrictBool],
-        vpn: Optional[StrictBool],
-        virtual_machine: Optional[StrictBool],
-        tampering: Optional[StrictBool],
-        anti_detect_browser: Optional[StrictBool],
-        incognito: Optional[StrictBool],
-        privacy_settings: Optional[StrictBool],
-        jailbroken: Optional[StrictBool],
-        frida: Optional[StrictBool],
-        factory_reset: Optional[StrictBool],
-        cloned_app: Optional[StrictBool],
-        emulator: Optional[StrictBool],
-        root_apps: Optional[StrictBool],
-        vpn_confidence: Optional[StrictStr],
-        min_suspect_score: Optional[Union[StrictFloat, StrictInt]],
-        developer_tools: Optional[StrictBool],
-        location_spoofing: Optional[StrictBool],
-        mitm_attack: Optional[StrictBool],
-        proxy: Optional[StrictBool],
-        sdk_version: Optional[StrictStr],
-        sdk_platform: Optional[StrictStr],
-        environment: Optional[list[StrictStr]],
-        proximity_id: Optional[StrictStr],
+        pagination_key: Optional[str],
+        visitor_id: Optional[str],
+        bot: Optional[str],
+        ip_address: Optional[str],
+        asn: Optional[str],
+        linked_id: Optional[str],
+        url: Optional[str],
+        bundle_id: Optional[str],
+        package_name: Optional[str],
+        origin: Optional[str],
+        start: Optional[int],
+        end: Optional[int],
+        reverse: Optional[bool],
+        suspect: Optional[bool],
+        vpn: Optional[bool],
+        virtual_machine: Optional[bool],
+        tampering: Optional[bool],
+        anti_detect_browser: Optional[bool],
+        incognito: Optional[bool],
+        privacy_settings: Optional[bool],
+        jailbroken: Optional[bool],
+        frida: Optional[bool],
+        factory_reset: Optional[bool],
+        cloned_app: Optional[bool],
+        emulator: Optional[bool],
+        root_apps: Optional[bool],
+        vpn_confidence: Optional[str],
+        min_suspect_score: Optional[float],
+        developer_tools: Optional[bool],
+        location_spoofing: Optional[bool],
+        mitm_attack: Optional[bool],
+        proxy: Optional[bool],
+        sdk_version: Optional[str],
+        sdk_platform: Optional[str],
+        environment: Optional[list[str]],
+        proximity_id: Optional[str],
         total_hits: Optional[int],
-        tor_node: Optional[StrictBool],
+        tor_node: Optional[bool],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -2007,6 +2016,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '409': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         self.api_client.response_deserialize(
@@ -2074,6 +2084,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '409': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         response_data.read()
         return self.api_client.response_deserialize(
@@ -2141,12 +2152,13 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '409': 'ErrorResponse',
         }
+
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
         return response_data.response
 
     def _update_event_serialize(
         self,
-        event_id: StrictStr,
+        event_id: str,
         event_update: EventUpdate,
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
