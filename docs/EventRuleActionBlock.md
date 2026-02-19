@@ -4,6 +4,9 @@ Informs the client the request should be blocked using the response described by
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**ruleset_id** | **str** | The ID of the evaluated ruleset. | 
+**rule_id** | **str** | The ID of the rule that matched the identification event. | [optional] 
+**rule_expression** | **str** | The expression of the rule that matched the identification event. | [optional] 
 **type** | [**RuleActionType**](RuleActionType.md) |  | 
 **status_code** | **int** | A valid HTTP status code. | [optional] 
 **headers** | [**List[RuleActionHeaderField]**](RuleActionHeaderField.md) | A list of headers to send. | [optional] 

@@ -79,10 +79,12 @@ __all__ = [
     "RuleActionHeaderField",
     "RuleActionType",
     "SDK",
+    "SearchEventsBot",
+    "SearchEventsSdkPlatform",
+    "SearchEventsVpnConfidence",
     "SupplementaryIDHighRecall",
     "TamperingDetails",
     "TouchSupport",
-    "TriggeredByInner",
     "Velocity",
     "VelocityData",
     "VpnConfidence",
@@ -149,10 +151,12 @@ from fingerprint_server_sdk.models.request_header_modifications import RequestHe
 from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHeaderField
 from fingerprint_server_sdk.models.rule_action_type import RuleActionType
 from fingerprint_server_sdk.models.sdk import SDK
+from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
+from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
+from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.models.supplementary_id_high_recall import SupplementaryIDHighRecall
 from fingerprint_server_sdk.models.tampering_details import TamperingDetails
 from fingerprint_server_sdk.models.touch_support import TouchSupport
-from fingerprint_server_sdk.models.triggered_by_inner import TriggeredByInner
 from fingerprint_server_sdk.models.velocity import Velocity
 from fingerprint_server_sdk.models.velocity_data import VelocityData
 from fingerprint_server_sdk.models.vpn_confidence import VpnConfidence
