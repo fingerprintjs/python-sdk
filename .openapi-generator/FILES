@@ -37,10 +37,12 @@ docs/RuleActionHeaderField.md
 docs/RuleActionType.md
 docs/SDK.md
 docs/SealedResults.md
+docs/SearchEventsBot.md
+docs/SearchEventsSdkPlatform.md
+docs/SearchEventsVpnConfidence.md
 docs/SupplementaryIDHighRecall.md
 docs/TamperingDetails.md
 docs/TouchSupport.md
-docs/TriggeredByInner.md
 docs/Velocity.md
 docs/VelocityData.md
 docs/VpnConfidence.md
@@ -90,10 +92,12 @@ fingerprint_server_sdk/models/request_header_modifications.py
 fingerprint_server_sdk/models/rule_action_header_field.py
 fingerprint_server_sdk/models/rule_action_type.py
 fingerprint_server_sdk/models/sdk.py
+fingerprint_server_sdk/models/search_events_bot.py
+fingerprint_server_sdk/models/search_events_sdk_platform.py
+fingerprint_server_sdk/models/search_events_vpn_confidence.py
 fingerprint_server_sdk/models/supplementary_id_high_recall.py
 fingerprint_server_sdk/models/tampering_details.py
 fingerprint_server_sdk/models/touch_support.py
-fingerprint_server_sdk/models/triggered_by_inner.py
 fingerprint_server_sdk/models/velocity.py
 fingerprint_server_sdk/models/velocity_data.py
 fingerprint_server_sdk/models/vpn_confidence.py

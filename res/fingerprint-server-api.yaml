@@ -23,7 +23,7 @@ tags:
       analysis events or event history of individual visitors.
     externalDocs:
       description: API documentation
-      url: https://dev.fingerprint.com/reference/pro-server-api
+      url: https://docs.fingerprint.com/reference/server-api
 servers:
   - url: https://api.fpjs.io/v4
     description: Global
@@ -55,7 +55,7 @@ paths:
             type: string
           description: >-
             The unique
-            [identifier](https://dev.fingerprint.com/reference/get-function#requestid)
+            [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id)
             of each identification request (`requestId` can be used in its
             place).
         - name: ruleset_id
@@ -140,7 +140,7 @@ paths:
             type: string
           description: >-
             The unique event
-            [identifier](https://dev.fingerprint.com/reference/get-function#event_id).
+            [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).
       requestBody:
         required: true
         content:
@@ -179,6 +179,7 @@ paths:
       tags:
         - Fingerprint
       operationId: searchEvents
+      x-dotnet-use-request-object: true
       summary: Search events
       description: >
         ## Search
@@ -250,8 +251,9 @@ paths:
             When more results are available (e.g., you requested up to 100
             results for your query using `limit`, but there are more than 100
             events total matching your request), the `pagination_key` field is
-            added to the response. The key corresponds to the `timestamp` of the
-            last returned event. In the following request, use that value in the
+            added to the response. The pagination key is an arbitrary string
+            that should not be interpreted in any way and should be passed
+            as-is. In the following request, use that value in the
             `pagination_key` parameter to get the next page of results:
 
 
@@ -266,27 +268,22 @@ paths:
             type: string
           description: >
             Unique [visitor
-            identifier](https://dev.fingerprint.com/reference/get-function#visitorid)
+            identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
             issued by Fingerprint Identification and all active Smart Signals.
 
             Filter for events matching this `visitor_id`.
         - name: bot
           in: query
           schema:
-            type: string
-            enum:
-              - all
-              - good
-              - bad
-              - none
+            $ref: '#/components/schemas/SearchEventsBot'
           description: >
             Filter events by the Bot Detection result, specifically:
               `all` - events where any kind of bot was detected.
               `good` - events where a good bot was detected.
               `bad` - events where a bad bot was detected.
               `none` - events where no bot was detected.
-            > Note: When using this parameter, only events with the `botd.bot`
-            property set to a valid value are returned. Events without a `botd`
+            > Note: When using this parameter, only events with the `bot`
+            property set to a valid value are returned. Events without a `bot`
             Smart Signal result are left out of the response.
         - name: ip_address
           in: query
@@ -302,11 +299,11 @@ paths:
           in: query
           schema:
             type: string
-            description: >
-              Filter events by the ASN associated with the event's IP address.
+          description: >
+            Filter events by the ASN associated with the event's IP address.
 
-              This corresponds to the `ip_info.(v4|v6).asn` property in the
-              response.
+            This corresponds to the `ip_info.(v4|v6).asn` property in the
+            response.
         - name: linked_id
           in: query
           schema:
@@ -316,8 +313,8 @@ paths:
 
 
             You can use [linked
-            Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to
-            associate identification requests with your own identifier, for
+            Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid)
+            to associate identification requests with your own identifier, for
             example, session Id, purchase Id, or transaction Id. You can then
             use this `linked_id` parameter to retrieve all events associated
             with your custom identifier.
@@ -375,7 +372,7 @@ paths:
             type: boolean
           description: >
             Filter events previously tagged as suspicious via the [Update
-            API](https://dev.fingerprint.com/reference/updateevent).
+            API](https://docs.fingerprint.com/reference/server-api-v4-update-event).
 
             > Note: When using this parameter, only events with the `suspect`
             property explicitly set to `true` or `false` are returned. Events
@@ -507,11 +504,7 @@ paths:
         - name: vpn_confidence
           in: query
           schema:
-            type: string
-            enum:
-              - high,
-              - medium
-              - low
+            $ref: '#/components/schemas/SearchEventsVpnConfidence'
           description: >
             Filter events by VPN Detection result confidence level.
 
@@ -590,11 +583,7 @@ paths:
         - name: sdk_platform
           in: query
           schema:
-            type: string
-            enum:
-              - js
-              - android
-              - ios
+            $ref: '#/components/schemas/SearchEventsSdkPlatform'
           description: >
             Filter events by the SDK Platform associated with the identification
             event (`sdk.platform` property) .
@@ -699,7 +688,7 @@ paths:
         - Upon request to delete, this data is deleted asynchronously (typically
         within a few minutes) and it will no longer be used to identify this
         browser (or device) for your [Fingerprint
-        Workspace](https://dev.fingerprint.com/docs/glossary#fingerprint-workspace).
+        Workspace](https://docs.fingerprint.com/docs/glossary#fingerprint-workspace).
 
 
         #### Identification requests made from this browser (or device)
@@ -707,7 +696,7 @@ paths:
         - Fingerprint stores the identification requests made from a browser (or
         device) for up to 30 (or 90) days depending on your plan. To learn more,
         see [Data
-        Retention](https://dev.fingerprint.com/docs/regions#data-retention).
+        Retention](https://docs.fingerprint.com/docs/regions#data-retention).
 
         - Upon request to delete, the identification requests that were made by
         this browser
@@ -722,9 +711,9 @@ paths:
         a different visitor ID.
 
         - If you request [`/v4/events`
-        API](https://dev.fingerprint.com/reference/getevent) with an `event_id`
-        that was made outside of the 10 days, you will still receive a valid
-        response.
+        API](https://docs.fingerprint.com/reference/server-api-v4-get-event)
+        with an `event_id` that was made outside of the 10 days, you will still
+        receive a valid response.
 
 
         ### Interested?
@@ -739,7 +728,7 @@ paths:
             type: string
           description: >-
             The [visitor
-            ID](https://dev.fingerprint.com/reference/get-function#visitorid)
+            ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id)
             you want to delete.
       responses:
         '200':
@@ -802,10 +791,9 @@ components:
       description: >-
         Field is `true` if you have previously set the `suspect` flag for this
         event using the [Server API Update event
-        endpoint](https://dev.fingerprint.com/reference/updateevent).
+        endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).
     Integration:
       type: object
-      additionalProperties: false
       properties:
         name:
           type: string
@@ -815,7 +803,6 @@ components:
           description: The version of the specific integration, e.g. "3.11.10".
         subintegration:
           type: object
-          additionalProperties: false
           properties:
             name:
               type: string
@@ -826,7 +813,6 @@ components:
     SDK:
       type: object
       description: Contains information about the SDK used to perform the request.
-      additionalProperties: false
       required:
         - platform
         - version
@@ -853,26 +839,8 @@ components:
       description: >
         `true` if we determined that this payload was replayed, `false`
         otherwise.
-    TriggeredBy:
-      type: array
-      description: The rule(s) associated with triggering the webhook via rule engine.
-      items:
-        type: object
-        additionalProperties: false
-        required:
-          - id
-          - name
-          - description
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          description:
-            type: string
     IdentificationConfidence:
       type: object
-      additionalProperties: false
       required:
         - score
       properties:
@@ -894,7 +862,6 @@ components:
           type: string
     Identification:
       type: object
-      additionalProperties: false
       required:
         - visitor_id
         - visitor_found
@@ -925,7 +892,6 @@ components:
             Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000
     SupplementaryIDHighRecall:
       type: object
-      additionalProperties: false
       description: >-
         A supplementary browser identifier that prioritizes coverage over
         precision. The High Recall ID algorithm matches more generously, i.e.,
@@ -1000,7 +966,6 @@ components:
         `https://example.com/blog/my-article`
     BrowserDetails:
       type: object
-      additionalProperties: false
       required:
         - browser_name
         - browser_full_version
@@ -1026,7 +991,6 @@ components:
       description: >
         Proximity ID represents a fixed geographical zone in a discrete global
         grid within which the device is observed.
-      additionalProperties: false
       required:
         - id
         - precision_radius
@@ -1079,7 +1043,6 @@ components:
     BotInfo:
       type: object
       description: Extended bot information.
-      additionalProperties: false
       required:
         - category
         - provider
@@ -1150,7 +1113,7 @@ components:
         detected on the mobile device or when the request is initiated from a
         browser,  this field will correspond to the *epoch* time (i.e 1 Jan 1970
         UTC) as a value of 0. See [Factory Reset
-        Detection](https://dev.fingerprint.com/docs/smart-signals-overview#factory-reset-detection)
+        Detection](https://docs.fingerprint.com/docs/smart-signals-reference#factory-reset-detection)
         to learn more about this Smart Signal.
     Frida:
       type: boolean
@@ -1163,7 +1126,6 @@ components:
         * `false` - No signs of Frida or the client is not a mobile device.
     IPBlockList:
       type: object
-      additionalProperties: false
       properties:
         email_spam:
           type: boolean
@@ -1176,7 +1138,6 @@ components:
           description: IP address was part of known TOR network activity.
     Geolocation:
       type: object
-      additionalProperties: false
       properties:
         accuracy_radius:
           type: integer
@@ -1217,7 +1178,6 @@ components:
           type: array
           items:
             type: object
-            additionalProperties: false
             required:
               - iso_code
               - name
@@ -1228,7 +1188,6 @@ components:
                 type: string
     IPInfoV4:
       type: object
-      additionalProperties: false
       required:
         - address
       properties:
@@ -1251,7 +1210,6 @@ components:
           type: string
     IPInfoV6:
       type: object
-      additionalProperties: false
       required:
         - address
       properties:
@@ -1277,7 +1235,6 @@ components:
       description: >-
         Details about the request IP address. Has separate fields for v4 and v6
         IP address versions.
-      additionalProperties: false
       properties:
         v4:
           $ref: '#/components/schemas/IPInfoV4'
@@ -1300,7 +1257,6 @@ components:
         "high".
     ProxyDetails:
       type: object
-      additionalProperties: false
       description: Proxy detection details (present if `proxy` is `true`)
       required:
         - proxy_type
@@ -1353,7 +1309,7 @@ components:
         * `false` - Otherwise or when the request originated from a browser.
 
         See [MitM Attack
-        Detection](https://dev.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection)
+        Detection](https://docs.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection)
         to learn more about this Smart Signal.
     PrivacySettings:
       type: boolean
@@ -1420,18 +1376,26 @@ components:
           items:
             $ref: '#/components/schemas/RuleActionHeaderField'
     EventRuleActionAllow:
-      type: object
       description: >-
         Informs the client that the request should be forwarded to the origin
         with optional request header modifications.
-      required:
-        - type
+      type: object
       properties:
+        ruleset_id:
+          $ref: '#/components/schemas/RulesetId'
+        rule_id:
+          $ref: '#/components/schemas/RuleId'
+        rule_expression:
+          $ref: '#/components/schemas/RuleExpression'
         type:
-          $ref: '#/components/schemas/RuleActionType'
-          const: allow
+          allOf:
+            - $ref: '#/components/schemas/RuleActionType'
+            - const: allow
         request_header_modifications:
           $ref: '#/components/schemas/RequestHeaderModifications'
+      required:
+        - ruleset_id
+        - type
     StatusCode:
       type: integer
       description: A valid HTTP status code.
@@ -1439,16 +1403,21 @@ components:
       type: string
       description: The response body to send to the client.
     EventRuleActionBlock:
-      type: object
       description: >-
         Informs the client the request should be blocked using the response
         described by this rule action.
-      required:
-        - type
+      type: object
       properties:
+        ruleset_id:
+          $ref: '#/components/schemas/RulesetId'
+        rule_id:
+          $ref: '#/components/schemas/RuleId'
+        rule_expression:
+          $ref: '#/components/schemas/RuleExpression'
         type:
-          $ref: '#/components/schemas/RuleActionType'
-          const: block
+          allOf:
+            - $ref: '#/components/schemas/RuleActionType'
+            - const: block
         status_code:
           $ref: '#/components/schemas/StatusCode'
         headers:
@@ -1458,6 +1427,9 @@ components:
             $ref: '#/components/schemas/RuleActionHeaderField'
         body:
           $ref: '#/components/schemas/RuleActionBody'
+      required:
+        - ruleset_id
+        - type
     EventRuleAction:
       type: object
       description: >-
@@ -1465,23 +1437,14 @@ components:
         the ruleset that matched the event. When getting an event by event ID,
         the rule_action will only be included when the ruleset_id query
         parameter is specified.
-      required:
-        - ruleset_id
-      properties:
-        ruleset_id:
-          $ref: '#/components/schemas/RulesetId'
-        rule_id:
-          $ref: '#/components/schemas/RuleId'
-        rule_expression:
-          $ref: '#/components/schemas/RuleExpression'
       oneOf:
         - $ref: '#/components/schemas/EventRuleActionAllow'
         - $ref: '#/components/schemas/EventRuleActionBlock'
       discriminator:
         propertyName: type
         mapping:
-          allow: EventRuleActionAllow.yaml
-          block: EventRuleActionBlock.yaml
+          allow: '#/components/schemas/EventRuleActionAllow'
+          block: '#/components/schemas/EventRuleActionBlock'
     SuspectScore:
       type: integer
       description: >
@@ -1489,7 +1452,7 @@ components:
         protection work flow.  It is a weighted representation of all Smart
         Signals present in the payload that helps identify suspicious activity.
         The value range is [0; S] where S is sum of all Smart Signals weights. 
-        See more details here: https://dev.fingerprint.com/docs/suspect-score
+        See more details here: https://docs.fingerprint.com/docs/suspect-score
     Tampering:
       type: boolean
       description: >
@@ -1499,7 +1462,6 @@ components:
           * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`).
     TamperingDetails:
       type: object
-      additionalProperties: false
       properties:
         anomaly_score:
           type: number
@@ -1527,7 +1489,6 @@ components:
       description: >
         Is absent if the velocity data could not be generated for the visitor
         Id.
-      additionalProperties: false
       required:
         - 5_minutes
         - 1_hour
@@ -1591,7 +1552,6 @@ components:
         if the 
 
         associated event does not have the required data, such as a linked_id.
-      additionalProperties: false
       properties:
         distinct_ip:
           $ref: '#/components/schemas/VelocityData'
@@ -1637,7 +1597,6 @@ components:
         format or unknown).
     VpnMethods:
       type: object
-      additionalProperties: false
       properties:
         timezone_mismatch:
           type: boolean
@@ -1703,7 +1662,6 @@ components:
         Baseline measurement of canonical fonts rendered on the device. Numeric
         width metrics, in CSS pixels, for the canonical fonts collected by the
         agent.
-      additionalProperties: false
       properties:
         default:
           type: number
@@ -1729,7 +1687,6 @@ components:
     Emoji:
       type: object
       description: Bounding box metrics describing how the emoji glyph renders.
-      additionalProperties: false
       properties:
         font:
           type: string
@@ -1780,7 +1737,6 @@ components:
     Canvas:
       type: object
       description: Canvas fingerprint containing winding flag plus geometry/text hashes.
-      additionalProperties: false
       properties:
         winding:
           type: boolean
@@ -1803,7 +1759,6 @@ components:
     WebGlExtensions:
       type: object
       description: Hashes of WebGL context attributes and extension support.
-      additionalProperties: false
       properties:
         context_attributes:
           type: string
@@ -1822,7 +1777,6 @@ components:
     WebGlBasics:
       type: object
       description: Render and vendor strings reported by the WebGL context.
-      additionalProperties: false
       properties:
         version:
           type: string
@@ -1847,7 +1801,6 @@ components:
     TouchSupport:
       type: object
       description: Browser-reported touch capabilities.
-      additionalProperties: false
       properties:
         touch_event:
           type: boolean
@@ -1910,7 +1863,6 @@ components:
       description: Browser plugins reported by `navigator.plugins`.
       items:
         type: object
-        additionalProperties: false
         properties:
           name:
             type: string
@@ -1920,7 +1872,6 @@ components:
             type: array
             items:
               type: object
-              additionalProperties: false
               properties:
                 type:
                   type: string
@@ -1942,7 +1893,6 @@ components:
         A curated subset of raw browser/device attributes that the API surface
         exposes. Each property contains a value or object with the data for the
         collected signal.
-      additionalProperties: false
       properties:
         font_preferences:
           $ref: '#/components/schemas/FontPreferences'
@@ -1999,7 +1949,6 @@ components:
       description: >-
         Contains results from Fingerprint Identification and all active Smart
         Signals.
-      additionalProperties: false
       required:
         - event_id
         - timestamp
@@ -2337,7 +2286,6 @@ components:
         existed or it has been deleted.
     Error:
       type: object
-      additionalProperties: false
       required:
         - code
         - message
@@ -2348,7 +2296,6 @@ components:
           type: string
     ErrorResponse:
       type: object
-      additionalProperties: false
       required:
         - error
       properties:
@@ -2375,7 +2322,6 @@ components:
       description: >-
         Contains a list of all identification events matching the specified
         search criteria.
-      additionalProperties: false
       required:
         - events
       properties:
@@ -2395,3 +2341,52 @@ components:
             This value represents the total number of events matching the search
             query, up to the limit provided in the `total_hits` query parameter.
             Only present if the `total_hits` query parameter was provided.
+    SearchEventsBot:
+      type: string
+      enum:
+        - all
+        - good
+        - bad
+        - none
+      description: >
+        Filter events by the Bot Detection result, specifically:
+          `all` - events where any kind of bot was detected.
+          `good` - events where a good bot was detected.
+          `bad` - events where a bad bot was detected.
+          `none` - events where no bot was detected.
+        > Note: When using this parameter, only events with the `bot` property
+        set to a valid value are returned. Events without a `bot` Smart Signal
+        result are left out of the response.
+    SearchEventsVpnConfidence:
+      type: string
+      enum:
+        - high
+        - medium
+        - low
+      description: >
+        Filter events by VPN Detection result confidence level.
+
+        `high` - events with high VPN Detection confidence.
+
+        `medium` - events with medium VPN Detection confidence.
+
+        `low` - events with low VPN Detection confidence.
+
+        > Note: When using this parameter, only events with the `vpn.confidence`
+        property set to a valid value are returned. Events without a `vpn` Smart
+        Signal result are left out of the response.
+    SearchEventsSdkPlatform:
+      type: string
+      enum:
+        - js
+        - android
+        - ios
+      description: >
+        Filter events by the SDK Platform associated with the identification
+        event (`sdk.platform` property) .
+
+        `js` - Javascript agent (Web).
+
+        `ios` - Apple iOS based devices.
+
+        `android` - Android based devices.
