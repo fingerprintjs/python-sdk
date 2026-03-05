@@ -91,6 +91,21 @@ class EventRuleAction(BaseModel):
         error_messages = []
         match = 0
 
+        # use oneOf discriminator to lookup the data type
+        _data_type = json.loads(json_str).get("type")
+        if not _data_type:
+            raise ValueError("Failed to lookup data type from the field `type` in the input.")
+
+        # check if data type is `EventRuleActionAllow`
+        if _data_type == "allow":
+            instance.actual_instance = EventRuleActionAllow.from_json(json_str)
+            return instance
+
+        # check if data type is `EventRuleActionBlock`
+        if _data_type == "block":
+            instance.actual_instance = EventRuleActionBlock.from_json(json_str)
+            return instance
+
         # deserialize data into EventRuleActionAllow
         try:
             instance.actual_instance = EventRuleActionAllow.from_json(json_str)
