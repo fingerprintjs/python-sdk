@@ -54,7 +54,6 @@ class Geolocation(BaseModel):
     continent_code: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=2)]] = None
     continent_name: Optional[StrictStr] = None
     subdivisions: Optional[list[GeolocationSubdivisionsInner]] = None
-    additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = [
         'accuracy_radius',
         'latitude',
@@ -98,13 +97,8 @@ class Geolocation(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: set[str] = set(
-            [
-                'additional_properties',
-            ]
-        )
+        excluded_fields: set[str] = set([])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -118,11 +112,6 @@ class Geolocation(BaseModel):
                 if _item_subdivisions:
                     _items.append(_item_subdivisions.to_dict())
             _dict['subdivisions'] = _items
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
         return _dict
 
     @classmethod
@@ -153,9 +142,4 @@ class Geolocation(BaseModel):
                 else None,
             }
         )
-        # store additional fields in additional_properties
-        for _key in obj:
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
         return _obj

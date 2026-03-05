@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
 from fingerprint_server_sdk.models.request_header_modifications import RequestHeaderModifications
@@ -29,9 +29,23 @@ class EventRuleActionAllow(BaseModel):
     Informs the client that the request should be forwarded to the origin with optional request header modifications.
     """
 
+    ruleset_id: StrictStr = Field(description='The ID of the evaluated ruleset.')
+    rule_id: Optional[StrictStr] = Field(
+        default=None, description='The ID of the rule that matched the identification event.'
+    )
+    rule_expression: Optional[StrictStr] = Field(
+        default=None,
+        description='The expression of the rule that matched the identification event.',
+    )
     type: RuleActionType
     request_header_modifications: Optional[RequestHeaderModifications] = None
-    __properties: ClassVar[list[str]] = ['type', 'request_header_modifications']
+    __properties: ClassVar[list[str]] = [
+        'ruleset_id',
+        'rule_id',
+        'rule_expression',
+        'type',
+        'request_header_modifications',
+    ]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +100,9 @@ class EventRuleActionAllow(BaseModel):
 
         _obj = cls.model_validate(
             {
+                'ruleset_id': obj.get('ruleset_id'),
+                'rule_id': obj.get('rule_id'),
+                'rule_expression': obj.get('rule_expression'),
                 'type': obj.get('type'),
                 'request_header_modifications': RequestHeaderModifications.from_dict(
                     obj['request_header_modifications']

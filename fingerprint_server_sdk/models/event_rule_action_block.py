@@ -29,6 +29,14 @@ class EventRuleActionBlock(BaseModel):
     Informs the client the request should be blocked using the response described by this rule action.
     """
 
+    ruleset_id: StrictStr = Field(description='The ID of the evaluated ruleset.')
+    rule_id: Optional[StrictStr] = Field(
+        default=None, description='The ID of the rule that matched the identification event.'
+    )
+    rule_expression: Optional[StrictStr] = Field(
+        default=None,
+        description='The expression of the rule that matched the identification event.',
+    )
     type: RuleActionType
     status_code: Optional[StrictInt] = Field(default=None, description='A valid HTTP status code.')
     headers: Optional[list[RuleActionHeaderField]] = Field(
@@ -37,7 +45,15 @@ class EventRuleActionBlock(BaseModel):
     body: Optional[StrictStr] = Field(
         default=None, description='The response body to send to the client.'
     )
-    __properties: ClassVar[list[str]] = ['type', 'status_code', 'headers', 'body']
+    __properties: ClassVar[list[str]] = [
+        'ruleset_id',
+        'rule_id',
+        'rule_expression',
+        'type',
+        'status_code',
+        'headers',
+        'body',
+    ]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,6 +112,9 @@ class EventRuleActionBlock(BaseModel):
 
         _obj = cls.model_validate(
             {
+                'ruleset_id': obj.get('ruleset_id'),
+                'rule_id': obj.get('rule_id'),
+                'rule_expression': obj.get('rule_expression'),
                 'type': obj.get('type'),
                 'status_code': obj.get('status_code'),
                 'headers': [RuleActionHeaderField.from_dict(_item) for _item in obj['headers']]

@@ -59,7 +59,7 @@ class Event(BaseModel):
     )
     suspect: Optional[StrictBool] = Field(
         default=None,
-        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://dev.fingerprint.com/reference/updateevent).',
+        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).',
     )
     sdk: Optional[SDK] = None
     replayed: Optional[StrictBool] = Field(
@@ -116,7 +116,7 @@ class Event(BaseModel):
     )
     factory_reset_timestamp: Optional[StrictInt] = Field(
         default=None,
-        description='The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time. When a factory reset cannot be detected on the mobile device or when the request is initiated from a browser,  this field will correspond to the *epoch* time (i.e 1 Jan 1970 UTC) as a value of 0. See [Factory Reset Detection](https://dev.fingerprint.com/docs/smart-signals-overview#factory-reset-detection) to learn more about this Smart Signal. ',
+        description='The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time. When a factory reset cannot be detected on the mobile device or when the request is initiated from a browser,  this field will correspond to the *epoch* time (i.e 1 Jan 1970 UTC) as a value of 0. See [Factory Reset Detection](https://docs.fingerprint.com/docs/smart-signals-reference#factory-reset-detection) to learn more about this Smart Signal. ',
     )
     frida: Optional[StrictBool] = Field(
         default=None,
@@ -144,7 +144,7 @@ class Event(BaseModel):
     )
     mitm_attack: Optional[StrictBool] = Field(
         default=None,
-        description="* `true` - When requests made from your users' mobile devices to Fingerprint servers have been intercepted and potentially modified.  * `false` - Otherwise or when the request originated from a browser. See [MitM Attack Detection](https://dev.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection) to learn more about this Smart Signal. ",
+        description="* `true` - When requests made from your users' mobile devices to Fingerprint servers have been intercepted and potentially modified.  * `false` - Otherwise or when the request originated from a browser. See [MitM Attack Detection](https://docs.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection) to learn more about this Smart Signal. ",
     )
     privacy_settings: Optional[StrictBool] = Field(
         default=None,
@@ -157,7 +157,7 @@ class Event(BaseModel):
     rule_action: Optional[EventRuleAction] = None
     suspect_score: Optional[StrictInt] = Field(
         default=None,
-        description='Suspect Score is an easy way to integrate Smart Signals into your fraud protection work flow.  It is a weighted representation of all Smart Signals present in the payload that helps identify suspicious activity. The value range is [0; S] where S is sum of all Smart Signals weights.  See more details here: https://dev.fingerprint.com/docs/suspect-score ',
+        description='Suspect Score is an easy way to integrate Smart Signals into your fraud protection work flow.  It is a weighted representation of all Smart Signals present in the payload that helps identify suspicious activity. The value range is [0; S] where S is sum of all Smart Signals weights.  See more details here: https://docs.fingerprint.com/docs/suspect-score ',
     )
     tampering: Optional[StrictBool] = Field(
         default=None,

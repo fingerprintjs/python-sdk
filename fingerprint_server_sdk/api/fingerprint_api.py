@@ -12,14 +12,7 @@ Do not edit the class manually.
 
 from typing import Annotated, Any, Optional, Union  # noqa: UP035
 
-from pydantic import (
-    Field,
-    StrictBool,
-    StrictFloat,
-    StrictInt,
-    StrictStr,
-    validate_call,
-)
+from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, validate_call
 
 from fingerprint_server_sdk.api_client import ApiClient, RequestSerialized
 from fingerprint_server_sdk.api_response import ApiResponse
@@ -27,6 +20,9 @@ from fingerprint_server_sdk.configuration import Configuration
 from fingerprint_server_sdk.models.event import Event
 from fingerprint_server_sdk.models.event_search import EventSearch
 from fingerprint_server_sdk.models.event_update import EventUpdate
+from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
+from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
+from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.rest import RESTResponseType
 
 # Type alias for query and form parameter values
@@ -49,7 +45,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -63,9 +59,9 @@ class FingerprintApi:
     ) -> None:
         """Delete data by visitor ID
 
-        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.  ### Which data is deleted? - Browser (or device) properties - Identification requests made from this browser (or device)  #### Browser (or device) properties - Represents the data that Fingerprint collected from this specific browser (or device) and everything inferred and derived from it. - Upon request to delete, this data is deleted asynchronously (typically within a few minutes) and it will no longer be used to identify this browser (or device) for your [Fingerprint Workspace](https://dev.fingerprint.com/docs/glossary#fingerprint-workspace).  #### Identification requests made from this browser (or device) - Fingerprint stores the identification requests made from a browser (or device) for up to 30 (or 90) days depending on your plan. To learn more, see [Data Retention](https://dev.fingerprint.com/docs/regions#data-retention). - Upon request to delete, the identification requests that were made by this browser   - Within the past 10 days are deleted within 24 hrs.   - Outside of 10 days are allowed to purge as per your data retention period.  ### Corollary After requesting to delete a visitor ID, - If the same browser (or device) requests to identify, it will receive a different visitor ID. - If you request [`/v4/events` API](https://dev.fingerprint.com/reference/getevent) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.  ### Interested? Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
+        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.  ### Which data is deleted? - Browser (or device) properties - Identification requests made from this browser (or device)  #### Browser (or device) properties - Represents the data that Fingerprint collected from this specific browser (or device) and everything inferred and derived from it. - Upon request to delete, this data is deleted asynchronously (typically within a few minutes) and it will no longer be used to identify this browser (or device) for your [Fingerprint Workspace](https://docs.fingerprint.com/docs/glossary#fingerprint-workspace).  #### Identification requests made from this browser (or device) - Fingerprint stores the identification requests made from a browser (or device) for up to 30 (or 90) days depending on your plan. To learn more, see [Data Retention](https://docs.fingerprint.com/docs/regions#data-retention). - Upon request to delete, the identification requests that were made by this browser   - Within the past 10 days are deleted within 24 hrs.   - Outside of 10 days are allowed to purge as per your data retention period.  ### Corollary After requesting to delete a visitor ID, - If the same browser (or device) requests to identify, it will receive a different visitor ID. - If you request [`/v4/events` API](https://docs.fingerprint.com/reference/server-api-v4-get-event) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.  ### Interested? Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
 
-        :param visitor_id: The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -113,7 +109,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -127,9 +123,9 @@ class FingerprintApi:
     ) -> ApiResponse[None]:
         """Delete data by visitor ID
 
-        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.  ### Which data is deleted? - Browser (or device) properties - Identification requests made from this browser (or device)  #### Browser (or device) properties - Represents the data that Fingerprint collected from this specific browser (or device) and everything inferred and derived from it. - Upon request to delete, this data is deleted asynchronously (typically within a few minutes) and it will no longer be used to identify this browser (or device) for your [Fingerprint Workspace](https://dev.fingerprint.com/docs/glossary#fingerprint-workspace).  #### Identification requests made from this browser (or device) - Fingerprint stores the identification requests made from a browser (or device) for up to 30 (or 90) days depending on your plan. To learn more, see [Data Retention](https://dev.fingerprint.com/docs/regions#data-retention). - Upon request to delete, the identification requests that were made by this browser   - Within the past 10 days are deleted within 24 hrs.   - Outside of 10 days are allowed to purge as per your data retention period.  ### Corollary After requesting to delete a visitor ID, - If the same browser (or device) requests to identify, it will receive a different visitor ID. - If you request [`/v4/events` API](https://dev.fingerprint.com/reference/getevent) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.  ### Interested? Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
+        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.  ### Which data is deleted? - Browser (or device) properties - Identification requests made from this browser (or device)  #### Browser (or device) properties - Represents the data that Fingerprint collected from this specific browser (or device) and everything inferred and derived from it. - Upon request to delete, this data is deleted asynchronously (typically within a few minutes) and it will no longer be used to identify this browser (or device) for your [Fingerprint Workspace](https://docs.fingerprint.com/docs/glossary#fingerprint-workspace).  #### Identification requests made from this browser (or device) - Fingerprint stores the identification requests made from a browser (or device) for up to 30 (or 90) days depending on your plan. To learn more, see [Data Retention](https://docs.fingerprint.com/docs/regions#data-retention). - Upon request to delete, the identification requests that were made by this browser   - Within the past 10 days are deleted within 24 hrs.   - Outside of 10 days are allowed to purge as per your data retention period.  ### Corollary After requesting to delete a visitor ID, - If the same browser (or device) requests to identify, it will receive a different visitor ID. - If you request [`/v4/events` API](https://docs.fingerprint.com/reference/server-api-v4-get-event) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.  ### Interested? Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
 
-        :param visitor_id: The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -177,7 +173,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -191,9 +187,9 @@ class FingerprintApi:
     ) -> RESTResponseType:
         """Delete data by visitor ID
 
-        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.  ### Which data is deleted? - Browser (or device) properties - Identification requests made from this browser (or device)  #### Browser (or device) properties - Represents the data that Fingerprint collected from this specific browser (or device) and everything inferred and derived from it. - Upon request to delete, this data is deleted asynchronously (typically within a few minutes) and it will no longer be used to identify this browser (or device) for your [Fingerprint Workspace](https://dev.fingerprint.com/docs/glossary#fingerprint-workspace).  #### Identification requests made from this browser (or device) - Fingerprint stores the identification requests made from a browser (or device) for up to 30 (or 90) days depending on your plan. To learn more, see [Data Retention](https://dev.fingerprint.com/docs/regions#data-retention). - Upon request to delete, the identification requests that were made by this browser   - Within the past 10 days are deleted within 24 hrs.   - Outside of 10 days are allowed to purge as per your data retention period.  ### Corollary After requesting to delete a visitor ID, - If the same browser (or device) requests to identify, it will receive a different visitor ID. - If you request [`/v4/events` API](https://dev.fingerprint.com/reference/getevent) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.  ### Interested? Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
+        Request deleting all data associated with the specified visitor ID. This API is useful for compliance with privacy regulations.  ### Which data is deleted? - Browser (or device) properties - Identification requests made from this browser (or device)  #### Browser (or device) properties - Represents the data that Fingerprint collected from this specific browser (or device) and everything inferred and derived from it. - Upon request to delete, this data is deleted asynchronously (typically within a few minutes) and it will no longer be used to identify this browser (or device) for your [Fingerprint Workspace](https://docs.fingerprint.com/docs/glossary#fingerprint-workspace).  #### Identification requests made from this browser (or device) - Fingerprint stores the identification requests made from a browser (or device) for up to 30 (or 90) days depending on your plan. To learn more, see [Data Retention](https://docs.fingerprint.com/docs/regions#data-retention). - Upon request to delete, the identification requests that were made by this browser   - Within the past 10 days are deleted within 24 hrs.   - Outside of 10 days are allowed to purge as per your data retention period.  ### Corollary After requesting to delete a visitor ID, - If the same browser (or device) requests to identify, it will receive a different visitor ID. - If you request [`/v4/events` API](https://docs.fingerprint.com/reference/server-api-v4-get-event) with an `event_id` that was made outside of the 10 days, you will still receive a valid response.  ### Interested? Please [contact our support team](https://fingerprint.com/support/) to enable it for you. Otherwise, you will receive a 403.
 
-        :param visitor_id: The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -282,7 +278,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -304,7 +300,7 @@ class FingerprintApi:
 
         Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
 
-        :param event_id: The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -356,7 +352,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -378,7 +374,7 @@ class FingerprintApi:
 
         Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
 
-        :param event_id: The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -430,7 +426,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -452,7 +448,7 @@ class FingerprintApi:
 
         Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
 
-        :param event_id: The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -554,19 +550,19 @@ class FingerprintApi:
         pagination_key: Annotated[
             Optional[StrictStr],
             Field(
-                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
+                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
             ),
         ] = None,
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
             ),
         ] = None,
         bot: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsBot],
             Field(
-                description='Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `botd.bot` property set to a valid value are returned. Events without a `botd` Smart Signal result are left out of the response. '
+                description='Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response. '
             ),
         ] = None,
         ip_address: Annotated[
@@ -575,11 +571,16 @@ class FingerprintApi:
                 description='Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32 '
             ),
         ] = None,
-        asn: Optional[StrictStr] = None,
+        asn: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response. "
+            ),
+        ] = None,
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -622,7 +623,7 @@ class FingerprintApi:
         suspect: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response. '
+                description='Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response. '
             ),
         ] = None,
         vpn: Annotated[
@@ -698,7 +699,7 @@ class FingerprintApi:
             ),
         ] = None,
         vpn_confidence: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsVpnConfidence],
             Field(
                 description='Filter events by VPN Detection result confidence level. `high` - events with high VPN Detection confidence. `medium` - events with medium VPN Detection confidence. `low` - events with low VPN Detection confidence. > Note: When using this parameter, only events with the `vpn.confidence` property set to a valid value are returned. Events without a `vpn` Smart Signal result are left out of the response. '
             ),
@@ -740,7 +741,7 @@ class FingerprintApi:
             ),
         ] = None,
         sdk_platform: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsSdkPlatform],
             Field(
                 description='Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices. '
             ),
@@ -784,17 +785,17 @@ class FingerprintApi:
 
         :param limit: Limit the number of events returned.
         :type limit: int
-        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
         :type visitor_id: str
-        :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `botd.bot` property set to a valid value are returned. Events without a `botd` Smart Signal result are left out of the response.
-        :type bot: str
+        :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
+        :type bot: SearchEventsBot
         :param ip_address: Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
         :type ip_address: str
-        :param asn:
+        :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -810,7 +811,7 @@ class FingerprintApi:
         :type end: int
         :param reverse: Sort events in reverse timestamp order.
         :type reverse: bool
-        :param suspect: Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
+        :param suspect: Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
         :type suspect: bool
         :param vpn: Filter events by VPN Detection result. > Note: When using this parameter, only events with the `vpn` property set to `true` or `false` are returned. Events without a `vpn` Smart Signal result are left out of the response.
         :type vpn: bool
@@ -837,7 +838,7 @@ class FingerprintApi:
         :param root_apps: Filter events by Rooted Device Detection result. > Note: When using this parameter, only events with the `root_apps` property set to `true` or `false` are returned. Events without a `root_apps` Smart Signal result are left out of the response.
         :type root_apps: bool
         :param vpn_confidence: Filter events by VPN Detection result confidence level. `high` - events with high VPN Detection confidence. `medium` - events with medium VPN Detection confidence. `low` - events with low VPN Detection confidence. > Note: When using this parameter, only events with the `vpn.confidence` property set to a valid value are returned. Events without a `vpn` Smart Signal result are left out of the response.
-        :type vpn_confidence: str
+        :type vpn_confidence: SearchEventsVpnConfidence
         :param min_suspect_score: Filter events with Suspect Score result above a provided minimum threshold. > Note: When using this parameter, only events where the `suspect_score` property set to a value exceeding your threshold are returned. Events without a `suspect_score` Smart Signal result are left out of the response.
         :type min_suspect_score: float
         :param developer_tools: Filter events by Developer Tools detection result. > Note: When using this parameter, only events with the `developer_tools` property set to `true` or `false` are returned. Events without a `developer_tools` Smart Signal result are left out of the response.
@@ -851,7 +852,7 @@ class FingerprintApi:
         :param sdk_version: Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
         :type sdk_version: str
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices.
-        :type sdk_platform: str
+        :type sdk_platform: SearchEventsSdkPlatform
         :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).
         :type environment: List[str]
         :param proximity_id: Filter events by the most precise Proximity ID provided by default. > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
@@ -947,19 +948,19 @@ class FingerprintApi:
         pagination_key: Annotated[
             Optional[StrictStr],
             Field(
-                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
+                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
             ),
         ] = None,
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
             ),
         ] = None,
         bot: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsBot],
             Field(
-                description='Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `botd.bot` property set to a valid value are returned. Events without a `botd` Smart Signal result are left out of the response. '
+                description='Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response. '
             ),
         ] = None,
         ip_address: Annotated[
@@ -968,11 +969,16 @@ class FingerprintApi:
                 description='Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32 '
             ),
         ] = None,
-        asn: Optional[StrictStr] = None,
+        asn: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response. "
+            ),
+        ] = None,
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -1015,7 +1021,7 @@ class FingerprintApi:
         suspect: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response. '
+                description='Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response. '
             ),
         ] = None,
         vpn: Annotated[
@@ -1091,7 +1097,7 @@ class FingerprintApi:
             ),
         ] = None,
         vpn_confidence: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsVpnConfidence],
             Field(
                 description='Filter events by VPN Detection result confidence level. `high` - events with high VPN Detection confidence. `medium` - events with medium VPN Detection confidence. `low` - events with low VPN Detection confidence. > Note: When using this parameter, only events with the `vpn.confidence` property set to a valid value are returned. Events without a `vpn` Smart Signal result are left out of the response. '
             ),
@@ -1133,7 +1139,7 @@ class FingerprintApi:
             ),
         ] = None,
         sdk_platform: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsSdkPlatform],
             Field(
                 description='Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices. '
             ),
@@ -1177,17 +1183,17 @@ class FingerprintApi:
 
         :param limit: Limit the number of events returned.
         :type limit: int
-        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
         :type visitor_id: str
-        :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `botd.bot` property set to a valid value are returned. Events without a `botd` Smart Signal result are left out of the response.
-        :type bot: str
+        :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
+        :type bot: SearchEventsBot
         :param ip_address: Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
         :type ip_address: str
-        :param asn:
+        :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -1203,7 +1209,7 @@ class FingerprintApi:
         :type end: int
         :param reverse: Sort events in reverse timestamp order.
         :type reverse: bool
-        :param suspect: Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
+        :param suspect: Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
         :type suspect: bool
         :param vpn: Filter events by VPN Detection result. > Note: When using this parameter, only events with the `vpn` property set to `true` or `false` are returned. Events without a `vpn` Smart Signal result are left out of the response.
         :type vpn: bool
@@ -1230,7 +1236,7 @@ class FingerprintApi:
         :param root_apps: Filter events by Rooted Device Detection result. > Note: When using this parameter, only events with the `root_apps` property set to `true` or `false` are returned. Events without a `root_apps` Smart Signal result are left out of the response.
         :type root_apps: bool
         :param vpn_confidence: Filter events by VPN Detection result confidence level. `high` - events with high VPN Detection confidence. `medium` - events with medium VPN Detection confidence. `low` - events with low VPN Detection confidence. > Note: When using this parameter, only events with the `vpn.confidence` property set to a valid value are returned. Events without a `vpn` Smart Signal result are left out of the response.
-        :type vpn_confidence: str
+        :type vpn_confidence: SearchEventsVpnConfidence
         :param min_suspect_score: Filter events with Suspect Score result above a provided minimum threshold. > Note: When using this parameter, only events where the `suspect_score` property set to a value exceeding your threshold are returned. Events without a `suspect_score` Smart Signal result are left out of the response.
         :type min_suspect_score: float
         :param developer_tools: Filter events by Developer Tools detection result. > Note: When using this parameter, only events with the `developer_tools` property set to `true` or `false` are returned. Events without a `developer_tools` Smart Signal result are left out of the response.
@@ -1244,7 +1250,7 @@ class FingerprintApi:
         :param sdk_version: Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
         :type sdk_version: str
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices.
-        :type sdk_platform: str
+        :type sdk_platform: SearchEventsSdkPlatform
         :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).
         :type environment: List[str]
         :param proximity_id: Filter events by the most precise Proximity ID provided by default. > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
@@ -1340,19 +1346,19 @@ class FingerprintApi:
         pagination_key: Annotated[
             Optional[StrictStr],
             Field(
-                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
+                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
             ),
         ] = None,
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
             ),
         ] = None,
         bot: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsBot],
             Field(
-                description='Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `botd.bot` property set to a valid value are returned. Events without a `botd` Smart Signal result are left out of the response. '
+                description='Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response. '
             ),
         ] = None,
         ip_address: Annotated[
@@ -1361,11 +1367,16 @@ class FingerprintApi:
                 description='Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32 '
             ),
         ] = None,
-        asn: Optional[StrictStr] = None,
+        asn: Annotated[
+            Optional[StrictStr],
+            Field(
+                description="Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response. "
+            ),
+        ] = None,
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -1408,7 +1419,7 @@ class FingerprintApi:
         suspect: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response. '
+                description='Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response. '
             ),
         ] = None,
         vpn: Annotated[
@@ -1484,7 +1495,7 @@ class FingerprintApi:
             ),
         ] = None,
         vpn_confidence: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsVpnConfidence],
             Field(
                 description='Filter events by VPN Detection result confidence level. `high` - events with high VPN Detection confidence. `medium` - events with medium VPN Detection confidence. `low` - events with low VPN Detection confidence. > Note: When using this parameter, only events with the `vpn.confidence` property set to a valid value are returned. Events without a `vpn` Smart Signal result are left out of the response. '
             ),
@@ -1526,7 +1537,7 @@ class FingerprintApi:
             ),
         ] = None,
         sdk_platform: Annotated[
-            Optional[StrictStr],
+            Optional[SearchEventsSdkPlatform],
             Field(
                 description='Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices. '
             ),
@@ -1570,17 +1581,17 @@ class FingerprintApi:
 
         :param limit: Limit the number of events returned.
         :type limit: int
-        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
         :type visitor_id: str
-        :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `botd.bot` property set to a valid value are returned. Events without a `botd` Smart Signal result are left out of the response.
-        :type bot: str
+        :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
+        :type bot: SearchEventsBot
         :param ip_address: Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
         :type ip_address: str
-        :param asn:
+        :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://dev.fingerprint.com/reference/get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -1596,7 +1607,7 @@ class FingerprintApi:
         :type end: int
         :param reverse: Sort events in reverse timestamp order.
         :type reverse: bool
-        :param suspect: Filter events previously tagged as suspicious via the [Update API](https://dev.fingerprint.com/reference/updateevent). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
+        :param suspect: Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
         :type suspect: bool
         :param vpn: Filter events by VPN Detection result. > Note: When using this parameter, only events with the `vpn` property set to `true` or `false` are returned. Events without a `vpn` Smart Signal result are left out of the response.
         :type vpn: bool
@@ -1623,7 +1634,7 @@ class FingerprintApi:
         :param root_apps: Filter events by Rooted Device Detection result. > Note: When using this parameter, only events with the `root_apps` property set to `true` or `false` are returned. Events without a `root_apps` Smart Signal result are left out of the response.
         :type root_apps: bool
         :param vpn_confidence: Filter events by VPN Detection result confidence level. `high` - events with high VPN Detection confidence. `medium` - events with medium VPN Detection confidence. `low` - events with low VPN Detection confidence. > Note: When using this parameter, only events with the `vpn.confidence` property set to a valid value are returned. Events without a `vpn` Smart Signal result are left out of the response.
-        :type vpn_confidence: str
+        :type vpn_confidence: SearchEventsVpnConfidence
         :param min_suspect_score: Filter events with Suspect Score result above a provided minimum threshold. > Note: When using this parameter, only events where the `suspect_score` property set to a value exceeding your threshold are returned. Events without a `suspect_score` Smart Signal result are left out of the response.
         :type min_suspect_score: float
         :param developer_tools: Filter events by Developer Tools detection result. > Note: When using this parameter, only events with the `developer_tools` property set to `true` or `false` are returned. Events without a `developer_tools` Smart Signal result are left out of the response.
@@ -1637,7 +1648,7 @@ class FingerprintApi:
         :param sdk_version: Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
         :type sdk_version: str
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices.
-        :type sdk_platform: str
+        :type sdk_platform: SearchEventsSdkPlatform
         :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).
         :type environment: List[str]
         :param proximity_id: Filter events by the most precise Proximity ID provided by default. > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
@@ -1724,7 +1735,7 @@ class FingerprintApi:
         limit: Optional[int],
         pagination_key: Optional[str],
         visitor_id: Optional[str],
-        bot: Optional[str],
+        bot: Optional[SearchEventsBot],
         ip_address: Optional[str],
         asn: Optional[str],
         linked_id: Optional[str],
@@ -1748,14 +1759,14 @@ class FingerprintApi:
         cloned_app: Optional[bool],
         emulator: Optional[bool],
         root_apps: Optional[bool],
-        vpn_confidence: Optional[str],
+        vpn_confidence: Optional[SearchEventsVpnConfidence],
         min_suspect_score: Optional[float],
         developer_tools: Optional[bool],
         location_spoofing: Optional[bool],
         mitm_attack: Optional[bool],
         proxy: Optional[bool],
         sdk_version: Optional[str],
-        sdk_platform: Optional[str],
+        sdk_platform: Optional[SearchEventsSdkPlatform],
         environment: Optional[list[str]],
         proximity_id: Optional[str],
         total_hits: Optional[int],
@@ -1793,7 +1804,7 @@ class FingerprintApi:
 
         # process the query parameters
         if bot is not None:
-            _query_params.append(('bot', bot))
+            _query_params.append(('bot', bot.value))
 
         # process the query parameters
         if ip_address is not None:
@@ -1889,7 +1900,7 @@ class FingerprintApi:
 
         # process the query parameters
         if vpn_confidence is not None:
-            _query_params.append(('vpn_confidence', vpn_confidence))
+            _query_params.append(('vpn_confidence', vpn_confidence.value))
 
         # process the query parameters
         if min_suspect_score is not None:
@@ -1917,7 +1928,7 @@ class FingerprintApi:
 
         # process the query parameters
         if sdk_platform is not None:
-            _query_params.append(('sdk_platform', sdk_platform))
+            _query_params.append(('sdk_platform', sdk_platform.value))
 
         # process the query parameters
         if environment is not None:
@@ -1962,7 +1973,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://dev.fingerprint.com/reference/get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -1979,7 +1990,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://dev.fingerprint.com/reference/get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
@@ -2030,7 +2041,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://dev.fingerprint.com/reference/get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2047,7 +2058,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://dev.fingerprint.com/reference/get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
@@ -2098,7 +2109,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://dev.fingerprint.com/reference/get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2115,7 +2126,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://dev.fingerprint.com/reference/get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
