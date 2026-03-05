@@ -17,7 +17,6 @@ jobs:
   functional_tests:
     name: Functional tests for Python ${{ matrix.python-version }}
     runs-on: "ubuntu-latest"
-    environment: test
 
     strategy:
       fail-fast: false
