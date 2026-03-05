@@ -13,6 +13,7 @@ examples=(
   'events/search/get_event_search_200.json'
   'webhook/webhook_event.json'
   'events/get_event_200.json'
+  'events/get_event_ruleset_200.json'
   'events/update_event_multiple_fields_request.json'
   'events/update_event_one_field_request.json'
   'errors/400_visitor_id_required.json'
