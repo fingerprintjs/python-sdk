@@ -16,7 +16,7 @@ import re
 from setuptools import find_packages, setup
 
 NAME = 'fingerprint-server-sdk'
-VERSION = '9.0.0-rc.0'
+VERSION = '9.0.0-rc.1'
 PYTHON_REQUIRES = '>= 3.9'
 # To install the library, run the following
 #

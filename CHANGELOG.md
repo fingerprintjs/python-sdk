@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.0.0-rc.1
+
+### Patch Changes
+
+- fix build system ([fa1da3b](https://github.com/fingerprintjs/python-sdk/commit/fa1da3b9fc8201d20964dce6f347cae5e01eb5e1))
+
 ## 9.0.0-rc.0
 
 ### Major Changes
