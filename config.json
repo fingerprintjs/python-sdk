@@ -2,5 +2,22 @@
   "packageName": "fingerprint_server_sdk",
   "packageUrl": "https://github.com/fingerprintjs/python-sdk",
   "gitUserId": "fingerprintjs",
-  "gitRepoId": "python-sdk"
+  "gitRepoId": "python-sdk",
+  "packageDescription": "Fingerprint (https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy. Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.",
+  "files": {
+    "sealed.py.mustache": {
+      "folder": "fingerprint_server_sdk",
+      "destinationFilename": "sealed.py"
+    },
+    "webhook_validation.py": {
+      "folder": "fingerprint_server_sdk"
+    },
+    "DecryptionKey.md": {
+      "folder": "docs"
+    },
+    "SealedResults.md": {
+      "folder": "docs"
+    }
+  },
+  "useOneOfDiscriminatorLookup": true
 }

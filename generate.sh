@@ -17,40 +17,16 @@ if [[ $VERSION =~ (.*-test\.)([0-9]+) ]]; then
   VERSION="${BASE_VERSION%-rc.}.rc${DEV_NUMBER}"
 fi
 
-# jar was downloaded from here https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.34/
+# Cleanup
+rm -Rf fingerprint_server_sdk
+rm -Rf docs
 
-find ./docs -type f ! -name "DecryptionKey.md" ! -name "SealedResults.md" -exec rm {} +
-cd fingerprint_server_sdk/models
-shopt -s extglob
-rm !("error_plain_response.py")
-cd ../..
-java -jar ./bin/swagger-codegen-cli.jar generate -t ./template -l python -i ./res/fingerprint-server-api.yaml -o ./ -c config.json -DpackageVersion=$VERSION
+OPENAPI_GENERATOR_IMAGE_VERSION="v7.19.0"
 
-python ./fix_codegen_problems.py
-
-# Ugly fix for codegen problem that I couldn't fix editing template.
-# Platform check
-platform=$(uname)
-(
-  # Readme file fix
-  replacement=$(printf 'The rawAttributes object follows this general shape: `{ value: any } | { error: { name: string; message: string; } }`\n')
-  readme_filename="./docs/RawDeviceAttributes.md"
-  if [ "$platform" = "Darwin" ]; then
-    sed -i '' "s/^Name |.*/${replacement}/" "$readme_filename"
-    sed -i '' "/^------------ |/c\\" "$readme_filename"
-  else
-    sed -i "s/^Name |.*/${replacement}/" "$readme_filename"
-    sed -i "/^------------ |/c\\" "$readme_filename"
-  fi
-)
-
-# Replace version in other files
-(
-  if [ "$platform" = "Darwin" ]; then
-    sed -i '' "s/^VERSION = '[^']*'/VERSION = '${VERSION}'/" "./test/test_fingerprint_api.py"
-    sed -i '' "s/^version = [^']*/version = ${VERSION}/" "./setup.cfg"
-  else
-    sed -i "s/^VERSION = '[^']*'/VERSION = '${VERSION}'/" "./test/test_fingerprint_api.py"
-    sed -i "s/^version = [^']*/version = ${VERSION}/" "./setup.cfg"
-  fi
-)
+docker run --rm -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_IMAGE_VERSION}" generate \
+  -i ./res/fingerprint-server-api.yaml \
+  -g python \
+  -o ./ \
+  -t ./template \
+  -c ./config.json \
+  --additional-properties=packageVersion="$VERSION"

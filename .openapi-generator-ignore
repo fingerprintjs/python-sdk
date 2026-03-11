@@ -1,0 +1,7 @@
+.gitignore
+.gitlab-ci.yml
+.travis.yml
+git_push.sh
+tox.ini
+test/*.py
+.github/workflows/python.yml

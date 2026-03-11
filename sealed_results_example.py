@@ -12,7 +12,7 @@ key = base64.b64decode(os.environ["BASE64_KEY"])
 
 try:
     event_response = unseal_event_response(sealed_result, [DecryptionKey(key, DecryptionAlgorithm['Aes256Gcm'])])
-    print("\n\n\nEvent response: \n", event_response.products)
+    print("\n\n\nEvent response: \n", event_response)
 except Exception as e:
     print("Exception when calling unsealing events response: %s\n" % e)
     exit(1)

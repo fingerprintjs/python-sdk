@@ -4,18 +4,65 @@
 
 {{>partial_header}}
 
-# import apis into sdk package
-{{#apiInfo}}{{#apis}}from {{packageName}}.{{apiPackage}}.{{classVarName}} import {{classname}}
-{{/apis}}{{/apiInfo}}
-# import ApiClient
-from {{packageName}}.api_client import ApiClient
-from {{packageName}}.configuration import Configuration
-# import BaseModel
-from {{packageName}}.base_model import BaseModel
-# import models into sdk package
-{{#models}}{{#model}}from {{modelPackage}}.{{classFilename}} import {{classname}}
-{{/model}}{{/models}}
+
+__version__ = "{{packageVersion}}"
+
+# Define package exports
+__all__ = [
+    "__version__",
+    {{#apiInfo}}{{#apis}}"{{classname}}",
+    {{/apis}}{{/apiInfo}}"ApiResponse",
+    "ApiClient",
+    "Configuration",
+    "OpenApiException",
+    "ApiTypeError",
+    "ApiValueError",
+    "ApiKeyError",
+    "ApiAttributeError",
+    "ApiException",
+    "BadRequestException",
+    "UnauthorizedException",
+    "ForbiddenException",
+    "NotFoundException",
+    "ConflictException",
+    "UnprocessableEntityException",
+    "TooManyRequestsException",
+    "ServiceException",
+    "WebhookValidation",
+    "DecryptionKey",
+    "DecryptionAlgorithm",
+    "UnsealError",
+    "UnsealAggregateError",
+    "unseal_event_response",
+    {{#hasHttpSignatureMethods}}"HttpSigningConfiguration",
+    {{/hasHttpSignatureMethods}}{{#models}}{{#model}}"{{classname}}"{{^-last}},
+    {{/-last}}{{#-last}},{{/-last}}{{/model}}{{/models}}
+]
+
+{{^lazyImports}}
+{{>exports_package}}
+{{/lazyImports}}
+{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
+    {{>exports_package}}
+else:
+    from lazy_imports import LazyModule, as_package, load
+
+    load(
+        LazyModule(
+            *as_package(__file__),
+            ("__version__", __version__),
+            ("__all__", __all__),
+            """{{>exports_package}}""",
+            name=__name__,
+            doc=__doc__,
+        )
+    )
+{{/lazyImports}}
+{{#recursionLimit}}
+
+__import__('sys').setrecursionlimit({{{.}}})
+{{/recursionLimit}}
 # import custom methods into sdk package
 from {{packageName}}.webhook_validation import WebhookValidation
-from {{packageName}}.sealed import ApiClientDeserializer, DecryptionAlgorithm, DecryptionKey, \
+from {{packageName}}.sealed import DecryptionAlgorithm, DecryptionKey, \
     UnsealError, UnsealAggregateError, unseal_event_response

@@ -17,7 +17,6 @@ jobs:
   functional_tests:
     name: Functional tests for Python ${{ matrix.python-version }}
     runs-on: "ubuntu-latest"
-    environment: test
 
     strategy:
       fail-fast: false
@@ -34,6 +33,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install -r test-requirements.txt
 
       - name: "Try to get data using SDK"
         run: "python ./run_checks.py"

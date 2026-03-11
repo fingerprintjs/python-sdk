@@ -1,0 +1,201 @@
+```python
+import os
+
+import {{packageName}}
+from {{packageName}}.configuration import Region
+
+{{> python_doc_auth_partial}}
+
+# create an instance of the API class
+api_instance = {{packageName}}.FingerprintApi(configuration)
+```
+
+## Examples
+
+Delete visitor data using `visitorId`:
+```python
+import os
+
+import {{packageName}}
+from {{packageName}}.rest import ApiException
+from {{packageName}}.configuration import Region
+
+{{> python_doc_auth_partial}}
+
+api_instance = {{packageName}}.FingerprintApi(configuration)
+
+visitor_id = 'visitor_id_example'
+
+try:
+    api_instance.delete_visitor_data(visitor_id)
+except ApiException as e:
+    print("Exception when calling FingerprintApi->delete_visitor_data: %s\n" % e)
+```
+
+Fetching event details for `eventId`:
+```python
+import os
+
+import {{packageName}}
+from {{packageName}}.rest import ApiException
+from {{packageName}}.configuration import Region
+
+{{> python_doc_auth_partial}}
+
+api_instance = {{packageName}}.FingerprintApi(configuration)
+
+event_id = 'event_id_example'
+
+try:
+    events_response = api_instance.get_event(event_id)
+except ApiException as e:
+    print("Exception when calling FingerprintApi->get_event: %s\n" % e)
+```
+
+Search events with custom filters:
+```python
+import os
+
+import {{packageName}}
+from {{packageName}}.rest import ApiException
+from {{packageName}}.configuration import Region
+
+{{> python_doc_auth_partial}}
+
+api_instance = {{packageName}}.FingerprintApi(configuration)
+
+limit = 20
+pagination_key = 'key_example'
+visitor_id = 'VISITOR_ID'
+bot = 'good'
+ip_address = '192.168.0.1/32'
+linked_id = 'linked_id_example'
+start = 1738687200000
+end = 1738773600000
+reverse = True
+suspect = False
+
+try:
+    # Get events via search
+    api_response = api_instance.search_events(limit, pagination_key=pagination_key, visitor_id=visitor_id, bot=bot, ip_address=ip_address, linked_id=linked_id, start=start, end=end, reverse=reverse, suspect=suspect)
+    print(api_response)
+except ApiException as e:
+    print("Exception when calling FingerprintApi->get_event: %s\n" % e)
+```
+
+Update event for `eventId`:
+```python
+import os
+
+import {{packageName}}
+from {{packageName}} import EventUpdate
+from {{packageName}}.rest import ApiException
+from {{packageName}}.configuration import Region
+
+{{> python_doc_auth_partial}}
+
+api_instance = {{packageName}}.FingerprintApi(configuration)
+
+event_id = 'event_id_example'
+body = EventUpdate(linked_id='foo')
+# body = EventUpdate(tags={'bar': 123})
+# body = EventUpdate(suspect=True)
+# body = EventUpdate(linked_id='foo', tags={'bar': 123}, suspect=False)
+
+try:
+    api_instance.update_event(event_id, body)
+except ApiException as e:
+    print("Exception when calling FingerprintApi->update_event: %s\n" % e)
+```
+
+## Sealed results
+
+This SDK provides utility methods for decoding [sealed results](https://dev.fingerprint.com/docs/sealed-client-results).
+```python
+import base64
+import os
+
+from dotenv import load_dotenv
+
+from {{packageName}} import unseal_event_response, DecryptionKey, DecryptionAlgorithm
+
+load_dotenv()
+
+sealed_result = base64.b64decode(os.environ["BASE64_SEALED_RESULT"])
+key = base64.b64decode(os.environ["BASE64_KEY"])
+
+try:
+    event_response = unseal_event_response(sealed_result, [DecryptionKey(key, DecryptionAlgorithm['Aes256Gcm'])])
+    print("\n\n\nEvent response: \n", event_response.products)
+except Exception as e:
+    print("Exception when calling unsealing events response: %s\n" % e)
+    exit(1)
+
+print("Unseal successful!")
+
+exit(0)
+```
+To learn more, refer to example located in [sealed_results_example.py](sealed_results_example.py).
+
+## Webhook signature validation
+
+This SDK provides utility method for verifying the HMAC signature of the incoming webhook request.
+```python
+import os
+from flask import Flask, request, jsonify
+from {{packageName}} import WebhookValidation
+
+app = Flask(__name__)
+
+@app.route('/api/webhook', methods=['POST'])
+def webhook_handler():
+    try:
+        # Retrieve the secret key from environment variables
+        secret = os.getenv("WEBHOOK_SIGNATURE_SECRET")
+        if not secret:
+            return jsonify({"message": "Secret key is not configured."}), 400
+
+        # Get the "fpjs-event-signature" header from the incoming request
+        header = request.headers.get('fpjs-event-signature')
+        if not header:
+            return jsonify({"message": "Missing fpjs-event-signature header."}), 400
+
+        # Read the raw body of the incoming request
+        data = request.get_data()
+
+        # Validate the webhook signature
+        is_valid = WebhookValidation.is_valid_webhook_signature(header, data, secret)
+        if not is_valid:
+            return jsonify({"message": "Webhook signature is invalid."}), 403
+
+        # Process the webhook data here
+        return jsonify({"message": "Webhook received."}), 200
+
+    except Exception as e:
+        # Handle any unexpected errors
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    # Start the Flask application on the specified host and port
+    app.run(host='0.0.0.0', port=5000)
+```
+To learn more, refer to example located in [webhook_signature_example.py](webhook_signature_example.py).
+
+## Documentation for API Endpoints
+
+All URIs are relative to *{{{basePath}}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+## Documentation For Models
+
+{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{/model}}{{/models}}
+
+## Documentation for sealed results
+
+- [SealedResults](docs/SealedResults.md)
+- [DecryptionKey](docs/DecryptionKey.md)
