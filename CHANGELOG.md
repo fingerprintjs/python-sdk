@@ -1,5 +1,56 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.0.0-rc.0
+
+### Major Changes
+
+- Changed library name to `fingerprint_server_sdk`
+
+  **BREAKING CHANGE**:
+
+  - You need to change package name to `fingerprint_server_sdk`.
+
+  **MIGRATION_GUIDE**:
+
+  Replace imports to new name:
+
+  ```diff
+  - import fingerprint_pro_server_api_sdk
+  + import fingerprint_server_sdk
+  ```
+
+  If you are using docker compose file, please re-build the SDK. ([1f8ea14](https://github.com/fingerprintjs/python-sdk/commit/1f8ea14bbd77d439c53bc30bcd7f0e64c66c7d3e))
+
+- Migrate to Server API v4.
+
+  ### Breaking Changes
+
+  - Flatten event structure. Access fields directly intead of through `products` wrapper.
+  - Remove `get_visitors` and `get_releated_visitors` endpoints (use `search_events` instead).
+  - Remove deprecated v3 models (webhook models, product wrapper models, etc.)
+
+  ### Migration Guide
+
+  **Event structure:**
+
+  ```diff
+  - event.products.identification.data.visitor_id
+  + event.identification.visitor_id
+  ```
+
+  **Region parameter:**
+
+  ```diff
+  - Configuration(api_key="key", region="us")
+  + from fingerprint_server_sdk.configuration import Region
+  + Configuration(api_key="key", region=Region.US)
+  ```
+
+  **New Features:**
+
+  - New exception classes: `TooManyRequestsException`, `ConflictException`, `UnprocessableEntityException`, ...
+  - New v4 models: `BotInfo`, `Canvas`, `Emoji`, `EventRuleAction`, `FontPreferences`, ... ([f61ab2c](https://github.com/fingerprintjs/python-sdk/commit/f61ab2c876f538de8bca02f60cbab14ceae91801))
+
 ## 8.11.0
 
 ### Minor Changes
