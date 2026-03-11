@@ -4,5 +4,8 @@
   "initialVersions": {
     "@fingerprint/python-sdk": "8.11.0"
   },
-  "changesets": []
+  "changesets": [
+    "late-peas-drop",
+    "plenty-clouds-tie"
+  ]
 }
