@@ -18,6 +18,9 @@ dependencies = [
   "cryptography"
 ]
 
+[project.optional-dependencies]
+examples = ["python-dotenv (>=1.0.0)"]
+
 [project.urls]
 Repository = "https://github.com/fingerprintjs/python-sdk"
 

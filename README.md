@@ -114,6 +114,8 @@ except ApiException as e:
     print("Exception when calling FingerprintApi->delete_visitor_data: %s\n" % e)
 ```
 
+To learn more, refer to example located in [examples/delete_visitor_example.py](examples/delete_visitor_example.py).
+
 Fetching event details for `eventId`:
 ```python
 import os
@@ -136,6 +138,8 @@ try:
 except ApiException as e:
     print("Exception when calling FingerprintApi->get_event: %s\n" % e)
 ```
+
+To learn more, refer to example located in [examples/get_event_example.py](examples/get_event_example.py).
 
 Search events with custom filters:
 ```python
@@ -171,6 +175,8 @@ except ApiException as e:
     print("Exception when calling FingerprintApi->get_event: %s\n" % e)
 ```
 
+To learn more, refer to example located in [examples/search_events_example.py](examples/search_events_example.py).
+
 Update event for `eventId`:
 ```python
 import os
@@ -199,6 +205,8 @@ except ApiException as e:
     print("Exception when calling FingerprintApi->update_event: %s\n" % e)
 ```
 
+To learn more, refer to example located in [examples/update_event_example.py](examples/update_event_example.py).
+
 ## Sealed results
 
 This SDK provides utility methods for decoding [sealed results](https://dev.fingerprint.com/docs/sealed-client-results).
@@ -226,7 +234,7 @@ print("Unseal successful!")
 
 exit(0)
 ```
-To learn more, refer to example located in [sealed_results_example.py](sealed_results_example.py).
+To learn more, refer to example located in [examples/sealed_results_example.py](examples/sealed_results_example.py).
 
 ## Webhook signature validation
 
@@ -270,7 +278,7 @@ if __name__ == '__main__':
     # Start the Flask application on the specified host and port
     app.run(host='0.0.0.0', port=5000)
 ```
-To learn more, refer to example located in [webhook_signature_example.py](webhook_signature_example.py).
+To learn more, refer to example located in [examples/webhook_signature_example.py](examples/webhook_signature_example.py).
 
 ## Documentation for API Endpoints
 
