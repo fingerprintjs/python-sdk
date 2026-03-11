@@ -23,10 +23,15 @@ rm -Rf docs
 
 OPENAPI_GENERATOR_IMAGE_VERSION="v7.19.0"
 
-docker run --rm -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_IMAGE_VERSION}" generate \
+docker run --rm -u "$(id -u):$(id -g)" -v "${PWD}:/local" -w /local "openapitools/openapi-generator-cli:${OPENAPI_GENERATOR_IMAGE_VERSION}" generate \
   -i ./res/fingerprint-server-api.yaml \
   -g python \
   -o ./ \
   -t ./template \
   -c ./config.json \
   --additional-properties=packageVersion="$VERSION"
+
+# Linting and formatting
+PYTHON_CMD="${PYTHON:-$(command -v python3 || command -v python)}"
+"$PYTHON_CMD" -m ruff format .
+"$PYTHON_CMD" -m ruff check --fix --unsafe-fixes .

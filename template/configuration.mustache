@@ -1,7 +1,4 @@
-# coding: utf-8
-
 {{>partial_header}}
-
 
 {{#async}}
 import base64
@@ -9,16 +6,17 @@ import base64
 import copy
 import http.client as httplib
 import logging
-from logging import FileHandler
 {{^async}}
 import multiprocessing
 {{/async}}
 import sys
-from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union, Tuple
-from typing_extensions import NotRequired, Self
-from {{packageName}} import __version__
 from enum import Enum
+from logging import FileHandler
+from typing import Any, ClassVar, Literal, Optional, TypedDict, Union
 
+from typing_extensions import Self
+
+from {{packageName}} import __version__
 {{#hasHttpSignatureMethods}}
 from {{packageName}}.signing import HttpSigningConfiguration
 {{/hasHttpSignatureMethods}}
@@ -29,7 +27,7 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'minLength', 'pattern', 'maxItems', 'minItems'
 }
 
-ServerVariablesT = Dict[str, str]
+ServerVariablesT = dict[str, str]
 
 BearerFormatAuthSetting = TypedDict(
     "BearerFormatAuthSetting",
@@ -41,6 +39,7 @@ BearerFormatAuthSetting = TypedDict(
         "value": str,
     },
 )
+
 
 AuthSettings = TypedDict(
     "AuthSettings",
@@ -74,18 +73,6 @@ AuthSettings = TypedDict(
 )
 
 
-class HostSettingVariable(TypedDict):
-    description: str
-    default_value: str
-    enum_values: List[str]
-
-
-class HostSetting(TypedDict):
-    url: str
-    description: str
-    variables: NotRequired[Dict[str, HostSettingVariable]]
-
-
 class Region(Enum):
     US = "us"
     EU = "eu"
@@ -112,11 +99,11 @@ class Configuration:
         self,
         api_key: str,
         region: Region = Region.US,
-        host: Optional[str]=None,
-        ssl_ca_cert: Optional[str]=None,
+        host: Optional[str] = None,
+        ssl_ca_cert: Optional[str] = None,
         retries: Optional[int] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
-        default_query_params: Optional[List[Tuple[str, str]]] = None,
+        default_query_params: Optional[list[tuple[str, str]]] = None,
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -224,12 +211,13 @@ class Configuration:
         """date format
         """
 
-        if default_query_params:
-            self.default_query_params = default_query_params
-        else:
-            self.default_query_params: List[Tuple[str, str]] = [("ii", f"fingerprint-server-python-sdk/{__version__}")]
+        self.default_query_params: list[tuple[str, str]] = (
+            default_query_params
+            if default_query_params
+            else [("ii", f"fingerprint-server-python-sdk/{__version__}")]
+        )
 
-    def __deepcopy__(self, memo:  Dict[int, Any]) -> Self:
+    def __deepcopy__(self, memo:  dict[int, Any]) -> Self:
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result

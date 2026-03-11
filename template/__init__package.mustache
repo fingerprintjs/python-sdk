@@ -1,11 +1,8 @@
-# coding: utf-8
-
-# flake8: noqa
+# ruff: noqa: E501, I001
 
 {{>partial_header}}
 
-
-__version__ = "{{packageVersion}}"
+__version__ = '{{packageVersion}}'
 
 # Define package exports
 __all__ = [
@@ -63,6 +60,11 @@ else:
 __import__('sys').setrecursionlimit({{{.}}})
 {{/recursionLimit}}
 # import custom methods into sdk package
+from {{packageName}}.sealed import (
+    DecryptionAlgorithm,
+    DecryptionKey,
+    UnsealAggregateError,
+    UnsealError,
+    unseal_event_response,
+)
 from {{packageName}}.webhook_validation import WebhookValidation
-from {{packageName}}.sealed import DecryptionAlgorithm, DecryptionKey, \
-    UnsealError, UnsealAggregateError, unseal_event_response

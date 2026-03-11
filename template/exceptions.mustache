@@ -1,17 +1,27 @@
-# coding: utf-8
-
 {{>partial_header}}
+from __future__ import annotations
 
-from typing import Any, Optional
+import contextlib
+from typing import TYPE_CHECKING, Any, Optional
+
 from typing_extensions import Self
+
+if TYPE_CHECKING:
+    from {{packageName}}.rest import RESTResponse
+
 
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
 
 
 class ApiTypeError(OpenApiException, TypeError):
-    def __init__(self, msg, path_to_item=None, valid_classes=None,
-                 key_type=None) -> None:
+    def __init__(
+        self,
+        msg: str,
+        path_to_item: Optional[list[Any]] = None,
+        valid_classes: Optional[tuple[type, ...]] = None,
+        key_type: Optional[bool] = None,
+    ) -> None:
         """ Raises an exception for TypeErrors
 
         Args:
@@ -35,11 +45,11 @@ class ApiTypeError(OpenApiException, TypeError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiTypeError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiValueError(OpenApiException, ValueError):
-    def __init__(self, msg, path_to_item=None) -> None:
+    def __init__(self, msg: str, path_to_item: Optional[list[Any]] = None) -> None:
         """
         Args:
             msg (str): the exception message
@@ -53,11 +63,11 @@ class ApiValueError(OpenApiException, ValueError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiValueError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiAttributeError(OpenApiException, AttributeError):
-    def __init__(self, msg, path_to_item=None) -> None:
+    def __init__(self, msg: str, path_to_item: Optional[list[Any]] = None) -> None:
         """
         Raised when an attribute reference or assignment fails.
 
@@ -72,11 +82,11 @@ class ApiAttributeError(OpenApiException, AttributeError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiAttributeError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiKeyError(OpenApiException, KeyError):
-    def __init__(self, msg, path_to_item=None) -> None:
+    def __init__(self, msg: str, path_to_item: Optional[list[Any]] = None) -> None:
         """
         Args:
             msg (str): the exception message
@@ -89,16 +99,15 @@ class ApiKeyError(OpenApiException, KeyError):
         full_msg = msg
         if path_to_item:
             full_msg = "{0} at {1}".format(msg, render_path(path_to_item))
-        super(ApiKeyError, self).__init__(full_msg)
+        super().__init__(full_msg)
 
 
 class ApiException(OpenApiException):
-
     def __init__(
         self,
-        status=None,
-        reason=None,
-        http_resp=None,
+        status: Optional[int] = None,
+        reason: Optional[str] = None,
+        http_resp: Optional["RESTResponse"] = None,
         *,
         body: Optional[str] = None,
         data: Optional[Any] = None,
@@ -114,18 +123,16 @@ class ApiException(OpenApiException):
                 self.status = http_resp.status
             if self.reason is None:
                 self.reason = http_resp.reason
-            if self.body is None:
-                try:
+            if self.body is None and http_resp.data is not None:
+                with contextlib.suppress(UnicodeDecodeError):
                     self.body = http_resp.data.decode('utf-8')
-                except Exception:
-                    pass
             self.headers = http_resp.headers
 
     @classmethod
     def from_response(
         cls,
         *,
-        http_resp,
+        http_resp: RESTResponse,
         body: Optional[str],
         data: Optional[Any],
     ) -> Self:
@@ -155,7 +162,7 @@ class ApiException(OpenApiException):
             raise ServiceException(http_resp=http_resp, body=body, data=data)
         raise ApiException(http_resp=http_resp, body=body, data=data)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Custom error messages for exception"""
         error_message = "({0})\n"\
                         "Reason: {1}\n".format(self.status, self.reason)
@@ -207,7 +214,7 @@ class TooManyRequestsException(ApiException):
     pass
 
 
-def render_path(path_to_item):
+def render_path(path_to_item: list[Any]) -> str:
     """Returns a string representation of a path"""
     result = ""
     for pth in path_to_item:

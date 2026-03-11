@@ -1,12 +1,12 @@
-import os
 import argparse
-
-import fingerprint_server_sdk
-from fingerprint_server_sdk.rest import ApiException
-from fingerprint_server_sdk.configuration import Region
-from fingerprint_server_sdk.models import EventUpdate
+import os
 
 from dotenv import load_dotenv
+
+import fingerprint_server_sdk
+from fingerprint_server_sdk.configuration import Region
+from fingerprint_server_sdk.models import EventUpdate
+from fingerprint_server_sdk.rest import ApiException
 
 load_dotenv()
 parser = argparse.ArgumentParser(description='Update an event in the Fingerprint Server API')
@@ -18,22 +18,23 @@ args = parser.parse_args()
 print(f'args: {args.linked_id}, {args.tag}, {args.suspect}')
 
 # configure
-region_str = os.environ.get("REGION", "us").upper()
+region_str = os.environ.get('REGION', 'us').upper()
 configuration = fingerprint_server_sdk.Configuration(
-    api_key=os.environ["PRIVATE_KEY"], region=Region[region_str])
+    api_key=os.environ['PRIVATE_KEY'], region=Region[region_str]
+)
 
 # create an instance of the API class
 api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
-event_id = os.environ["EVENT_ID_TO_UPDATE"]
+event_id = os.environ['EVENT_ID_TO_UPDATE']
 
 try:
     updateBody = EventUpdate(**vars(args))
     print(f'updateBody: {updateBody}')
     api_instance.update_event(event_id, updateBody)
 except ApiException as e:
-    print("Exception when calling update_event operation: %s\n" % e)
+    print(f'Exception when calling update_event operation: {e}\n')
     exit(1)
 
-print("Visitor data updated!")
+print('Visitor data updated!')
 
 exit(0)
