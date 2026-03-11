@@ -3,6 +3,9 @@
 {{>partial_header}}
 
 
+import pathlib
+import re
+
 from setuptools import setup, find_packages  # noqa: H301
 
 # To install the library, run the following
@@ -41,6 +44,11 @@ REQUIRES = [
     "cryptography",
 ]
 
+here = pathlib.Path(__file__).parent.resolve()
+long_description = (here / 'README.md').read_text(encoding='utf-8')
+long_description = re.sub("<source[^>]*>\n", '', long_description.replace("<picture>\n", "").replace("</picture>\n", ""))
+long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>{{packageUrl}}/blob/main/\g<postfix>', long_description)
+
 setup(
     name=NAME,
     version=VERSION,
@@ -68,9 +76,12 @@ setup(
         'Topic :: Security',
     ],
     {{#licenseInfo}}license="{{.}}",
+    project_urls={
+        "Changelog": "{{packageUrl}}/blob/main/CHANGELOG.md",
+        "Code": "{{packageUrl}}",
+        "Issue Tracker": "{{packageUrl}}/issues",
+    },
     {{/licenseInfo}}long_description_content_type='text/markdown',
-    long_description="""\
-    {{appDescription}}
-    """,  # noqa: E501
+    long_description=long_description,
     package_data={"{{{packageName}}}": ["py.typed"]},
 )

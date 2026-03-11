@@ -13,6 +13,9 @@
 """  # noqa: E501
 
 
+import pathlib
+import re
+
 from setuptools import setup, find_packages  # noqa: H301
 
 # To install the library, run the following
@@ -31,6 +34,11 @@ REQUIRES = [
     "typing-extensions >= 4.7.1",
     "cryptography",
 ]
+
+here = pathlib.Path(__file__).parent.resolve()
+long_description = (here / 'README.md').read_text(encoding='utf-8')
+long_description = re.sub("<source[^>]*>\n", '', long_description.replace("<picture>\n", "").replace("</picture>\n", ""))
+long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>https://github.com/fingerprintjs/python-sdk/blob/main/\g<postfix>', long_description)
 
 setup(
     name=NAME,
@@ -59,9 +67,12 @@ setup(
         'Topic :: Security',
     ],
     license="MIT",
+    project_urls={
+        "Changelog": "https://github.com/fingerprintjs/python-sdk/blob/main/CHANGELOG.md",
+        "Code": "https://github.com/fingerprintjs/python-sdk",
+        "Issue Tracker": "https://github.com/fingerprintjs/python-sdk/issues",
+    },
     long_description_content_type='text/markdown',
-    long_description="""\
-    Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it&#39;s not intended to be used from the client side, whether it&#39;s a browser or a mobile device. 
-    """,  # noqa: E501
+    long_description=long_description,
     package_data={"fingerprint_server_sdk": ["py.typed"]},
 )
