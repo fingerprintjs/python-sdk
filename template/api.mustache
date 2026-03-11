@@ -1,20 +1,20 @@
-# coding: utf-8
-
 {{>partial_header}}
 
-import warnings
-from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union  # noqa: UP035
+
+from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, validate_call
 from typing_extensions import Annotated
 
 {{#imports}}
 {{import}}
 {{/imports}}
-
-from {{packageName}}.configuration import Configuration
 from {{packageName}}.api_client import ApiClient, RequestSerialized
 from {{packageName}}.api_response import ApiResponse
+from {{packageName}}.configuration import Configuration
 from {{packageName}}.rest import RESTResponseType
+
+# Type alias for query and form parameter values
+ParamValue = Union[str, int, float, bool, list[str]]
 
 
 {{#operations}}
@@ -40,10 +40,18 @@ class {{classname}}:
             _request_timeout=_request_timeout
         )
         {{#async}}await {{/async}}response_data.read()
+{{#returnType}}
         return self.api_client.response_deserialize(
             response_data=response_data,
             response_types_map=_response_types_map,
         ).data
+{{/returnType}}
+{{^returnType}}
+        self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+{{/returnType}}
 
 
     @validate_call
@@ -75,25 +83,14 @@ class {{classname}}:
     def _{{operationId}}_serialize(
         self,
         {{#allParams}}
-        {{paramName}},
+        {{paramName}}: {{^required}}Optional[{{/required}}{{{dataType}}}{{^required}}]{{/required}},
         {{/allParams}}
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
+        _request_auth: Optional[dict[StrictStr, Any]],
+        _content_type: Optional[StrictStr],
+        _headers: Optional[dict[StrictStr, Any]],
     ) -> RequestSerialized:
 
-        {{#servers.0}}
-        _hosts = [{{#servers}}
-            '{{{url}}}'{{^-last}},{{/-last}}{{/servers}}
-        ]
-        _host = _hosts[_host_index]
-        {{/servers.0}}
-        {{^servers.0}}
-        _host = None
-        {{/servers.0}}
-
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             {{#allParams}}
             {{#isArray}}
             '{{baseName}}': '{{collectionFormat}}',
@@ -101,14 +98,15 @@ class {{classname}}:
             {{/allParams}}
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, ParamValue]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, ParamValue]] = []
+        _files: dict[
+            str,
+            Union[str, bytes, list[str], list[bytes], tuple[str, bytes], list[tuple[str, bytes]]],
         ] = {}
-        _body_params: Optional[bytes] = None
+        _body_params: Optional[Any] = None
 
 {{#pathParams}}
         # process the path parameters
@@ -224,7 +222,7 @@ class {{classname}}:
         {{/hasConsumes}}
 
         # authentication setting
-        _auth_settings: List[str] = [{{#authMethods}}
+        _auth_settings: list[str] = [{{#authMethods}}
             '{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}
         ]
 
@@ -239,8 +237,7 @@ class {{classname}}:
             files=_files,
             auth_settings=_auth_settings,
             collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
+            _request_auth=_request_auth,
         )
 
 
