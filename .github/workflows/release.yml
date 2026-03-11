@@ -21,6 +21,7 @@ jobs:
         pip install -r requirements.txt
         pip install wheel
         pip install twine
+        pip install ruff
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       RUNNER_APP_PRIVATE_KEY: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}
