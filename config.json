@@ -1,6 +1,6 @@
 {
   "packageName": "fingerprint_server_sdk",
-  "packageUrl": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk",
+  "packageUrl": "https://github.com/fingerprintjs/python-sdk",
   "gitUserId": "fingerprintjs",
-  "gitRepoId": "fingerprint-pro-server-api-python-sdk"
+  "gitRepoId": "python-sdk"
 }
