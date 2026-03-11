@@ -22,6 +22,7 @@ configuration = fingerprint_server_sdk.Configuration(
 # create an instance
 api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 event_id = os.environ.get("EVENT_ID", None)
+# RULESET_ID is optional. When provided, the response will include rule_action data.
 ruleset_id = os.environ.get("RULESET_ID", None)
 
 if not event_id:
