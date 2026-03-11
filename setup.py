@@ -18,15 +18,15 @@ import re
 
 from setuptools import setup, find_packages  # noqa: H301
 
+NAME = "fingerprint-server-sdk"
+VERSION = "8.11.0"
+PYTHON_REQUIRES = ">= 3.9"
 # To install the library, run the following
 #
 # python setup.py install
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "fingerprint-server-sdk"
-VERSION = "8.11.0"
-PYTHON_REQUIRES = ">= 3.9"
 REQUIRES = [
     "urllib3 >= 2.1.0, < 3.0.0",
     "python-dateutil >= 2.8.2",
@@ -44,9 +44,17 @@ setup(
     name=NAME,
     version=VERSION,
     description="Fingerprint (https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy. Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it&#39;s not intended to be used from the client side, whether it&#39;s a browser or a mobile device.",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    license="MIT",
+    license_files=["LICENSE"],
     author="Fingerprint Support",
     author_email="support@fingerprint.com",
-    url="https://github.com/fingerprintjs/python-sdk",
+    project_urls={
+        "Changelog": "https://github.com/fingerprintjs/python-sdk/blob/main/CHANGELOG.md",
+        "Code": "https://github.com/fingerprintjs/python-sdk",
+        "Issue Tracker": "https://github.com/fingerprintjs/python-sdk/issues",
+    },
     keywords=["Fingerprint Server API", "browser", "detection", "fingerprint", "identification",
               "fingerprinting", "browser-fingerprinting", "browser-fingerprint", "fraud-detection", "fraud",
               "audio-fingerprinting", "fingerprintjs", "fingerprintjs-pro", "visitor-identifier"],
@@ -66,13 +74,5 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Security',
     ],
-    license="MIT",
-    project_urls={
-        "Changelog": "https://github.com/fingerprintjs/python-sdk/blob/main/CHANGELOG.md",
-        "Code": "https://github.com/fingerprintjs/python-sdk",
-        "Issue Tracker": "https://github.com/fingerprintjs/python-sdk/issues",
-    },
-    long_description_content_type='text/markdown',
-    long_description=long_description,
     package_data={"fingerprint_server_sdk": ["py.typed"]},
 )
