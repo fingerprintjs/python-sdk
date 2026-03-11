@@ -1,0 +1,8 @@
+{
+  "mode": "pre",
+  "tag": "rc",
+  "initialVersions": {
+    "@fingerprint/python-sdk": "8.11.0"
+  },
+  "changesets": []
+}
