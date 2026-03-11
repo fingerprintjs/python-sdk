@@ -19,7 +19,7 @@ jobs:
           pip install -r test-requirements.txt
       - name: "Generate coverage"
         run: |
-          coverage run --source=fingerprint_pro_server_api_sdk -m pytest
+          coverage run --source=fingerprint_server_sdk -m pytest
           coverage xml
       - name: Get Cover
         uses: orgoro/coverage@3f13a558c5af7376496aa4848bf0224aead366ac

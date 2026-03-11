@@ -16,11 +16,11 @@ import unittest
 
 import urllib3
 
-from fingerprint_pro_server_api_sdk import (Configuration, ErrorResponse, ErrorPlainResponse, ErrorCode,
+from fingerprint_server_sdk import (Configuration, ErrorResponse, ErrorPlainResponse, ErrorCode,
                                             RawDeviceAttributes, EventsUpdateRequest, RelatedVisitorsResponse,
                                             SearchEventsResponse, SearchEventsResponseEvents, Products)
-from fingerprint_pro_server_api_sdk.api.fingerprint_api import FingerprintApi  # noqa: E501
-from fingerprint_pro_server_api_sdk.rest import KnownApiException, ApiException
+from fingerprint_server_sdk.api.fingerprint_api import FingerprintApi  # noqa: E501
+from fingerprint_server_sdk.rest import KnownApiException, ApiException
 from urllib.parse import urlencode
 from collections import Counter
 

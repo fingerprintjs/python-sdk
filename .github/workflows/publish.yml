@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://pypi.org/p/fingerprint-pro-server-api-sdk
+      url: https://pypi.org/p/fingerprint-server-sdk
     permissions:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:

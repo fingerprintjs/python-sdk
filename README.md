@@ -8,7 +8,7 @@
   </a>
 </p>
 <p align="center">
-  <a href="https://pypi.org/project/fingerprint-pro-server-api-sdk/"><img alt="PyPI" src="https://img.shields.io/pypi/v/fingerprint-pro-server-api-sdk"></a>
+  <a href="https://pypi.org/project/fingerprint-server-sdk/"><img alt="PyPI" src="https://img.shields.io/pypi/v/fingerprint-server-sdk"></a>
   <a href="https://fingerprintjs.github.io/fingerprint-pro-server-api-python-sdk/"><img src="https://fingerprintjs.github.io/fingerprint-pro-server-api-python-sdk/badges.svg" alt="coverage"></a>
   <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/release.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/release.yml/badge.svg" alt="CI badge" /></a>
   <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/test.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/test.yml/badge.svg" alt="CI badge" /></a>
@@ -47,12 +47,12 @@ pip install git+https://github.com/fingerprintjs/fingerprint-pro-server-api-pyth
 Or from the PyPI
 
 ```sh
-pip install fingerprint_pro_server_api_sdk
+pip install fingerprint_server_sdk
 ```
 
 Then import the package:
 ```python
-import fingerprint_pro_server_api_sdk
+import fingerprint_server_sdk
 ```
 
 ### Setuptools
@@ -66,7 +66,7 @@ python setup.py install --user
 
 Then import the package:
 ```python
-import fingerprint_pro_server_api_sdk
+import fingerprint_server_sdk
 ```
 
 ## Getting Started
@@ -74,25 +74,25 @@ import fingerprint_pro_server_api_sdk
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-import fingerprint_pro_server_api_sdk
+import fingerprint_server_sdk
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 ```
 
 ## Examples
 
 Fetching visits using visitorId:
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException, KnownApiException
 
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 visitor_id = 'visitor_id_example'  # str | Unique [visitor identifier](https://dev.fingerprint.com/docs/js-agent#visitorid) issued by Fingerprint Pro.
 #request_id = 'request_id_example'  # str | The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
@@ -112,11 +112,11 @@ except ApiException as e:
 
 Delete visits using visitorId:
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException, KnownApiException
 
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 visitor_id = 'visitor_id_example'  # str | Unique [visitor identifier](https://dev.fingerprint.com/docs/js-agent#visitorid) issued by Fingerprint Pro.
 
@@ -131,11 +131,11 @@ except ApiException as e:
 
 Fetching events for requestId:
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException, KnownApiException
 
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 request_id = 'request_id_example'  # str | The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
 
@@ -151,11 +151,11 @@ except ApiException as e:
 
 Search events with custom filters:
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException, KnownApiException
 
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 limit = 20                      # int | Limit the number of events returned.
 pagination_key = 'key_example'  # str | Use `pagination_key` to get the next page of results.   When more results are available (e.g., you requested up to 200 results for your search using `limit`, but there are more than 200 events total matching your request), the `paginationKey` top-level attribute is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events/search?limit=200` 2. Use `response.paginationKey` to get the next page of results: `GET api-base-url/events/search?limit=200&pagination_key=1740815825085`  (optional)
@@ -182,12 +182,12 @@ except ApiException as e:
 
 Update event for requestId:
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk import EventsUpdateRequest
-from fingerprint_pro_server_api_sdk.rest import ApiException, KnownApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk import EventsUpdateRequest
+from fingerprint_server_sdk.rest import ApiException, KnownApiException
 
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 request_id = 'request_id_example'  # str | The unique event [identifier](https://dev.fingerprint.com/docs/js-agent#requestid).
 body = EventsUpdateRequest(linked_id='foo')  # EventsUpdateRequest |
@@ -213,7 +213,7 @@ import os
 
 from dotenv import load_dotenv
 
-from fingerprint_pro_server_api_sdk import unseal_event_response, DecryptionKey, DecryptionAlgorithm
+from fingerprint_server_sdk import unseal_event_response, DecryptionKey, DecryptionAlgorithm
 
 load_dotenv()
 
@@ -239,7 +239,7 @@ This SDK provides utility method for verifying the HMAC signature of the incomin
 ```python
 import os
 from flask import Flask, request, jsonify
-from fingerprint_pro_server_api_sdk import WebhookValidation
+from fingerprint_server_sdk import WebhookValidation
 
 app = Flask(__name__)
 

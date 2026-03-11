@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from fingerprint_pro_server_api_sdk.sealed import unseal_event_response, DecryptionKey, DecryptionAlgorithm
+from fingerprint_server_sdk.sealed import unseal_event_response, DecryptionKey, DecryptionAlgorithm
 
 load_dotenv()
 

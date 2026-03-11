@@ -4,7 +4,7 @@ import json
 import unittest
 from unittest import expectedFailure
 
-from fingerprint_pro_server_api_sdk import ApiClientDeserializer, DecryptionAlgorithm, DecryptionKey, \
+from fingerprint_server_sdk import ApiClientDeserializer, DecryptionAlgorithm, DecryptionKey, \
     unseal_event_response, UnsealError, UnsealAggregateError, EventsGetResponse, Products, \
     ProductIdentification, BrowserDetails
 

@@ -22,7 +22,7 @@ jobs:
           pip install -r test-requirements.txt
       - name: "Generate coverage"
         run: |
-          coverage run --source=fingerprint_pro_server_api_sdk -m pytest
+          coverage run --source=fingerprint_server_sdk -m pytest
           coverage html
           coverage json
           python ./generate_coverage_summary.py

@@ -1,4 +1,4 @@
-from fingerprint_pro_server_api_sdk import WebhookValidation
+from fingerprint_server_sdk import WebhookValidation
 
 header = "v1=1b2c16b75bd2a870c114153ccda5bcfca63314bc722fa160d690de133ccbb9db"
 secret = "secret"

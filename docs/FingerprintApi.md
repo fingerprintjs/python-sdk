@@ -1,4 +1,4 @@
-# fingerprint_pro_server_api_sdk.FingerprintApi
+# fingerprint_server_sdk.FingerprintApi
 
 All URIs are relative to *https://api.fpjs.io*
 
@@ -20,15 +20,15 @@ Request deleting all data associated with the specified visitor ID. This API is 
 
 ### Example
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 visitor_id = 'visitor_id_example' # str | The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete.
 
@@ -69,15 +69,15 @@ Get a detailed analysis of an individual identification event, including Smart S
 
 ### Example
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 request_id = 'request_id_example' # str | The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request.
 
@@ -119,15 +119,15 @@ Related visitors API lets you link web visits and in-app browser visits that ori
 
 ### Example
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 visitor_id = 'visitor_id_example' # str | The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) for which you want to find the other visitor IDs that originated from the same mobile device.
 
@@ -169,15 +169,15 @@ Get a history of visits (identification events) for a specific `visitorId`. Use 
 
 ### Example
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 visitor_id = 'visitor_id_example' # str | Unique [visitor identifier](https://dev.fingerprint.com/reference/get-function#visitorid) issued by Fingerprint Pro.
 request_id = 'request_id_example' # str | Filter visits by `requestId`.   Every identification request has a unique identifier associated with it called `requestId`. This identifier is returned to the client in the identification [result](https://dev.fingerprint.com/reference/get-function#requestid). When you filter visits by `requestId`, only one visit will be returned.  (optional)
@@ -229,15 +229,15 @@ Search for identification events, including Smart Signals, using multiple filter
 
 ### Example
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 limit = 56 # int | Limit the number of events returned. 
 pagination_key = 'pagination_key_example' # str | Use `pagination_key` to get the next page of results.   When more results are available (e.g., you requested up to 200 results for your search using `limit`, but there are more than 200 events total matching your request), the `paginationKey` top-level attribute is added to the response. The key corresponds to the `timestamp` of the last returned event. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events/search?limit=200` 2. Use `response.paginationKey` to get the next page of results: `GET api-base-url/events/search?limit=200&pagination_key=1740815825085`  (optional)
@@ -347,17 +347,17 @@ Change information in existing events specified by `requestId` or *flag suspicio
 
 ### Example
 ```python
-import fingerprint_pro_server_api_sdk
-from fingerprint_pro_server_api_sdk.rest import ApiException
+import fingerprint_server_sdk
+from fingerprint_server_sdk.rest import ApiException
 
 # Configure API key authorization and region
-configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY")
-# configuration = fingerprint_pro_server_api_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
+configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY")
+# configuration = fingerprint_server_sdk.Configuration(api_key="SECRET_API_KEY", region="eu")
 
 # create an instance of the API class
-api_instance = fingerprint_pro_server_api_sdk.FingerprintApi(configuration)
+api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
-body = fingerprint_pro_server_api_sdk.EventsUpdateRequest() # EventsUpdateRequest | 
+body = fingerprint_server_sdk.EventsUpdateRequest() # EventsUpdateRequest | 
 request_id = 'request_id_example' # str | The unique event [identifier](https://dev.fingerprint.com/reference/get-function#requestid).
 
 try:

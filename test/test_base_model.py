@@ -2,7 +2,7 @@ import pprint
 import unittest
 from typing import Dict
 
-from fingerprint_pro_server_api_sdk import BaseModel
+from fingerprint_server_sdk import BaseModel
 
 
 class ExampleModel(BaseModel):
