@@ -4,7 +4,7 @@
 import pathlib
 import re
 
-from setuptools import setup, find_packages  # noqa: H301
+from setuptools import setup, find_packages
 
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
@@ -50,7 +50,7 @@ long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\
 setup(
     name=NAME,
     version=VERSION,
-    description="{{packageDescription}}",
+    description="{{{packageDescription}}}", # noqa: E501
     long_description=long_description,
     long_description_content_type='text/markdown',
     {{#licenseInfo}}license="{{.}}",
