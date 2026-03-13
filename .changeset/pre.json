@@ -4,5 +4,7 @@
   "initialVersions": {
     "fingerprint-pro-server-api-python-sdk": "8.11.0"
   },
-  "changesets": []
+  "changesets": [
+    "four-numbers-explode"
+  ]
 }

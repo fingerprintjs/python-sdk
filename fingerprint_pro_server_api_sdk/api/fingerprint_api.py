@@ -104,7 +104,7 @@ class FingerprintApi:
         if 'visitor_id' in params:
             path_params['visitor_id'] = params['visitor_id']  # noqa: E501
 
-        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.11.0')]
+        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.12.0-rc.0')]
 
         header_params = {}
 
@@ -214,7 +214,7 @@ class FingerprintApi:
         if 'request_id' in params:
             path_params['request_id'] = params['request_id']  # noqa: E501
 
-        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.11.0')]
+        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.12.0-rc.0')]
 
         header_params = {}
 
@@ -316,7 +316,7 @@ class FingerprintApi:
 
         path_params = {}
 
-        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.11.0')]
+        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.12.0-rc.0')]
         if 'visitor_id' in params:
             query_params.append(('visitor_id', params['visitor_id']))  # noqa: E501
 
@@ -443,7 +443,7 @@ class FingerprintApi:
         if 'visitor_id' in params:
             path_params['visitor_id'] = params['visitor_id']  # noqa: E501
 
-        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.11.0')]
+        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.12.0-rc.0')]
         if 'request_id' in params:
             query_params.append(('request_id', params['request_id']))  # noqa: E501
         if 'linked_id' in params:
@@ -660,7 +660,7 @@ class FingerprintApi:
 
         path_params = {}
 
-        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.11.0')]
+        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.12.0-rc.0')]
         if 'limit' in params:
             query_params.append(('limit', params['limit']))  # noqa: E501
         if 'pagination_key' in params:
@@ -841,7 +841,7 @@ class FingerprintApi:
         if 'request_id' in params:
             path_params['request_id'] = params['request_id']  # noqa: E501
 
-        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.11.0')]
+        query_params = [('ii', 'fingerprint-pro-server-python-sdk/8.12.0-rc.0')]
 
         header_params = {}
 
