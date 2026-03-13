@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 
 import fingerprint_server_sdk
+from fingerprint_server_sdk import ApiException, EventRuleActionAllow, EventRuleActionBlock
 from fingerprint_server_sdk.configuration import Region
-from fingerprint_server_sdk.rest import ApiException
 
 load_dotenv()
 
@@ -35,17 +35,20 @@ try:
     print(f'Timestamp: {event.timestamp}')
     if event.identification:
         print(f'Visitor ID: {event.identification.visitor_id}')
-        print(f'Confidence: {event.identification.confidence.score}')
+        if event.identification.confidence is not None:
+            print(f'Confidence: {event.identification.confidence.score}')
     if event.bot:
         print(f'Bot detection result: {event.bot}')
-    if ruleset_id and event.rule_action:
+    if ruleset_id and event.rule_action and event.rule_action.actual_instance:
         rule_action = event.rule_action.actual_instance
         print(f'Rule action: {rule_action.type}')
         if rule_action.type == 'block':
+            assert isinstance(rule_action, EventRuleActionBlock)
             print(f'Block with HTTP status code: `{rule_action.status_code}`')
             print(f'Block with response body: `{rule_action.body}`')
             print(f'Block with response headers: `{rule_action.headers}`')
         elif rule_action.type == 'allow':
+            assert isinstance(rule_action, EventRuleActionAllow)
             print(f'Allow with header modifications: `{rule_action.request_header_modifications}`')
 except ApiException as e:
     print(f'Exception when calling get_event: {e}\n')
