@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    Fingerprint Server API
+    Server API v3 (deprecated)
 
-    Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
+    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
 
     OpenAPI spec version: 3
     Contact: support@fingerprint.com
@@ -78,7 +78,7 @@ class FactoryReset(BaseModel):
     def timestamp(self) -> int:
         """Gets the timestamp of this FactoryReset.  # noqa: E501
 
-        This field is just another representation of the value in the `time` field. The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time.          # noqa: E501
+        This field is just another representation of the value in the `time` field. The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time.   # noqa: E501
 
         :return: The timestamp of this FactoryReset.  # noqa: E501
         """
@@ -88,7 +88,7 @@ class FactoryReset(BaseModel):
     def timestamp(self, timestamp: int):
         """Sets the timestamp of this FactoryReset.
 
-        This field is just another representation of the value in the `time` field. The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time.          # noqa: E501
+        This field is just another representation of the value in the `time` field. The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time.   # noqa: E501
 
         :param timestamp: The timestamp of this FactoryReset.  # noqa: E501
         """

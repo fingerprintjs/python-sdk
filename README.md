@@ -1,3 +1,6 @@
+> [!WARNING]
+> This version is deprecated. Please upgrade to the [latest Python SDK version](https://github.com/fingerprintjs/python-sdk).
+
 <p align="center">
   <a href="https://fingerprint.com">
     <picture>
@@ -9,15 +12,20 @@
 </p>
 <p align="center">
   <a href="https://pypi.org/project/fingerprint-pro-server-api-sdk/"><img alt="PyPI" src="https://img.shields.io/pypi/v/fingerprint-pro-server-api-sdk"></a>
-  <a href="https://fingerprintjs.github.io/fingerprint-pro-server-api-python-sdk/"><img src="https://fingerprintjs.github.io/fingerprint-pro-server-api-python-sdk/badges.svg" alt="coverage"></a>
-  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/release.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/release.yml/badge.svg" alt="CI badge" /></a>
-  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/test.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/test.yml/badge.svg" alt="CI badge" /></a>
-  <a href="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/functional_tests.yml"><img src="https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/actions/workflows/functional_tests.yml/badge.svg" alt="CI badge" /></a>
+  <a href="https://fingerprintjs.github.io/python-sdk/"><img src="https://fingerprintjs.github.io/python-sdk/badges.svg" alt="coverage"></a>
+  <a href="https://github.com/fingerprintjs/python-sdk/actions/workflows/release.yml"><img src="https://github.com/fingerprintjs/python-sdk/actions/workflows/release.yml/badge.svg" alt="CI badge" /></a>
+  <a href="https://github.com/fingerprintjs/python-sdk/actions/workflows/test.yml"><img src="https://github.com/fingerprintjs/python-sdk/actions/workflows/test.yml/badge.svg" alt="CI badge" /></a>
+  <a href="https://github.com/fingerprintjs/python-sdk/actions/workflows/functional_tests.yml"><img src="https://github.com/fingerprintjs/python-sdk/actions/workflows/functional_tests.yml/badge.svg" alt="CI badge" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/:license-mit-blue.svg?style=flat"/></a>
   <a href="https://discord.gg/39EpE2neBg"><img src="https://img.shields.io/discord/852099967190433792?style=logo&label=Discord&logo=Discord&logoColor=white" alt="Discord server"></a>
 </p>
 
 # Fingerprint Server Python SDK
+
+> [!IMPORTANT]
+> **This SDK package is deprecated.** This package (`fingerprint_pro_server_api_sdk`) uses Server API v3.
+>
+> Please migrate to the new [`fingerprint_server_sdk`](https://github.com/fingerprintjs/python-sdk) package, which uses Server API v4. Follow the [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) for details.
 
 [Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy.
 The Fingerprint Server Python SDK is an easy way to interact with the Fingerprint [Server API](https://dev.fingerprint.com/reference/pro-server-api) from your Python application. You can retrieve visitor history or individual identification events.
@@ -41,7 +49,7 @@ The following Python versions are supported:
 You can install the package directly from the Github
 
 ```sh
-pip install git+https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk.git
+pip install git+https://github.com/fingerprintjs/python-sdk.git
 ```
 
 Or from the PyPI
@@ -326,6 +334,8 @@ Class | Method | HTTP request | Description
  - [IdentificationConfidence](docs/IdentificationConfidence.md)
  - [IdentificationSeenAt](docs/IdentificationSeenAt.md)
  - [Incognito](docs/Incognito.md)
+ - [Integration](docs/Integration.md)
+ - [IntegrationSubintegration](docs/IntegrationSubintegration.md)
  - [Jailbroken](docs/Jailbroken.md)
  - [LocationSpoofing](docs/LocationSpoofing.md)
  - [MitMAttack](docs/MitMAttack.md)
@@ -434,9 +444,9 @@ Class | Method | HTTP request | Description
 
 ## Support
 
-To report problems, ask questions or provide feedback, please use [Issues](https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/issues).
+To report problems, ask questions or provide feedback, please use [Issues](https://github.com/fingerprintjs/python-sdk/issues).
 If you need private support, you can email us at [oss-support@fingerprint.com](mailto:oss-support@fingerprint.com).
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/blob/main/LICENSE).
+This project is licensed under the [MIT License](https://github.com/fingerprintjs/python-sdk/blob/main/LICENSE).

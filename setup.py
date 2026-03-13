@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    Fingerprint Server API
+    Server API v3 (deprecated)
 
-    Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
+    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
 
     OpenAPI spec version: 3
     Contact: support@fingerprint.com
@@ -35,11 +35,11 @@ REQUIRES = [
 here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / 'README.md').read_text(encoding='utf-8')
 long_description = re.sub("<source[^>]*>\n", '', long_description.replace("<picture>\n", "").replace("</picture>\n", ""))
-long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/blob/main/\g<postfix>', long_description)
+long_description = re.sub(r"(?P<prefix>\[[^]]*]\()(?P<postfix>docs/[^)]*\))", '\g<prefix>https://github.com/fingerprintjs/python-sdk/blob/main/\g<postfix>', long_description)
 
 setup(
     name=NAME,
-    description="Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device. ",
+    description="> 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device. ",
     long_description=long_description,
     long_description_content_type='text/markdown',
     license="MIT",
@@ -47,18 +47,18 @@ setup(
     author="Fingerprint",
     author_email="support@fingerprint.com",
     project_urls={
-        "Changelog": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/blob/main/CHANGELOG.md",
-        "Code": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk",
-        "Issue Tracker": "https://github.com/fingerprintjs/fingerprint-pro-server-api-python-sdk/issues",
+        "Changelog": "https://github.com/fingerprintjs/python-sdk/blob/main/CHANGELOG.md",
+        "Code": "https://github.com/fingerprintjs/python-sdk",
+        "Issue Tracker": "https://github.com/fingerprintjs/python-sdk/issues",
     },
-    keywords=["Swagger", "Fingerprint Server API", "browser", "detection", "fingerprint", "identification",
+    keywords=["Swagger", "Server API v3 (deprecated)", "browser", "detection", "fingerprint", "identification",
               "fingerprinting", "browser-fingerprinting", "browser-fingerprint", "fraud-detection", "fraud",
               "audio-fingerprinting", "fingerprintjs", "fingerprintjs-pro", "visitor-identifier"],
     install_requires=REQUIRES,
     packages=find_packages(),
     include_package_data=True,
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 7 - Inactive',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
