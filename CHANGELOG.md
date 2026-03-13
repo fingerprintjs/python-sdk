@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 8.12.0-rc.0
+
+### Minor Changes
+
+- **Deprecated:** `fingerprint_pro_server_api_sdk` uses Server API v3, which is deprecated. Please migrate to the new [`fingerprint_server_sdk`](https://github.com/fingerprintjs/python-sdk) package which uses Server API v4. ([8b3971e](https://github.com/fingerprintjs/python-sdk/commit/8b3971eb8a30c2d5bd52f9b188b0c2731a096d43))
+
 ## 8.11.0
 
 ### Minor Changes
