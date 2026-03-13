@@ -1,6 +1,6 @@
 {
   "name": "fingerprint-pro-server-api-python-sdk",
-  "version": "8.12.0-rc.0",
+  "version": "8.12.0-rc.1",
   "private": true,
   "devDependencies": {
     "@changesets/cli": "^2.27.8",

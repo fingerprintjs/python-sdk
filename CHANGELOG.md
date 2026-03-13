@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 8.12.0-rc.1
+
+### Patch Changes
+
+- update package summary ([dca5a5f](https://github.com/fingerprintjs/python-sdk/commit/dca5a5f5b429fefb6a899055a7a3435b60d61a8f))
+
 ## 8.12.0-rc.0
 
 ### Minor Changes
