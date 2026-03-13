@@ -3,7 +3,7 @@
   "changelog": [
     "@fingerprintjs/changesets-changelog-format",
     {
-      "repo": "fingerprintjs/fingerprint-pro-server-api-python-sdk"
+      "repo": "fingerprintjs/python-sdk"
     }
   ],
   "commit": false,
