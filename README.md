@@ -1,3 +1,6 @@
+> [!WARNING]
+> This version is deprecated. Please upgrade to the [latest Python SDK version](https://github.com/fingerprintjs/python-sdk).
+
 <p align="center">
   <a href="https://fingerprint.com">
     <picture>
@@ -18,6 +21,11 @@
 </p>
 
 # Fingerprint Server Python SDK
+
+> [!IMPORTANT]
+> **This SDK package is deprecated.** This package (`fingerprint_pro_server_api_sdk`) uses Server API v3.
+>
+> Please migrate to the new [`fingerprint_server_sdk`](https://github.com/fingerprintjs/python-sdk) package, which uses Server API v4. Follow the [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) for details.
 
 [Fingerprint](https://fingerprint.com) is a device intelligence platform offering industry-leading accuracy.
 The Fingerprint Server Python SDK is an easy way to interact with the Fingerprint [Server API](https://dev.fingerprint.com/reference/pro-server-api) from your Python application. You can retrieve visitor history or individual identification events.
@@ -326,6 +334,8 @@ Class | Method | HTTP request | Description
  - [IdentificationConfidence](docs/IdentificationConfidence.md)
  - [IdentificationSeenAt](docs/IdentificationSeenAt.md)
  - [Incognito](docs/Incognito.md)
+ - [Integration](docs/Integration.md)
+ - [IntegrationSubintegration](docs/IntegrationSubintegration.md)
  - [Jailbroken](docs/Jailbroken.md)
  - [LocationSpoofing](docs/LocationSpoofing.md)
  - [MitMAttack](docs/MitMAttack.md)

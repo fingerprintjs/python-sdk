@@ -4,6 +4,15 @@
 
 {{>partial_header}}
 
+import warnings
+warnings.warn(
+    "fingerprint_pro_server_api_sdk is deprecated. "
+    "Please migrate to fingerprint_server_sdk (Server API v4). "
+    "See https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
 # import apis into sdk package
 {{#apiInfo}}{{#apis}}from {{packageName}}.{{apiPackage}}.{{classVarName}} import {{classname}}
 {{/apis}}{{/apiInfo}}

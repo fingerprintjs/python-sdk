@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    Fingerprint Server API
+    Server API v3 (deprecated)
 
-    Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
+    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
 
     OpenAPI spec version: 3
     Contact: support@fingerprint.com
@@ -13,6 +13,7 @@
 import re  # noqa: F401
 from typing import Dict, List, Optional  # noqa: F401
 from fingerprint_pro_server_api_sdk.base_model import BaseModel
+from fingerprint_pro_server_api_sdk.models.integration import Integration
 
 
 class SDK(BaseModel):
@@ -32,26 +33,32 @@ class SDK(BaseModel):
     """
     swagger_types = {
         'platform': 'str',
-        'version': 'str'
+        'version': 'str',
+        'integrations': 'list[Integration]'
     }
 
     nullable_map = {
         'platform': False,
-        'version': False
+        'version': False,
+        'integrations': False
     }
 
     attribute_map = {
         'platform': 'platform',
-        'version': 'version'
+        'version': 'version',
+        'integrations': 'integrations'
     }
 
-    def __init__(self, platform=None, version=None):  # noqa: E501
+    def __init__(self, platform=None, version=None, integrations=None):  # noqa: E501
         """SDK - a model defined in Swagger"""  # noqa: E501
         self._platform = None
         self._version = None
+        self._integrations = None
         self.discriminator = None
         self.platform = platform
         self.version = version
+        if integrations is not None:
+            self.integrations = integrations
 
     @property
     def platform(self) -> str:
@@ -98,4 +105,23 @@ class SDK(BaseModel):
             raise ValueError("Invalid value for `version`, must not be `None`")  # noqa: E501
 
         self._version = version
+
+    @property
+    def integrations(self) -> Optional[List[Integration]]:
+        """Gets the integrations of this SDK.  # noqa: E501
+
+
+        :return: The integrations of this SDK.  # noqa: E501
+        """
+        return self._integrations
+
+    @integrations.setter
+    def integrations(self, integrations: Optional[List[Integration]]):
+        """Sets the integrations of this SDK.
+
+
+        :param integrations: The integrations of this SDK.  # noqa: E501
+        """
+
+        self._integrations = integrations
 

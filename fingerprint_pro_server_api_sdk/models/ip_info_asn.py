@@ -1,9 +1,9 @@
 # coding: utf-8
 
 """
-    Fingerprint Server API
+    Server API v3 (deprecated)
 
-    Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
+    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
 
     OpenAPI spec version: 3
     Contact: support@fingerprint.com
@@ -30,30 +30,36 @@ class IPInfoASN(BaseModel):
     swagger_types = {
         'asn': 'str',
         'name': 'str',
-        'network': 'str'
+        'network': 'str',
+        'type': 'str'
     }
 
     nullable_map = {
         'asn': False,
         'name': False,
-        'network': False
+        'network': False,
+        'type': False
     }
 
     attribute_map = {
         'asn': 'asn',
         'name': 'name',
-        'network': 'network'
+        'network': 'network',
+        'type': 'type'
     }
 
-    def __init__(self, asn=None, name=None, network=None):  # noqa: E501
+    def __init__(self, asn=None, name=None, network=None, type=None):  # noqa: E501
         """IPInfoASN - a model defined in Swagger"""  # noqa: E501
         self._asn = None
         self._name = None
         self._network = None
+        self._type = None
         self.discriminator = None
         self.asn = asn
         self.name = name
         self.network = network
+        if type is not None:
+            self.type = type
 
     @property
     def asn(self) -> str:
@@ -117,4 +123,23 @@ class IPInfoASN(BaseModel):
             raise ValueError("Invalid value for `network`, must not be `None`")  # noqa: E501
 
         self._network = network
+
+    @property
+    def type(self) -> Optional[str]:
+        """Gets the type of this IPInfoASN.  # noqa: E501
+
+
+        :return: The type of this IPInfoASN.  # noqa: E501
+        """
+        return self._type
+
+    @type.setter
+    def type(self, type: Optional[str]):
+        """Sets the type of this IPInfoASN.
+
+
+        :param type: The type of this IPInfoASN.  # noqa: E501
+        """
+
+        self._type = type
 
