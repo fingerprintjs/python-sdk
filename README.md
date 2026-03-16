@@ -96,7 +96,7 @@ Delete visitor data using `visitorId`:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -111,7 +111,7 @@ visitor_id = 'visitor_id_example'
 try:
     api_instance.delete_visitor_data(visitor_id)
 except ApiException as e:
-    print("Exception when calling FingerprintApi->delete_visitor_data: %s\n" % e)
+    print(f'Exception when calling FingerprintApi->delete_visitor_data: {e}\n')
 ```
 
 To learn more, refer to example located in [examples/delete_visitor_example.py](examples/delete_visitor_example.py).
@@ -121,7 +121,7 @@ Fetching event details for `eventId`:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -136,7 +136,7 @@ event_id = 'event_id_example'
 try:
     events_response = api_instance.get_event(event_id)
 except ApiException as e:
-    print("Exception when calling FingerprintApi->get_event: %s\n" % e)
+    print(f'Exception when calling FingerprintApi->get_event: {e}\n')
 ```
 
 To learn more, refer to example located in [examples/get_event_example.py](examples/get_event_example.py).
@@ -146,7 +146,7 @@ Search events with custom filters:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException, SearchEventsBot
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -159,7 +159,7 @@ api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 limit = 20
 pagination_key = 'key_example'
 visitor_id = 'VISITOR_ID'
-bot = 'good'
+bot = SearchEventsBot.GOOD
 ip_address = '192.168.0.1/32'
 linked_id = 'linked_id_example'
 start = 1738687200000
@@ -172,7 +172,7 @@ try:
     api_response = api_instance.search_events(limit, pagination_key=pagination_key, visitor_id=visitor_id, bot=bot, ip_address=ip_address, linked_id=linked_id, start=start, end=end, reverse=reverse, suspect=suspect)
     print(api_response)
 except ApiException as e:
-    print("Exception when calling FingerprintApi->get_event: %s\n" % e)
+    print(f'Exception when calling FingerprintApi->get_event: {e}\n')
 ```
 
 To learn more, refer to example located in [examples/search_events_example.py](examples/search_events_example.py).
@@ -182,8 +182,7 @@ Update event for `eventId`:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk import EventUpdate
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException, EventUpdate
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -202,7 +201,7 @@ body = EventUpdate(linked_id='foo')
 try:
     api_instance.update_event(event_id, body)
 except ApiException as e:
-    print("Exception when calling FingerprintApi->update_event: %s\n" % e)
+    print(f'Exception when calling FingerprintApi->update_event: {e}\n')
 ```
 
 To learn more, refer to example located in [examples/update_event_example.py](examples/update_event_example.py).
@@ -225,9 +224,9 @@ key = base64.b64decode(os.environ["BASE64_KEY"])
 
 try:
     event_response = unseal_event_response(sealed_result, [DecryptionKey(key, DecryptionAlgorithm['Aes256Gcm'])])
-    print("\n\n\nEvent response: \n", event_response.products)
+    print("\n\n\nEvent response: \n", event_response)
 except Exception as e:
-    print("Exception when calling unsealing events response: %s\n" % e)
+    print(f'Exception when calling unsealing events response: {e}\n')
     exit(1)
 
 print("Unseal successful!")

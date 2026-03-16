@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 
 import fingerprint_server_sdk
+from fingerprint_server_sdk import ApiException
 from fingerprint_server_sdk.configuration import Region
-from fingerprint_server_sdk.rest import ApiException
 
 load_dotenv()
 
