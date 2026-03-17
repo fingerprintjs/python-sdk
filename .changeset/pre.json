@@ -1,11 +1,10 @@
 {
-  "mode": "pre",
+  "mode": "exit",
   "tag": "rc",
   "initialVersions": {
     "@fingerprint/python-sdk": "8.11.0"
   },
   "changesets": [
-    "funny-shirts-brush",
     "late-peas-drop",
     "plenty-clouds-tie"
   ]
