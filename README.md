@@ -96,7 +96,7 @@ Delete visitor data using `visitorId`:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk import ApiException
+from fingerprint_server_sdk import ApiException, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -111,7 +111,15 @@ visitor_id = 'visitor_id_example'
 try:
     api_instance.delete_visitor_data(visitor_id)
 except ApiException as e:
-    print(f'Exception when calling FingerprintApi->delete_visitor_data: {e}\n')
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->delete_visitor_data: {e}'
+    print(message)
 ```
 
 To learn more, refer to example located in [examples/delete_visitor_example.py](examples/delete_visitor_example.py).
@@ -121,7 +129,7 @@ Fetching event details for `eventId`:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk import ApiException
+from fingerprint_server_sdk import ApiException, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -136,7 +144,15 @@ event_id = 'event_id_example'
 try:
     events_response = api_instance.get_event(event_id)
 except ApiException as e:
-    print(f'Exception when calling FingerprintApi->get_event: {e}\n')
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->get_event: {e}'
+    print(message)
 ```
 
 To learn more, refer to example located in [examples/get_event_example.py](examples/get_event_example.py).
@@ -146,7 +162,7 @@ Search events with custom filters:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk import ApiException, SearchEventsBot
+from fingerprint_server_sdk import ApiException, SearchEventsBot, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -172,7 +188,15 @@ try:
     api_response = api_instance.search_events(limit, pagination_key=pagination_key, visitor_id=visitor_id, bot=bot, ip_address=ip_address, linked_id=linked_id, start=start, end=end, reverse=reverse, suspect=suspect)
     print(api_response)
 except ApiException as e:
-    print(f'Exception when calling FingerprintApi->get_event: {e}\n')
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->get_event: {e}'
+    print(message)
 ```
 
 To learn more, refer to example located in [examples/search_events_example.py](examples/search_events_example.py).
@@ -182,7 +206,7 @@ Update event for `eventId`:
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk import ApiException, EventUpdate
+from fingerprint_server_sdk import ApiException, EventUpdate, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 
 # Configure API key authorization and region
@@ -201,7 +225,15 @@ body = EventUpdate(linked_id='foo')
 try:
     api_instance.update_event(event_id, body)
 except ApiException as e:
-    print(f'Exception when calling FingerprintApi->update_event: {e}\n')
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->update_event: {e}'
+    print(message)
 ```
 
 To learn more, refer to example located in [examples/update_event_example.py](examples/update_event_example.py).

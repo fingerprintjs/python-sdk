@@ -6,7 +6,7 @@ import {{{packageName}}}
 {{#vendorExtensions.x-py-example-import}}
 {{{.}}}
 {{/vendorExtensions.x-py-example-import}}
-from {{{packageName}}}.rest import ApiException
+from {{{packageName}}} import ApiException, ErrorResponse
 from {{packageName}}.configuration import Region
 from pprint import pprint
 
@@ -29,6 +29,14 @@ try:
     print("The response of {{classname}}->{{operationId}}:\n")
     pprint(api_response)
     {{/returnType}}
-except Exception as e:
-    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+except ApiException as e:
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling {{classname}}->{{operationId}}: {e}'
+    print(message)
 ```
