@@ -1,6 +1,6 @@
 {
   "name": "@fingerprint/python-sdk",
-  "version": "9.0.0-rc.1",
+  "version": "9.0.0",
   "private": true,
   "devDependencies": {
     "@changesets/cli": "^2.27.8",
