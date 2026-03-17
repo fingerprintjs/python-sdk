@@ -46,7 +46,7 @@ Please [contact our support team](https://fingerprint.com/support/) to enable it
 import os
 
 import fingerprint_server_sdk
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 from pprint import pprint
 
@@ -64,8 +64,16 @@ visitor_id: str = 'visitor_id_example' # The [visitor ID](https://docs.fingerpri
 try:
     # Delete data by visitor ID
     api_instance.delete_visitor_data(visitor_id)
-except Exception as e:
-    print("Exception when calling FingerprintApi->delete_visitor_data: %s\n" % e)
+except ApiException as e:
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->delete_visitor_data: {e}'
+    print(message)
 ```
 
 ### Parameters
@@ -112,7 +120,7 @@ import os
 
 import fingerprint_server_sdk
 from fingerprint_server_sdk.models.event import Event
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 from pprint import pprint
 
@@ -133,8 +141,16 @@ try:
     api_response = api_instance.get_event(event_id, ruleset_id=ruleset_id)
     print("The response of FingerprintApi->get_event:\n")
     pprint(api_response)
-except Exception as e:
-    print("Exception when calling FingerprintApi->get_event: %s\n" % e)
+except ApiException as e:
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->get_event: {e}'
+    print(message)
 ```
 
 ### Parameters
@@ -204,7 +220,7 @@ from fingerprint_server_sdk.models.event_search import EventSearch
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 from pprint import pprint
 
@@ -262,8 +278,16 @@ try:
     api_response = api_instance.search_events(limit=limit, pagination_key=pagination_key, visitor_id=visitor_id, bot=bot, ip_address=ip_address, asn=asn, linked_id=linked_id, url=url, bundle_id=bundle_id, package_name=package_name, origin=origin, start=start, end=end, reverse=reverse, suspect=suspect, vpn=vpn, virtual_machine=virtual_machine, tampering=tampering, anti_detect_browser=anti_detect_browser, incognito=incognito, privacy_settings=privacy_settings, jailbroken=jailbroken, frida=frida, factory_reset=factory_reset, cloned_app=cloned_app, emulator=emulator, root_apps=root_apps, vpn_confidence=vpn_confidence, min_suspect_score=min_suspect_score, developer_tools=developer_tools, location_spoofing=location_spoofing, mitm_attack=mitm_attack, proxy=proxy, sdk_version=sdk_version, sdk_platform=sdk_platform, environment=environment, proximity_id=proximity_id, total_hits=total_hits, tor_node=tor_node)
     print("The response of FingerprintApi->search_events:\n")
     pprint(api_response)
-except Exception as e:
-    print("Exception when calling FingerprintApi->search_events: %s\n" % e)
+except ApiException as e:
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->search_events: {e}'
+    print(message)
 ```
 
 ### Parameters
@@ -353,7 +377,7 @@ import os
 
 import fingerprint_server_sdk
 from fingerprint_server_sdk.models.event_update import EventUpdate
-from fingerprint_server_sdk.rest import ApiException
+from fingerprint_server_sdk import ApiException, ErrorResponse
 from fingerprint_server_sdk.configuration import Region
 from pprint import pprint
 
@@ -372,8 +396,16 @@ event_update: EventUpdate = fingerprint_server_sdk.EventUpdate() #
 try:
     # Update an event
     api_instance.update_event(event_id, event_update)
-except Exception as e:
-    print("Exception when calling FingerprintApi->update_event: %s\n" % e)
+except ApiException as e:
+    if e.body is not None:
+        error_response = ErrorResponse.from_json(e.body)
+        if error_response is not None:
+            message = f"API request failed: {error_response.error.code} {error_response.error.message}"
+        else:
+            message = f"API request failed with unexpected error format: {e}"
+    else:
+        message = f'Exception when calling FingerprintApi->update_event: {e}'
+    print(message)
 ```
 
 ### Parameters
