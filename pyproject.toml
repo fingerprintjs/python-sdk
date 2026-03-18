@@ -39,7 +39,7 @@ python-dotenv = ">= 1.0.0"
 
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=82.0.1"]
 build-backend = "setuptools.build_meta"
 
 [tool.pylint.'MESSAGES CONTROL']
