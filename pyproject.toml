@@ -15,7 +15,7 @@ dependencies = [
   "python-dateutil (>=2.8.2)",
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)",
-  "cryptography"
+  "cryptography (>=46.0.5)"
 ]
 
 [project.optional-dependencies]
