@@ -15,7 +15,7 @@ dependencies = [
   "python-dateutil (>=2.8.2)",
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)",
-  "cryptography"
+  "cryptography (>=46.0.5)"
 ]
 
 [project.optional-dependencies]
@@ -39,7 +39,7 @@ python-dotenv = ">= 1.0.0"
 
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=82.0.1"]
 build-backend = "setuptools.build_meta"
 
 [tool.pylint.'MESSAGES CONTROL']

@@ -1,7 +1,6 @@
 import json
 import zlib
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from {{packageName}}.models.event import Event
@@ -91,8 +90,7 @@ def __unseal_aes256gcm(sealed_data: bytes, decryption_key: bytes) -> str:
 
     decipher = Cipher(
         algorithms.AES(decryption_key),
-        modes.GCM(nonce, auth_tag),
-        backend=default_backend()
+        modes.GCM(nonce, auth_tag)
     ).decryptor()
 
     compressed = decipher.update(ciphertext) + decipher.finalize()

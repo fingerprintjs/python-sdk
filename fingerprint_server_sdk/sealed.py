@@ -1,7 +1,6 @@
 import json
 import zlib
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from fingerprint_server_sdk.models.event import Event
@@ -92,9 +91,7 @@ def __unseal_aes256gcm(sealed_data: bytes, decryption_key: bytes) -> str:
 
     ciphertext = sealed_data[len(SEALED_HEADER) + nonce_length : -auth_tag_length]
 
-    decipher = Cipher(
-        algorithms.AES(decryption_key), modes.GCM(nonce, auth_tag), backend=default_backend()
-    ).decryptor()
+    decipher = Cipher(algorithms.AES(decryption_key), modes.GCM(nonce, auth_tag)).decryptor()
 
     compressed = decipher.update(ciphertext) + decipher.finalize()
 
