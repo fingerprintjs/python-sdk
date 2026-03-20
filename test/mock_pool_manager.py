@@ -37,7 +37,7 @@ class MockPoolManager:
 
         url, ii_value = self._strip_query_param(args[1], 'ii')
         self._tc.assertIsInstance(ii_value, str)
-        self._tc.assertEqual(f'fingerprint-server-python-sdk/{__version__}', ii_value)
+        self._tc.assertEqual(f'fingerprint-pro-server-python-sdk/{__version__}', ii_value)
         self._tc.assertEqual(request_url, url)
 
         self._tc.assertEqual(set(request_config.keys()), set(kwargs.keys()))

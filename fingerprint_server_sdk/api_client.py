@@ -87,7 +87,7 @@ class ApiClient:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = f'fingerprint-server-python-sdk/{__version__}'
+        self.user_agent = f'fingerprint-pro-server-python-sdk/{__version__}'
         self.client_side_validation = configuration.client_side_validation
 
     def __enter__(self) -> ApiClient:
