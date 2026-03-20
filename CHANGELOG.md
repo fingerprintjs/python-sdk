@@ -1,5 +1,12 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.0.1
+
+### Patch Changes
+
+- Fix incorrect SDK name in the integration info parameter ([43e083e](https://github.com/fingerprintjs/python-sdk/commit/43e083ee74b4533cadfed206502a490df82c2803))
+- Bump minimum required `cryptography` version from `41.0.0` to `46.0.5`. ([91288d5](https://github.com/fingerprintjs/python-sdk/commit/91288d573e31aa54e51ae83ba25e5dc6e8cf22a7))
+
 ## 9.0.0
 
 ### Major Changes
