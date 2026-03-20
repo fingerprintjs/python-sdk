@@ -28,12 +28,12 @@ class TestFingerprintApi(unittest.TestCase):
 
     def setUp(self) -> None:
         configuration = Configuration(api_key=API_KEY, region=REGION)
-        self.integration_info = ('ii', f'fingerprint-server-python-sdk/{__version__}')
+        self.integration_info = ('ii', f'fingerprint-pro-server-python-sdk/{__version__}')
         self.request_headers = {
             'Content-Type': 'application/json',
             'Authorization': f'Bearer {API_KEY}',
             'Accept': 'application/json',
-            'User-Agent': f'fingerprint-server-python-sdk/{__version__}',
+            'User-Agent': f'fingerprint-pro-server-python-sdk/{__version__}',
         }
         self.api = FingerprintApi(configuration)
 

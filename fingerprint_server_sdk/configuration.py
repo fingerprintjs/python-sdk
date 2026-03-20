@@ -184,7 +184,7 @@ class Configuration:
         self.default_query_params: list[tuple[str, str]] = (
             default_query_params
             if default_query_params
-            else [('ii', f'fingerprint-server-python-sdk/{__version__}')]
+            else [('ii', f'fingerprint-pro-server-python-sdk/{__version__}')]
         )
 
     def __deepcopy__(self, memo: dict[int, Any]) -> Self:
