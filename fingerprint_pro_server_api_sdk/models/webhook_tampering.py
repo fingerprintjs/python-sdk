@@ -29,32 +29,44 @@ class WebhookTampering(BaseModel):
     """
     swagger_types = {
         'result': 'bool',
+        'confidence': 'str',
         'anomaly_score': 'float',
+        'ml_score': 'float',
         'anti_detect_browser': 'bool'
     }
 
     nullable_map = {
         'result': False,
+        'confidence': False,
         'anomaly_score': False,
+        'ml_score': False,
         'anti_detect_browser': False
     }
 
     attribute_map = {
         'result': 'result',
+        'confidence': 'confidence',
         'anomaly_score': 'anomalyScore',
+        'ml_score': 'mlScore',
         'anti_detect_browser': 'antiDetectBrowser'
     }
 
-    def __init__(self, result=None, anomaly_score=None, anti_detect_browser=None):  # noqa: E501
+    def __init__(self, result=None, confidence=None, anomaly_score=None, ml_score=None, anti_detect_browser=None):  # noqa: E501
         """WebhookTampering - a model defined in Swagger"""  # noqa: E501
         self._result = None
+        self._confidence = None
         self._anomaly_score = None
+        self._ml_score = None
         self._anti_detect_browser = None
         self.discriminator = None
         if result is not None:
             self.result = result
+        if confidence is not None:
+            self.confidence = confidence
         if anomaly_score is not None:
             self.anomaly_score = anomaly_score
+        if ml_score is not None:
+            self.ml_score = ml_score
         if anti_detect_browser is not None:
             self.anti_detect_browser = anti_detect_browser
 
@@ -80,6 +92,33 @@ class WebhookTampering(BaseModel):
         self._result = result
 
     @property
+    def confidence(self) -> Optional[str]:
+        """Gets the confidence of this WebhookTampering.  # noqa: E501
+
+        Confidence level of the tampering detection. If a tampering is not detected, confidence is \"high\". If it's detected, can be \"low\", \"medium\", or \"high\".   # noqa: E501
+
+        :return: The confidence of this WebhookTampering.  # noqa: E501
+        """
+        return self._confidence
+
+    @confidence.setter
+    def confidence(self, confidence: Optional[str]):
+        """Sets the confidence of this WebhookTampering.
+
+        Confidence level of the tampering detection. If a tampering is not detected, confidence is \"high\". If it's detected, can be \"low\", \"medium\", or \"high\".   # noqa: E501
+
+        :param confidence: The confidence of this WebhookTampering.  # noqa: E501
+        """
+        allowed_values = ["low", "medium", "high"]  # noqa: E501
+        if (confidence not in allowed_values):
+            raise ValueError(
+                "Invalid value for `confidence` ({0}), must be one of {1}"  # noqa: E501
+                .format(confidence, allowed_values)
+            )
+
+        self._confidence = confidence
+
+    @property
     def anomaly_score(self) -> Optional[float]:
         """Gets the anomaly_score of this WebhookTampering.  # noqa: E501
 
@@ -99,6 +138,27 @@ class WebhookTampering(BaseModel):
         """
 
         self._anomaly_score = anomaly_score
+
+    @property
+    def ml_score(self) -> Optional[float]:
+        """Gets the ml_score of this WebhookTampering.  # noqa: E501
+
+        A score that indicates the models calculated probability that an event is coming from an anti detect browser.   * Values above `0.8` indicate that the request is an anti detect browser based on the ml model   * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model   # noqa: E501
+
+        :return: The ml_score of this WebhookTampering.  # noqa: E501
+        """
+        return self._ml_score
+
+    @ml_score.setter
+    def ml_score(self, ml_score: Optional[float]):
+        """Sets the ml_score of this WebhookTampering.
+
+        A score that indicates the models calculated probability that an event is coming from an anti detect browser.   * Values above `0.8` indicate that the request is an anti detect browser based on the ml model   * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model   # noqa: E501
+
+        :param ml_score: The ml_score of this WebhookTampering.  # noqa: E501
+        """
+
+        self._ml_score = ml_score
 
     @property
     def anti_detect_browser(self) -> Optional[bool]:

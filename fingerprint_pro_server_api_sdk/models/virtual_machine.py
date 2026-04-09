@@ -28,22 +28,28 @@ class VirtualMachine(BaseModel):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'result': 'bool'
+        'result': 'bool',
+        'ml_score': 'float'
     }
 
     nullable_map = {
-        'result': False
+        'result': False,
+        'ml_score': False
     }
 
     attribute_map = {
-        'result': 'result'
+        'result': 'result',
+        'ml_score': 'mlScore'
     }
 
-    def __init__(self, result=None):  # noqa: E501
+    def __init__(self, result=None, ml_score=None):  # noqa: E501
         """VirtualMachine - a model defined in Swagger"""  # noqa: E501
         self._result = None
+        self._ml_score = None
         self.discriminator = None
         self.result = result
+        if ml_score is not None:
+            self.ml_score = ml_score
 
     @property
     def result(self) -> bool:
@@ -67,4 +73,25 @@ class VirtualMachine(BaseModel):
             raise ValueError("Invalid value for `result`, must not be `None`")  # noqa: E501
 
         self._result = result
+
+    @property
+    def ml_score(self) -> Optional[float]:
+        """Gets the ml_score of this VirtualMachine.  # noqa: E501
+
+        Machine learning-based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result       # noqa: E501
+
+        :return: The ml_score of this VirtualMachine.  # noqa: E501
+        """
+        return self._ml_score
+
+    @ml_score.setter
+    def ml_score(self, ml_score: Optional[float]):
+        """Sets the ml_score of this VirtualMachine.
+
+        Machine learning-based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result       # noqa: E501
+
+        :param ml_score: The ml_score of this VirtualMachine.  # noqa: E501
+        """
+
+        self._ml_score = ml_score
 
