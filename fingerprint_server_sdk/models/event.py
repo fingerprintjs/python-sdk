@@ -15,7 +15,7 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Optional
+from typing import Annotated, Any, ClassVar, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing_extensions import Self
@@ -25,6 +25,9 @@ from fingerprint_server_sdk.models.bot_result import BotResult
 from fingerprint_server_sdk.models.browser_details import BrowserDetails
 from fingerprint_server_sdk.models.event_rule_action import EventRuleAction
 from fingerprint_server_sdk.models.identification import Identification
+from fingerprint_server_sdk.models.incremental_identification_status import (
+    IncrementalIdentificationStatus,
+)
 from fingerprint_server_sdk.models.ip_block_list import IPBlockList
 from fingerprint_server_sdk.models.ip_info import IPInfo
 from fingerprint_server_sdk.models.proximity import Proximity
@@ -33,6 +36,7 @@ from fingerprint_server_sdk.models.proxy_details import ProxyDetails
 from fingerprint_server_sdk.models.raw_device_attributes import RawDeviceAttributes
 from fingerprint_server_sdk.models.sdk import SDK
 from fingerprint_server_sdk.models.supplementary_id_high_recall import SupplementaryIDHighRecall
+from fingerprint_server_sdk.models.tampering_confidence import TamperingConfidence
 from fingerprint_server_sdk.models.tampering_details import TamperingDetails
 from fingerprint_server_sdk.models.velocity import Velocity
 from fingerprint_server_sdk.models.vpn_confidence import VpnConfidence
@@ -50,6 +54,7 @@ class Event(BaseModel):
     timestamp: StrictInt = Field(
         description='Timestamp of the event with millisecond precision in Unix time.'
     )
+    incremental_identification_status: Optional[IncrementalIdentificationStatus] = None
     linked_id: Optional[StrictStr] = Field(
         default=None, description='A customer-provided id that was sent with the request.'
     )
@@ -155,6 +160,10 @@ class Event(BaseModel):
         description="Android specific root management apps detection. There are 2 values:  * `true` - Root Management Apps detected (e.g. Magisk). * `false` - No Root Management Apps detected or the client isn't Android. ",
     )
     rule_action: Optional[EventRuleAction] = None
+    simulator: Optional[StrictBool] = Field(
+        default=None,
+        description='iOS specific simulator detection. There are 2 values: * `true` - Simulator environment detected. * `false` - No signs of simulator or the client is not iOS. ',
+    )
     suspect_score: Optional[StrictInt] = Field(
         default=None,
         description='Suspect Score is an easy way to integrate Smart Signals into your fraud protection work flow.  It is a weighted representation of all Smart Signals present in the payload that helps identify suspicious activity. The value range is [0; S] where S is sum of all Smart Signals weights.  See more details here: https://docs.fingerprint.com/docs/suspect-score ',
@@ -163,11 +172,30 @@ class Event(BaseModel):
         default=None,
         description='Flag indicating browser tampering was detected. This happens when either:   * There are inconsistencies in the browser configuration that cross internal tampering thresholds (see `tampering_details.anomaly_score`).   * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`). ',
     )
+    tampering_confidence: Optional[TamperingConfidence] = None
+    tampering_ml_score: Optional[
+        Union[
+            Annotated[float, Field(le=1, strict=True, ge=0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = Field(
+        default=None,
+        description='A score that indicates the models calculated probability that an event is coming from an anti detect browser.   * Values above `0.8` indicate that the request is an anti detect browser based on the ml model   * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model ',
+    )
     tampering_details: Optional[TamperingDetails] = None
     velocity: Optional[Velocity] = None
     virtual_machine: Optional[StrictBool] = Field(
         default=None,
         description='`true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise. ',
+    )
+    virtual_machine_ml_score: Optional[
+        Union[
+            Annotated[float, Field(le=1, strict=True, ge=0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = Field(
+        default=None,
+        description='Machine learning–based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result ',
     )
     vpn: Optional[StrictBool] = Field(
         default=None,
@@ -190,6 +218,7 @@ class Event(BaseModel):
     __properties: ClassVar[list[str]] = [
         'event_id',
         'timestamp',
+        'incremental_identification_status',
         'linked_id',
         'environment_id',
         'suspect',
@@ -226,11 +255,15 @@ class Event(BaseModel):
         'privacy_settings',
         'root_apps',
         'rule_action',
+        'simulator',
         'suspect_score',
         'tampering',
+        'tampering_confidence',
+        'tampering_ml_score',
         'tampering_details',
         'velocity',
         'virtual_machine',
+        'virtual_machine_ml_score',
         'vpn',
         'vpn_confidence',
         'vpn_origin_timezone',
@@ -334,6 +367,7 @@ class Event(BaseModel):
             {
                 'event_id': obj.get('event_id'),
                 'timestamp': obj.get('timestamp'),
+                'incremental_identification_status': obj.get('incremental_identification_status'),
                 'linked_id': obj.get('linked_id'),
                 'environment_id': obj.get('environment_id'),
                 'suspect': obj.get('suspect'),
@@ -390,8 +424,11 @@ class Event(BaseModel):
                 'rule_action': EventRuleAction.from_dict(obj['rule_action'])
                 if obj.get('rule_action') is not None
                 else None,
+                'simulator': obj.get('simulator'),
                 'suspect_score': obj.get('suspect_score'),
                 'tampering': obj.get('tampering'),
+                'tampering_confidence': obj.get('tampering_confidence'),
+                'tampering_ml_score': obj.get('tampering_ml_score'),
                 'tampering_details': TamperingDetails.from_dict(obj['tampering_details'])
                 if obj.get('tampering_details') is not None
                 else None,
@@ -399,6 +436,7 @@ class Event(BaseModel):
                 if obj.get('velocity') is not None
                 else None,
                 'virtual_machine': obj.get('virtual_machine'),
+                'virtual_machine_ml_score': obj.get('virtual_machine_ml_score'),
                 'vpn': obj.get('vpn'),
                 'vpn_confidence': obj.get('vpn_confidence'),
                 'vpn_origin_timezone': obj.get('vpn_origin_timezone'),
