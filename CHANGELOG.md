@@ -1,5 +1,18 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.1.0
+
+### Minor Changes
+
+- Add `Simulator` signal for iOS platform ([1544bd1](https://github.com/fingerprintjs/python-sdk/commit/1544bd15600aef294ccbda7f6d74bb02d5f0142c))
+- Add `virtual_machine_ml_score` field for `VirtualMachine` signal ([1544bd1](https://github.com/fingerprintjs/python-sdk/commit/1544bd15600aef294ccbda7f6d74bb02d5f0142c))
+- Add `high_recall_id` and `simulator` filters for the `SearchEvents` method ([1544bd1](https://github.com/fingerprintjs/python-sdk/commit/1544bd15600aef294ccbda7f6d74bb02d5f0142c))
+- Add `tampering_confidence` and `tampering_ml_score` fields for `Tampering` smart signal ([1544bd1](https://github.com/fingerprintjs/python-sdk/commit/1544bd15600aef294ccbda7f6d74bb02d5f0142c))
+
+### Patch Changes
+
+- Remove `REQUEST_NOT_FOUND` value from the `ErrorCode` enum ([1544bd1](https://github.com/fingerprintjs/python-sdk/commit/1544bd15600aef294ccbda7f6d74bb02d5f0142c))
+
 ## 9.0.1
 
 ### Patch Changes
