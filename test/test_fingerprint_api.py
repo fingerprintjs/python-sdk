@@ -12,6 +12,10 @@ from fingerprint_server_sdk import (
     EventUpdate,
     ForbiddenException,
     NotFoundException,
+    SearchEventsBot,
+    SearchEventsIncrementalIdentificationStatus,
+    SearchEventsSdkPlatform,
+    SearchEventsVpnConfidence,
     TooManyRequestsException,
     __version__,
 )
@@ -321,6 +325,112 @@ class TestFingerprintApi(unittest.TestCase):
         first_event = event_response.events[0]
         self.assertIsInstance(first_event, Event)
         self.assertEqual(first_event.event_id, '1708102555327.NLOjmg')
+
+    def test_search_events_all_params(self) -> None:
+        """Test case for search_events with all available parameters"""
+        api_params = {
+            'limit': 1,
+            'pagination_key': '1741187431959',
+            'high_recall_id': 'testHighRecallId',
+            'bot': SearchEventsBot.GOOD,
+            'ip_address': '192.168.0.1/32',
+            'asn': 'testAsn',
+            'linked_id': 'some_id',
+            'url': 'https://example.com/page',
+            'bundle_id': 'com.example.bundleId',
+            'package_name': 'com.example',
+            'origin': 'https://example.com',
+            'start': 1582299576511,
+            'end': 1582299576513,
+            'reverse': True,
+            'suspect': False,
+            'vpn': True,
+            'virtual_machine': True,
+            'tampering': True,
+            'anti_detect_browser': True,
+            'incognito': True,
+            'privacy_settings': True,
+            'jailbroken': True,
+            'frida': True,
+            'factory_reset': True,
+            'cloned_app': True,
+            'emulator': True,
+            'root_apps': True,
+            'vpn_confidence': SearchEventsVpnConfidence.MEDIUM,
+            'min_suspect_score': 0.5,
+            'developer_tools': True,
+            'location_spoofing': True,
+            'mitm_attack': True,
+            'proxy': True,
+            'sdk_version': 'testSdkVersion',
+            'sdk_platform': SearchEventsSdkPlatform.JS,
+            'environment': ['env1', 'env2'],
+            'proximity_id': 'testProximityId',
+            'total_hits': 10,
+            'tor_node': True,
+            'incremental_identification_status': (
+                SearchEventsIncrementalIdentificationStatus.PARTIALLY_COMPLETED
+            ),
+            'simulator': True,
+        }
+        # URL params use serialized values (enum.value, lowercase bool) in API definition order
+        url_params = {
+            'limit': 1,
+            'pagination_key': '1741187431959',
+            'high_recall_id': 'testHighRecallId',
+            'bot': 'good',
+            'ip_address': '192.168.0.1/32',
+            'asn': 'testAsn',
+            'linked_id': 'some_id',
+            'url': 'https://example.com/page',
+            'bundle_id': 'com.example.bundleId',
+            'package_name': 'com.example',
+            'origin': 'https://example.com',
+            'start': 1582299576511,
+            'end': 1582299576513,
+            'reverse': 'true',
+            'suspect': 'false',
+            'vpn': 'true',
+            'virtual_machine': 'true',
+            'tampering': 'true',
+            'anti_detect_browser': 'true',
+            'incognito': 'true',
+            'privacy_settings': 'true',
+            'jailbroken': 'true',
+            'frida': 'true',
+            'factory_reset': 'true',
+            'cloned_app': 'true',
+            'emulator': 'true',
+            'root_apps': 'true',
+            'vpn_confidence': 'medium',
+            'min_suspect_score': 0.5,
+            'developer_tools': 'true',
+            'location_spoofing': 'true',
+            'mitm_attack': 'true',
+            'proxy': 'true',
+            'sdk_version': 'testSdkVersion',
+            'sdk_platform': 'js',
+            'environment': ['env1', 'env2'],
+            'proximity_id': 'testProximityId',
+            'total_hits': 10,
+            'tor_node': 'true',
+            'incremental_identification_status': 'partially_completed',
+            'simulator': 'true',
+        }
+
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_search_events_path(url_params),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_data_file='events/search/get_event_search_200.json',
+        )
+        event_response = self.api.search_events(**api_params)
+        self.assertIsInstance(event_response, EventSearch)
 
     def test_search_events_bad_request(self) -> None:
         """Test case for search_events with 400 Bad Request response"""

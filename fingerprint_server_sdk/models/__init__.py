@@ -37,6 +37,9 @@ from fingerprint_server_sdk.models.ip_info_v4 import IPInfoV4
 from fingerprint_server_sdk.models.ip_info_v6 import IPInfoV6
 from fingerprint_server_sdk.models.identification import Identification
 from fingerprint_server_sdk.models.identification_confidence import IdentificationConfidence
+from fingerprint_server_sdk.models.incremental_identification_status import (
+    IncrementalIdentificationStatus,
+)
 from fingerprint_server_sdk.models.integration import Integration
 from fingerprint_server_sdk.models.integration_subintegration import IntegrationSubintegration
 from fingerprint_server_sdk.models.plugins_inner import PluginsInner
@@ -50,9 +53,13 @@ from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHea
 from fingerprint_server_sdk.models.rule_action_type import RuleActionType
 from fingerprint_server_sdk.models.sdk import SDK
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
+from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
+    SearchEventsIncrementalIdentificationStatus,
+)
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.models.supplementary_id_high_recall import SupplementaryIDHighRecall
+from fingerprint_server_sdk.models.tampering_confidence import TamperingConfidence
 from fingerprint_server_sdk.models.tampering_details import TamperingDetails
 from fingerprint_server_sdk.models.touch_support import TouchSupport
 from fingerprint_server_sdk.models.velocity import Velocity

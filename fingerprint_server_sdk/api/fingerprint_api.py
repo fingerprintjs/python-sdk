@@ -21,6 +21,9 @@ from fingerprint_server_sdk.models.event import Event
 from fingerprint_server_sdk.models.event_search import EventSearch
 from fingerprint_server_sdk.models.event_update import EventUpdate
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
+from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
+    SearchEventsIncrementalIdentificationStatus,
+)
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.rest import RESTResponseType
@@ -557,7 +560,13 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+            ),
+        ] = None,
+        high_recall_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description='The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property). '
             ),
         ] = None,
         bot: Annotated[
@@ -750,7 +759,7 @@ class FingerprintApi:
         environment: Annotated[
             Optional[list[StrictStr]],
             Field(
-                description='Filter for events by providing one or more environment IDs (`environment_id` property). '
+                description='Filter for events by providing one or more environment IDs (`environment_id` property).  ### Array syntax To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`). Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported. '
             ),
         ] = None,
         proximity_id: Annotated[
@@ -771,6 +780,18 @@ class FingerprintApi:
                 description='Filter events by Tor Node detection result. > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response. '
             ),
         ] = None,
+        incremental_identification_status: Annotated[
+            Optional[SearchEventsIncrementalIdentificationStatus],
+            Field(
+                description='Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response. '
+            ),
+        ] = None,
+        simulator: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -788,8 +809,10 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
+        :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
+        :type high_recall_id: str
         :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
         :type bot: SearchEventsBot
         :param ip_address: Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
@@ -854,7 +877,7 @@ class FingerprintApi:
         :type sdk_version: str
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices.
         :type sdk_platform: SearchEventsSdkPlatform
-        :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).
+        :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).  ### Array syntax To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`). Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported.
         :type environment: List[str]
         :param proximity_id: Filter events by the most precise Proximity ID provided by default. > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
         :type proximity_id: str
@@ -862,6 +885,10 @@ class FingerprintApi:
         :type total_hits: int
         :param tor_node: Filter events by Tor Node detection result. > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response.
         :type tor_node: bool
+        :param incremental_identification_status: Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
+        :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
+        :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+        :type simulator: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -884,6 +911,7 @@ class FingerprintApi:
             limit=limit,
             pagination_key=pagination_key,
             visitor_id=visitor_id,
+            high_recall_id=high_recall_id,
             bot=bot,
             ip_address=ip_address,
             asn=asn,
@@ -920,6 +948,8 @@ class FingerprintApi:
             proximity_id=proximity_id,
             total_hits=total_hits,
             tor_node=tor_node,
+            incremental_identification_status=incremental_identification_status,
+            simulator=simulator,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -955,7 +985,13 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+            ),
+        ] = None,
+        high_recall_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description='The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property). '
             ),
         ] = None,
         bot: Annotated[
@@ -1148,7 +1184,7 @@ class FingerprintApi:
         environment: Annotated[
             Optional[list[StrictStr]],
             Field(
-                description='Filter for events by providing one or more environment IDs (`environment_id` property). '
+                description='Filter for events by providing one or more environment IDs (`environment_id` property).  ### Array syntax To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`). Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported. '
             ),
         ] = None,
         proximity_id: Annotated[
@@ -1169,6 +1205,18 @@ class FingerprintApi:
                 description='Filter events by Tor Node detection result. > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response. '
             ),
         ] = None,
+        incremental_identification_status: Annotated[
+            Optional[SearchEventsIncrementalIdentificationStatus],
+            Field(
+                description='Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response. '
+            ),
+        ] = None,
+        simulator: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1186,8 +1234,10 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
+        :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
+        :type high_recall_id: str
         :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
         :type bot: SearchEventsBot
         :param ip_address: Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
@@ -1252,7 +1302,7 @@ class FingerprintApi:
         :type sdk_version: str
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices.
         :type sdk_platform: SearchEventsSdkPlatform
-        :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).
+        :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).  ### Array syntax To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`). Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported.
         :type environment: List[str]
         :param proximity_id: Filter events by the most precise Proximity ID provided by default. > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
         :type proximity_id: str
@@ -1260,6 +1310,10 @@ class FingerprintApi:
         :type total_hits: int
         :param tor_node: Filter events by Tor Node detection result. > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response.
         :type tor_node: bool
+        :param incremental_identification_status: Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
+        :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
+        :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+        :type simulator: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1282,6 +1336,7 @@ class FingerprintApi:
             limit=limit,
             pagination_key=pagination_key,
             visitor_id=visitor_id,
+            high_recall_id=high_recall_id,
             bot=bot,
             ip_address=ip_address,
             asn=asn,
@@ -1318,6 +1373,8 @@ class FingerprintApi:
             proximity_id=proximity_id,
             total_hits=total_hits,
             tor_node=tor_node,
+            incremental_identification_status=incremental_identification_status,
+            simulator=simulator,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1353,7 +1410,13 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`. '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+            ),
+        ] = None,
+        high_recall_id: Annotated[
+            Optional[StrictStr],
+            Field(
+                description='The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property). '
             ),
         ] = None,
         bot: Annotated[
@@ -1546,7 +1609,7 @@ class FingerprintApi:
         environment: Annotated[
             Optional[list[StrictStr]],
             Field(
-                description='Filter for events by providing one or more environment IDs (`environment_id` property). '
+                description='Filter for events by providing one or more environment IDs (`environment_id` property).  ### Array syntax To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`). Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported. '
             ),
         ] = None,
         proximity_id: Annotated[
@@ -1567,6 +1630,18 @@ class FingerprintApi:
                 description='Filter events by Tor Node detection result. > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response. '
             ),
         ] = None,
+        incremental_identification_status: Annotated[
+            Optional[SearchEventsIncrementalIdentificationStatus],
+            Field(
+                description='Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response. '
+            ),
+        ] = None,
+        simulator: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1584,8 +1659,10 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals. Filter for events matching this `visitor_id`.
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
+        :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
+        :type high_recall_id: str
         :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
         :type bot: SearchEventsBot
         :param ip_address: Filter events by IP address or IP range (if CIDR notation is used). If CIDR notation is not used, a /32 for IPv4 or /128 for IPv6 is assumed. Examples of range based queries: 10.0.0.0/24, 192.168.0.1/32
@@ -1650,7 +1727,7 @@ class FingerprintApi:
         :type sdk_version: str
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event (`sdk.platform` property) . `js` - Javascript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices.
         :type sdk_platform: SearchEventsSdkPlatform
-        :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).
+        :param environment: Filter for events by providing one or more environment IDs (`environment_id` property).  ### Array syntax To provide multiple environment IDs, use the repeated keys syntax (`environment=env1&environment=env2`). Other notations like comma-separated (`environment=env1,env2`) or bracket notation (`environment[]=env1&environment[]=env2`) are not supported.
         :type environment: List[str]
         :param proximity_id: Filter events by the most precise Proximity ID provided by default. > Note: When using this parameter, only events with the `proximity.id` property matching the provided ID are returned. Events without a `proximity` result are left out of the response.
         :type proximity_id: str
@@ -1658,6 +1735,10 @@ class FingerprintApi:
         :type total_hits: int
         :param tor_node: Filter events by Tor Node detection result. > Note: When using this parameter, only events with the `tor_node` property set to `true` or `false` are returned. Events without a `tor_node` detection result are left out of the response.
         :type tor_node: bool
+        :param incremental_identification_status: Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
+        :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
+        :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+        :type simulator: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1680,6 +1761,7 @@ class FingerprintApi:
             limit=limit,
             pagination_key=pagination_key,
             visitor_id=visitor_id,
+            high_recall_id=high_recall_id,
             bot=bot,
             ip_address=ip_address,
             asn=asn,
@@ -1716,6 +1798,8 @@ class FingerprintApi:
             proximity_id=proximity_id,
             total_hits=total_hits,
             tor_node=tor_node,
+            incremental_identification_status=incremental_identification_status,
+            simulator=simulator,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1736,6 +1820,7 @@ class FingerprintApi:
         limit: Optional[int],
         pagination_key: Optional[str],
         visitor_id: Optional[str],
+        high_recall_id: Optional[str],
         bot: Optional[SearchEventsBot],
         ip_address: Optional[str],
         asn: Optional[str],
@@ -1772,6 +1857,8 @@ class FingerprintApi:
         proximity_id: Optional[str],
         total_hits: Optional[int],
         tor_node: Optional[bool],
+        incremental_identification_status: Optional[SearchEventsIncrementalIdentificationStatus],
+        simulator: Optional[bool],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -1802,6 +1889,10 @@ class FingerprintApi:
         # process the query parameters
         if visitor_id is not None:
             _query_params.append(('visitor_id', visitor_id))
+
+        # process the query parameters
+        if high_recall_id is not None:
+            _query_params.append(('high_recall_id', high_recall_id))
 
         # process the query parameters
         if bot is not None:
@@ -1946,6 +2037,16 @@ class FingerprintApi:
         # process the query parameters
         if tor_node is not None:
             _query_params.append(('tor_node', tor_node))
+
+        # process the query parameters
+        if incremental_identification_status is not None:
+            _query_params.append(
+                ('incremental_identification_status', incremental_identification_status.value)
+            )
+
+        # process the query parameters
+        if simulator is not None:
+            _query_params.append(('simulator', simulator))
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
