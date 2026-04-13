@@ -62,10 +62,10 @@
         <p class="text">
             <a id="prevFileLink" class="nav" href="z_0aed11783db94995_search_events_vpn_confidence_py.html">&#xab; prev</a> &nbsp; &nbsp;
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
-            <a id="nextFileLink" class="nav" href="z_0aed11783db94995_tampering_details_py.html">&#xbb; next</a>
+            <a id="nextFileLink" class="nav" href="z_0aed11783db94995_tampering_confidence_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-03-20 11:58 +0000
+            created at 2026-04-13 15:25 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -107,23 +107,23 @@
     <p class="pln"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t"><span class="key">class</span> <span class="nam">SupplementaryIDHighRecall</span><span class="op">(</span><span class="nam">BaseModel</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">    <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t"><span class="str">    A supplementary browser identifier that prioritizes coverage over precision. The High Recall ID algorithm matches more generously, i.e., this identifier will remain the same even when there are subtle differences between two requests. This algorithm does not create as many new visitor IDs as the standard algorithms do, but there could be an increase in false-positive identification.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t"><span class="str">    The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">    <span class="nam">visitor_id</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">"String of 20 characters that uniquely identifies the visitor's browser or mobile device."</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">"The High Recall identifier for the visitor's browser. It is an alphanumeric string with a maximum length of 25 characters."</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">    <span class="nam">visitor_found</span><span class="op">:</span> <span class="nam">StrictBool</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">'Attribute represents if a visitor had been identified before.'</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">'True if this is a returning browser and has been previously identified. Otherwise, false.'</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t">    <span class="nam">confidence</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">IdentificationConfidence</span><span class="op">]</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">    <span class="nam">first_seen_at</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">StrictInt</span><span class="op">]</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">        <span class="nam">default</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">'Unix epoch time milliseconds timestamp indicating the time at which this ID was first seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 '</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t40" href="#t40">40</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">'Unix epoch timestamp (in milliseconds) indicating when the browser was first identified. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 '</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t41" href="#t41">41</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t42" href="#t42">42</a></span><span class="t">    <span class="nam">last_seen_at</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">StrictInt</span><span class="op">]</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t43" href="#t43">43</a></span><span class="t">        <span class="nam">default</span><span class="op">=</span><span class="key">None</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t44" href="#t44">44</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">'Unix epoch time milliseconds timestamp indicating the time at which this ID was last seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 '</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t44" href="#t44">44</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">'Unix epoch timestamp (in milliseconds) corresponding to the most recent visit by this browser. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 '</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t45" href="#t45">45</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t46" href="#t46">46</a></span><span class="t">    <span class="nam">__properties</span><span class="op">:</span> <span class="nam">ClassVar</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="op">[</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t47" href="#t47">47</a></span><span class="t">        <span class="str">'visitor_id'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -202,10 +202,10 @@
         <p>
             <a class="nav" href="z_0aed11783db94995_search_events_vpn_confidence_py.html">&#xab; prev</a> &nbsp; &nbsp;
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
-            <a class="nav" href="z_0aed11783db94995_tampering_details_py.html">&#xbb; next</a>
+            <a class="nav" href="z_0aed11783db94995_tampering_confidence_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.5">coverage.py v7.13.5</a>,
-            created at 2026-03-20 11:58 +0000
+            created at 2026-04-13 15:25 +0000
         </p>
     </div>
 </footer>
