@@ -1,5 +1,12 @@
 # Fingerprint Pro Server Python SDK
 
+## 8.13.0
+
+### Minor Changes
+
+- Add `ml_score` field to the `VirtualMachine` signal ([8750ba9](https://github.com/fingerprintjs/python-sdk/commit/8750ba915c5af7bdf95019e87e8f339090a19cfc))
+- Add `confidence` and `ml_score` fields to the `Tampering` signal ([8750ba9](https://github.com/fingerprintjs/python-sdk/commit/8750ba915c5af7bdf95019e87e8f339090a19cfc))
+
 ## 8.12.0
 
 ### Minor Changes
