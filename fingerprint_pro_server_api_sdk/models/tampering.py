@@ -29,30 +29,40 @@ class Tampering(BaseModel):
     """
     swagger_types = {
         'result': 'bool',
+        'confidence': 'str',
         'anomaly_score': 'float',
+        'ml_score': 'float',
         'anti_detect_browser': 'bool'
     }
 
     nullable_map = {
         'result': False,
+        'confidence': False,
         'anomaly_score': False,
+        'ml_score': False,
         'anti_detect_browser': False
     }
 
     attribute_map = {
         'result': 'result',
+        'confidence': 'confidence',
         'anomaly_score': 'anomalyScore',
+        'ml_score': 'mlScore',
         'anti_detect_browser': 'antiDetectBrowser'
     }
 
-    def __init__(self, result=None, anomaly_score=None, anti_detect_browser=None):  # noqa: E501
+    def __init__(self, result=None, confidence=None, anomaly_score=None, ml_score=None, anti_detect_browser=None):  # noqa: E501
         """Tampering - a model defined in Swagger"""  # noqa: E501
         self._result = None
+        self._confidence = None
         self._anomaly_score = None
+        self._ml_score = None
         self._anti_detect_browser = None
         self.discriminator = None
         self.result = result
+        self.confidence = confidence
         self.anomaly_score = anomaly_score
+        self.ml_score = ml_score
         self.anti_detect_browser = anti_detect_browser
 
     @property
@@ -79,6 +89,35 @@ class Tampering(BaseModel):
         self._result = result
 
     @property
+    def confidence(self) -> str:
+        """Gets the confidence of this Tampering.  # noqa: E501
+
+        Confidence level of the tampering detection. If a tampering is not detected, confidence is \"high\". If it's detected, can be \"low\", \"medium\", or \"high\".   # noqa: E501
+
+        :return: The confidence of this Tampering.  # noqa: E501
+        """
+        return self._confidence
+
+    @confidence.setter
+    def confidence(self, confidence: str):
+        """Sets the confidence of this Tampering.
+
+        Confidence level of the tampering detection. If a tampering is not detected, confidence is \"high\". If it's detected, can be \"low\", \"medium\", or \"high\".   # noqa: E501
+
+        :param confidence: The confidence of this Tampering.  # noqa: E501
+        """
+        if confidence is None:
+            raise ValueError("Invalid value for `confidence`, must not be `None`")  # noqa: E501
+        allowed_values = ["low", "medium", "high"]  # noqa: E501
+        if (confidence not in allowed_values):
+            raise ValueError(
+                "Invalid value for `confidence` ({0}), must be one of {1}"  # noqa: E501
+                .format(confidence, allowed_values)
+            )
+
+        self._confidence = confidence
+
+    @property
     def anomaly_score(self) -> float:
         """Gets the anomaly_score of this Tampering.  # noqa: E501
 
@@ -100,6 +139,29 @@ class Tampering(BaseModel):
             raise ValueError("Invalid value for `anomaly_score`, must not be `None`")  # noqa: E501
 
         self._anomaly_score = anomaly_score
+
+    @property
+    def ml_score(self) -> float:
+        """Gets the ml_score of this Tampering.  # noqa: E501
+
+        A score that indicates the models calculated probability that an event is coming from an anti detect browser.   * Values above `0.8` indicate that the request is an anti detect browser based on the ml model   * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model   # noqa: E501
+
+        :return: The ml_score of this Tampering.  # noqa: E501
+        """
+        return self._ml_score
+
+    @ml_score.setter
+    def ml_score(self, ml_score: float):
+        """Sets the ml_score of this Tampering.
+
+        A score that indicates the models calculated probability that an event is coming from an anti detect browser.   * Values above `0.8` indicate that the request is an anti detect browser based on the ml model   * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model   # noqa: E501
+
+        :param ml_score: The ml_score of this Tampering.  # noqa: E501
+        """
+        if ml_score is None:
+            raise ValueError("Invalid value for `ml_score`, must not be `None`")  # noqa: E501
+
+        self._ml_score = ml_score
 
     @property
     def anti_detect_browser(self) -> bool:

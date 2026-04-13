@@ -50,7 +50,7 @@ class WebhookJailbroken(BaseModel):
     def result(self) -> Optional[bool]:
         """Gets the result of this WebhookJailbroken.  # noqa: E501
 
-        iOS specific jailbreak detection. There are 2 values:    * `true` - Jailbreak detected.   * `false` - No signs of jailbreak or the client is not iOS.   # noqa: E501
+        iOS specific jailbreak detection. There are 2 values:   * `true` - Jailbreak detected.   * `false` - No signs of jailbreak or the client is not iOS.   # noqa: E501
 
         :return: The result of this WebhookJailbroken.  # noqa: E501
         """
@@ -60,7 +60,7 @@ class WebhookJailbroken(BaseModel):
     def result(self, result: Optional[bool]):
         """Sets the result of this WebhookJailbroken.
 
-        iOS specific jailbreak detection. There are 2 values:    * `true` - Jailbreak detected.   * `false` - No signs of jailbreak or the client is not iOS.   # noqa: E501
+        iOS specific jailbreak detection. There are 2 values:   * `true` - Jailbreak detected.   * `false` - No signs of jailbreak or the client is not iOS.   # noqa: E501
 
         :param result: The result of this WebhookJailbroken.  # noqa: E501
         """
