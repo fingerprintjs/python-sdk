@@ -3,7 +3,6 @@
   "tags": {},
   "timestamp": 1708102555327,
   "event_id": "1708102555327.NLOjmg",
-  "incremental_identification_status": "completed",
   "url": "https://www.example.com/login?hope{this{works[!",
   "ip_address": "61.127.217.15",
   "user_agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....",
@@ -112,7 +111,6 @@
     "last_seen_at": 1708102555327,
     "provider": "Massive"
   },
-  "proxy_ml_score": 0.2,
   "vpn": false,
   "vpn_confidence": "high",
   "vpn_origin_timezone": "Europe/Berlin",
@@ -126,8 +124,6 @@
   },
   "incognito": false,
   "tampering": false,
-  "tampering_confidence": "high",
-  "tampering_ml_score": 0.3231,
   "tampering_details": {
     "anomaly_score": 0.1955,
     "anti_detect_browser": false
@@ -191,6 +187,8 @@
   },
   "replayed": false,
   "high_activity_device": false,
+  "rare_device": false,
+  "rare_device_percentile_bucket": "<p95",
   "raw_device_attributes": {
     "math": "5f030fa7d2e5f9f757bfaf81642eb1a6",
     "vendor": "Google Inc.",
@@ -284,21 +282,5 @@
     "session_storage": true,
     "date_time_locale": "en-US",
     "audio": 124.04347745512496
-  },
-  "rare_device": false,
-  "rare_device_percentile_bucket": "<p95",
-  "rule_action": {
-    "type": "block",
-    "status_code": 403,
-    "headers": [
-      {
-        "name": "Content-Type",
-        "value": "application/json"
-      }
-    ],
-    "body": "{\"title\":\"Forbidden\"}",
-    "ruleset_id": "rs_b1k1blhqpOX3kU",
-    "rule_id": "r_uE0af8497PFAOD",
-    "rule_expression": "bot in [\"bad\"] || incognito"
   }
 }

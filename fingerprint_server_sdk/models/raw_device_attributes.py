@@ -48,12 +48,15 @@ class RawDeviceAttributes(BaseModel):
     canvas: Optional[Canvas] = None
     languages: Optional[list[list[StrictStr]]] = Field(
         default=None,
-        description='Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. ',
+        description='Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for both browsers and iOS devices ',
     )
     webgl_extensions: Optional[WebGlExtensions] = None
     webgl_basics: Optional[WebGlBasics] = None
     screen_resolution: Optional[Annotated[list[StrictInt], Field(min_length=2, max_length=2)]] = (
-        Field(default=None, description='Current screen resolution.')
+        Field(
+            default=None,
+            description='Current screen resolution. Available for both browsers and iOS devices',
+        )
     )
     touch_support: Optional[TouchSupport] = None
     oscpu: Optional[StrictStr] = Field(default=None, description='Navigator `oscpu` string.')
@@ -64,7 +67,7 @@ class RawDeviceAttributes(BaseModel):
     cookies_enabled: Optional[StrictBool] = Field(
         default=None, description='Whether the cookies are enabled in the browser.'
     )
-    hardware_concurrency: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(
+    hardware_concurrency: Optional[StrictInt] = Field(
         default=None, description='Number of logical CPU cores reported by the browser.'
     )
     date_time_locale: Optional[StrictStr] = Field(
@@ -95,6 +98,21 @@ class RawDeviceAttributes(BaseModel):
     math: Optional[StrictStr] = Field(
         default=None, description='Hash of Math APIs used for entropy collection.'
     )
+    device_model: Optional[StrictStr] = Field(
+        default=None,
+        description='Device model string. Available only for Android and iOS devices.',
+    )
+    device_manufacturer: Optional[StrictStr] = Field(
+        default=None,
+        description='Device manufacturer string. Available only for Android and iOS devices.',
+    )
+    font_hash: Optional[StrictStr] = Field(
+        default=None, description='Unique identifier for the user’s installed fonts.'
+    )
+    timezone_offset: Optional[StrictStr] = Field(
+        default=None,
+        description='UTC offset in "±HH:MM" format derived from the detected IANA timezone.',
+    )
     __properties: ClassVar[list[str]] = [
         'font_preferences',
         'emoji',
@@ -121,6 +139,10 @@ class RawDeviceAttributes(BaseModel):
         'plugins',
         'indexed_db',
         'math',
+        'device_model',
+        'device_manufacturer',
+        'font_hash',
+        'timezone_offset',
     ]
 
     model_config = ConfigDict(
@@ -235,6 +257,10 @@ class RawDeviceAttributes(BaseModel):
                 else None,
                 'indexed_db': obj.get('indexed_db'),
                 'math': obj.get('math'),
+                'device_model': obj.get('device_model'),
+                'device_manufacturer': obj.get('device_manufacturer'),
+                'font_hash': obj.get('font_hash'),
+                'timezone_offset': obj.get('timezone_offset'),
             }
         )
         return _obj

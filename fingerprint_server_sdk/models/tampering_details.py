@@ -33,11 +33,11 @@ class TamperingDetails(BaseModel):
         ]
     ] = Field(
         default=None,
-        description='Confidence score (`0.0 - 1.0`) for tampering detection:   * Values above `0.5` indicate tampering.   * Values below `0.5` indicate genuine browsers. ',
+        description="The output of this model is captured as anomaly_score, a statistical score indicating how rare the visitor's browser signature is compared to the overall population. Values close to 1 signify highly anomalous browsers and we consider anything above the threshold of 0.5 to be actionable (the result field conveniently captures that fact). ",
     )
     anti_detect_browser: Optional[StrictBool] = Field(
         default=None,
-        description='True if the identified browser resembles an "anti-detect" browser, such as Incognition, which attempts to evade identification by manipulating its fingerprint. ',
+        description='Detects whether the request shows evidence of anti-detect browser usage. This field may be triggered by: * heuristic detection of known anti-detect browser behavior * machine learning detection of anti-detect browser patterns  Examples of anti-detect browsers include tools such as AdsPower, DolphinAnty, OctoBrowser, and GoLogin. ',
     )
     __properties: ClassVar[list[str]] = ['anomaly_score', 'anti_detect_browser']
 

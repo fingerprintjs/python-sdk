@@ -47,6 +47,7 @@ from fingerprint_server_sdk.models.plugins_inner_mime_types_inner import Plugins
 from fingerprint_server_sdk.models.proximity import Proximity
 from fingerprint_server_sdk.models.proxy_confidence import ProxyConfidence
 from fingerprint_server_sdk.models.proxy_details import ProxyDetails
+from fingerprint_server_sdk.models.rare_device_percentile_bucket import RareDevicePercentileBucket
 from fingerprint_server_sdk.models.raw_device_attributes import RawDeviceAttributes
 from fingerprint_server_sdk.models.request_header_modifications import RequestHeaderModifications
 from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHeaderField
@@ -55,6 +56,9 @@ from fingerprint_server_sdk.models.sdk import SDK
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
 from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
     SearchEventsIncrementalIdentificationStatus,
+)
+from fingerprint_server_sdk.models.search_events_rare_device_percentile_bucket import (
+    SearchEventsRareDevicePercentileBucket,
 )
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
