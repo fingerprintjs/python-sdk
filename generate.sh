@@ -33,5 +33,6 @@ docker run --rm -u "$(id -u):$(id -g)" -v "${PWD}:/local" -w /local "openapitool
 
 # Linting and formatting
 PYTHON_CMD="${PYTHON:-$(command -v python3 || command -v python)}"
+"$PYTHON_CMD" -m pip install --quiet 'ruff==0.15.0'
 "$PYTHON_CMD" -m ruff format .
 "$PYTHON_CMD" -m ruff check --fix --unsafe-fixes .
