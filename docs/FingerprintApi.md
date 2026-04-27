@@ -254,7 +254,7 @@ package_name: str = 'package_name_example' # Filter events by the Package Name (
 origin: str = 'origin_example' # Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)  (optional)
 start: int = 1767225600000 # Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.  (optional)
 end: int = 1769903999000 # Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.  (optional)
-reverse: bool = False # When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).  (optional) (default to False)
+reverse: bool = True # When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).  (optional)
 suspect: bool = True # Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.  (optional)
 vpn: bool = True # Filter events by VPN Detection result. > Note: When using this parameter, only events with the `vpn` property set to `true` or `false` are returned. Events without a `vpn` Smart Signal result are left out of the response.  (optional)
 virtual_machine: bool = True # Filter events by Virtual Machine Detection result. > Note: When using this parameter, only events with the `virtual_machine` property set to `true` or `false` are returned. Events without a `virtual_machine` Smart Signal result are left out of the response.  (optional)
@@ -320,7 +320,7 @@ Name | Type | Description  | Notes
  **origin** | **str**| Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)  | [optional] 
  **start** | **int**| Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.  | [optional] 
  **end** | **int**| Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.  | [optional] 
- **reverse** | **bool**| When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).  | [optional] [default to False]
+ **reverse** | **bool**| When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).  | [optional]
  **suspect** | **bool**| Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.  | [optional] 
  **vpn** | **bool**| Filter events by VPN Detection result. > Note: When using this parameter, only events with the `vpn` property set to `true` or `false` are returned. Events without a `vpn` Smart Signal result are left out of the response.  | [optional] 
  **virtual_machine** | **bool**| Filter events by Virtual Machine Detection result. > Note: When using this parameter, only events with the `virtual_machine` property set to `true` or `false` are returned. Events without a `virtual_machine` Smart Signal result are left out of the response.  | [optional] 
@@ -452,4 +452,3 @@ void (empty response body)
 **409** | Conflict. The event is not mutable yet. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
