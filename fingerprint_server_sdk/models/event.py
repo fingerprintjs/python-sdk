@@ -33,6 +33,7 @@ from fingerprint_server_sdk.models.ip_info import IPInfo
 from fingerprint_server_sdk.models.proximity import Proximity
 from fingerprint_server_sdk.models.proxy_confidence import ProxyConfidence
 from fingerprint_server_sdk.models.proxy_details import ProxyDetails
+from fingerprint_server_sdk.models.rare_device_percentile_bucket import RareDevicePercentileBucket
 from fingerprint_server_sdk.models.raw_device_attributes import RawDeviceAttributes
 from fingerprint_server_sdk.models.sdk import SDK
 from fingerprint_server_sdk.models.supplementary_id_high_recall import SupplementaryIDHighRecall
@@ -135,6 +136,15 @@ class Event(BaseModel):
     )
     proxy_confidence: Optional[ProxyConfidence] = None
     proxy_details: Optional[ProxyDetails] = None
+    proxy_ml_score: Optional[
+        Union[
+            Annotated[float, Field(le=1, strict=True, ge=0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = Field(
+        default=None,
+        description='Machine learning–based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result ',
+    )
     incognito: Optional[StrictBool] = Field(
         default=None,
         description='`true` if we detected incognito mode used in the browser, `false` otherwise. ',
@@ -170,7 +180,7 @@ class Event(BaseModel):
     )
     tampering: Optional[StrictBool] = Field(
         default=None,
-        description='Flag indicating browser tampering was detected. This happens when either:   * There are inconsistencies in the browser configuration that cross internal tampering thresholds (see `tampering_details.anomaly_score`).   * The browser signature resembles an "anti-detect" browser specifically designed to evade fingerprinting (see `tampering_details.anti_detect_browser`). ',
+        description='The field can be used as a standalone flag for tampering detection. Alternatively, the more granular fields documented below can be used for workflows that require more context. * `true` if tampering is detected through an anomalous browser signature, anti-detect browser detection, or other tampering-related methods * `false` if none of the tampering checks return a positive result ',
     )
     tampering_confidence: Optional[TamperingConfidence] = None
     tampering_ml_score: Optional[
@@ -180,7 +190,7 @@ class Event(BaseModel):
         ]
     ] = Field(
         default=None,
-        description='A score that indicates the models calculated probability that an event is coming from an anti detect browser.   * Values above `0.8` indicate that the request is an anti detect browser based on the ml model   * Values below `0.8` indicate that the request is not an anti detect browser based on the ml model ',
+        description='The output of this model is captured as tampering_ml_score, a number indicating how likely an event is coming from an anti detect browser. Values close to 1 signify higher confidence and we consider anything above the threshold of 0.8 to be actionable (the result and anti_detect_browser fields conveniently captures that fact) ',
     )
     tampering_details: Optional[TamperingDetails] = None
     velocity: Optional[Velocity] = None
@@ -214,6 +224,11 @@ class Event(BaseModel):
         default=None,
         description='Flag indicating if the request came from a high-activity visitor.',
     )
+    rare_device: Optional[StrictBool] = Field(
+        default=None,
+        description='`true` if the device is considered rare based on its combination of hardware and software attributes.  A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic,  or if its configuration has not been previously seen (`not_seen`). > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
+    )
+    rare_device_percentile_bucket: Optional[RareDevicePercentileBucket] = None
     raw_device_attributes: Optional[RawDeviceAttributes] = None
     __properties: ClassVar[list[str]] = [
         'event_id',
@@ -248,6 +263,7 @@ class Event(BaseModel):
         'proxy',
         'proxy_confidence',
         'proxy_details',
+        'proxy_ml_score',
         'incognito',
         'jailbroken',
         'location_spoofing',
@@ -270,6 +286,8 @@ class Event(BaseModel):
         'vpn_origin_country',
         'vpn_methods',
         'high_activity_device',
+        'rare_device',
+        'rare_device_percentile_bucket',
         'raw_device_attributes',
     ]
 
@@ -415,6 +433,7 @@ class Event(BaseModel):
                 'proxy_details': ProxyDetails.from_dict(obj['proxy_details'])
                 if obj.get('proxy_details') is not None
                 else None,
+                'proxy_ml_score': obj.get('proxy_ml_score'),
                 'incognito': obj.get('incognito'),
                 'jailbroken': obj.get('jailbroken'),
                 'location_spoofing': obj.get('location_spoofing'),
@@ -445,6 +464,8 @@ class Event(BaseModel):
                 if obj.get('vpn_methods') is not None
                 else None,
                 'high_activity_device': obj.get('high_activity_device'),
+                'rare_device': obj.get('rare_device'),
+                'rare_device_percentile_bucket': obj.get('rare_device_percentile_bucket'),
                 'raw_device_attributes': RawDeviceAttributes.from_dict(
                     obj['raw_device_attributes']
                 )

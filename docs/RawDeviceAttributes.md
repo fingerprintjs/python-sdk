@@ -11,10 +11,10 @@ Name | Type | Description | Notes
 **device_memory** | **int** | Rounded amount of RAM (in gigabytes) reported by the browser. | [optional] 
 **timezone** | **str** | Timezone identifier detected on the client. | [optional] 
 **canvas** | [**Canvas**](Canvas.md) |  | [optional] 
-**languages** | **List[List[str]]** | Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs.  | [optional] 
+**languages** | **List[List[str]]** | Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for both browsers and iOS devices  | [optional] 
 **webgl_extensions** | [**WebGlExtensions**](WebGlExtensions.md) |  | [optional] 
 **webgl_basics** | [**WebGlBasics**](WebGlBasics.md) |  | [optional] 
-**screen_resolution** | **List[int]** | Current screen resolution. | [optional] 
+**screen_resolution** | **List[int]** | Current screen resolution. Available for both browsers and iOS devices | [optional] 
 **touch_support** | [**TouchSupport**](TouchSupport.md) |  | [optional] 
 **oscpu** | **str** | Navigator `oscpu` string. | [optional] 
 **architecture** | **int** | Integer representing the CPU architecture exposed by the browser. | [optional] 
@@ -30,6 +30,10 @@ Name | Type | Description | Notes
 **plugins** | [**List[PluginsInner]**](PluginsInner.md) | Browser plugins reported by `navigator.plugins`. | [optional] 
 **indexed_db** | **bool** | Whether IndexedDB is available. | [optional] 
 **math** | **str** | Hash of Math APIs used for entropy collection. | [optional] 
+**device_model** | **str** | Device model string. Available only for Android and iOS devices. | [optional] 
+**device_manufacturer** | **str** | Device manufacturer string. Available only for Android and iOS devices. | [optional] 
+**font_hash** | **str** | Unique identifier for the user’s installed fonts. | [optional] 
+**timezone_offset** | **str** | UTC offset in \"±HH:MM\" format derived from the detected IANA timezone. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

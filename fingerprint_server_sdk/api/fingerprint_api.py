@@ -24,6 +24,9 @@ from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
 from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
     SearchEventsIncrementalIdentificationStatus,
 )
+from fingerprint_server_sdk.models.search_events_rare_device_percentile_bucket import (
+    SearchEventsRareDevicePercentileBucket,
+)
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.rest import RESTResponseType
@@ -549,7 +552,9 @@ class FingerprintApi:
         self,
         limit: Annotated[
             Optional[Annotated[int, Field(le=100, strict=True, ge=1)]],
-            Field(description='Limit the number of events returned. '),
+            Field(
+                description='Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
+            ),
         ] = None,
         pagination_key: Annotated[
             Optional[StrictStr],
@@ -618,17 +623,20 @@ class FingerprintApi:
         start: Annotated[
             Optional[StrictInt],
             Field(
-                description='Filter events with a timestamp greater than the start time, in Unix time (milliseconds). '
+                description="Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed. "
             ),
         ] = None,
         end: Annotated[
             Optional[StrictInt],
             Field(
-                description='Filter events with a timestamp smaller than the end time, in Unix time (milliseconds). '
+                description="Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed. "
             ),
         ] = None,
         reverse: Annotated[
-            Optional[StrictBool], Field(description='Sort events in reverse timestamp order. ')
+            Optional[StrictBool],
+            Field(
+                description='When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order). '
+            ),
         ] = None,
         suspect: Annotated[
             Optional[StrictBool],
@@ -736,6 +744,18 @@ class FingerprintApi:
             Optional[StrictBool],
             Field(
                 description='Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        rare_device: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by Device Rarity detection result. > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        rare_device_percentile_bucket: Annotated[
+            Optional[SearchEventsRareDevicePercentileBucket],
+            Field(
+                description='Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before. '
             ),
         ] = None,
         proxy: Annotated[
@@ -803,9 +823,9 @@ class FingerprintApi:
     ) -> EventSearch:
         """Search events
 
-        ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  If you don't provide `start` or `end` parameters, the default search range is the **last 7 days**.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
+        ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.  - Use `start` and `end` to specify the time range of the search. - Use `reverse=true` to sort the results oldest first. - Use `limit` to specify the number of events to return. - Use `pagination_key` to get the next page of results if there are more than `limit` events.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
 
-        :param limit: Limit the number of events returned.
+        :param limit: Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
@@ -829,11 +849,11 @@ class FingerprintApi:
         :type package_name: str
         :param origin: Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
         :type origin: str
-        :param start: Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
+        :param start: Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
         :type start: int
-        :param end: Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
+        :param end: Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
         :type end: int
-        :param reverse: Sort events in reverse timestamp order.
+        :param reverse: When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).
         :type reverse: bool
         :param suspect: Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
         :type suspect: bool
@@ -871,6 +891,10 @@ class FingerprintApi:
         :type location_spoofing: bool
         :param mitm_attack: Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response.
         :type mitm_attack: bool
+        :param rare_device: Filter events by Device Rarity detection result. > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
+        :type rare_device: bool
+        :param rare_device_percentile_bucket: Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before.
+        :type rare_device_percentile_bucket: SearchEventsRareDevicePercentileBucket
         :param proxy: Filter events by Proxy detection result. > Note: When using this parameter, only events with the `proxy` property set to `true` or `false` are returned. Events without a `proxy` Smart Signal result are left out of the response.
         :type proxy: bool
         :param sdk_version: Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
@@ -941,6 +965,8 @@ class FingerprintApi:
             developer_tools=developer_tools,
             location_spoofing=location_spoofing,
             mitm_attack=mitm_attack,
+            rare_device=rare_device,
+            rare_device_percentile_bucket=rare_device_percentile_bucket,
             proxy=proxy,
             sdk_version=sdk_version,
             sdk_platform=sdk_platform,
@@ -974,7 +1000,9 @@ class FingerprintApi:
         self,
         limit: Annotated[
             Optional[Annotated[int, Field(le=100, strict=True, ge=1)]],
-            Field(description='Limit the number of events returned. '),
+            Field(
+                description='Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
+            ),
         ] = None,
         pagination_key: Annotated[
             Optional[StrictStr],
@@ -1043,17 +1071,20 @@ class FingerprintApi:
         start: Annotated[
             Optional[StrictInt],
             Field(
-                description='Filter events with a timestamp greater than the start time, in Unix time (milliseconds). '
+                description="Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed. "
             ),
         ] = None,
         end: Annotated[
             Optional[StrictInt],
             Field(
-                description='Filter events with a timestamp smaller than the end time, in Unix time (milliseconds). '
+                description="Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed. "
             ),
         ] = None,
         reverse: Annotated[
-            Optional[StrictBool], Field(description='Sort events in reverse timestamp order. ')
+            Optional[StrictBool],
+            Field(
+                description='When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order). '
+            ),
         ] = None,
         suspect: Annotated[
             Optional[StrictBool],
@@ -1161,6 +1192,18 @@ class FingerprintApi:
             Optional[StrictBool],
             Field(
                 description='Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        rare_device: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by Device Rarity detection result. > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        rare_device_percentile_bucket: Annotated[
+            Optional[SearchEventsRareDevicePercentileBucket],
+            Field(
+                description='Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before. '
             ),
         ] = None,
         proxy: Annotated[
@@ -1228,9 +1271,9 @@ class FingerprintApi:
     ) -> ApiResponse[EventSearch]:
         """Search events
 
-        ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  If you don't provide `start` or `end` parameters, the default search range is the **last 7 days**.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
+        ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.  - Use `start` and `end` to specify the time range of the search. - Use `reverse=true` to sort the results oldest first. - Use `limit` to specify the number of events to return. - Use `pagination_key` to get the next page of results if there are more than `limit` events.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
 
-        :param limit: Limit the number of events returned.
+        :param limit: Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
@@ -1254,11 +1297,11 @@ class FingerprintApi:
         :type package_name: str
         :param origin: Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
         :type origin: str
-        :param start: Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
+        :param start: Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
         :type start: int
-        :param end: Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
+        :param end: Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
         :type end: int
-        :param reverse: Sort events in reverse timestamp order.
+        :param reverse: When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).
         :type reverse: bool
         :param suspect: Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
         :type suspect: bool
@@ -1296,6 +1339,10 @@ class FingerprintApi:
         :type location_spoofing: bool
         :param mitm_attack: Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response.
         :type mitm_attack: bool
+        :param rare_device: Filter events by Device Rarity detection result. > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
+        :type rare_device: bool
+        :param rare_device_percentile_bucket: Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before.
+        :type rare_device_percentile_bucket: SearchEventsRareDevicePercentileBucket
         :param proxy: Filter events by Proxy detection result. > Note: When using this parameter, only events with the `proxy` property set to `true` or `false` are returned. Events without a `proxy` Smart Signal result are left out of the response.
         :type proxy: bool
         :param sdk_version: Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
@@ -1366,6 +1413,8 @@ class FingerprintApi:
             developer_tools=developer_tools,
             location_spoofing=location_spoofing,
             mitm_attack=mitm_attack,
+            rare_device=rare_device,
+            rare_device_percentile_bucket=rare_device_percentile_bucket,
             proxy=proxy,
             sdk_version=sdk_version,
             sdk_platform=sdk_platform,
@@ -1399,7 +1448,9 @@ class FingerprintApi:
         self,
         limit: Annotated[
             Optional[Annotated[int, Field(le=100, strict=True, ge=1)]],
-            Field(description='Limit the number of events returned. '),
+            Field(
+                description='Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
+            ),
         ] = None,
         pagination_key: Annotated[
             Optional[StrictStr],
@@ -1468,17 +1519,20 @@ class FingerprintApi:
         start: Annotated[
             Optional[StrictInt],
             Field(
-                description='Filter events with a timestamp greater than the start time, in Unix time (milliseconds). '
+                description="Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed. "
             ),
         ] = None,
         end: Annotated[
             Optional[StrictInt],
             Field(
-                description='Filter events with a timestamp smaller than the end time, in Unix time (milliseconds). '
+                description="Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed. "
             ),
         ] = None,
         reverse: Annotated[
-            Optional[StrictBool], Field(description='Sort events in reverse timestamp order. ')
+            Optional[StrictBool],
+            Field(
+                description='When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order). '
+            ),
         ] = None,
         suspect: Annotated[
             Optional[StrictBool],
@@ -1588,6 +1642,18 @@ class FingerprintApi:
                 description='Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        rare_device: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by Device Rarity detection result. > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        rare_device_percentile_bucket: Annotated[
+            Optional[SearchEventsRareDevicePercentileBucket],
+            Field(
+                description='Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before. '
+            ),
+        ] = None,
         proxy: Annotated[
             Optional[StrictBool],
             Field(
@@ -1653,9 +1719,9 @@ class FingerprintApi:
     ) -> RESTResponseType:
         """Search events
 
-        ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  If you don't provide `start` or `end` parameters, the default search range is the **last 7 days**.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
+        ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.  - Use `start` and `end` to specify the time range of the search. - Use `reverse=true` to sort the results oldest first. - Use `limit` to specify the number of events to return. - Use `pagination_key` to get the next page of results if there are more than `limit` events.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
 
-        :param limit: Limit the number of events returned.
+        :param limit: Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 200 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
         :type pagination_key: str
@@ -1679,11 +1745,11 @@ class FingerprintApi:
         :type package_name: str
         :param origin: Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
         :type origin: str
-        :param start: Filter events with a timestamp greater than the start time, in Unix time (milliseconds).
+        :param start: Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
         :type start: int
-        :param end: Filter events with a timestamp smaller than the end time, in Unix time (milliseconds).
+        :param end: Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
         :type end: int
-        :param reverse: Sort events in reverse timestamp order.
+        :param reverse: When `true`, sort events oldest first (ascending timestamp order). Default is newest first (descending timestamp order).
         :type reverse: bool
         :param suspect: Filter events previously tagged as suspicious via the [Update API](https://docs.fingerprint.com/reference/server-api-v4-update-event). > Note: When using this parameter, only events with the `suspect` property explicitly set to `true` or `false` are returned. Events with undefined `suspect` property are left out of the response.
         :type suspect: bool
@@ -1721,6 +1787,10 @@ class FingerprintApi:
         :type location_spoofing: bool
         :param mitm_attack: Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `mitm_attack` property set to `true` or `false` are returned. Events without a `mitm_attack` Smart Signal result are left out of the response.
         :type mitm_attack: bool
+        :param rare_device: Filter events by Device Rarity detection result. > Note: When using this parameter, only events with the `rare_device` property set to `true` or `false` are returned. Events without a Device Rarity Smart Signal result are left out of the response.
+        :type rare_device: bool
+        :param rare_device_percentile_bucket: Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before.
+        :type rare_device_percentile_bucket: SearchEventsRareDevicePercentileBucket
         :param proxy: Filter events by Proxy detection result. > Note: When using this parameter, only events with the `proxy` property set to `true` or `false` are returned. Events without a `proxy` Smart Signal result are left out of the response.
         :type proxy: bool
         :param sdk_version: Filter events by a specific SDK version associated with the identification event (`sdk.version` property). Example: `3.11.14`
@@ -1791,6 +1861,8 @@ class FingerprintApi:
             developer_tools=developer_tools,
             location_spoofing=location_spoofing,
             mitm_attack=mitm_attack,
+            rare_device=rare_device,
+            rare_device_percentile_bucket=rare_device_percentile_bucket,
             proxy=proxy,
             sdk_version=sdk_version,
             sdk_platform=sdk_platform,
@@ -1850,6 +1922,8 @@ class FingerprintApi:
         developer_tools: Optional[bool],
         location_spoofing: Optional[bool],
         mitm_attack: Optional[bool],
+        rare_device: Optional[bool],
+        rare_device_percentile_bucket: Optional[SearchEventsRareDevicePercentileBucket],
         proxy: Optional[bool],
         sdk_version: Optional[str],
         sdk_platform: Optional[SearchEventsSdkPlatform],
@@ -2009,6 +2083,16 @@ class FingerprintApi:
         # process the query parameters
         if mitm_attack is not None:
             _query_params.append(('mitm_attack', mitm_attack))
+
+        # process the query parameters
+        if rare_device is not None:
+            _query_params.append(('rare_device', rare_device))
+
+        # process the query parameters
+        if rare_device_percentile_bucket is not None:
+            _query_params.append(
+                ('rare_device_percentile_bucket', rare_device_percentile_bucket.value)
+            )
 
         # process the query parameters
         if proxy is not None:
