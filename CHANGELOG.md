@@ -1,5 +1,16 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.2.0
+
+### Minor Changes
+
+- **events**: Add Device Rarity Smart Signal ([0a5a22a](https://github.com/fingerprintjs/python-sdk/commit/0a5a22ac187a6fd0491b251b79611436f25af8b5))
+- **events**: Add `proxy_ml_score` to `Event` ([0a5a22a](https://github.com/fingerprintjs/python-sdk/commit/0a5a22ac187a6fd0491b251b79611436f25af8b5))
+- **events**: Add `font_hash` and `timezone_offset` fields for the `RawDeviceAttributes` ([0a5a22a](https://github.com/fingerprintjs/python-sdk/commit/0a5a22ac187a6fd0491b251b79611436f25af8b5))
+- **events**: Enable `raw_device_attributes` for Android devices. Only `device_manufacturer` and `device_model` are currently supported for Android devices. ([0a5a22a](https://github.com/fingerprintjs/python-sdk/commit/0a5a22ac187a6fd0491b251b79611436f25af8b5))
+- **events**: Enable `raw_device_attributes` for iOS devices. Only `device_manufacturer`, `device_model`, `hardware_concurrency`, `languages`, and `screen_resolution` are currently supported for iOS devices. ([0a5a22a](https://github.com/fingerprintjs/python-sdk/commit/0a5a22ac187a6fd0491b251b79611436f25af8b5))
+- **events**: Add `request_read_timeout` error code ([0a5a22a](https://github.com/fingerprintjs/python-sdk/commit/0a5a22ac187a6fd0491b251b79611436f25af8b5))
+
 ## 9.1.0
 
 ### Minor Changes
