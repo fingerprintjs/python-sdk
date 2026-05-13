@@ -18,11 +18,11 @@ from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, valid
 from fingerprint_server_sdk.api_client import ApiClient, RequestSerialized
 from fingerprint_server_sdk.api_response import ApiResponse
 from fingerprint_server_sdk.configuration import Configuration
-from fingerprint_server_sdk.models import SearchEventsEndParameter, SearchEventsStartParameter
 from fingerprint_server_sdk.models.event import Event
 from fingerprint_server_sdk.models.event_search import EventSearch
 from fingerprint_server_sdk.models.event_update import EventUpdate
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
+from fingerprint_server_sdk.models.search_events_end_parameter import SearchEventsEndParameter
 from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
     SearchEventsIncrementalIdentificationStatus,
 )
@@ -30,6 +30,7 @@ from fingerprint_server_sdk.models.search_events_rare_device_percentile_bucket i
     SearchEventsRareDevicePercentileBucket,
 )
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
+from fingerprint_server_sdk.models.search_events_start_parameter import SearchEventsStartParameter
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.rest import RESTResponseType
 
