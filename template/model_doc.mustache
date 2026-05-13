@@ -11,6 +11,17 @@ Name | Type | Description | Notes
 {{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{{description}}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
 {{/emptyVars}}
+{{#emptyVars}}
+{{^model.discriminator}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+## Type alias
+
+`Union[{{#oneOf}}{{^-last}}{{.}},{{/-last}}{{#-last}}{{.}}{{/-last}}{{/oneOf}}]`
+{{/-first}}
+{{/composedSchemas.oneOf}}
+{{/model.discriminator}}
+{{/emptyVars}}
 {{/isEnum}}
 {{#isEnum}}
 ## Enum

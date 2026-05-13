@@ -8,6 +8,23 @@ from typing_extensions import Annotated
 {{#imports}}
 {{import}}
 {{/imports}}
+{{#operations.operation}}
+{{! Workaround for missing imports for parameters that use oneOf }}
+{{#allParams}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
+{{#composedSchemas.oneOf}}
+{{#-first}}
+from {{packageName}} import {{schema.complexType}}
+{{! 
+Workaround for missing imports for parmaeters that use a oneOf with a nested datetime.
+The ruff check autofix will remove this import if it is unused
+}}
+from datetime import datetime, date
+{{/-first}}
+{{/composedSchemas.oneOf}}
+{{/hasDiscriminatorWithNonEmptyMapping}}
+{{/allParams}}
+{{/operations.operation}}
 from {{packageName}}.api_client import ApiClient, RequestSerialized
 from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.configuration import Configuration
@@ -117,6 +134,7 @@ class {{classname}}:
 {{#queryParams}}
         # process the query parameters
         if {{paramName}} is not None:
+            {{^schema.composedSchemas.oneOf}}
             {{#isDateTime}}
             if isinstance({{paramName}}, datetime):
                 _query_params.append(
@@ -146,6 +164,31 @@ class {{classname}}:
             {{^isDateTime}}{{^isDate}}
             _query_params.append(('{{baseName}}', {{paramName}}{{#isEnumRef}}.value{{/isEnumRef}}))
             {{/isDate}}{{/isDateTime}}
+            {{/schema.composedSchemas.oneOf}}
+            {{#schema.composedSchemas.oneOf}}
+            {{#-first}}
+            if isinstance({{paramName}}, datetime):
+                _query_params.append(
+                    (
+                        '{{schema.baseName}}',
+                        {{paramName}}.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            elif isinstance({{paramName}}, date):
+                _query_params.append(
+                    (
+                        '{{schema.baseName}}',
+                        {{paramName}}.strftime(
+                            self.api_client.configuration.date_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('{{schema.baseName}}', {{paramName}}))
+            {{/-first}}
+            {{/schema.composedSchemas.oneOf}}
 {{/queryParams}}
 
 {{#headerParams}}

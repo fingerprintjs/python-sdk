@@ -1,3 +1,4 @@
+{{#hasDiscriminatorWithNonEmptyMapping}}
 from __future__ import annotations
 import json
 import pprint
@@ -206,3 +207,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 # TODO: Rewrite to not use raise_errors
 {{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}
+{{/hasDiscriminatorWithNonEmptyMapping}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
+from typing import Union
+{{#composedSchemas.oneOf}}
+{{#isDateTime}}
+from datetime import datetime
+{{/isDateTime}}
+{{/composedSchemas.oneOf}}
+{{classname}} = Union[{{#oneOf}}{{^-last}}{{.}},{{/-last}}{{#-last}}{{.}}{{/-last}}{{/oneOf}}]
+{{/hasDiscriminatorWithNonEmptyMapping}}
