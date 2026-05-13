@@ -15,10 +15,10 @@ from typing import Annotated, Any, Optional, Union  # noqa: UP035
 
 from pydantic import Field, StrictBool, StrictFloat, StrictInt, StrictStr, validate_call
 
-from fingerprint_server_sdk import SearchEventsEndParameter, SearchEventsStartParameter
 from fingerprint_server_sdk.api_client import ApiClient, RequestSerialized
 from fingerprint_server_sdk.api_response import ApiResponse
 from fingerprint_server_sdk.configuration import Configuration
+from fingerprint_server_sdk.models import SearchEventsEndParameter, SearchEventsStartParameter
 from fingerprint_server_sdk.models.event import Event
 from fingerprint_server_sdk.models.event_search import EventSearch
 from fingerprint_server_sdk.models.event_update import EventUpdate
