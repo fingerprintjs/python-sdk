@@ -14,7 +14,7 @@ from typing_extensions import Annotated
 {{^hasDiscriminatorWithNonEmptyMapping}}
 {{#composedSchemas.oneOf}}
 {{#-first}}
-from {{packageName}}.models import {{schema.complexType}}
+from {{packageName}}.models.{{#lambda.snakecase}}{{schema.complexType}}{{/lambda.snakecase}} import {{schema.complexType}}
 {{! 
 Workaround for missing imports for parmaeters that use a oneOf with a nested datetime.
 The ruff check autofix will remove this import if it is unused
