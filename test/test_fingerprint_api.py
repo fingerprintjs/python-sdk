@@ -1,5 +1,6 @@
 import unittest
 from urllib.parse import urlencode
+from datetime import datetime, timezone
 
 from fingerprint_server_sdk import (
     BadRequestException,
@@ -328,6 +329,10 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertEqual(first_event.event_id, '1708102555327.NLOjmg')
 
     def test_search_events_all_params(self) -> None:
+        start_timestamp = 1582299576511
+        end_timestamp = 1582299576513
+        start_date = datetime.fromtimestamp(start_timestamp / 1000, tz=timezone.utc)
+
         """Test case for search_events with all available parameters"""
         api_params = {
             'limit': 1,
@@ -341,8 +346,8 @@ class TestFingerprintApi(unittest.TestCase):
             'bundle_id': 'com.example.bundleId',
             'package_name': 'com.example',
             'origin': 'https://example.com',
-            'start': 1582299576511,
-            'end': 1582299576513,
+            'start': start_date,
+            'end': end_timestamp,
             'reverse': True,
             'suspect': False,
             'vpn': True,
@@ -389,8 +394,8 @@ class TestFingerprintApi(unittest.TestCase):
             'bundle_id': 'com.example.bundleId',
             'package_name': 'com.example',
             'origin': 'https://example.com',
-            'start': 1582299576511,
-            'end': 1582299576513,
+            'start': start_date.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
+            'end': end_timestamp,
             'reverse': 'true',
             'suspect': 'false',
             'vpn': 'true',
