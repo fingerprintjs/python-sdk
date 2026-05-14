@@ -1,6 +1,6 @@
 import unittest
-from urllib.parse import urlencode
 from datetime import datetime, timezone
+from urllib.parse import urlencode
 
 from fingerprint_server_sdk import (
     BadRequestException,
@@ -394,7 +394,7 @@ class TestFingerprintApi(unittest.TestCase):
             'bundle_id': 'com.example.bundleId',
             'package_name': 'com.example',
             'origin': 'https://example.com',
-            'start': start_date.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
+            'start': start_date.isoformat(),
             'end': end_timestamp,
             'reverse': 'true',
             'suspect': 'false',
