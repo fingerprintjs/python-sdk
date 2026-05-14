@@ -212,8 +212,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 from typing import Union
 {{#composedSchemas.oneOf}}
 {{#isDateTime}}
-from datetime import datetime
+from pydantic import AwareDatetime
 {{/isDateTime}}
 {{/composedSchemas.oneOf}}
-{{classname}} = Union[{{#oneOf}}{{^-last}}{{.}},{{/-last}}{{#-last}}{{.}}{{/-last}}{{/oneOf}}]
+{{classname}} = Union[{{#composedSchemas.oneOf}}{{#isDateTime}}AwareDatetime{{/isDateTime}}{{^isDateTime}}{{dataType}}{{/isDateTime}}{{^-last}},{{/-last}}{{/composedSchemas.oneOf}}]
 {{/hasDiscriminatorWithNonEmptyMapping}}
