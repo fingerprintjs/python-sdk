@@ -15,7 +15,7 @@ from typing_extensions import Annotated
 {{#composedSchemas.oneOf}}
 {{#-first}}
 from {{packageName}}.models.{{#lambda.snakecase}}{{schema.complexType}}{{/lambda.snakecase}} import {{schema.complexType}}
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 {{/-first}}
 {{/composedSchemas.oneOf}}
 {{/hasDiscriminatorWithNonEmptyMapping}}
@@ -167,18 +167,14 @@ class {{classname}}:
                 _query_params.append(
                     (
                         '{{schema.baseName}}',
-                        {{paramName}}.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
+                        {{paramName}}.replace(tzinfo={{paramName}}.tzinfo or timezone.utc).isoformat(timespec='microseconds')
                     )
                 )
             elif isinstance({{paramName}}, date):
                 _query_params.append(
                     (
                         '{{schema.baseName}}',
-                        {{paramName}}.strftime(
-                            self.api_client.configuration.date_format
-                        )
+                        {{paramName}}.isoformat()
                     )
                 )
             else:
