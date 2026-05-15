@@ -18,18 +18,18 @@ from enum import Enum
 from typing_extensions import Self
 
 
-class IncrementalIdentificationStatus(str, Enum):
+class SearchEventsBotInfo(str, Enum):
     """
-    Only included for requests using incremental identification. - `partially_completed` - Indicates this event corresponds to a 'minimal' request. Smart Signals, even if included in your plan, are not computed; hence, their values must be ignored. - `completed` - Indicates this event corresponds to a 'complete' request. Smart Signals, if included in your plan, are computed; hence, their values are valid and relevant.
+    Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected.
     """
 
     """
     allowed enum values
     """
-    PARTIALLY_COMPLETED = 'partially_completed'
-    COMPLETED = 'completed'
+    ALL = 'all'
+    NONE = 'none'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of IncrementalIdentificationStatus from a JSON string"""
+        """Create an instance of SearchEventsBotInfo from a JSON string"""
         return cls(json.loads(json_str))

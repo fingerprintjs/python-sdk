@@ -1,5 +1,8 @@
 README.md
 docs/BotInfo.md
+docs/BotInfoCategory.md
+docs/BotInfoConfidence.md
+docs/BotInfoIdentity.md
 docs/BotResult.md
 docs/BrowserDetails.md
 docs/Canvas.md
@@ -27,6 +30,7 @@ docs/IdentificationConfidence.md
 docs/IncrementalIdentificationStatus.md
 docs/Integration.md
 docs/IntegrationSubintegration.md
+docs/LabelsInner.md
 docs/PluginsInner.md
 docs/PluginsInnerMimeTypesInner.md
 docs/Proximity.md
@@ -40,9 +44,12 @@ docs/RuleActionType.md
 docs/SDK.md
 docs/SealedResults.md
 docs/SearchEventsBot.md
+docs/SearchEventsBotInfo.md
+docs/SearchEventsEndParameter.md
 docs/SearchEventsIncrementalIdentificationStatus.md
 docs/SearchEventsRareDevicePercentileBucket.md
 docs/SearchEventsSdkPlatform.md
+docs/SearchEventsStartParameter.md
 docs/SearchEventsVpnConfidence.md
 docs/SupplementaryIDHighRecall.md
 docs/TamperingConfidence.md
@@ -63,6 +70,9 @@ fingerprint_server_sdk/configuration.py
 fingerprint_server_sdk/exceptions.py
 fingerprint_server_sdk/models/__init__.py
 fingerprint_server_sdk/models/bot_info.py
+fingerprint_server_sdk/models/bot_info_category.py
+fingerprint_server_sdk/models/bot_info_confidence.py
+fingerprint_server_sdk/models/bot_info_identity.py
 fingerprint_server_sdk/models/bot_result.py
 fingerprint_server_sdk/models/browser_details.py
 fingerprint_server_sdk/models/canvas.py
@@ -88,6 +98,7 @@ fingerprint_server_sdk/models/ip_block_list.py
 fingerprint_server_sdk/models/ip_info.py
 fingerprint_server_sdk/models/ip_info_v4.py
 fingerprint_server_sdk/models/ip_info_v6.py
+fingerprint_server_sdk/models/labels_inner.py
 fingerprint_server_sdk/models/plugins_inner.py
 fingerprint_server_sdk/models/plugins_inner_mime_types_inner.py
 fingerprint_server_sdk/models/proximity.py
@@ -100,9 +111,12 @@ fingerprint_server_sdk/models/rule_action_header_field.py
 fingerprint_server_sdk/models/rule_action_type.py
 fingerprint_server_sdk/models/sdk.py
 fingerprint_server_sdk/models/search_events_bot.py
+fingerprint_server_sdk/models/search_events_bot_info.py
+fingerprint_server_sdk/models/search_events_end_parameter.py
 fingerprint_server_sdk/models/search_events_incremental_identification_status.py
 fingerprint_server_sdk/models/search_events_rare_device_percentile_bucket.py
 fingerprint_server_sdk/models/search_events_sdk_platform.py
+fingerprint_server_sdk/models/search_events_start_parameter.py
 fingerprint_server_sdk/models/search_events_vpn_confidence.py
 fingerprint_server_sdk/models/supplementary_id_high_recall.py
 fingerprint_server_sdk/models/tampering_confidence.py

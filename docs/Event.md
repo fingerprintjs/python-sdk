@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 **bot_type** | **str** | Additional classification of the bot type if detected.  | [optional] 
 **bot_info** | [**BotInfo**](BotInfo.md) |  | [optional] 
 **cloned_app** | **bool** | Android specific cloned application detection. There are 2 values:  * `true` - Presence of app cloners work detected (e.g. fully cloned application found or launch of it inside of a not main working profile detected). * `false` - No signs of cloned application detected or the client is not Android.  | [optional] 
-**developer_tools** | **bool** | `true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise.  | [optional] 
+**developer_tools** | **bool** | `true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise.  | [optional] 
 **emulator** | **bool** | Android specific emulator detection. There are 2 values:  * `true` - Emulated environment detected (e.g. launch inside of AVD).  * `false` - No signs of emulated environment detected or the client is not Android.  | [optional] 
 **factory_reset_timestamp** | **int** | The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time. When a factory reset cannot be detected on the mobile device or when the request is initiated from a browser,  this field will correspond to the *epoch* time (i.e 1 Jan 1970 UTC) as a value of 0. See [Factory Reset Detection](https://docs.fingerprint.com/docs/smart-signals-reference#factory-reset-detection) to learn more about this Smart Signal.  | [optional] 
 **frida** | **bool** | [Frida](https://frida.re/docs/) detection for Android and iOS devices. There are 2 values: * `true` - Frida detected * `false` - No signs of Frida or the client is not a mobile device.  | [optional] 
@@ -36,7 +36,7 @@ Name | Type | Description | Notes
 **proxy** | **bool** | IP address was used by a public proxy provider or belonged to a known recent residential proxy  | [optional] 
 **proxy_confidence** | [**ProxyConfidence**](ProxyConfidence.md) |  | [optional] 
 **proxy_details** | [**ProxyDetails**](ProxyDetails.md) |  | [optional] 
-**proxy_ml_score** | **float** | Machine learning–based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result  | [optional] 
+**proxy_ml_score** | **float** | Machine learning–based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).  | [optional] 
 **incognito** | **bool** | `true` if we detected incognito mode used in the browser, `false` otherwise.  | [optional] 
 **jailbroken** | **bool** | iOS specific jailbreak detection. There are 2 values:  * `true` - Jailbreak detected. * `false` - No signs of jailbreak or the client is not iOS.  | [optional] 
 **location_spoofing** | **bool** | Flag indicating whether the request came from a mobile device with location spoofing enabled. | [optional] 
@@ -52,7 +52,7 @@ Name | Type | Description | Notes
 **tampering_details** | [**TamperingDetails**](TamperingDetails.md) |  | [optional] 
 **velocity** | [**Velocity**](Velocity.md) |  | [optional] 
 **virtual_machine** | **bool** | `true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise.  | [optional] 
-**virtual_machine_ml_score** | **float** | Machine learning–based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result  | [optional] 
+**virtual_machine_ml_score** | **float** | Machine learning–based virtual machine score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).  | [optional] 
 **vpn** | **bool** | VPN or other anonymizing service has been used when sending the request.  | [optional] 
 **vpn_confidence** | [**VpnConfidence**](VpnConfidence.md) |  | [optional] 
 **vpn_origin_timezone** | **str** | Local timezone which is used in timezone_mismatch method.  | [optional] 
@@ -62,6 +62,7 @@ Name | Type | Description | Notes
 **rare_device** | **bool** | `true` if the device is considered rare based on its combination of hardware and software attributes.  A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic,  or if its configuration has not been previously seen (`not_seen`). > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).  | [optional] 
 **rare_device_percentile_bucket** | [**RareDevicePercentileBucket**](RareDevicePercentileBucket.md) |  | [optional] 
 **raw_device_attributes** | [**RawDeviceAttributes**](RawDeviceAttributes.md) |  | [optional] 
+**labels** | [**List[LabelsInner]**](LabelsInner.md) | Each label returns a prediction (true or false) for a specific use case (label field) based on a machine learning score. The machine learning score is determined by a model trained on customer data for that use case. This field is in the beta phase and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

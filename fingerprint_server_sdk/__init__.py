@@ -42,6 +42,9 @@ __all__ = [
     'UnsealAggregateError',
     'unseal_event_response',
     'BotInfo',
+    'BotInfoCategory',
+    'BotInfoConfidence',
+    'BotInfoIdentity',
     'BotResult',
     'BrowserDetails',
     'Canvas',
@@ -67,6 +70,7 @@ __all__ = [
     'IncrementalIdentificationStatus',
     'Integration',
     'IntegrationSubintegration',
+    'LabelsInner',
     'PluginsInner',
     'PluginsInnerMimeTypesInner',
     'Proximity',
@@ -79,9 +83,12 @@ __all__ = [
     'RuleActionType',
     'SDK',
     'SearchEventsBot',
+    'SearchEventsBotInfo',
+    'SearchEventsEndParameter',
     'SearchEventsIncrementalIdentificationStatus',
     'SearchEventsRareDevicePercentileBucket',
     'SearchEventsSdkPlatform',
+    'SearchEventsStartParameter',
     'SearchEventsVpnConfidence',
     'SupplementaryIDHighRecall',
     'TamperingConfidence',
@@ -119,6 +126,9 @@ from fingerprint_server_sdk.exceptions import TooManyRequestsException
 
 # import models into sdk package
 from fingerprint_server_sdk.models.bot_info import BotInfo
+from fingerprint_server_sdk.models.bot_info_category import BotInfoCategory
+from fingerprint_server_sdk.models.bot_info_confidence import BotInfoConfidence
+from fingerprint_server_sdk.models.bot_info_identity import BotInfoIdentity
 from fingerprint_server_sdk.models.bot_result import BotResult
 from fingerprint_server_sdk.models.browser_details import BrowserDetails
 from fingerprint_server_sdk.models.canvas import Canvas
@@ -148,6 +158,7 @@ from fingerprint_server_sdk.models.incremental_identification_status import (
 )
 from fingerprint_server_sdk.models.integration import Integration
 from fingerprint_server_sdk.models.integration_subintegration import IntegrationSubintegration
+from fingerprint_server_sdk.models.labels_inner import LabelsInner
 from fingerprint_server_sdk.models.plugins_inner import PluginsInner
 from fingerprint_server_sdk.models.plugins_inner_mime_types_inner import PluginsInnerMimeTypesInner
 from fingerprint_server_sdk.models.proximity import Proximity
@@ -160,6 +171,8 @@ from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHea
 from fingerprint_server_sdk.models.rule_action_type import RuleActionType
 from fingerprint_server_sdk.models.sdk import SDK
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
+from fingerprint_server_sdk.models.search_events_bot_info import SearchEventsBotInfo
+from fingerprint_server_sdk.models.search_events_end_parameter import SearchEventsEndParameter
 from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
     SearchEventsIncrementalIdentificationStatus,
 )
@@ -167,6 +180,7 @@ from fingerprint_server_sdk.models.search_events_rare_device_percentile_bucket i
     SearchEventsRareDevicePercentileBucket,
 )
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
+from fingerprint_server_sdk.models.search_events_start_parameter import SearchEventsStartParameter
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.models.supplementary_id_high_recall import SupplementaryIDHighRecall
 from fingerprint_server_sdk.models.tampering_confidence import TamperingConfidence

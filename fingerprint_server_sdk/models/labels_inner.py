@@ -15,37 +15,26 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Optional
+from typing import Annotated, Any, ClassVar, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing_extensions import Self
 
-from fingerprint_server_sdk.models.bot_info_category import BotInfoCategory
-from fingerprint_server_sdk.models.bot_info_confidence import BotInfoConfidence
-from fingerprint_server_sdk.models.bot_info_identity import BotInfoIdentity
 
-
-class BotInfo(BaseModel):
+class LabelsInner(BaseModel):
     """
-    Extended bot information.
+    LabelsInner
     """
 
-    category: BotInfoCategory
-    provider: StrictStr = Field(description='The organization or company operating the bot.')
-    provider_url: Optional[StrictStr] = Field(
-        default=None, description="The URL of the bot provider's website."
-    )
-    name: StrictStr = Field(description='The specific name or identifier of the bot.')
-    identity: BotInfoIdentity
-    confidence: BotInfoConfidence
-    __properties: ClassVar[list[str]] = [
-        'category',
-        'provider',
-        'provider_url',
-        'name',
-        'identity',
-        'confidence',
-    ]
+    label: Optional[StrictStr] = None
+    prediction: Optional[StrictBool] = None
+    ml_score: Optional[
+        Union[
+            Annotated[float, Field(le=1, strict=True, ge=0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = None
+    __properties: ClassVar[list[str]] = ['label', 'prediction', 'ml_score']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -64,7 +53,7 @@ class BotInfo(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BotInfo from a JSON string"""
+        """Create an instance of LabelsInner from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -88,7 +77,7 @@ class BotInfo(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BotInfo from a dict"""
+        """Create an instance of LabelsInner from a dict"""
         if obj is None:
             return None
 
@@ -97,12 +86,9 @@ class BotInfo(BaseModel):
 
         _obj = cls.model_validate(
             {
-                'category': obj.get('category'),
-                'provider': obj.get('provider'),
-                'provider_url': obj.get('provider_url'),
-                'name': obj.get('name'),
-                'identity': obj.get('identity'),
-                'confidence': obj.get('confidence'),
+                'label': obj.get('label'),
+                'prediction': obj.get('prediction'),
+                'ml_score': obj.get('ml_score'),
             }
         )
         return _obj
