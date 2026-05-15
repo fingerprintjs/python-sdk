@@ -1,7 +1,7 @@
 (
         self,
         {{#allParams}}
-        {{paramName}}: {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}},
+        {{paramName}}: {{^schema.composedSchemas}}{{{vendorExtensions.x-py-typing}}}{{/schema.composedSchemas}}{{#schema.composedSchemas}}Annotated[{{^required}}Optional[{{/required}}{{schema.complexType}}{{^required}}]{{/required}},Field(description="{{{description}}}",)]{{/schema.composedSchemas}}{{^required}} = None{{/required}},
         {{/allParams}}
         _request_timeout: Union[
             None,
