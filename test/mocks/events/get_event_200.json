@@ -27,14 +27,14 @@
     "last_seen_at": 1708102555327
   },
   "supplementary_id_high_recall": {
-    "visitor_id": "3HNey93AkBW6CRbxV6xP",
+    "visitor_id": "0jnGMkPYXX37DqVa4ZIO3f_hr",
     "visitor_found": true,
     "confidence": {
-      "score": 0.97,
-      "version": "1.1"
+      "score": 0,
+      "version": "Not Supported"
     },
-    "first_seen_at": 1708102555327,
-    "last_seen_at": 1708102555327
+    "first_seen_at": 1778086556130,
+    "last_seen_at": 1778604975494
   },
   "proximity": {
     "id": "w1aTfd4MCvl",
@@ -286,5 +286,12 @@
     "audio": 124.04347745512496
   },
   "rare_device": false,
-  "rare_device_percentile_bucket": "<p95"
+  "rare_device_percentile_bucket": "<p95",
+  "labels":[
+    {
+      "label": "fraud",
+      "prediction": false,
+      "ml_score": 0.01
+    }
+  ]
 }

@@ -317,7 +317,7 @@ All URIs are relative to *https://api.fpjs.io/v4*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FingerprintApi* | [**delete_visitor_data**](docs/FingerprintApi.md#delete_visitor_data) | **DELETE** /visitors/{visitor_id} | Delete data by visitor ID
+*FingerprintApi* | [**delete_visitor_data**](docs/FingerprintApi.md#delete_visitor_data) | **DELETE** /visitors/{visitor_id} | Delete a visitor ID
 *FingerprintApi* | [**get_event**](docs/FingerprintApi.md#get_event) | **GET** /events/{event_id} | Get an event by event ID
 *FingerprintApi* | [**search_events**](docs/FingerprintApi.md#search_events) | **GET** /events | Search events
 *FingerprintApi* | [**update_event**](docs/FingerprintApi.md#update_event) | **PATCH** /events/{event_id} | Update an event
@@ -326,6 +326,9 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [BotInfo](docs/BotInfo.md)
+ - [BotInfoCategory](docs/BotInfoCategory.md)
+ - [BotInfoConfidence](docs/BotInfoConfidence.md)
+ - [BotInfoIdentity](docs/BotInfoIdentity.md)
  - [BotResult](docs/BotResult.md)
  - [BrowserDetails](docs/BrowserDetails.md)
  - [Canvas](docs/Canvas.md)
@@ -351,6 +354,7 @@ Class | Method | HTTP request | Description
  - [IncrementalIdentificationStatus](docs/IncrementalIdentificationStatus.md)
  - [Integration](docs/Integration.md)
  - [IntegrationSubintegration](docs/IntegrationSubintegration.md)
+ - [LabelsInner](docs/LabelsInner.md)
  - [PluginsInner](docs/PluginsInner.md)
  - [PluginsInnerMimeTypesInner](docs/PluginsInnerMimeTypesInner.md)
  - [Proximity](docs/Proximity.md)
@@ -363,9 +367,12 @@ Class | Method | HTTP request | Description
  - [RuleActionType](docs/RuleActionType.md)
  - [SDK](docs/SDK.md)
  - [SearchEventsBot](docs/SearchEventsBot.md)
+ - [SearchEventsBotInfo](docs/SearchEventsBotInfo.md)
+ - [SearchEventsEndParameter](docs/SearchEventsEndParameter.md)
  - [SearchEventsIncrementalIdentificationStatus](docs/SearchEventsIncrementalIdentificationStatus.md)
  - [SearchEventsRareDevicePercentileBucket](docs/SearchEventsRareDevicePercentileBucket.md)
  - [SearchEventsSdkPlatform](docs/SearchEventsSdkPlatform.md)
+ - [SearchEventsStartParameter](docs/SearchEventsStartParameter.md)
  - [SearchEventsVpnConfidence](docs/SearchEventsVpnConfidence.md)
  - [SupplementaryIDHighRecall](docs/SupplementaryIDHighRecall.md)
  - [TamperingConfidence](docs/TamperingConfidence.md)

@@ -17,27 +17,24 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing_extensions import Self
 
 
-class IdentificationConfidence(BaseModel):
+class LabelsInner(BaseModel):
     """
-    The confidence score represents the probability of a false-positive identification. To learn more, visit [Confidence Score](https://docs.fingerprint.com/docs/identification-accuracy-and-confidence#confidence-score). Please note that the confidence score is not yet supported for [High Recall ID](https://docs.fingerprint.com/docs/supplementary-identifiers-highrecall).
+    LabelsInner
     """
 
-    score: Union[
-        Annotated[float, Field(le=1, strict=True, ge=0)],
-        Annotated[int, Field(le=1, strict=True, ge=0)],
-    ] = Field(
-        description='A floating-point number between 0 and 1 that represents the probability of a false-positive identification. For High Recall ID, this value is 0. '
-    )
-    version: Optional[StrictStr] = Field(
-        default=None,
-        description='The version name of the method used to calculate the confidence score. For High Recall ID, this value is "Not Supported". ',
-    )
-    comment: Optional[StrictStr] = None
-    __properties: ClassVar[list[str]] = ['score', 'version', 'comment']
+    label: StrictStr
+    prediction: Optional[StrictBool] = None
+    ml_score: Optional[
+        Union[
+            Annotated[float, Field(le=1, strict=True, ge=0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = None
+    __properties: ClassVar[list[str]] = ['label', 'prediction', 'ml_score']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -56,7 +53,7 @@ class IdentificationConfidence(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of IdentificationConfidence from a JSON string"""
+        """Create an instance of LabelsInner from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -80,7 +77,7 @@ class IdentificationConfidence(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of IdentificationConfidence from a dict"""
+        """Create an instance of LabelsInner from a dict"""
         if obj is None:
             return None
 
@@ -89,9 +86,9 @@ class IdentificationConfidence(BaseModel):
 
         _obj = cls.model_validate(
             {
-                'score': obj.get('score'),
-                'version': obj.get('version'),
-                'comment': obj.get('comment'),
+                'label': obj.get('label'),
+                'prediction': obj.get('prediction'),
+                'ml_score': obj.get('ml_score'),
             }
         )
         return _obj
