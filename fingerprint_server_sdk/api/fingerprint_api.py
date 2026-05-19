@@ -39,7 +39,16 @@ from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEve
 from fingerprint_server_sdk.rest import RESTResponseType
 
 # Type alias for query and form parameter values
-ParamValue = Union[str, int, float, bool, list[str]]
+ParamValue = Union[
+    list[BotInfoCategory],
+    list[BotInfoIdentity],
+    list[BotInfoConfidence],
+    str,
+    int,
+    float,
+    bool,
+    list[str],
+]
 
 
 class FingerprintApi:
