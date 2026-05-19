@@ -386,7 +386,7 @@ class TestFingerprintApi(unittest.TestCase):
             'bot_info_identity': [BotInfoIdentity.SPOOFED],
             'bot_info_confidence': [BotInfoConfidence.HIGH, BotInfoConfidence.MEDIUM],
             'bot_info_provider': ['provider'],
-            'bot_info_name': ['name1', 'name2']
+            'bot_info_name': ['name1', 'name2'],
         }
         # URL params use serialized values (enum.value, lowercase bool) in API definition order
         url_params = {
