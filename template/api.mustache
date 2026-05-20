@@ -27,7 +27,7 @@ from {{packageName}}.configuration import Configuration
 from {{packageName}}.rest import RESTResponseType
 
 # Type alias for query and form parameter values
-ParamValue = Union[str, int, float, bool, list[str]]
+ParamValue = Union[{{#operations.operation}}{{#allParams}}{{#isArray}}{{#items.isEnumOrRef}}list[{{schema.complexType}}], {{/items.isEnumOrRef}}{{/isArray}}{{/allParams}}{{/operations.operation}}str, int, float, bool, list[str]]
 
 
 {{#operations}}

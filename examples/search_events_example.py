@@ -20,11 +20,13 @@ api_instance = fingerprint_server_sdk.FingerprintApi(configuration)
 
 end = datetime.now(tz=timezone.utc)
 start = end - timedelta(days=7)
-start_timestamp = int(start.timestamp() * 1000)
+
+# start and end can be UNIX milliseconds values as integers or
+# RFC3339 timestamps as datetime instances
 end_timestamp = int(end.timestamp() * 1000)
 
 try:
-    response = api_instance.search_events(limit=10, start=start_timestamp, end=end_timestamp)
+    response = api_instance.search_events(limit=10, start=start, end=end_timestamp)
 
     print(f'Found {len(response.events)} events')
     for event in response.events:
@@ -35,7 +37,7 @@ try:
         print(f'Fetching next page with pagination_key: {response.pagination_key}')
         next_page = api_instance.search_events(
             limit=10,
-            start=start_timestamp,
+            start=start,
             end=end_timestamp,
             pagination_key=response.pagination_key,
         )

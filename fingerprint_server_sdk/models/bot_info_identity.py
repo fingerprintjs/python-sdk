@@ -18,18 +18,20 @@ from enum import Enum
 from typing_extensions import Self
 
 
-class IncrementalIdentificationStatus(str, Enum):
+class BotInfoIdentity(str, Enum):
     """
-    Only included for requests using incremental identification. - `partially_completed` - Indicates this event corresponds to a 'minimal' request. Smart Signals, even if included in your plan, are not computed; hence, their values must be ignored. - `completed` - Indicates this event corresponds to a 'complete' request. Smart Signals, if included in your plan, are computed; hence, their values are valid and relevant.
+    The verification status of the bot's identity:  * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.  * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.  * `spoofed` - bot that claims a public identity but fails verification.  * `unknown` - bot that does not publish a verifiable identity.
     """
 
     """
     allowed enum values
     """
-    PARTIALLY_COMPLETED = 'partially_completed'
-    COMPLETED = 'completed'
+    VERIFIED = 'verified'
+    SIGNED = 'signed'
+    SPOOFED = 'spoofed'
+    UNKNOWN = 'unknown'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of IncrementalIdentificationStatus from a JSON string"""
+        """Create an instance of BotInfoIdentity from a JSON string"""
         return cls(json.loads(json_str))

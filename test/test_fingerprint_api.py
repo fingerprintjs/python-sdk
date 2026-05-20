@@ -1,8 +1,12 @@
 import unittest
+from datetime import datetime, timezone
 from urllib.parse import urlencode
 
 from fingerprint_server_sdk import (
     BadRequestException,
+    BotInfoCategory,
+    BotInfoConfidence,
+    BotInfoIdentity,
     Configuration,
     ConflictException,
     ErrorCode,
@@ -13,6 +17,7 @@ from fingerprint_server_sdk import (
     ForbiddenException,
     NotFoundException,
     SearchEventsBot,
+    SearchEventsBotInfo,
     SearchEventsIncrementalIdentificationStatus,
     SearchEventsRareDevicePercentileBucket,
     SearchEventsSdkPlatform,
@@ -329,6 +334,7 @@ class TestFingerprintApi(unittest.TestCase):
 
     def test_search_events_all_params(self) -> None:
         """Test case for search_events with all available parameters"""
+        end = datetime.now(tz=timezone.utc)
         api_params = {
             'limit': 1,
             'pagination_key': '1741187431959',
@@ -342,7 +348,7 @@ class TestFingerprintApi(unittest.TestCase):
             'package_name': 'com.example',
             'origin': 'https://example.com',
             'start': 1582299576511,
-            'end': 1582299576513,
+            'end': end,
             'reverse': True,
             'suspect': False,
             'vpn': True,
@@ -375,6 +381,12 @@ class TestFingerprintApi(unittest.TestCase):
                 SearchEventsIncrementalIdentificationStatus.PARTIALLY_COMPLETED
             ),
             'simulator': True,
+            'bot_info': SearchEventsBotInfo.ALL,
+            'bot_info_category': [BotInfoCategory.AI_AGENT, BotInfoCategory.SECURITY],
+            'bot_info_identity': [BotInfoIdentity.SPOOFED],
+            'bot_info_confidence': [BotInfoConfidence.HIGH, BotInfoConfidence.MEDIUM],
+            'bot_info_provider': ['provider'],
+            'bot_info_name': ['name1', 'name2'],
         }
         # URL params use serialized values (enum.value, lowercase bool) in API definition order
         url_params = {
@@ -382,6 +394,12 @@ class TestFingerprintApi(unittest.TestCase):
             'pagination_key': '1741187431959',
             'high_recall_id': 'testHighRecallId',
             'bot': 'good',
+            'bot_info': 'all',
+            'bot_info_category': ['ai_agent', 'security'],
+            'bot_info_identity': ['spoofed'],
+            'bot_info_confidence': ['high', 'medium'],
+            'bot_info_provider': ['provider'],
+            'bot_info_name': ['name1', 'name2'],
             'ip_address': '192.168.0.1/32',
             'asn': 'testAsn',
             'linked_id': 'some_id',
@@ -390,7 +408,7 @@ class TestFingerprintApi(unittest.TestCase):
             'package_name': 'com.example',
             'origin': 'https://example.com',
             'start': 1582299576511,
-            'end': 1582299576513,
+            'end': end.isoformat(),
             'reverse': 'true',
             'suspect': 'false',
             'vpn': 'true',

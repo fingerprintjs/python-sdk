@@ -32,17 +32,17 @@ def make_client(cfg: AppConfig) -> FingerprintApi:
     return FingerprintApi(configuration)
 
 
-def create_range(days: int) -> tuple[int, int]:
+def create_range(days: int) -> tuple[datetime, int]:
     end = datetime.now(tz=timezone.utc)
     start = end - timedelta(days=days)
-    return int(start.timestamp() * 1000), int(end.timestamp() * 1000)
+    return start, int(end.timestamp() * 1000)
 
 
 def main() -> int:
     cfg = load_config()
     api = make_client(cfg)
 
-    start, end = create_range(90)
+    start, end = create_range(89)
 
     # FingerprintApi->search_events usage example
     try:

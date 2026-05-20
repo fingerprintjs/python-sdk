@@ -30,6 +30,7 @@ from fingerprint_server_sdk.models.incremental_identification_status import (
 )
 from fingerprint_server_sdk.models.ip_block_list import IPBlockList
 from fingerprint_server_sdk.models.ip_info import IPInfo
+from fingerprint_server_sdk.models.labels_inner import LabelsInner
 from fingerprint_server_sdk.models.proximity import Proximity
 from fingerprint_server_sdk.models.proxy_confidence import ProxyConfidence
 from fingerprint_server_sdk.models.proxy_details import ProxyDetails
@@ -114,7 +115,7 @@ class Event(BaseModel):
     )
     developer_tools: Optional[StrictBool] = Field(
         default=None,
-        description='`true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise. ',
+        description='`true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise. ',
     )
     emulator: Optional[StrictBool] = Field(
         default=None,
@@ -143,7 +144,7 @@ class Event(BaseModel):
         ]
     ] = Field(
         default=None,
-        description='Machine learning–based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result ',
+        description='Machine learning–based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
     )
     incognito: Optional[StrictBool] = Field(
         default=None,
@@ -205,7 +206,7 @@ class Event(BaseModel):
         ]
     ] = Field(
         default=None,
-        description='Machine learning–based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result ',
+        description='Machine learning–based virtual machine score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
     )
     vpn: Optional[StrictBool] = Field(
         default=None,
@@ -230,6 +231,10 @@ class Event(BaseModel):
     )
     rare_device_percentile_bucket: Optional[RareDevicePercentileBucket] = None
     raw_device_attributes: Optional[RawDeviceAttributes] = None
+    labels: Optional[list[LabelsInner]] = Field(
+        default=None,
+        description='Each label returns a prediction (true or false) for a specific use case (label field) based on a machine learning score. The machine learning score is determined by a model trained on customer data for that use case. This field is in the beta phase and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
+    )
     __properties: ClassVar[list[str]] = [
         'event_id',
         'timestamp',
@@ -289,6 +294,7 @@ class Event(BaseModel):
         'rare_device',
         'rare_device_percentile_bucket',
         'raw_device_attributes',
+        'labels',
     ]
 
     model_config = ConfigDict(
@@ -370,6 +376,13 @@ class Event(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of raw_device_attributes
         if self.raw_device_attributes:
             _dict['raw_device_attributes'] = self.raw_device_attributes.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in labels (list)
+        _items = []
+        if self.labels:
+            for _item_labels in self.labels:
+                if _item_labels:
+                    _items.append(_item_labels.to_dict())
+            _dict['labels'] = _items
         return _dict
 
     @classmethod
@@ -470,6 +483,9 @@ class Event(BaseModel):
                     obj['raw_device_attributes']
                 )
                 if obj.get('raw_device_attributes') is not None
+                else None,
+                'labels': [LabelsInner.from_dict(_item) for _item in obj['labels']]
+                if obj.get('labels') is not None
                 else None,
             }
         )
