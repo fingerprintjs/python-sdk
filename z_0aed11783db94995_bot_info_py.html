@@ -62,10 +62,10 @@
         <p class="text">
             <a id="prevFileLink" class="nav" href="z_0aed11783db94995___init___py.html">&#xab; prev</a> &nbsp; &nbsp;
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
-            <a id="nextFileLink" class="nav" href="z_0aed11783db94995_bot_result_py.html">&#xbb; next</a>
+            <a id="nextFileLink" class="nav" href="z_0aed11783db94995_bot_info_category_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.14.0">coverage.py v7.14.0</a>,
-            created at 2026-05-15 09:18 +0000
+            created at 2026-05-20 12:51 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -108,14 +108,14 @@
     <p class="pln"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t"><span class="str">    Extended bot information.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">    <span class="nam">category</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span><span class="nam">description</span><span class="op">=</span><span class="str">'The type and purpose of the bot.'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">    <span class="nam">category</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span><span class="nam">description</span><span class="op">=</span><span class="str">'The type and purpose of the bot. '</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">    <span class="nam">provider</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span><span class="nam">description</span><span class="op">=</span><span class="str">'The organization or company operating the bot.'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">    <span class="nam">provider_url</span><span class="op">:</span> <span class="nam">Optional</span><span class="op">[</span><span class="nam">StrictStr</span><span class="op">]</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">default</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">description</span><span class="op">=</span><span class="str">"The URL of the bot provider's website."</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">    <span class="nam">name</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span><span class="nam">description</span><span class="op">=</span><span class="str">'The specific name or identifier of the bot.'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">    <span class="nam">identity</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run run2"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">"The verification status of the bot's identity:  * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.  * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider&#8217;s customers.  * `spoofed` - bot that claims a public identity but fails verification.  * `unknown` - bot that does not publish a verifiable identity. "</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">        <span class="nam">description</span><span class="op">=</span><span class="str">"The verification status of the bot's identity:  * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.  * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.  * `spoofed` - bot that claims a public identity but fails verification.  * `unknown` - bot that does not publish a verifiable identity. "</span>&nbsp;</span><span class="r"></span></p>
     <p class="run run2"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">    <span class="nam">confidence</span><span class="op">:</span> <span class="nam">StrictStr</span> <span class="op">=</span> <span class="nam">Field</span><span class="op">(</span><span class="nam">description</span><span class="op">=</span><span class="str">'Confidence level of the bot identification.'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">    <span class="nam">__properties</span><span class="op">:</span> <span class="nam">ClassVar</span><span class="op">[</span><span class="nam">list</span><span class="op">[</span><span class="nam">str</span><span class="op">]</span><span class="op">]</span> <span class="op">=</span> <span class="op">[</span>&nbsp;</span><span class="r"></span></p>
@@ -208,10 +208,10 @@
         <p>
             <a class="nav" href="z_0aed11783db94995___init___py.html">&#xab; prev</a> &nbsp; &nbsp;
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
-            <a class="nav" href="z_0aed11783db94995_bot_result_py.html">&#xbb; next</a>
+            <a class="nav" href="z_0aed11783db94995_bot_info_category_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.14.0">coverage.py v7.14.0</a>,
-            created at 2026-05-15 09:18 +0000
+            created at 2026-05-20 12:51 +0000
         </p>
     </div>
 </footer>
