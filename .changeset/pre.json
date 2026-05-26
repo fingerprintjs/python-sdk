@@ -1,5 +1,5 @@
 {
-  "mode": "pre",
+  "mode": "exit",
   "tag": "rc",
   "initialVersions": {
     "@fingerprint/python-sdk": "9.2.0"
@@ -8,12 +8,9 @@
     "beige-places-drop",
     "blue-roses-film",
     "curvy-rice-chew",
-    "developer-tools-android-v4",
     "events-rfc3339-timestamps",
     "fancy-spiders-flash",
-    "identification-confidence-labels-high-recall-examples",
     "loud-donuts-lead",
-    "quick-cows-battle",
     "wet-socks-fold",
     "witty-lions-worry",
     "yellow-ducks-spend"
