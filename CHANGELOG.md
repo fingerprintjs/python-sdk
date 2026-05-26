@@ -1,5 +1,22 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.3.0
+
+### Minor Changes
+
+- **events-search**: Accept RFC3339 timestamps for `start` and `end` filter parameters in addition to Unix milliseconds ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **events**: Add `labels` to `Event` ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **events-search**: Add `bot_info` filter parameters ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **events-search**: Add `unknown` value to `BotInfoCategory` ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+
+### Patch Changes
+
+- **events**: Clarify availability of proxy and VM ML score signals ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **events**: Clarify semantics of `incremental_identification_status` ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **visitors**: Clarify rate limits for `deleteVisitorData` operation ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **events-search**: Clarify availability of `rare_device` and `rare_device_percentile_bucket` query parameters ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+- **events-search**: Fix `pagination_key` example ([324fc2a](https://github.com/fingerprintjs/python-sdk/commit/324fc2ae708c2aa5f409efda631daff20ee4e4b5))
+
 ## 9.3.0-rc.0
 
 ### Minor Changes
