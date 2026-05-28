@@ -20,6 +20,7 @@ jobs:
     with:
       sdk: python
       sdkVersion: ${{ needs.read-version.outputs.version }}
+      sdkPackageName: 'fingerprint_pro_server_api_sdk'
       appId: ${{ vars.RUNNER_APP_ID }}
       commitSha: ${{ github.event.pull_request.head.sha || github.sha }}
     secrets:
