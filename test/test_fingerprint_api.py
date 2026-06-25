@@ -1,5 +1,8 @@
+import json
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
 from urllib.parse import urlencode
 
 from fingerprint_server_sdk import (
@@ -214,6 +217,18 @@ class TestFingerprintApi(unittest.TestCase):
 
         event_response = self.api.get_event(event_id)
         self.assertIsInstance(event_response, Event)
+
+    def test_get_event_200_with_unknown_enum_value_deserializes_into_event(self) -> None:
+        """get_event_200.json deserializes into an Event without errors"""
+        mock_file = Path(__file__).resolve().parent / 'mocks' / 'events' / 'get_event_200.json'
+        json_str = mock_file.read_text(encoding='utf-8')
+        parsed_json: dict[str, Any] = json.loads(json_str)
+        parsed_json['proxy_details']['proxy_type'] = 'unknown'
+        json_str = json.dumps(parsed_json)
+
+        event = Event.from_json(json_str)
+        self.assertIsInstance(event, Event)
+        self.assertIsNotNone(event)
 
     def test_get_event_bad_request(self) -> None:
         """Test case for get_event with 400 Bad Request response"""
