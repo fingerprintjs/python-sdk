@@ -1,4 +1,5 @@
 README.md
+README.pypi.md
 docs/BotInfo.md
 docs/BotInfoCategory.md
 docs/BotInfoConfidence.md
@@ -133,7 +134,3 @@ fingerprint_server_sdk/rest.py
 fingerprint_server_sdk/sealed.py
 fingerprint_server_sdk/webhook_validation.py
 pyproject.toml
-requirements.txt
-setup.cfg
-setup.py
-test-requirements.txt

@@ -17,6 +17,9 @@
     },
     "SealedResults.md": {
       "folder": "docs"
+    },
+    "README.pypi.mustache": {
+      "destinationFilename": "README.pypi.md"
     }
   },
   "useOneOfDiscriminatorLookup": true

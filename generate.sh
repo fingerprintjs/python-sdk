@@ -34,3 +34,4 @@ docker run --rm -u "$(id -u):$(id -g)" -v "${PWD}:/local" -w /local "openapitool
 # Linting and formatting
 uv run ruff format .
 uv run ruff check --fix --unsafe-fixes .
+
