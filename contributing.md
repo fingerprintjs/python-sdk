@@ -34,13 +34,13 @@ This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formattin
 
 ```bash
 # Format code
-ruff format .
+uv run ruff format .
 
 # Run linter
-ruff check --fix .
+uv run ruff check --fix .
 
 # Run type checker
-mypy fingerprint_server_sdk
+uv run mypy fingerprint_server_sdk
 ```
 
 ### Updating templates
@@ -75,24 +75,23 @@ To make requests using the local source code of the SDK:
 2. Run the following commands:
 
 ```shell
-pip install -r requirements.txt
-python run_checks.py
+uv sync
+uv run python run_checks.py
 ```
 
 #### Test environment
 
-You need to install `python` and `pip`.
+You need to install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 Then you can run:
 
 ```shell
-pip install -r requirements.txt
-pip install -r test-requirements.txt
+uv sync
 ```
 
 #### Running tests
 
 ```shell
-pytest
+uv run pytest
 ```
 
 ### How to publish
