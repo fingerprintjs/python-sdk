@@ -737,7 +737,12 @@ class ApiClient:
         :param klass: class literal.
         :return: enum value.
         """
-        return klass(data)
+        try:
+            return klass(data)
+        except ValueError as err:
+            raise ApiException(
+                status=0, reason=(f'Failed to parse `{data}` as `{klass}`')
+            ) from err
 
     def __deserialize_model(self, data: Any, klass: Any) -> Any:
         """Deserializes list or dict to model.

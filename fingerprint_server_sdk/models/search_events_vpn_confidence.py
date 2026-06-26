@@ -41,7 +41,7 @@ class SearchEventsVpnConfidence(str, Enum):
         if not isinstance(value, str):
             raise ValueError(f'{value!r} is not a valid {cls.__name__}')
         obj = str.__new__(cls, value)
-        obj._name_ = value
+        obj._name_ = str(value)
         obj._value_ = value
         cls._value2member_map_[value] = obj
         return obj

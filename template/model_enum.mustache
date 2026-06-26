@@ -31,7 +31,7 @@ class {{classname}}({{vendorExtensions.x-py-enum-type}}, Enum):
         if not isinstance(value, {{vendorExtensions.x-py-enum-type}}):
             raise ValueError(f"{value!r} is not a valid {cls.__name__}")
         obj = {{vendorExtensions.x-py-enum-type}}.__new__(cls, value)
-        obj._name_ = value
+        obj._name_ = str(value)
         obj._value_ = value
         cls._value2member_map_[value] = obj
         return obj
