@@ -1,24 +1,14 @@
 version: '3.8'
 
 services:
-  install:
-    image: ghcr.io/astral-sh/uv:python3.9-bookworm-slim
-    container_name: python_sdk_install_container
-    working_dir: /app
-    volumes:
-      - .:/app
-      - uv-cache:/root/.cache/uv
-    command: uv sync
-
   app:
     image: ghcr.io/astral-sh/uv:python3.9-bookworm-slim
     container_name: python_sdk_app_container
     working_dir: /app
     volumes:
       - .:/app
-    depends_on:
-      - install
-    command: uv run python ./run_checks.py
+      - uv-cache:/root/.cache/uv
+    command: sh -c "uv sync && uv run python ./run_checks.py"
 
   test:
     image: ghcr.io/astral-sh/uv:python3.9-bookworm-slim
@@ -26,9 +16,8 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-    depends_on:
-      - install
-    command: uv run pytest
+      - uv-cache:/root/.cache/uv
+    command: sh -c "uv sync && uv run pytest"
     env_file:
       - .env
 
