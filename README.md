@@ -39,7 +39,7 @@ The following Python versions are supported:
 ## Installation & Usage
 ### pip install
 
-You can install the package directly from the Github
+You can install the package directly from GitHub
 
 ```sh
 pip install git+https://github.com/fingerprintjs/python-sdk.git
