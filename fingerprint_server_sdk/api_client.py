@@ -730,17 +730,17 @@ class ApiClient:
                 status=0, reason=(f'Failed to parse `{string}` as datetime object')
             ) from err
 
-    def __deserialize_enum(self, data: Any, klass: type[Enum]) -> Enum:
+    def __deserialize_enum(self, data: Any, klass: type[Enum]) -> Union[Enum, str]:
         """Deserializes primitive type to enum.
 
         :param data: primitive type.
         :param klass: class literal.
-        :return: enum value.
+        :return: enum value or raw string if the value is unknown.
         """
         try:
             return klass(data)
         except ValueError:
-            return data
+            return str(data)
 
     def __deserialize_model(self, data: Any, klass: Any) -> Any:
         """Deserializes list or dict to model.
