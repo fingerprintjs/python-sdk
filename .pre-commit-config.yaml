@@ -13,3 +13,4 @@ repos:
         language: system
         types: [python]
         args: [--config-file=pyproject.toml]
+        pass_filenames: false
