@@ -59,25 +59,6 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             raise ValueError(r"must validate the regular expression {{{vendorExtensions.x-pattern}}}")
         return value
     {{/vendorExtensions.x-regex}}
-    {{#isEnum}}
-
-    @field_validator('{{{name}}}')
-    def {{{name}}}_validate_enum(cls, value: Any) -> Any:
-        """Validates the enum"""
-        {{^required}}
-        if value is None:
-            return value
-
-        {{/required}}
-        {{#required}}
-        {{#isNullable}}
-        if value is None:
-            return value
-
-        {{/isNullable}}
-        {{/required}}
-        return value
-    {{/isEnum}}
 {{/vars}}
 
     model_config = ConfigDict(

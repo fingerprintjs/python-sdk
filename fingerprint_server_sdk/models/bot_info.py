@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
 
@@ -44,16 +44,6 @@ class BotInfo(BaseModel):
         'identity',
         'confidence',
     ]
-
-    @field_validator('identity')
-    def identity_validate_enum(cls, value: Any) -> Any:
-        """Validates the enum"""
-        return value
-
-    @field_validator('confidence')
-    def confidence_validate_enum(cls, value: Any) -> Any:
-        """Validates the enum"""
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

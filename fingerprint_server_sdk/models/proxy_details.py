@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing_extensions import Self
 
 
@@ -38,11 +38,6 @@ class ProxyDetails(BaseModel):
         description='String representing the last proxy service provider detected when this IP was synced. An IP can be shared by multiple service providers. ',
     )
     __properties: ClassVar[list[str]] = ['proxy_type', 'last_seen_at', 'provider']
-
-    @field_validator('proxy_type')
-    def proxy_type_validate_enum(cls, value: Any) -> Any:
-        """Validates the enum"""
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
