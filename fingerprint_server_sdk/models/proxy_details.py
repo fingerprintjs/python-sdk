@@ -42,8 +42,6 @@ class ProxyDetails(BaseModel):
     @field_validator('proxy_type')
     def proxy_type_validate_enum(cls, value: Any) -> Any:
         """Validates the enum"""
-        if value not in set(['residential', 'data_center']):
-            raise ValueError("must be one of enum values ('residential', 'data_center')")
         return value
 
     model_config = ConfigDict(

@@ -1,0 +1,35 @@
+from __future__ import annotations
+import json
+from enum import Enum
+{{#vendorExtensions.x-py-other-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-other-imports}}
+from typing_extensions import Self
+
+
+class {{classname}}({{vendorExtensions.x-py-enum-type}}, Enum):
+    """
+    {{{description}}}{{^description}}{{{classname}}}{{/description}}
+    """
+
+    """
+    allowed enum values
+    """
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}
+    {{/enumVars}}
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Create an instance of {{classname}} from a JSON string"""
+        return cls(json.loads(json_str))
+
+    @classmethod
+    def _missing_(cls, value: object) -> Self:
+        """Accept unknown enum values gracefully."""
+        obj = {{vendorExtensions.x-py-enum-type}}.__new__(cls, value)
+        obj._name_ = str(value)
+        obj._value_ = value
+        return obj
+{{/allowableValues}}

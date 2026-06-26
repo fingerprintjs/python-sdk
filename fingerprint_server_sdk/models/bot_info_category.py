@@ -47,3 +47,11 @@ class BotInfoCategory(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of BotInfoCategory from a JSON string"""
         return cls(json.loads(json_str))
+
+    @classmethod
+    def _missing_(cls, value: object) -> Self:
+        """Accept unknown enum values gracefully."""
+        obj = str.__new__(cls, value)
+        obj._name_ = str(value)
+        obj._value_ = value
+        return obj
