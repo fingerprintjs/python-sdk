@@ -37,9 +37,10 @@ class SearchEventsIncrementalIdentificationStatus(str, Enum):
     @classmethod
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
-        typed_value = str(value)
-        obj = str.__new__(cls, typed_value)
-        obj._name_ = typed_value
-        obj._value_ = typed_value
-        cls._value2member_map_[typed_value] = obj
+        if not isinstance(value, str):
+            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+        obj = str.__new__(cls, value)
+        obj._name_ = value
+        obj._value_ = value
+        cls._value2member_map_[value] = obj
         return obj
