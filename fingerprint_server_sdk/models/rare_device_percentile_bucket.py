@@ -41,7 +41,9 @@ class RareDevicePercentileBucket(str, Enum):
     @classmethod
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
-        obj = str.__new__(cls, value)
-        obj._name_ = str(value)
-        obj._value_ = value
+        typed_value = str(value)
+        obj = str.__new__(cls, typed_value)
+        obj._name_ = typed_value
+        obj._value_ = typed_value
+        cls._value2member_map_[typed_value] = obj
         return obj
