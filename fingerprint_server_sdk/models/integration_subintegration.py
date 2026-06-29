@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -27,10 +28,10 @@ class IntegrationSubintegration(BaseModel):
     """
 
     name: Optional[StrictStr] = Field(
-        default=None, description='The name of the specific subintegration, e.g. "preact".'
+        default=None, description='The name of the specific subintegration.'
     )
     version: Optional[StrictStr] = Field(
-        default=None, description='The version of the specific subintegration, e.g. "10.21.0".'
+        default=None, description='The version of the specific subintegration.'
     )
     __properties: ClassVar[list[str]] = ['name', 'version']
 

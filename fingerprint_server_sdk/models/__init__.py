@@ -3,6 +3,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -59,10 +60,10 @@ from fingerprint_server_sdk.models.rule_action_type import RuleActionType
 from fingerprint_server_sdk.models.sdk import SDK
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
 from fingerprint_server_sdk.models.search_events_bot_info import SearchEventsBotInfo
-from fingerprint_server_sdk.models.search_events_end_parameter import SearchEventsEndParameter
 from fingerprint_server_sdk.models.search_events_incremental_identification_status import (
     SearchEventsIncrementalIdentificationStatus,
 )
+from fingerprint_server_sdk.models.search_events_inline import SearchEventsInline
 from fingerprint_server_sdk.models.search_events_rare_device_percentile_bucket import (
     SearchEventsRareDevicePercentileBucket,
 )

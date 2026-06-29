@@ -45,8 +45,8 @@ docs/SDK.md
 docs/SealedResults.md
 docs/SearchEventsBot.md
 docs/SearchEventsBotInfo.md
-docs/SearchEventsEndParameter.md
 docs/SearchEventsIncrementalIdentificationStatus.md
+docs/SearchEventsInline.md
 docs/SearchEventsRareDevicePercentileBucket.md
 docs/SearchEventsSdkPlatform.md
 docs/SearchEventsStartParameter.md
@@ -112,8 +112,8 @@ fingerprint_server_sdk/models/rule_action_type.py
 fingerprint_server_sdk/models/sdk.py
 fingerprint_server_sdk/models/search_events_bot.py
 fingerprint_server_sdk/models/search_events_bot_info.py
-fingerprint_server_sdk/models/search_events_end_parameter.py
 fingerprint_server_sdk/models/search_events_incremental_identification_status.py
+fingerprint_server_sdk/models/search_events_inline.py
 fingerprint_server_sdk/models/search_events_rare_device_percentile_bucket.py
 fingerprint_server_sdk/models/search_events_sdk_platform.py
 fingerprint_server_sdk/models/search_events_start_parameter.py
