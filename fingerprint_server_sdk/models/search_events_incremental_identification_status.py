@@ -42,5 +42,6 @@ class SearchEventsIncrementalIdentificationStatus(str, Enum):
         obj = str.__new__(cls, value)
         obj._name_ = str(value)
         obj._value_ = value
+        # cache it so the same value won't trigger `_missing_` again
         cls._value2member_map_[value] = obj
         return obj
