@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -40,7 +41,7 @@ class RawDeviceAttributes(BaseModel):
         default=None, description='List of fonts detected on the device.'
     )
     device_memory: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
-        default=None, description='Rounded amount of RAM (in gigabytes) reported by the browser.'
+        default=None, description='Rounded amount of RAM in gigabytes.'
     )
     timezone: Optional[StrictStr] = Field(
         default=None, description='Timezone identifier detected on the client.'
@@ -48,7 +49,7 @@ class RawDeviceAttributes(BaseModel):
     canvas: Optional[Canvas] = None
     languages: Optional[list[list[StrictStr]]] = Field(
         default=None,
-        description='Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for both browsers and iOS devices ',
+        description='Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for browsers, iOS, and Android devices. ',
     )
     webgl_extensions: Optional[WebGlExtensions] = None
     webgl_basics: Optional[WebGlBasics] = None
@@ -113,6 +114,14 @@ class RawDeviceAttributes(BaseModel):
         default=None,
         description='UTC offset in "±HH:MM" format derived from the detected IANA timezone.',
     )
+    battery_level: Optional[Annotated[int, Field(le=100, strict=True, ge=0)]] = Field(
+        default=None,
+        description='Battery charge level as a percentage (0-100). Available only for Android and iOS devices.',
+    )
+    battery_low_power_mode: Optional[StrictBool] = Field(
+        default=None,
+        description="Whether the device's low power mode is enabled. Available only for Android and iOS devices.",
+    )
     __properties: ClassVar[list[str]] = [
         'font_preferences',
         'emoji',
@@ -143,6 +152,8 @@ class RawDeviceAttributes(BaseModel):
         'device_manufacturer',
         'font_hash',
         'timezone_offset',
+        'battery_level',
+        'battery_low_power_mode',
     ]
 
     model_config = ConfigDict(
@@ -261,6 +272,8 @@ class RawDeviceAttributes(BaseModel):
                 'device_manufacturer': obj.get('device_manufacturer'),
                 'font_hash': obj.get('font_hash'),
                 'timezone_offset': obj.get('timezone_offset'),
+                'battery_level': obj.get('battery_level'),
+                'battery_low_power_mode': obj.get('battery_low_power_mode'),
             }
         )
         return _obj

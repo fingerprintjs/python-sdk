@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -51,7 +52,7 @@ class Event(BaseModel):
     """
 
     event_id: StrictStr = Field(
-        description="Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp For example: `1758130560902.8tRtrH` "
+        description="Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp. "
     )
     timestamp: StrictInt = Field(
         description='Timestamp of the event with millisecond precision in Unix time.'
@@ -61,8 +62,7 @@ class Event(BaseModel):
         default=None, description='A customer-provided id that was sent with the request.'
     )
     environment_id: Optional[StrictStr] = Field(
-        default=None,
-        description='Environment Id of the event. For example: `ae_47abaca3db2c7c43` ',
+        default=None, description='Environment Id of the event.'
     )
     suspect: Optional[StrictBool] = Field(
         default=None,
@@ -80,27 +80,35 @@ class Event(BaseModel):
         description='A customer-provided value or an object that was sent with the identification request or updated later.',
     )
     url: Optional[StrictStr] = Field(
-        default=None,
-        description='Page URL from which the request was sent. For example `https://example.com/` ',
+        default=None, description='Page URL from which the request was sent.'
     )
     bundle_id: Optional[StrictStr] = Field(
         default=None,
-        description='Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. For example: `com.foo.app` ',
+        description='Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. ',
     )
     package_name: Optional[StrictStr] = Field(
         default=None,
-        description='Package name of the Android application integrated with the Fingerprint SDK for the event. For example: `com.foo.app` ',
+        description='Package name of the Android application integrated with the Fingerprint SDK for the event. ',
     )
     ip_address: Optional[StrictStr] = Field(
         default=None, description='IP address of the requesting browser or bot.'
     )
-    user_agent: Optional[StrictStr] = Field(
+    user_agent: Optional[StrictStr] = Field(default=None, description='User Agent of the client.')
+    device: Optional[StrictStr] = Field(
         default=None,
-        description='User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....` ',
+        description='Device model or family extracted from the user agent string. On web, this field is also present inside `browser_details`. ',
+    )
+    os: Optional[StrictStr] = Field(
+        default=None,
+        description='Operating system family extracted from the user agent string. On web, this field is also present inside `browser_details`. ',
+    )
+    os_version: Optional[StrictStr] = Field(
+        default=None,
+        description='Operating system version string extracted from the user agent string. On web, this field is also present inside `browser_details`. ',
     )
     client_referrer: Optional[StrictStr] = Field(
         default=None,
-        description='Client Referrer field corresponds to the `document.referrer` field gathered during an identification request. The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark) For example: `https://example.com/blog/my-article` ',
+        description='Client Referrer field corresponds to the `document.referrer` field gathered during an identification request. The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark). ',
     )
     browser_details: Optional[BrowserDetails] = None
     proximity: Optional[Proximity] = None
@@ -213,6 +221,15 @@ class Event(BaseModel):
         description='VPN or other anonymizing service has been used when sending the request. ',
     )
     vpn_confidence: Optional[VpnConfidence] = None
+    vpn_ml_score: Optional[
+        Union[
+            Annotated[float, Field(le=1, strict=True, ge=0)],
+            Annotated[int, Field(le=1, strict=True, ge=0)],
+        ]
+    ] = Field(
+        default=None,
+        description='Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
+    )
     vpn_origin_timezone: Optional[StrictStr] = Field(
         default=None, description='Local timezone which is used in timezone_mismatch method. '
     )
@@ -252,6 +269,9 @@ class Event(BaseModel):
         'package_name',
         'ip_address',
         'user_agent',
+        'device',
+        'os',
+        'os_version',
         'client_referrer',
         'browser_details',
         'proximity',
@@ -287,6 +307,7 @@ class Event(BaseModel):
         'virtual_machine_ml_score',
         'vpn',
         'vpn_confidence',
+        'vpn_ml_score',
         'vpn_origin_timezone',
         'vpn_origin_country',
         'vpn_methods',
@@ -418,6 +439,9 @@ class Event(BaseModel):
                 'package_name': obj.get('package_name'),
                 'ip_address': obj.get('ip_address'),
                 'user_agent': obj.get('user_agent'),
+                'device': obj.get('device'),
+                'os': obj.get('os'),
+                'os_version': obj.get('os_version'),
                 'client_referrer': obj.get('client_referrer'),
                 'browser_details': BrowserDetails.from_dict(obj['browser_details'])
                 if obj.get('browser_details') is not None
@@ -471,6 +495,7 @@ class Event(BaseModel):
                 'virtual_machine_ml_score': obj.get('virtual_machine_ml_score'),
                 'vpn': obj.get('vpn'),
                 'vpn_confidence': obj.get('vpn_confidence'),
+                'vpn_ml_score': obj.get('vpn_ml_score'),
                 'vpn_origin_timezone': obj.get('vpn_origin_timezone'),
                 'vpn_origin_country': obj.get('vpn_origin_country'),
                 'vpn_methods': VpnMethods.from_dict(obj['vpn_methods'])

@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -17,7 +18,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing_extensions import Self
 
 from fingerprint_server_sdk.models.geolocation import Geolocation
@@ -34,7 +35,9 @@ class IPInfoV6(BaseModel):
     asn_name: Optional[StrictStr] = None
     asn_network: Optional[StrictStr] = None
     asn_type: Optional[StrictStr] = None
-    datacenter_result: Optional[StrictBool] = None
+    datacenter_result: Optional[StrictBool] = Field(
+        default=None, description='When true, the request originated from a datacenter.'
+    )
     datacenter_name: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = [
         'address',
