@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! docker info > /dev/null 2>&1; then
+  echo "Error: Docker is not running. Please start Docker and try again."
+  exit 1
+fi
+
 VERSION=$(jq -r '.version' package.json)
 
 while getopts "v:" arg; do
@@ -30,6 +35,11 @@ docker run --rm -u "$(id -u):$(id -g)" -v "${PWD}:/local" -w /local "openapitool
   -t ./template \
   -c ./config.json \
   --additional-properties=packageVersion="$VERSION"
+
+if [ $? -ne 0 ]; then
+  echo "Error: Code generation failed."
+  exit 1
+fi
 
 # Linting and formatting
 uv run ruff format .
