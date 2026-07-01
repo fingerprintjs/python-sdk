@@ -2,51 +2,24 @@ version: '3.8'
 
 services:
   app:
-    image: python:3.9-slim
+    image: ghcr.io/astral-sh/uv:python3.9-bookworm-slim
     container_name: python_sdk_app_container
     working_dir: /app
     volumes:
       - .:/app
-      - python_packages:/usr/local/lib/python3.9/site-packages
-    depends_on:
-      - install_deps
-    command: python ./run_checks.py
-
-  install_deps:
-    image: python:3.9-slim
-    container_name: python_sdk_install_deps_container
-    working_dir: /app
-    volumes:
-      - .:/app
-      - .cache/pip:/root/.cache/pip
-      - python_packages:/usr/local/lib/python3.9/site-packages
-    command: pip install --no-cache-dir -r requirements.txt
-
-  install_test_deps:
-    image: python:3.9-slim
-    container_name: python_sdk_install_test_deps_container
-    working_dir: /app
-    volumes:
-      - .:/app
-      - .cache/pip:/root/.cache/pip
-      - python_packages:/usr/local/lib/python3.9/site-packages
-    depends_on:
-      - install_deps
-    command: pip install --no-cache-dir -r test-requirements.txt
+      - uv-cache:/root/.cache/uv
+    command: sh -c "uv sync && uv run python ./run_checks.py"
 
   test:
-    image: python:3.9-slim
+    image: ghcr.io/astral-sh/uv:python3.9-bookworm-slim
     container_name: python_sdk_test_container
     working_dir: /app
     volumes:
       - .:/app
-      - python_packages:/usr/local/lib/python3.9/site-packages
-    depends_on:
-      - install_test_deps
-    command: python -m pytest
+      - uv-cache:/root/.cache/uv
+    command: sh -c "uv sync && uv run pytest"
     env_file:
       - .env
 
 volumes:
-  python_packages:
-
+  uv-cache:

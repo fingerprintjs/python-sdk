@@ -23,7 +23,7 @@ license = "{{{licenseInfo}}}"
 license = { text = "{{{licenseInfo}}}" }
 {{/poetry1}}
 {{/licenseInfo}}
-readme = "README.md"
+readme = "README.pypi.md"
 {{#poetry1}}
 repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 {{/poetry1}}
@@ -61,6 +61,20 @@ python-dotenv = ">= 1.0.0"
 {{/poetry1}}
 {{^poetry1}}
 requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Security",
+]
 
 dependencies = [
 {{^async}}
@@ -96,17 +110,8 @@ examples = ["python-dotenv (>=1.0.0)"]
 Repository = "https://{{{gitHost}}}/{{{gitUserId}}}/{{{gitRepoId}}}"
 
 {{/poetry1}}
-{{^poetry1}}
-[tool.poetry]
-requires-poetry = ">=2.0"
-{{/poetry1}}
-
 {{#poetry1}}
 [tool.poetry.dev-dependencies]
-{{/poetry1}}
-{{^poetry1}}
-[tool.poetry.group.dev.dependencies]
-{{/poetry1}}
 pytest = ">= 7.2.1"
 pytest-cov = ">= 2.8.1"
 tox = ">= 3.9.0"
@@ -116,10 +121,26 @@ ruff = "== 0.15.0"
 pre-commit = ">= 4.0.0"
 python-dotenv = ">= 1.0.0"
 
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+{{/poetry1}}
+{{^poetry1}}
+[dependency-groups]
+dev = [
+  "pytest>=7.2.1",
+  "pytest-cov>=2.8.1",
+  "types-python-dateutil>=2.8.19.14",
+  "mypy>=1.5",
+  "ruff==0.15.20",
+  "pre-commit>=4.0.0",
+  "python-dotenv>=1.0.0",
+]
 
 [build-system]
-requires = ["setuptools>=82.0.1"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+{{/poetry1}}
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"

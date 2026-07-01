@@ -1,10 +1,6 @@
 <p align="center">
   <a href="https://fingerprint.com">
-    <picture>
-     <source media="(prefers-color-scheme: dark)" srcset="https://fingerprintjs.github.io/home/resources/logo_light.svg" />
-     <source media="(prefers-color-scheme: light)" srcset="https://fingerprintjs.github.io/home/resources/logo_dark.svg" />
      <img src="https://fingerprintjs.github.io/home/resources/logo_dark.svg" alt="Fingerprint logo" width="312px" />
-   </picture>
   </a>
 </p>
 <p align="center">
@@ -303,79 +299,79 @@ All URIs are relative to *https://api.fpjs.io/v4*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FingerprintApi* | [**delete_visitor_data**](docs/FingerprintApi.md#delete_visitor_data) | **DELETE** /visitors/{visitor_id} | Delete a visitor ID
-*FingerprintApi* | [**get_event**](docs/FingerprintApi.md#get_event) | **GET** /events/{event_id} | Get an event by event ID
-*FingerprintApi* | [**search_events**](docs/FingerprintApi.md#search_events) | **GET** /events | Search events
-*FingerprintApi* | [**update_event**](docs/FingerprintApi.md#update_event) | **PATCH** /events/{event_id} | Update an event
+*FingerprintApi* | [**delete_visitor_data**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#delete_visitor_data) | **DELETE** /visitors/{visitor_id} | Delete a visitor ID
+*FingerprintApi* | [**get_event**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#get_event) | **GET** /events/{event_id} | Get an event by event ID
+*FingerprintApi* | [**search_events**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#search_events) | **GET** /events | Search events
+*FingerprintApi* | [**update_event**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#update_event) | **PATCH** /events/{event_id} | Update an event
 
 
 ## Documentation For Models
 
- - [BotInfo](docs/BotInfo.md)
- - [BotInfoCategory](docs/BotInfoCategory.md)
- - [BotInfoConfidence](docs/BotInfoConfidence.md)
- - [BotInfoIdentity](docs/BotInfoIdentity.md)
- - [BotResult](docs/BotResult.md)
- - [BrowserDetails](docs/BrowserDetails.md)
- - [Canvas](docs/Canvas.md)
- - [Emoji](docs/Emoji.md)
- - [Error](docs/Error.md)
- - [ErrorCode](docs/ErrorCode.md)
- - [ErrorResponse](docs/ErrorResponse.md)
- - [Event](docs/Event.md)
- - [EventRuleAction](docs/EventRuleAction.md)
- - [EventRuleActionAllow](docs/EventRuleActionAllow.md)
- - [EventRuleActionBlock](docs/EventRuleActionBlock.md)
- - [EventSearch](docs/EventSearch.md)
- - [EventUpdate](docs/EventUpdate.md)
- - [FontPreferences](docs/FontPreferences.md)
- - [Geolocation](docs/Geolocation.md)
- - [GeolocationSubdivisionsInner](docs/GeolocationSubdivisionsInner.md)
- - [IPBlockList](docs/IPBlockList.md)
- - [IPInfo](docs/IPInfo.md)
- - [IPInfoV4](docs/IPInfoV4.md)
- - [IPInfoV6](docs/IPInfoV6.md)
- - [Identification](docs/Identification.md)
- - [IdentificationConfidence](docs/IdentificationConfidence.md)
- - [IncrementalIdentificationStatus](docs/IncrementalIdentificationStatus.md)
- - [Integration](docs/Integration.md)
- - [IntegrationSubintegration](docs/IntegrationSubintegration.md)
- - [LabelsInner](docs/LabelsInner.md)
- - [PluginsInner](docs/PluginsInner.md)
- - [PluginsInnerMimeTypesInner](docs/PluginsInnerMimeTypesInner.md)
- - [Proximity](docs/Proximity.md)
- - [ProxyConfidence](docs/ProxyConfidence.md)
- - [ProxyDetails](docs/ProxyDetails.md)
- - [RareDevicePercentileBucket](docs/RareDevicePercentileBucket.md)
- - [RawDeviceAttributes](docs/RawDeviceAttributes.md)
- - [RequestHeaderModifications](docs/RequestHeaderModifications.md)
- - [RuleActionHeaderField](docs/RuleActionHeaderField.md)
- - [RuleActionType](docs/RuleActionType.md)
- - [SDK](docs/SDK.md)
- - [SearchEventsBot](docs/SearchEventsBot.md)
- - [SearchEventsBotInfo](docs/SearchEventsBotInfo.md)
- - [SearchEventsEndParameter](docs/SearchEventsEndParameter.md)
- - [SearchEventsIncrementalIdentificationStatus](docs/SearchEventsIncrementalIdentificationStatus.md)
- - [SearchEventsRareDevicePercentileBucket](docs/SearchEventsRareDevicePercentileBucket.md)
- - [SearchEventsSdkPlatform](docs/SearchEventsSdkPlatform.md)
- - [SearchEventsStartParameter](docs/SearchEventsStartParameter.md)
- - [SearchEventsVpnConfidence](docs/SearchEventsVpnConfidence.md)
- - [SupplementaryIDHighRecall](docs/SupplementaryIDHighRecall.md)
- - [TamperingConfidence](docs/TamperingConfidence.md)
- - [TamperingDetails](docs/TamperingDetails.md)
- - [TouchSupport](docs/TouchSupport.md)
- - [Velocity](docs/Velocity.md)
- - [VelocityData](docs/VelocityData.md)
- - [VpnConfidence](docs/VpnConfidence.md)
- - [VpnMethods](docs/VpnMethods.md)
- - [WebGlBasics](docs/WebGlBasics.md)
- - [WebGlExtensions](docs/WebGlExtensions.md)
+ - [BotInfo](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotInfo.md)
+ - [BotInfoCategory](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotInfoCategory.md)
+ - [BotInfoConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotInfoConfidence.md)
+ - [BotInfoIdentity](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotInfoIdentity.md)
+ - [BotResult](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotResult.md)
+ - [BrowserDetails](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BrowserDetails.md)
+ - [Canvas](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Canvas.md)
+ - [Emoji](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Emoji.md)
+ - [Error](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Error.md)
+ - [ErrorCode](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ErrorCode.md)
+ - [ErrorResponse](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ErrorResponse.md)
+ - [Event](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Event.md)
+ - [EventRuleAction](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleAction.md)
+ - [EventRuleActionAllow](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleActionAllow.md)
+ - [EventRuleActionBlock](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleActionBlock.md)
+ - [EventSearch](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventSearch.md)
+ - [EventUpdate](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventUpdate.md)
+ - [FontPreferences](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FontPreferences.md)
+ - [Geolocation](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Geolocation.md)
+ - [GeolocationSubdivisionsInner](https://github.com/fingerprintjs/python-sdk/blob/main/docs/GeolocationSubdivisionsInner.md)
+ - [IPBlockList](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IPBlockList.md)
+ - [IPInfo](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IPInfo.md)
+ - [IPInfoV4](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IPInfoV4.md)
+ - [IPInfoV6](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IPInfoV6.md)
+ - [Identification](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Identification.md)
+ - [IdentificationConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IdentificationConfidence.md)
+ - [IncrementalIdentificationStatus](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IncrementalIdentificationStatus.md)
+ - [Integration](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Integration.md)
+ - [IntegrationSubintegration](https://github.com/fingerprintjs/python-sdk/blob/main/docs/IntegrationSubintegration.md)
+ - [LabelsInner](https://github.com/fingerprintjs/python-sdk/blob/main/docs/LabelsInner.md)
+ - [PluginsInner](https://github.com/fingerprintjs/python-sdk/blob/main/docs/PluginsInner.md)
+ - [PluginsInnerMimeTypesInner](https://github.com/fingerprintjs/python-sdk/blob/main/docs/PluginsInnerMimeTypesInner.md)
+ - [Proximity](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Proximity.md)
+ - [ProxyConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ProxyConfidence.md)
+ - [ProxyDetails](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ProxyDetails.md)
+ - [RareDevicePercentileBucket](https://github.com/fingerprintjs/python-sdk/blob/main/docs/RareDevicePercentileBucket.md)
+ - [RawDeviceAttributes](https://github.com/fingerprintjs/python-sdk/blob/main/docs/RawDeviceAttributes.md)
+ - [RequestHeaderModifications](https://github.com/fingerprintjs/python-sdk/blob/main/docs/RequestHeaderModifications.md)
+ - [RuleActionHeaderField](https://github.com/fingerprintjs/python-sdk/blob/main/docs/RuleActionHeaderField.md)
+ - [RuleActionType](https://github.com/fingerprintjs/python-sdk/blob/main/docs/RuleActionType.md)
+ - [SDK](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SDK.md)
+ - [SearchEventsBot](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsBot.md)
+ - [SearchEventsBotInfo](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsBotInfo.md)
+ - [SearchEventsEndParameter](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsEndParameter.md)
+ - [SearchEventsIncrementalIdentificationStatus](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsIncrementalIdentificationStatus.md)
+ - [SearchEventsRareDevicePercentileBucket](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsRareDevicePercentileBucket.md)
+ - [SearchEventsSdkPlatform](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsSdkPlatform.md)
+ - [SearchEventsStartParameter](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsStartParameter.md)
+ - [SearchEventsVpnConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsVpnConfidence.md)
+ - [SupplementaryIDHighRecall](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SupplementaryIDHighRecall.md)
+ - [TamperingConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/TamperingConfidence.md)
+ - [TamperingDetails](https://github.com/fingerprintjs/python-sdk/blob/main/docs/TamperingDetails.md)
+ - [TouchSupport](https://github.com/fingerprintjs/python-sdk/blob/main/docs/TouchSupport.md)
+ - [Velocity](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Velocity.md)
+ - [VelocityData](https://github.com/fingerprintjs/python-sdk/blob/main/docs/VelocityData.md)
+ - [VpnConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/VpnConfidence.md)
+ - [VpnMethods](https://github.com/fingerprintjs/python-sdk/blob/main/docs/VpnMethods.md)
+ - [WebGlBasics](https://github.com/fingerprintjs/python-sdk/blob/main/docs/WebGlBasics.md)
+ - [WebGlExtensions](https://github.com/fingerprintjs/python-sdk/blob/main/docs/WebGlExtensions.md)
 
 
 ## Documentation for sealed results
 
-- [SealedResults](docs/SealedResults.md)
-- [DecryptionKey](docs/DecryptionKey.md)
+- [SealedResults](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SealedResults.md)
+- [DecryptionKey](https://github.com/fingerprintjs/python-sdk/blob/main/docs/DecryptionKey.md)
 
 ## Support
 

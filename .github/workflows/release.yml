@@ -17,11 +17,8 @@ jobs:
       language: python
       language-version: '3.12'
       prepare-command: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install wheel
-        pip install twine
-        pip install ruff
+        pip install uv
+        uv sync
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
       RUNNER_APP_PRIVATE_KEY: ${{ secrets.RUNNER_APP_PRIVATE_KEY }}

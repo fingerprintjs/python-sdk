@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! docker info > /dev/null 2>&1; then
+  echo "Error: Docker is not running. Please start Docker and try again."
+  exit 1
+fi
+
 VERSION=$(jq -r '.version' package.json)
 
 while getopts "v:" arg; do
@@ -31,8 +36,12 @@ docker run --rm -u "$(id -u):$(id -g)" -v "${PWD}:/local" -w /local "openapitool
   -c ./config.json \
   --additional-properties=packageVersion="$VERSION"
 
+if [ $? -ne 0 ]; then
+  echo "Error: Code generation failed."
+  exit 1
+fi
+
 # Linting and formatting
-PYTHON_CMD="${PYTHON:-$(command -v python3 || command -v python)}"
-"$PYTHON_CMD" -m pip install --quiet 'ruff==0.15.0'
-"$PYTHON_CMD" -m ruff format .
-"$PYTHON_CMD" -m ruff check --fix --unsafe-fixes .
+uv run ruff format .
+uv run ruff check --fix --unsafe-fixes .
+

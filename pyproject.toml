@@ -6,9 +6,23 @@ authors = [
   {name = "Fingerprint Support",email = "support@fingerprint.com"},
 ]
 license = { text = "MIT" }
-readme = "README.md"
+readme = "README.pypi.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Server API"]
 requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Security",
+]
 
 dependencies = [
   "urllib3 (>=2.1.0,<3.0.0)",
@@ -24,23 +38,20 @@ examples = ["python-dotenv (>=1.0.0)"]
 [project.urls]
 Repository = "https://github.com/fingerprintjs/python-sdk"
 
-[tool.poetry]
-requires-poetry = ">=2.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = ">= 7.2.1"
-pytest-cov = ">= 2.8.1"
-tox = ">= 3.9.0"
-types-python-dateutil = ">= 2.8.19.14"
-mypy = ">= 1.5"
-ruff = "== 0.15.0"
-pre-commit = ">= 4.0.0"
-python-dotenv = ">= 1.0.0"
-
+[dependency-groups]
+dev = [
+  "pytest>=7.2.1",
+  "pytest-cov>=2.8.1",
+  "types-python-dateutil>=2.8.19.14",
+  "mypy>=1.5",
+  "ruff==0.15.20",
+  "pre-commit>=4.0.0",
+  "python-dotenv>=1.0.0",
+]
 
 [build-system]
-requires = ["setuptools>=82.0.1"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
