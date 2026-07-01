@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
 from fingerprint_server_sdk.models.integration import Integration
@@ -36,13 +36,6 @@ class SDK(BaseModel):
     )
     integrations: Optional[list[Integration]] = None
     __properties: ClassVar[list[str]] = ['platform', 'version', 'integrations']
-
-    @field_validator('platform')
-    def platform_validate_enum(cls, value: Any) -> Any:
-        """Validates the enum"""
-        if value not in set(['js', 'android', 'ios', 'unknown']):
-            raise ValueError("must be one of enum values ('js', 'android', 'ios', 'unknown')")
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -37,3 +37,15 @@ class SearchEventsRareDevicePercentileBucket(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of SearchEventsRareDevicePercentileBucket from a JSON string"""
         return cls(json.loads(json_str))
+
+    @classmethod
+    def _missing_(cls, value: object) -> Self:
+        """Accept unknown enum values gracefully."""
+        if not isinstance(value, str):
+            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+        obj = str.__new__(cls, value)
+        obj._name_ = str(value)
+        obj._value_ = value
+        # cache it so the same value won't trigger `_missing_` again
+        cls._value2member_map_[value] = obj
+        return obj

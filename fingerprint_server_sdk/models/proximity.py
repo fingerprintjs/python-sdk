@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing_extensions import Self
 
 
@@ -39,15 +39,6 @@ class Proximity(BaseModel):
         description='A value between `0` and `1` representing the likelihood that the true device location lies within the mapped proximity zone.   * Scores closer to `1` indicate high confidence that the location is inside the mapped proximity zone.   * Scores closer to `0` indicate lower confidence, suggesting the true location may fall in an adjacent zone. '
     )
     __properties: ClassVar[list[str]] = ['id', 'precision_radius', 'confidence']
-
-    @field_validator('precision_radius')
-    def precision_radius_validate_enum(cls, value: Any) -> Any:
-        """Validates the enum"""
-        if value not in set([10, 25, 65, 175, 450, 1200, 3300, 8500, 22500]):
-            raise ValueError(
-                'must be one of enum values (10, 25, 65, 175, 450, 1200, 3300, 8500, 22500)'
-            )
-        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
