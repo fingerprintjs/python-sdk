@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -34,6 +35,7 @@ from fingerprint_server_sdk.models.search_events_rare_device_percentile_bucket i
     SearchEventsRareDevicePercentileBucket,
 )
 from fingerprint_server_sdk.models.search_events_sdk_platform import SearchEventsSdkPlatform
+from fingerprint_server_sdk.models.search_events_source import SearchEventsSource
 from fingerprint_server_sdk.models.search_events_start_parameter import SearchEventsStartParameter
 from fingerprint_server_sdk.models.search_events_vpn_confidence import SearchEventsVpnConfidence
 from fingerprint_server_sdk.rest import RESTResponseType
@@ -43,6 +45,7 @@ ParamValue = Union[
     list[BotInfoCategory],
     list[BotInfoIdentity],
     list[BotInfoConfidence],
+    list[SearchEventsSource],
     str,
     int,
     float,
@@ -569,13 +572,13 @@ class FingerprintApi:
         limit: Annotated[
             Optional[Annotated[int, Field(le=100, strict=True, ge=1)]],
             Field(
-                description='Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
+                description='Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
             ),
         ] = None,
         pagination_key: Annotated[
             Optional[StrictStr],
             Field(
-                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
+                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q` '
             ),
         ] = None,
         visitor_id: Annotated[
@@ -864,6 +867,12 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -877,9 +886,9 @@ class FingerprintApi:
 
         ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.  - Use `start` and `end` to specify the time range of the search. - Use `reverse=true` to sort the results oldest first. - Use `limit` to specify the number of events to return. - Use `pagination_key` to get the next page of results if there are more than `limit` events.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
 
-        :param limit: Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
+        :param limit: Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
         :type limit: int
-        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
         :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
@@ -977,6 +986,8 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1046,6 +1057,7 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1055,6 +1067,7 @@ class FingerprintApi:
             '200': 'EventSearch',
             '400': 'ErrorResponse',
             '403': 'ErrorResponse',
+            '404': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
 
@@ -1071,13 +1084,13 @@ class FingerprintApi:
         limit: Annotated[
             Optional[Annotated[int, Field(le=100, strict=True, ge=1)]],
             Field(
-                description='Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
+                description='Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
             ),
         ] = None,
         pagination_key: Annotated[
             Optional[StrictStr],
             Field(
-                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
+                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q` '
             ),
         ] = None,
         visitor_id: Annotated[
@@ -1366,6 +1379,12 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1379,9 +1398,9 @@ class FingerprintApi:
 
         ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.  - Use `start` and `end` to specify the time range of the search. - Use `reverse=true` to sort the results oldest first. - Use `limit` to specify the number of events to return. - Use `pagination_key` to get the next page of results if there are more than `limit` events.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
 
-        :param limit: Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
+        :param limit: Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
         :type limit: int
-        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
         :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
@@ -1479,6 +1498,8 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1548,6 +1569,7 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1557,6 +1579,7 @@ class FingerprintApi:
             '200': 'EventSearch',
             '400': 'ErrorResponse',
             '403': 'ErrorResponse',
+            '404': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
 
@@ -1573,13 +1596,13 @@ class FingerprintApi:
         limit: Annotated[
             Optional[Annotated[int, Field(le=100, strict=True, ge=1)]],
             Field(
-                description='Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
+                description='Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events. '
             ),
         ] = None,
         pagination_key: Annotated[
             Optional[StrictStr],
             Field(
-                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085` '
+                description='Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q` '
             ),
         ] = None,
         visitor_id: Annotated[
@@ -1868,6 +1891,12 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1881,9 +1910,9 @@ class FingerprintApi:
 
         ## Search  The `/v4/events` endpoint provides a convenient way to search for past events based on specific parameters. Typical use cases and queries include:  - Searching for events associated with a single `visitor_id` within a time range to get historical behavior of a visitor. - Searching for events associated with a single `linked_id` within a time range to get all events associated with your internal account identifier. - Excluding all bot traffic from the query (`good` and `bad` bots)  By default, the API searches events from the last 7 days, sorts them by newest first and returns the last 10 events.  - Use `start` and `end` to specify the time range of the search. - Use `reverse=true` to sort the results oldest first. - Use `limit` to specify the number of events to return. - Use `pagination_key` to get the next page of results if there are more than `limit` events.  ### Filtering events with the `suspect` flag  The `/v4/events` endpoint unlocks a powerful method for fraud protection analytics. The `suspect` flag is exposed in all events where it was previously set by the update API.  You can also apply the `suspect` query parameter as a filter to find all potentially fraudulent activity that you previously marked as `suspect`. This helps identify patterns of fraudulent behavior.  ### Environment scoping  If you use a secret key that is scoped to an environment, you will only get events associated with the same environment. With a workspace-scoped environment, you will get events from all environments.  Smart Signals not activated for your workspace or are not included in the response.
 
-        :param limit: Maximum number of events to return. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
+        :param limit: Maximum number of events to return. Defaults to 10 when omitted. Results are selected from the time range (`start`, `end`), ordered by `reverse`, then truncated to provided `limit` size. So `reverse=true` returns the oldest N=`limit` events, otherwise the newest N=`limit` events.
         :type limit: int
-        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=1740815825085`
+        :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
         :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
@@ -1981,6 +2010,8 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2050,6 +2081,7 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2059,6 +2091,7 @@ class FingerprintApi:
             '200': 'EventSearch',
             '400': 'ErrorResponse',
             '403': 'ErrorResponse',
+            '404': 'ErrorResponse',
             '500': 'ErrorResponse',
         }
 
@@ -2117,6 +2150,7 @@ class FingerprintApi:
         tor_node: Optional[bool],
         incremental_identification_status: Optional[SearchEventsIncrementalIdentificationStatus],
         simulator: Optional[bool],
+        source: Optional[list[SearchEventsSource]],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -2129,6 +2163,7 @@ class FingerprintApi:
             'bot_info_provider': 'multi',
             'bot_info_name': 'multi',
             'environment': 'multi',
+            'source': 'multi',
         }
 
         _path_params: dict[str, str] = {}
@@ -2352,6 +2387,10 @@ class FingerprintApi:
         # process the query parameters
         if simulator is not None:
             _query_params.append(('simulator', simulator))
+
+        # process the query parameters
+        if source is not None:
+            _query_params.append(('source', source))
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:

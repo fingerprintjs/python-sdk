@@ -354,6 +354,7 @@ Class | Method | HTTP request | Description
  - [SearchEventsIncrementalIdentificationStatus](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsIncrementalIdentificationStatus.md)
  - [SearchEventsRareDevicePercentileBucket](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsRareDevicePercentileBucket.md)
  - [SearchEventsSdkPlatform](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsSdkPlatform.md)
+ - [SearchEventsSource](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsSource.md)
  - [SearchEventsStartParameter](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsStartParameter.md)
  - [SearchEventsVpnConfidence](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SearchEventsVpnConfidence.md)
  - [SupplementaryIDHighRecall](https://github.com/fingerprintjs/python-sdk/blob/main/docs/SupplementaryIDHighRecall.md)

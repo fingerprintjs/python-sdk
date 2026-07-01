@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -27,7 +28,7 @@ class ProxyDetails(BaseModel):
     """
 
     proxy_type: StrictStr = Field(
-        description='Residential proxies use real user IP addresses to appear as legitimate traffic,  while data center proxies are public proxies hosted in data centers '
+        description='Proxy type:  * `residential` - proxies that route through residential and telecom IP addresses to appear as legitimate traffic  * `data_center` - proxies which route through data centers  * `unknown` - reported when a proxy is detected solely by the ML model and the IP sources did not determine a specific type '
     )
     last_seen_at: Optional[StrictInt] = Field(
         default=None,

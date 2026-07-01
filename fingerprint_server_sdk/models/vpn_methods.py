@@ -2,6 +2,7 @@
 Server API
 Fingerprint Server API allows you to get, search, and update Events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios.
 Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.
+The API also supports collection of Automation Intelligence for requests to your server in edge, pre-origin, or middleware contexts.
 
 The version of the OpenAPI document: 4
 Contact: support@fingerprint.com
@@ -46,12 +47,17 @@ class VpnMethods(BaseModel):
         default=None,
         description="Request IP address belongs to a relay service provider, indicating the use of relay services like [Apple Private relay](https://support.apple.com/en-us/102602) or [Cloudflare Warp](https://developers.cloudflare.com/warp-client/).  * Like VPNs, relay services anonymize the visitor's true IP address. * Unlike traditional VPNs, relay services don't let visitors spoof their location by choosing an exit node in a different country.  This field allows you to differentiate VPN users and relay service users in your fraud prevention logic. ",
     )
+    ml_prediction: Optional[StrictBool] = Field(
+        default=None,
+        description='`true` if the request came from a device running a VPN, `false` otherwise.   ',
+    )
     __properties: ClassVar[list[str]] = [
         'timezone_mismatch',
         'public_vpn',
         'auxiliary_mobile',
         'os_mismatch',
         'relay',
+        'ml_prediction',
     ]
 
     model_config = ConfigDict(
@@ -109,6 +115,7 @@ class VpnMethods(BaseModel):
                 'auxiliary_mobile': obj.get('auxiliary_mobile'),
                 'os_mismatch': obj.get('os_mismatch'),
                 'relay': obj.get('relay'),
+                'ml_prediction': obj.get('ml_prediction'),
             }
         )
         return _obj

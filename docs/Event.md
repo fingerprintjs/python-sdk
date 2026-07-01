@@ -4,23 +4,26 @@ Contains results from Fingerprint Identification and all active Smart Signals.
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**event_id** | **str** | Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp For example: `1758130560902.8tRtrH`  | 
+**event_id** | **str** | Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp.  | 
 **timestamp** | **int** | Timestamp of the event with millisecond precision in Unix time. | 
 **incremental_identification_status** | [**IncrementalIdentificationStatus**](IncrementalIdentificationStatus.md) |  | [optional] 
 **linked_id** | **str** | A customer-provided id that was sent with the request. | [optional] 
-**environment_id** | **str** | Environment Id of the event. For example: `ae_47abaca3db2c7c43`  | [optional] 
+**environment_id** | **str** | Environment Id of the event. | [optional] 
 **suspect** | **bool** | Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event). | [optional] 
 **sdk** | [**SDK**](SDK.md) |  | [optional] 
 **replayed** | **bool** | `true` if we determined that this payload was replayed, `false` otherwise.  | [optional] 
 **identification** | [**Identification**](Identification.md) |  | [optional] 
 **supplementary_id_high_recall** | [**SupplementaryIDHighRecall**](SupplementaryIDHighRecall.md) |  | [optional] 
 **tags** | **Dict[str, object]** | A customer-provided value or an object that was sent with the identification request or updated later. | [optional] 
-**url** | **str** | Page URL from which the request was sent. For example `https://example.com/`  | [optional] 
-**bundle_id** | **str** | Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. For example: `com.foo.app`  | [optional] 
-**package_name** | **str** | Package name of the Android application integrated with the Fingerprint SDK for the event. For example: `com.foo.app`  | [optional] 
+**url** | **str** | Page URL from which the request was sent. | [optional] 
+**bundle_id** | **str** | Bundle Id of the iOS application integrated with the Fingerprint SDK for the event.  | [optional] 
+**package_name** | **str** | Package name of the Android application integrated with the Fingerprint SDK for the event.  | [optional] 
 **ip_address** | **str** | IP address of the requesting browser or bot. | [optional] 
-**user_agent** | **str** | User Agent of the client, for example: `Mozilla/5.0 (Windows NT 6.1; Win64; x64) ....`  | [optional] 
-**client_referrer** | **str** | Client Referrer field corresponds to the `document.referrer` field gathered during an identification request. The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark) For example: `https://example.com/blog/my-article`  | [optional] 
+**user_agent** | **str** | User Agent of the client. | [optional] 
+**device** | **str** | Device model or family extracted from the user agent string. On web, this field is also present inside `browser_details`.  | [optional] 
+**os** | **str** | Operating system family extracted from the user agent string. On web, this field is also present inside `browser_details`.  | [optional] 
+**os_version** | **str** | Operating system version string extracted from the user agent string. On web, this field is also present inside `browser_details`.  | [optional] 
+**client_referrer** | **str** | Client Referrer field corresponds to the `document.referrer` field gathered during an identification request. The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark).  | [optional] 
 **browser_details** | [**BrowserDetails**](BrowserDetails.md) |  | [optional] 
 **proximity** | [**Proximity**](Proximity.md) |  | [optional] 
 **bot** | [**BotResult**](BotResult.md) |  | [optional] 
@@ -55,6 +58,7 @@ Name | Type | Description | Notes
 **virtual_machine_ml_score** | **float** | Machine learning–based virtual machine score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).  | [optional] 
 **vpn** | **bool** | VPN or other anonymizing service has been used when sending the request.  | [optional] 
 **vpn_confidence** | [**VpnConfidence**](VpnConfidence.md) |  | [optional] 
+**vpn_ml_score** | **float** | Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).  | [optional] 
 **vpn_origin_timezone** | **str** | Local timezone which is used in timezone_mismatch method.  | [optional] 
 **vpn_origin_country** | **str** | Country of the request (only for Android SDK version >= 2.4.0, ISO 3166 format or unknown).  | [optional] 
 **vpn_methods** | [**VpnMethods**](VpnMethods.md) |  | [optional] 
