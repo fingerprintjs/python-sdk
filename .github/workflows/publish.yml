@@ -21,13 +21,13 @@ jobs:
       id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         if: github.event_name == 'release'
         with:
           ref: ${{ github.event.release.tag_name }}
 
       - name: 'Checkout repository'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         if: github.event_name == 'workflow_dispatch'
         with:
           ref: ${{ github.event.inputs.tag }}
@@ -41,7 +41,7 @@ jobs:
         run: uv build
 
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@76f52bc884231f62b9a034ebfe128415bbaabdfc
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
 
   e2e-tests:
     needs: publish

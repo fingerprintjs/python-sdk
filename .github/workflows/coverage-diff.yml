@@ -8,7 +8,7 @@ jobs:
   coverage-diff:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           enable-cache: true
@@ -20,7 +20,7 @@ jobs:
           uv run coverage run --source=fingerprint_server_sdk -m pytest
           uv run coverage xml
       - name: Get Cover
-        uses: orgoro/coverage@3f13a558c5af7376496aa4848bf0224aead366ac
+        uses: orgoro/coverage@ca0c362dc1a4f100447309405e6dfea47e251495 # v3.3.1
         with:
           coverageFile: ./coverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
