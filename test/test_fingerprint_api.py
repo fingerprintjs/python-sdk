@@ -21,6 +21,7 @@ from fingerprint_server_sdk import (
     SearchEventsIncrementalIdentificationStatus,
     SearchEventsRareDevicePercentileBucket,
     SearchEventsSdkPlatform,
+    SearchEventsSource,
     SearchEventsVpnConfidence,
     TooManyRequestsException,
     __version__,
@@ -215,6 +216,29 @@ class TestFingerprintApi(unittest.TestCase):
         event_response = self.api.get_event(event_id)
         self.assertIsInstance(event_response, Event)
 
+    def test_get_event_with_unknown_field(self) -> None:
+        """Test case for get_event with unknown fields in the response
+
+        Validates that the SDK can deserialize an event response that contains
+        unknown fields, ignoring them without failing.
+        """
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        event_id = '0000000000000.XXXXX'
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_event_path(event_id),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_data_file='events/get_event_200_with_unknown_field.json',
+        )
+
+        event_response = self.api.get_event(event_id)
+        self.assertIsInstance(event_response, Event)
+        self.assertEqual(event_response.identification.visitor_id, 'Ibk1527CUFmcnjLwIs4A9')
+
     def test_get_event_bad_request(self) -> None:
         """Test case for get_event with 400 Bad Request response"""
         mock_pool = MockPoolManager(self)
@@ -387,6 +411,7 @@ class TestFingerprintApi(unittest.TestCase):
             'bot_info_confidence': [BotInfoConfidence.HIGH, BotInfoConfidence.MEDIUM],
             'bot_info_provider': ['provider'],
             'bot_info_name': ['name1', 'name2'],
+            'source': [SearchEventsSource.EDGE],
         }
         # URL params use serialized values (enum.value, lowercase bool) in API definition order
         url_params = {
@@ -439,6 +464,7 @@ class TestFingerprintApi(unittest.TestCase):
             'tor_node': 'true',
             'incremental_identification_status': 'partially_completed',
             'simulator': 'true',
+            'source': ['edge'],
         }
 
         mock_pool = MockPoolManager(self)
