@@ -325,7 +325,7 @@ class Configuration:
             f'OS: {sys.platform}\n'
             f'Python Version: {sys.version}\n'
             'Version of the API: 4\n'
-            'SDK Package Version: 9.3.0'
+            'SDK Package Version: 9.4.0'
         )
 
     @staticmethod

@@ -1,5 +1,20 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.4.0
+
+### Minor Changes
+
+- **events**: Add `device`, `os`, and `os_version` to `Event` ([867011f](https://github.com/fingerprintjs/python-sdk/commit/867011fc5eaaa327138567c03db69d45c5dea036))
+- **events-search**: Add `source` query parameter to filter events by `edge` (Automation Intelligence) source ([867011f](https://github.com/fingerprintjs/python-sdk/commit/867011fc5eaaa327138567c03db69d45c5dea036))
+- **events**: Add `battery_level` and `battery_low_power_mode` to `RawDeviceAttributes` ([867011f](https://github.com/fingerprintjs/python-sdk/commit/867011fc5eaaa327138567c03db69d45c5dea036))
+- **events**: Add `ml_prediction` to `vpn_methods` ([867011f](https://github.com/fingerprintjs/python-sdk/commit/867011fc5eaaa327138567c03db69d45c5dea036))
+- **events**: Add `vpn_ml_score` to `Event` ([867011f](https://github.com/fingerprintjs/python-sdk/commit/867011fc5eaaa327138567c03db69d45c5dea036))
+- **events-search**: Document 404 response for `searchEvents` operation ([867011f](https://github.com/fingerprintjs/python-sdk/commit/867011fc5eaaa327138567c03db69d45c5dea036))
+
+### Patch Changes
+
+- Accept unknown enum values gracefully instead of throwing errors during deserialization ([5ef6b57](https://github.com/fingerprintjs/python-sdk/commit/5ef6b57a79ae21b85be8f38cfc3958528da98f64))
+
 ## 9.3.0
 
 ### Minor Changes
