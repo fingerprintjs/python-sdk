@@ -50,6 +50,7 @@ docs/SearchEventsEndParameter.md
 docs/SearchEventsIncrementalIdentificationStatus.md
 docs/SearchEventsRareDevicePercentileBucket.md
 docs/SearchEventsSdkPlatform.md
+docs/SearchEventsSource.md
 docs/SearchEventsStartParameter.md
 docs/SearchEventsVpnConfidence.md
 docs/SupplementaryIDHighRecall.md
@@ -117,6 +118,7 @@ fingerprint_server_sdk/models/search_events_end_parameter.py
 fingerprint_server_sdk/models/search_events_incremental_identification_status.py
 fingerprint_server_sdk/models/search_events_rare_device_percentile_bucket.py
 fingerprint_server_sdk/models/search_events_sdk_platform.py
+fingerprint_server_sdk/models/search_events_source.py
 fingerprint_server_sdk/models/search_events_start_parameter.py
 fingerprint_server_sdk/models/search_events_vpn_confidence.py
 fingerprint_server_sdk/models/supplementary_id_high_recall.py

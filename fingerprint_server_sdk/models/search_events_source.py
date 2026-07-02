@@ -19,34 +19,19 @@ from enum import Enum
 from typing_extensions import Self
 
 
-class BotInfoCategory(str, Enum):
+class SearchEventsSource(str, Enum):
     """
-    The type and purpose of the bot.
+    SearchEventsSource
     """
 
     """
     allowed enum values
     """
-    ADVERTISING_AND_MARKETING = 'advertising_and_marketing'
-    AGGREGATOR = 'aggregator'
-    AI_AGENT = 'ai_agent'
-    AI_ASSISTANT = 'ai_assistant'
-    AI_BROWSER = 'ai_browser'
-    AI_CRAWLER = 'ai_crawler'
-    AI_SEARCH = 'ai_search'
-    BROWSER_AUTOMATION = 'browser_automation'
-    ECOMMERCE = 'ecommerce'
-    MONITORING_AND_ANALYTICS = 'monitoring_and_analytics'
-    OTHER = 'other'
-    SCRAPING = 'scraping'
-    SECURITY = 'security'
-    SEARCH_ENGINE_CRAWLER = 'search_engine_crawler'
-    SEARCH_ENGINE_OPTIMIZATION = 'search_engine_optimization'
-    UNKNOWN = 'unknown'
+    EDGE = 'edge'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
-        """Create an instance of BotInfoCategory from a JSON string"""
+        """Create an instance of SearchEventsSource from a JSON string"""
         return cls(json.loads(json_str))
 
     @classmethod
