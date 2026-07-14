@@ -11,7 +11,7 @@ jobs:
   coverage-report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           enable-cache: true
@@ -27,13 +27,13 @@ jobs:
           rm ./htmlcov/.gitignore
 
       - name: Create Coverage Badges
-        uses: jaywcjlove/coverage-badges-cli@e07f25709cd25486855c1ba1b26da53576ff3620
+        uses: jaywcjlove/coverage-badges-cli@998665f7962b1a3935ba8c3e786171a99436e5d1 # v2.3.0
         with:
           source: coverage-summary.json
           output: htmlcov/badges.svg
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@8817a56e5bfec6e2b08345c81f4d422db53a2cdc
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
         with:
           branch: gh-pages
           folder: htmlcov
