@@ -31,6 +31,7 @@ jobs:
         with:
           source: coverage-summary.json
           output: htmlcov/badges.svg
+          jsonPath: total.statements.pct
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
