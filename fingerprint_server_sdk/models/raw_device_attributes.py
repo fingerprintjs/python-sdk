@@ -41,7 +41,8 @@ class RawDeviceAttributes(BaseModel):
         default=None, description='List of fonts detected on the device.'
     )
     device_memory: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
-        default=None, description='Rounded amount of RAM in gigabytes.'
+        default=None,
+        description='Rounded amount of RAM in gigabytes. Available for browsers, Android, and iOS devices.',
     )
     timezone: Optional[StrictStr] = Field(
         default=None, description='Timezone identifier detected on the client.'
@@ -116,11 +117,18 @@ class RawDeviceAttributes(BaseModel):
     )
     battery_level: Optional[Annotated[int, Field(le=100, strict=True, ge=0)]] = Field(
         default=None,
-        description='Battery charge level as a percentage (0-100). Available only for Android and iOS devices.',
+        description='Battery charge level as a percentage (0-100). Available for Android, iOS, and web devices. On web, only available in Chromium-based browsers.',
+    )
+    battery_charging: Optional[StrictBool] = Field(
+        default=None,
+        description='When `true`, the device is currently charging. Available only for web devices on Chromium-based browsers.',
     )
     battery_low_power_mode: Optional[StrictBool] = Field(
         default=None,
         description="Whether the device's low power mode is enabled. Available only for Android and iOS devices.",
+    )
+    keyboard_layout_hash: Optional[StrictStr] = Field(
+        default=None, description="Unique identifier for the user's keyboard layout."
     )
     __properties: ClassVar[list[str]] = [
         'font_preferences',
@@ -153,7 +161,9 @@ class RawDeviceAttributes(BaseModel):
         'font_hash',
         'timezone_offset',
         'battery_level',
+        'battery_charging',
         'battery_low_power_mode',
+        'keyboard_layout_hash',
     ]
 
     model_config = ConfigDict(
@@ -273,7 +283,9 @@ class RawDeviceAttributes(BaseModel):
                 'font_hash': obj.get('font_hash'),
                 'timezone_offset': obj.get('timezone_offset'),
                 'battery_level': obj.get('battery_level'),
+                'battery_charging': obj.get('battery_charging'),
                 'battery_low_power_mode': obj.get('battery_low_power_mode'),
+                'keyboard_layout_hash': obj.get('keyboard_layout_hash'),
             }
         )
         return _obj
