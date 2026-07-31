@@ -15,4 +15,4 @@ from typing import Union
 
 from pydantic import AwareDatetime
 
-SearchEventsEndParameter = Union[int, AwareDatetime]
+SearchEventsEndParameter = Union[AwareDatetime, int]
