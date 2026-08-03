@@ -45,6 +45,7 @@ Name | Type | Description | Notes
 **velocity** | [**WebhookVelocity**](WebhookVelocity.md) |  | [optional] 
 **developer_tools** | [**WebhookDeveloperTools**](WebhookDeveloperTools.md) |  | [optional] 
 **mitm_attack** | [**WebhookMitMAttack**](WebhookMitMAttack.md) |  | [optional] 
+**rare_device** | [**WebhookRareDevice**](WebhookRareDevice.md) |  | [optional] 
 **replayed** | **bool** | `true` if we determined that this payload was replayed, `false` otherwise.  | [optional] 
 **sdk** | [**SDK**](SDK.md) |  | 
 **supplementary_ids** | [**WebhookSupplementaryIDs**](WebhookSupplementaryIDs.md) |  | [optional] 

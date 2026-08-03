@@ -535,6 +535,8 @@ class FingerprintApi:
         :param developer_tools: Filter events by Developer Tools detection result. > Note: When using this parameter, only events with the `products.developerTools.data.result` property set to `true` or `false` are returned. Events without a `products.developerTools` Smart Signal result are left out of the response. 
         :param location_spoofing: Filter events by Location Spoofing detection result. > Note: When using this parameter, only events with the `products.locationSpoofing.data.result` property set to `true` or `false` are returned. Events without a `products.locationSpoofing` Smart Signal result are left out of the response. 
         :param mitm_attack: Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `products.mitmAttack.data.result` property set to `true` or `false` are returned. Events without a `products.mitmAttack` Smart Signal result are left out of the response. 
+        :param rare_device: Filter events by Rare Device detection result. > Note: When using this parameter, only events with the `products.rareDevice.data.result` property set to `true` or `false` are returned. Events without a `products.rareDevice` Smart Signal result are left out of the response. 
+        :param rare_device_percentile_bucket: Filter events by Rare Device percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before. 
         :param proxy: Filter events by Proxy detection result. > Note: When using this parameter, only events with the `products.proxy.data.result` property set to `true` or `false` are returned. Events without a `products.proxy` Smart Signal result are left out of the response. 
         :param sdk_version: Filter events by a specific SDK version associated with the identification event. Example: `3.11.14` 
         :param sdk_platform: Filter events by the SDK Platform associated with the identification event. `js` - JavaScript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices. 
@@ -591,6 +593,8 @@ class FingerprintApi:
         :param bool developer_tools: Filter events by Developer Tools detection result. > Note: When using this parameter, only events with the `products.developerTools.data.result` property set to `true` or `false` are returned. Events without a `products.developerTools` Smart Signal result are left out of the response. 
         :param bool location_spoofing: Filter events by Location Spoofing detection result. > Note: When using this parameter, only events with the `products.locationSpoofing.data.result` property set to `true` or `false` are returned. Events without a `products.locationSpoofing` Smart Signal result are left out of the response. 
         :param bool mitm_attack: Filter events by MITM (Man-in-the-Middle) Attack detection result. > Note: When using this parameter, only events with the `products.mitmAttack.data.result` property set to `true` or `false` are returned. Events without a `products.mitmAttack` Smart Signal result are left out of the response. 
+        :param bool rare_device: Filter events by Rare Device detection result. > Note: When using this parameter, only events with the `products.rareDevice.data.result` property set to `true` or `false` are returned. Events without a `products.rareDevice` Smart Signal result are left out of the response. 
+        :param str rare_device_percentile_bucket: Filter events by Rare Device percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before. 
         :param bool proxy: Filter events by Proxy detection result. > Note: When using this parameter, only events with the `products.proxy.data.result` property set to `true` or `false` are returned. Events without a `products.proxy` Smart Signal result are left out of the response. 
         :param str sdk_version: Filter events by a specific SDK version associated with the identification event. Example: `3.11.14` 
         :param str sdk_platform: Filter events by the SDK Platform associated with the identification event. `js` - JavaScript agent (Web). `ios` - Apple iOS based devices. `android` - Android based devices. 
@@ -632,6 +636,8 @@ class FingerprintApi:
             'developer_tools',
             'location_spoofing',
             'mitm_attack',
+            'rare_device',
+            'rare_device_percentile_bucket',
             'proxy',
             'sdk_version',
             'sdk_platform',
@@ -719,6 +725,10 @@ class FingerprintApi:
             query_params.append(('location_spoofing', params['location_spoofing']))  # noqa: E501
         if 'mitm_attack' in params:
             query_params.append(('mitm_attack', params['mitm_attack']))  # noqa: E501
+        if 'rare_device' in params:
+            query_params.append(('rare_device', params['rare_device']))  # noqa: E501
+        if 'rare_device_percentile_bucket' in params:
+            query_params.append(('rare_device_percentile_bucket', params['rare_device_percentile_bucket']))  # noqa: E501
         if 'proxy' in params:
             query_params.append(('proxy', params['proxy']))  # noqa: E501
         if 'sdk_version' in params:

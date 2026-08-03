@@ -32,26 +32,30 @@ class WebhookProxy(BaseModel):
     swagger_types = {
         'result': 'bool',
         'confidence': 'ProxyConfidence',
-        'details': 'ProxyDetails'
+        'details': 'ProxyDetails',
+        'ml_score': 'float'
     }
 
     nullable_map = {
         'result': False,
         'confidence': False,
-        'details': False
+        'details': False,
+        'ml_score': False
     }
 
     attribute_map = {
         'result': 'result',
         'confidence': 'confidence',
-        'details': 'details'
+        'details': 'details',
+        'ml_score': 'mlScore'
     }
 
-    def __init__(self, result=None, confidence=None, details=None):  # noqa: E501
+    def __init__(self, result=None, confidence=None, details=None, ml_score=None):  # noqa: E501
         """WebhookProxy - a model defined in Swagger"""  # noqa: E501
         self._result = None
         self._confidence = None
         self._details = None
+        self._ml_score = None
         self.discriminator = None
         if result is not None:
             self.result = result
@@ -59,6 +63,8 @@ class WebhookProxy(BaseModel):
             self.confidence = confidence
         if details is not None:
             self.details = details
+        if ml_score is not None:
+            self.ml_score = ml_score
 
     @property
     def result(self) -> Optional[bool]:
@@ -118,4 +124,25 @@ class WebhookProxy(BaseModel):
         """
 
         self._details = details
+
+    @property
+    def ml_score(self) -> Optional[float]:
+        """Gets the ml_score of this WebhookProxy.  # noqa: E501
+
+        Machine learning-based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).   # noqa: E501
+
+        :return: The ml_score of this WebhookProxy.  # noqa: E501
+        """
+        return self._ml_score
+
+    @ml_score.setter
+    def ml_score(self, ml_score: Optional[float]):
+        """Sets the ml_score of this WebhookProxy.
+
+        Machine learning-based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).   # noqa: E501
+
+        :param ml_score: The ml_score of this WebhookProxy.  # noqa: E501
+        """
+
+        self._ml_score = ml_score
 

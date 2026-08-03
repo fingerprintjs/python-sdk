@@ -44,6 +44,7 @@ from fingerprint_pro_server_api_sdk.models.webhook_remote_control import Webhook
 from fingerprint_pro_server_api_sdk.models.webhook_velocity import WebhookVelocity
 from fingerprint_pro_server_api_sdk.models.webhook_developer_tools import WebhookDeveloperTools
 from fingerprint_pro_server_api_sdk.models.webhook_mit_m_attack import WebhookMitMAttack
+from fingerprint_pro_server_api_sdk.models.webhook_rare_device import WebhookRareDevice
 from fingerprint_pro_server_api_sdk.models.sdk import SDK
 from fingerprint_pro_server_api_sdk.models.webhook_supplementary_i_ds import WebhookSupplementaryIDs
 from fingerprint_pro_server_api_sdk.models.webhook_proximity import WebhookProximity
@@ -104,6 +105,7 @@ class Webhook(BaseModel):
         'velocity': 'WebhookVelocity',
         'developer_tools': 'WebhookDeveloperTools',
         'mitm_attack': 'WebhookMitMAttack',
+        'rare_device': 'WebhookRareDevice',
         'replayed': 'bool',
         'sdk': 'SDK',
         'supplementary_ids': 'WebhookSupplementaryIDs',
@@ -153,6 +155,7 @@ class Webhook(BaseModel):
         'velocity': False,
         'developer_tools': False,
         'mitm_attack': False,
+        'rare_device': False,
         'replayed': False,
         'sdk': False,
         'supplementary_ids': False,
@@ -202,13 +205,14 @@ class Webhook(BaseModel):
         'velocity': 'velocity',
         'developer_tools': 'developerTools',
         'mitm_attack': 'mitmAttack',
+        'rare_device': 'rareDevice',
         'replayed': 'replayed',
         'sdk': 'sdk',
         'supplementary_ids': 'supplementaryIds',
         'proximity': 'proximity'
     }
 
-    def __init__(self, request_id=None, url=None, ip=None, environment_id=None, tag=None, time=None, timestamp=None, ip_location=None, linked_id=None, visitor_id=None, visitor_found=None, confidence=None, first_seen_at=None, last_seen_at=None, browser_details=None, incognito=None, client_referrer=None, components=None, bot=None, user_agent=None, root_apps=None, emulator=None, ip_info=None, ip_blocklist=None, tor=None, vpn=None, proxy=None, tampering=None, cloned_app=None, factory_reset=None, jailbroken=None, frida=None, privacy_settings=None, virtual_machine=None, raw_device_attributes=None, high_activity=None, location_spoofing=None, suspect_score=None, remote_control=None, velocity=None, developer_tools=None, mitm_attack=None, replayed=None, sdk=None, supplementary_ids=None, proximity=None):  # noqa: E501
+    def __init__(self, request_id=None, url=None, ip=None, environment_id=None, tag=None, time=None, timestamp=None, ip_location=None, linked_id=None, visitor_id=None, visitor_found=None, confidence=None, first_seen_at=None, last_seen_at=None, browser_details=None, incognito=None, client_referrer=None, components=None, bot=None, user_agent=None, root_apps=None, emulator=None, ip_info=None, ip_blocklist=None, tor=None, vpn=None, proxy=None, tampering=None, cloned_app=None, factory_reset=None, jailbroken=None, frida=None, privacy_settings=None, virtual_machine=None, raw_device_attributes=None, high_activity=None, location_spoofing=None, suspect_score=None, remote_control=None, velocity=None, developer_tools=None, mitm_attack=None, rare_device=None, replayed=None, sdk=None, supplementary_ids=None, proximity=None):  # noqa: E501
         """Webhook - a model defined in Swagger"""  # noqa: E501
         self._request_id = None
         self._url = None
@@ -252,6 +256,7 @@ class Webhook(BaseModel):
         self._velocity = None
         self._developer_tools = None
         self._mitm_attack = None
+        self._rare_device = None
         self._replayed = None
         self._sdk = None
         self._supplementary_ids = None
@@ -336,6 +341,8 @@ class Webhook(BaseModel):
             self.developer_tools = developer_tools
         if mitm_attack is not None:
             self.mitm_attack = mitm_attack
+        if rare_device is not None:
+            self.rare_device = rare_device
         if replayed is not None:
             self.replayed = replayed
         self.sdk = sdk
@@ -1171,6 +1178,25 @@ class Webhook(BaseModel):
         """
 
         self._mitm_attack = mitm_attack
+
+    @property
+    def rare_device(self) -> Optional[WebhookRareDevice]:
+        """Gets the rare_device of this Webhook.  # noqa: E501
+
+
+        :return: The rare_device of this Webhook.  # noqa: E501
+        """
+        return self._rare_device
+
+    @rare_device.setter
+    def rare_device(self, rare_device: Optional[WebhookRareDevice]):
+        """Sets the rare_device of this Webhook.
+
+
+        :param rare_device: The rare_device of this Webhook.  # noqa: E501
+        """
+
+        self._rare_device = rare_device
 
     @property
     def replayed(self) -> Optional[bool]:

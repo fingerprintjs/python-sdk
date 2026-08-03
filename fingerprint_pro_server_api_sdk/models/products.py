@@ -38,7 +38,9 @@ from fingerprint_pro_server_api_sdk.models.product_remote_control import Product
 from fingerprint_pro_server_api_sdk.models.product_velocity import ProductVelocity
 from fingerprint_pro_server_api_sdk.models.product_developer_tools import ProductDeveloperTools
 from fingerprint_pro_server_api_sdk.models.product_mit_m_attack import ProductMitMAttack
+from fingerprint_pro_server_api_sdk.models.product_rare_device import ProductRareDevice
 from fingerprint_pro_server_api_sdk.models.product_proximity import ProductProximity
+from fingerprint_pro_server_api_sdk.models.product_labels import ProductLabels
 
 
 class Products(BaseModel):
@@ -82,7 +84,9 @@ class Products(BaseModel):
         'velocity': 'ProductVelocity',
         'developer_tools': 'ProductDeveloperTools',
         'mitm_attack': 'ProductMitMAttack',
-        'proximity': 'ProductProximity'
+        'rare_device': 'ProductRareDevice',
+        'proximity': 'ProductProximity',
+        'labels': 'ProductLabels'
     }
 
     nullable_map = {
@@ -111,7 +115,9 @@ class Products(BaseModel):
         'velocity': False,
         'developer_tools': False,
         'mitm_attack': False,
-        'proximity': False
+        'rare_device': False,
+        'proximity': False,
+        'labels': False
     }
 
     attribute_map = {
@@ -140,10 +146,12 @@ class Products(BaseModel):
         'velocity': 'velocity',
         'developer_tools': 'developerTools',
         'mitm_attack': 'mitmAttack',
-        'proximity': 'proximity'
+        'rare_device': 'rareDevice',
+        'proximity': 'proximity',
+        'labels': 'labels'
     }
 
-    def __init__(self, identification=None, botd=None, root_apps=None, emulator=None, ip_info=None, ip_blocklist=None, tor=None, vpn=None, proxy=None, incognito=None, tampering=None, cloned_app=None, factory_reset=None, jailbroken=None, frida=None, privacy_settings=None, virtual_machine=None, raw_device_attributes=None, high_activity=None, location_spoofing=None, suspect_score=None, remote_control=None, velocity=None, developer_tools=None, mitm_attack=None, proximity=None):  # noqa: E501
+    def __init__(self, identification=None, botd=None, root_apps=None, emulator=None, ip_info=None, ip_blocklist=None, tor=None, vpn=None, proxy=None, incognito=None, tampering=None, cloned_app=None, factory_reset=None, jailbroken=None, frida=None, privacy_settings=None, virtual_machine=None, raw_device_attributes=None, high_activity=None, location_spoofing=None, suspect_score=None, remote_control=None, velocity=None, developer_tools=None, mitm_attack=None, rare_device=None, proximity=None, labels=None):  # noqa: E501
         """Products - a model defined in Swagger"""  # noqa: E501
         self._identification = None
         self._botd = None
@@ -170,7 +178,9 @@ class Products(BaseModel):
         self._velocity = None
         self._developer_tools = None
         self._mitm_attack = None
+        self._rare_device = None
         self._proximity = None
+        self._labels = None
         self.discriminator = None
         if identification is not None:
             self.identification = identification
@@ -222,8 +232,12 @@ class Products(BaseModel):
             self.developer_tools = developer_tools
         if mitm_attack is not None:
             self.mitm_attack = mitm_attack
+        if rare_device is not None:
+            self.rare_device = rare_device
         if proximity is not None:
             self.proximity = proximity
+        if labels is not None:
+            self.labels = labels
 
     @property
     def identification(self) -> Optional[ProductIdentification]:
@@ -701,6 +715,25 @@ class Products(BaseModel):
         self._mitm_attack = mitm_attack
 
     @property
+    def rare_device(self) -> Optional[ProductRareDevice]:
+        """Gets the rare_device of this Products.  # noqa: E501
+
+
+        :return: The rare_device of this Products.  # noqa: E501
+        """
+        return self._rare_device
+
+    @rare_device.setter
+    def rare_device(self, rare_device: Optional[ProductRareDevice]):
+        """Sets the rare_device of this Products.
+
+
+        :param rare_device: The rare_device of this Products.  # noqa: E501
+        """
+
+        self._rare_device = rare_device
+
+    @property
     def proximity(self) -> Optional[ProductProximity]:
         """Gets the proximity of this Products.  # noqa: E501
 
@@ -718,4 +751,23 @@ class Products(BaseModel):
         """
 
         self._proximity = proximity
+
+    @property
+    def labels(self) -> Optional[ProductLabels]:
+        """Gets the labels of this Products.  # noqa: E501
+
+
+        :return: The labels of this Products.  # noqa: E501
+        """
+        return self._labels
+
+    @labels.setter
+    def labels(self, labels: Optional[ProductLabels]):
+        """Sets the labels of this Products.
+
+
+        :param labels: The labels of this Products.  # noqa: E501
+        """
+
+        self._labels = labels
 

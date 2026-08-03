@@ -32,6 +32,7 @@ class VPN(BaseModel):
     swagger_types = {
         'result': 'bool',
         'confidence': 'VPNConfidence',
+        'ml_score': 'float',
         'origin_timezone': 'str',
         'origin_country': 'str',
         'methods': 'VPNMethods'
@@ -40,6 +41,7 @@ class VPN(BaseModel):
     nullable_map = {
         'result': False,
         'confidence': False,
+        'ml_score': False,
         'origin_timezone': False,
         'origin_country': False,
         'methods': False
@@ -48,21 +50,25 @@ class VPN(BaseModel):
     attribute_map = {
         'result': 'result',
         'confidence': 'confidence',
+        'ml_score': 'mlScore',
         'origin_timezone': 'originTimezone',
         'origin_country': 'originCountry',
         'methods': 'methods'
     }
 
-    def __init__(self, result=None, confidence=None, origin_timezone=None, origin_country=None, methods=None):  # noqa: E501
+    def __init__(self, result=None, confidence=None, ml_score=None, origin_timezone=None, origin_country=None, methods=None):  # noqa: E501
         """VPN - a model defined in Swagger"""  # noqa: E501
         self._result = None
         self._confidence = None
+        self._ml_score = None
         self._origin_timezone = None
         self._origin_country = None
         self._methods = None
         self.discriminator = None
         self.result = result
         self.confidence = confidence
+        if ml_score is not None:
+            self.ml_score = ml_score
         self.origin_timezone = origin_timezone
         self.origin_country = origin_country
         self.methods = methods
@@ -110,6 +116,27 @@ class VPN(BaseModel):
             raise ValueError("Invalid value for `confidence`, must not be `None`")  # noqa: E501
 
         self._confidence = confidence
+
+    @property
+    def ml_score(self) -> Optional[float]:
+        """Gets the ml_score of this VPN.  # noqa: E501
+
+        Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).   # noqa: E501
+
+        :return: The ml_score of this VPN.  # noqa: E501
+        """
+        return self._ml_score
+
+    @ml_score.setter
+    def ml_score(self, ml_score: Optional[float]):
+        """Sets the ml_score of this VPN.
+
+        Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).   # noqa: E501
+
+        :param ml_score: The ml_score of this VPN.  # noqa: E501
+        """
+
+        self._ml_score = ml_score
 
     @property
     def origin_timezone(self) -> str:
