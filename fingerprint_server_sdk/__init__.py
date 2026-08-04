@@ -36,6 +36,7 @@ __all__ = [
     'UnprocessableEntityException',
     'TooManyRequestsException',
     'ServiceException',
+    'GatewayTimeoutException',
     'WebhookValidation',
     'DecryptionKey',
     'DecryptionAlgorithm',
@@ -125,6 +126,7 @@ from fingerprint_server_sdk.exceptions import ServiceException
 from fingerprint_server_sdk.exceptions import ConflictException
 from fingerprint_server_sdk.exceptions import UnprocessableEntityException
 from fingerprint_server_sdk.exceptions import TooManyRequestsException
+from fingerprint_server_sdk.exceptions import GatewayTimeoutException
 
 # import models into sdk package
 from fingerprint_server_sdk.models.bot_info import BotInfo
