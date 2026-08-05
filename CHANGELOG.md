@@ -1,5 +1,22 @@
 # Fingerprint Pro Server Python SDK
 
+## 8.14.0
+
+### Minor Changes
+
+- Update Server API schema to `v3.5.2`:
+
+  - **events**: Add `labels` field with machine learning based predictions for specific use cases (beta).
+  - **events**: Add `rareDevice` Smart Signal with `result` and `percentileBucket`.
+  - **events-search**: Add `rare_device` and `rare_device_percentile_bucket` filters.
+  - **events**: Add `mlScore` fields to the `VPN` and `Proxy` signals, and `mlPrediction` to `VPNMethods` (beta).
+  - **events**: Add the `unknown` value to the `ProxyDetails` `proxyType` field for proxies detected solely by the ML model.
+  - Clarify the `DeveloperTools` signal description to note it also covers Android/iOS devices. ([ed4ca07](https://github.com/fingerprintjs/python-sdk/commit/ed4ca07a25bcb2e26b7b87590b7724f3421d305f))
+
+### Patch Changes
+
+- **events**: Fix parsing of `GeolocationSubdivisions` so `subdivisions` returns a typed list of `GeolocationSubdivision` ([8dd9ef4](https://github.com/fingerprintjs/python-sdk/commit/8dd9ef406fa833dd3d496699d56f0eb3434c0c81))
+
 ## 8.13.0
 
 ### Minor Changes
