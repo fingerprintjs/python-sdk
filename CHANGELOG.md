@@ -1,5 +1,19 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.5.0
+
+### Minor Changes
+
+- **events**: Add `active_call` smart signal to `Event` ([e8859e3](https://github.com/fingerprintjs/python-sdk/commit/e8859e364cd83cfc4e9f975f42b930a293ed64ab))
+- **events**: Add `keyboard_layout_hash` to `RawDeviceAttributes` ([e8859e3](https://github.com/fingerprintjs/python-sdk/commit/e8859e364cd83cfc4e9f975f42b930a293ed64ab))
+- **events**: Add `battery_charging` field to `RawDeviceAttributes` ([e8859e3](https://github.com/fingerprintjs/python-sdk/commit/e8859e364cd83cfc4e9f975f42b930a293ed64ab))
+- **events-search**: Add 429 and 504 error responses to Search Events endpoint ([e8859e3](https://github.com/fingerprintjs/python-sdk/commit/e8859e364cd83cfc4e9f975f42b930a293ed64ab))
+- **events**: Add 504 error response to Get Event endpoint ([e8859e3](https://github.com/fingerprintjs/python-sdk/commit/e8859e364cd83cfc4e9f975f42b930a293ed64ab))
+
+### Patch Changes
+
+- **events**: Fix types for `start`/`start_date_time` and `end`/`end_date_time` in normalized schema ([e8859e3](https://github.com/fingerprintjs/python-sdk/commit/e8859e364cd83cfc4e9f975f42b930a293ed64ab))
+
 ## 9.4.0
 
 ### Minor Changes
