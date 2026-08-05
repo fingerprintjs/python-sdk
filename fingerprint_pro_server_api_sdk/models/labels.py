@@ -15,7 +15,7 @@ from typing import Dict, List, Optional  # noqa: F401
 from fingerprint_pro_server_api_sdk.base_model import BaseModel
 
 
-class Labels(BaseModel):
+class Labels(list):
     """
     Each label returns a prediction (true or false) for a specific use case (label field) based on a machine learning score. The machine learning score is determined by a model trained on customer data for that use case. This field is in the beta phase and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). 
 
@@ -39,7 +39,6 @@ class Labels(BaseModel):
     attribute_map = {
     }
 
-    def __init__(self):  # noqa: E501
-        """Labels - a model defined in Swagger"""  # noqa: E501
-        self.discriminator = None
+    __parent_class__ = 'list'
+    __list_item_type__ = 'LabelsInner'
 
