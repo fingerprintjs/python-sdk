@@ -35,7 +35,7 @@ def main() -> int:
     cfg = load_config()
     api = make_client(cfg)
 
-    start, end = create_range(90)
+    start, end = create_range(89)
 
     # FingerprintApi->search_events usage example
     try:
@@ -96,14 +96,12 @@ def main() -> int:
             print("FingerprintApi.search_events: is empty for old events\n", file=sys.stderr)
             return 1
         old_event_identification_data = search_events_response_old.events[0].products.identification.data
-        visitor_id_old = old_event_identification_data.visitor_id
         request_id_old = old_event_identification_data.request_id
 
         if request_id_old == request_id:
             print("Old events are identical to new\n", file=sys.stderr)
             return 1
 
-        api.get_visits(visitor_id_old, limit=2)
         api.get_event(request_id_old)
         print("\n\n\nOld events are good\n")
     except ApiException as e:
