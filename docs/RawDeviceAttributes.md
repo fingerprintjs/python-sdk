@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **font_preferences** | [**FontPreferences**](FontPreferences.md) |  | [optional] 
 **emoji** | [**Emoji**](Emoji.md) |  | [optional] 
 **fonts** | **List[str]** | List of fonts detected on the device. | [optional] 
-**device_memory** | **int** | Rounded amount of RAM in gigabytes. | [optional] 
+**device_memory** | **int** | Rounded amount of RAM in gigabytes. Available for browsers, Android, and iOS devices. | [optional] 
 **timezone** | **str** | Timezone identifier detected on the client. | [optional] 
 **canvas** | [**Canvas**](Canvas.md) |  | [optional] 
 **languages** | **List[List[str]]** | Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for browsers, iOS, and Android devices.  | [optional] 
@@ -34,8 +34,10 @@ Name | Type | Description | Notes
 **device_manufacturer** | **str** | Device manufacturer string. Available only for Android and iOS devices. | [optional] 
 **font_hash** | **str** | Unique identifier for the user’s installed fonts. | [optional] 
 **timezone_offset** | **str** | UTC offset in \"±HH:MM\" format derived from the detected IANA timezone. | [optional] 
-**battery_level** | **int** | Battery charge level as a percentage (0-100). Available only for Android and iOS devices. | [optional] 
+**battery_level** | **int** | Battery charge level as a percentage (0-100). Available for Android, iOS, and web devices. On web, only available in Chromium-based browsers. | [optional] 
+**battery_charging** | **bool** | When `true`, the device is currently charging. Available only for web devices on Chromium-based browsers. | [optional] 
 **battery_low_power_mode** | **bool** | Whether the device's low power mode is enabled. Available only for Android and iOS devices. | [optional] 
+**keyboard_layout_hash** | **str** | Unique identifier for the user's keyboard layout. | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

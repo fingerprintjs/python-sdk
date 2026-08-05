@@ -37,7 +37,7 @@ class VelocityData(BaseModel):
     )
     var_24_hours: Optional[StrictInt] = Field(
         default=None,
-        description="The `24_hours` interval of `distinct_ip`, `distinct_linked_id`, `distinct_country`, `distinct_ip_by_linked_id` and `distinct_visitor_id_by_linked_id` will be omitted if the number of `events` for the visitor Id in the last 24 hours (`events.['24_hours']`) is higher than 20.000. ",
+        description='Count for the last 24 hours of velocity data, from the time of the event. ',
         alias='24_hours',
     )
     __properties: ClassVar[list[str]] = ['5_minutes', '1_hour', '24_hours']

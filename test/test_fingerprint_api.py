@@ -15,6 +15,7 @@ from fingerprint_server_sdk import (
     EventSearch,
     EventUpdate,
     ForbiddenException,
+    GatewayTimeoutException,
     NotFoundException,
     SearchEventsBot,
     SearchEventsBotInfo,
@@ -331,6 +332,29 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertIsInstance(context.exception.data, ErrorResponse)
         self.assertEqual(context.exception.data.error.code, ErrorCode.TOO_MANY_REQUESTS)
 
+    def test_get_event_gateway_timeout(self) -> None:
+        """Test case for get_event with 504 Gateway Timeout response"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        event_id = '0000000000000.XXXXX'
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_event_path(event_id),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_status_code=504,
+            response_data_file='errors/504_search_timeout_exceeded.json',
+        )
+
+        with self.assertRaises(GatewayTimeoutException) as context:
+            self.api.get_event(event_id)
+
+        self.assertEqual(context.exception.status, 504)
+        self.assertIsInstance(context.exception.data, ErrorResponse)
+        self.assertEqual(context.exception.data.error.code, ErrorCode.FAILED)
+
     def test_search_events(self) -> None:
         """Test case for search_events
 
@@ -528,6 +552,55 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertEqual(context.exception.status, 403)
         self.assertIsInstance(context.exception.data, ErrorResponse)
         self.assertEqual(context.exception.data.error.code, ErrorCode.SECRET_API_KEY_REQUIRED)
+
+    def test_search_events_too_many_requests(self) -> None:
+        """Test case for search_events with 429 Too Many Requests response"""
+        params = {'limit': 2}
+
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_search_events_path(params),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_status_code=429,
+            response_data_file='errors/429_too_many_search_requests.json',
+            response_headers={'Retry-After': '5'},
+        )
+
+        with self.assertRaises(TooManyRequestsException) as context:
+            self.api.search_events(**params)
+
+        self.assertEqual(context.exception.status, 429)
+        self.assertIsInstance(context.exception.data, ErrorResponse)
+        self.assertEqual(context.exception.data.error.code, ErrorCode.TOO_MANY_REQUESTS)
+
+    def test_search_events_gateway_timeout(self) -> None:
+        """Test case for search_events with 504 Gateway Timeout response"""
+        params = {'limit': 2}
+
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_search_events_path(params),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_status_code=504,
+            response_data_file='errors/504_search_timeout_exceeded.json',
+        )
+
+        with self.assertRaises(GatewayTimeoutException) as context:
+            self.api.search_events(**params)
+
+        self.assertEqual(context.exception.status, 504)
+        self.assertIsInstance(context.exception.data, ErrorResponse)
+        self.assertEqual(context.exception.data.error.code, ErrorCode.FAILED)
 
     def test_update_event(self) -> None:
         """Test case for update_event

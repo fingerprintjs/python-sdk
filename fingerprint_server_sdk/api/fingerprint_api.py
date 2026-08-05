@@ -363,6 +363,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '504': 'ErrorResponse',
         }
 
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
@@ -437,6 +438,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '504': 'ErrorResponse',
         }
 
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
@@ -511,6 +513,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '504': 'ErrorResponse',
         }
 
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
@@ -602,7 +605,7 @@ class FingerprintApi:
         bot_info: Annotated[
             Optional[SearchEventsBotInfo],
             Field(
-                description='Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected. '
+                description='Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected, and no `bot_info` was present. '
             ),
         ] = None,
         bot_info_category: Annotated[
@@ -678,13 +681,13 @@ class FingerprintApi:
         start: Annotated[
             Optional[SearchEventsStartParameter],
             Field(
-                description="Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed. ",
+                description='Include events that happened after the provided `start` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to 7 days ago. Setting `start` does not change the default `end` date of `now` — adjust it separately if needed. ',
             ),
         ] = None,
         end: Annotated[
             Optional[SearchEventsEndParameter],
             Field(
-                description="Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed. ",
+                description='Include events that happened before the provided `end` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to now. Setting `end` does not change the default `start` date of `7 days ago` — adjust it separately if needed. ',
             ),
         ] = None,
         reverse: Annotated[
@@ -714,13 +717,13 @@ class FingerprintApi:
         tampering: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering.result` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
+                description='Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
             ),
         ] = None,
         anti_detect_browser: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
+                description='Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering_details.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
             ),
         ] = None,
         incognito: Annotated[
@@ -750,7 +753,7 @@ class FingerprintApi:
         factory_reset: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset` time. Events without a `factory_reset` Smart Signal result are left out of the response. '
+                description='Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset_timestamp` property populated are included. Events without a `factory_reset_timestamp` Smart Signal result are left out of the response. '
             ),
         ] = None,
         cloned_app: Annotated[
@@ -870,7 +873,7 @@ class FingerprintApi:
         source: Annotated[
             Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
             Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -896,7 +899,7 @@ class FingerprintApi:
         :type high_recall_id: str
         :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
         :type bot: SearchEventsBot
-        :param bot_info: Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected.
+        :param bot_info: Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected, and no `bot_info` was present.
         :type bot_info: SearchEventsBotInfo
         :param bot_info_category: Filter events by their Bot Info Category.  Multiple categories can be provided using the repeated keys syntax. For example, `bot_info_category=ai_agent&bot_info_category=ai_assistant`, will match events with a Bot Info Category of `ai_agent` or `ai_assistant`. Other notations like comma-separated or bracket notation are not supported.
         :type bot_info_category: List[BotInfoCategory]
@@ -922,9 +925,9 @@ class FingerprintApi:
         :type package_name: str
         :param origin: Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
         :type origin: str
-        :param start: Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
+        :param start: Include events that happened after the provided `start` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to 7 days ago. Setting `start` does not change the default `end` date of `now` — adjust it separately if needed.
         :type start: SearchEventsStartParameter
-        :param end: Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
+        :param end: Include events that happened before the provided `end` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to now. Setting `end` does not change the default `start` date of `7 days ago` — adjust it separately if needed.
         :type end: SearchEventsEndParameter
         :param reverse: When `true`, sort events oldest first (ascending timestamp order). Defaults to `false` (newest first, descending timestamp order).
         :type reverse: bool
@@ -934,9 +937,9 @@ class FingerprintApi:
         :type vpn: bool
         :param virtual_machine: Filter events by Virtual Machine Detection result. > Note: When using this parameter, only events with the `virtual_machine` property set to `true` or `false` are returned. Events without a `virtual_machine` Smart Signal result are left out of the response.
         :type virtual_machine: bool
-        :param tampering: Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering.result` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
+        :param tampering: Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
         :type tampering: bool
-        :param anti_detect_browser: Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
+        :param anti_detect_browser: Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering_details.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
         :type anti_detect_browser: bool
         :param incognito: Filter events by Browser Incognito Detection result. > Note: When using this parameter, only events with the `incognito` property set to `true` or `false` are returned. Events without an `incognito` Smart Signal result are left out of the response.
         :type incognito: bool
@@ -946,7 +949,7 @@ class FingerprintApi:
         :type jailbroken: bool
         :param frida: Filter events by Frida Detection result. > Note: When using this parameter, only events with the `frida` property set to `true` or `false` are returned. Events without a `frida` Smart Signal result are left out of the response.
         :type frida: bool
-        :param factory_reset: Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset` time. Events without a `factory_reset` Smart Signal result are left out of the response.
+        :param factory_reset: Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset_timestamp` property populated are included. Events without a `factory_reset_timestamp` Smart Signal result are left out of the response.
         :type factory_reset: bool
         :param cloned_app: Filter events by Cloned App Detection result. > Note: When using this parameter, only events with the `cloned_app` property set to `true` or `false` are returned. Events without a `cloned_app` Smart Signal result are left out of the response.
         :type cloned_app: bool
@@ -986,7 +989,7 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
         :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1068,7 +1071,9 @@ class FingerprintApi:
             '400': 'ErrorResponse',
             '403': 'ErrorResponse',
             '404': 'ErrorResponse',
+            '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '504': 'ErrorResponse',
         }
 
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
@@ -1114,7 +1119,7 @@ class FingerprintApi:
         bot_info: Annotated[
             Optional[SearchEventsBotInfo],
             Field(
-                description='Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected. '
+                description='Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected, and no `bot_info` was present. '
             ),
         ] = None,
         bot_info_category: Annotated[
@@ -1190,13 +1195,13 @@ class FingerprintApi:
         start: Annotated[
             Optional[SearchEventsStartParameter],
             Field(
-                description="Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed. ",
+                description='Include events that happened after the provided `start` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to 7 days ago. Setting `start` does not change the default `end` date of `now` — adjust it separately if needed. ',
             ),
         ] = None,
         end: Annotated[
             Optional[SearchEventsEndParameter],
             Field(
-                description="Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed. ",
+                description='Include events that happened before the provided `end` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to now. Setting `end` does not change the default `start` date of `7 days ago` — adjust it separately if needed. ',
             ),
         ] = None,
         reverse: Annotated[
@@ -1226,13 +1231,13 @@ class FingerprintApi:
         tampering: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering.result` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
+                description='Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
             ),
         ] = None,
         anti_detect_browser: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
+                description='Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering_details.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
             ),
         ] = None,
         incognito: Annotated[
@@ -1262,7 +1267,7 @@ class FingerprintApi:
         factory_reset: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset` time. Events without a `factory_reset` Smart Signal result are left out of the response. '
+                description='Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset_timestamp` property populated are included. Events without a `factory_reset_timestamp` Smart Signal result are left out of the response. '
             ),
         ] = None,
         cloned_app: Annotated[
@@ -1382,7 +1387,7 @@ class FingerprintApi:
         source: Annotated[
             Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
             Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -1408,7 +1413,7 @@ class FingerprintApi:
         :type high_recall_id: str
         :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
         :type bot: SearchEventsBot
-        :param bot_info: Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected.
+        :param bot_info: Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected, and no `bot_info` was present.
         :type bot_info: SearchEventsBotInfo
         :param bot_info_category: Filter events by their Bot Info Category.  Multiple categories can be provided using the repeated keys syntax. For example, `bot_info_category=ai_agent&bot_info_category=ai_assistant`, will match events with a Bot Info Category of `ai_agent` or `ai_assistant`. Other notations like comma-separated or bracket notation are not supported.
         :type bot_info_category: List[BotInfoCategory]
@@ -1434,9 +1439,9 @@ class FingerprintApi:
         :type package_name: str
         :param origin: Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
         :type origin: str
-        :param start: Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
+        :param start: Include events that happened after the provided `start` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to 7 days ago. Setting `start` does not change the default `end` date of `now` — adjust it separately if needed.
         :type start: SearchEventsStartParameter
-        :param end: Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
+        :param end: Include events that happened before the provided `end` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to now. Setting `end` does not change the default `start` date of `7 days ago` — adjust it separately if needed.
         :type end: SearchEventsEndParameter
         :param reverse: When `true`, sort events oldest first (ascending timestamp order). Defaults to `false` (newest first, descending timestamp order).
         :type reverse: bool
@@ -1446,9 +1451,9 @@ class FingerprintApi:
         :type vpn: bool
         :param virtual_machine: Filter events by Virtual Machine Detection result. > Note: When using this parameter, only events with the `virtual_machine` property set to `true` or `false` are returned. Events without a `virtual_machine` Smart Signal result are left out of the response.
         :type virtual_machine: bool
-        :param tampering: Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering.result` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
+        :param tampering: Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
         :type tampering: bool
-        :param anti_detect_browser: Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
+        :param anti_detect_browser: Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering_details.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
         :type anti_detect_browser: bool
         :param incognito: Filter events by Browser Incognito Detection result. > Note: When using this parameter, only events with the `incognito` property set to `true` or `false` are returned. Events without an `incognito` Smart Signal result are left out of the response.
         :type incognito: bool
@@ -1458,7 +1463,7 @@ class FingerprintApi:
         :type jailbroken: bool
         :param frida: Filter events by Frida Detection result. > Note: When using this parameter, only events with the `frida` property set to `true` or `false` are returned. Events without a `frida` Smart Signal result are left out of the response.
         :type frida: bool
-        :param factory_reset: Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset` time. Events without a `factory_reset` Smart Signal result are left out of the response.
+        :param factory_reset: Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset_timestamp` property populated are included. Events without a `factory_reset_timestamp` Smart Signal result are left out of the response.
         :type factory_reset: bool
         :param cloned_app: Filter events by Cloned App Detection result. > Note: When using this parameter, only events with the `cloned_app` property set to `true` or `false` are returned. Events without a `cloned_app` Smart Signal result are left out of the response.
         :type cloned_app: bool
@@ -1498,7 +1503,7 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
         :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1580,7 +1585,9 @@ class FingerprintApi:
             '400': 'ErrorResponse',
             '403': 'ErrorResponse',
             '404': 'ErrorResponse',
+            '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '504': 'ErrorResponse',
         }
 
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
@@ -1626,7 +1633,7 @@ class FingerprintApi:
         bot_info: Annotated[
             Optional[SearchEventsBotInfo],
             Field(
-                description='Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected. '
+                description='Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected, and no `bot_info` was present. '
             ),
         ] = None,
         bot_info_category: Annotated[
@@ -1702,13 +1709,13 @@ class FingerprintApi:
         start: Annotated[
             Optional[SearchEventsStartParameter],
             Field(
-                description="Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed. ",
+                description='Include events that happened after the provided `start` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to 7 days ago. Setting `start` does not change the default `end` date of `now` — adjust it separately if needed. ',
             ),
         ] = None,
         end: Annotated[
             Optional[SearchEventsEndParameter],
             Field(
-                description="Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed. ",
+                description='Include events that happened before the provided `end` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to now. Setting `end` does not change the default `start` date of `7 days ago` — adjust it separately if needed. ',
             ),
         ] = None,
         reverse: Annotated[
@@ -1738,13 +1745,13 @@ class FingerprintApi:
         tampering: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering.result` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
+                description='Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
             ),
         ] = None,
         anti_detect_browser: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
+                description='Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering_details.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response. '
             ),
         ] = None,
         incognito: Annotated[
@@ -1774,7 +1781,7 @@ class FingerprintApi:
         factory_reset: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset` time. Events without a `factory_reset` Smart Signal result are left out of the response. '
+                description='Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset_timestamp` property populated are included. Events without a `factory_reset_timestamp` Smart Signal result are left out of the response. '
             ),
         ] = None,
         cloned_app: Annotated[
@@ -1894,7 +1901,7 @@ class FingerprintApi:
         source: Annotated[
             Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
             Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -1920,7 +1927,7 @@ class FingerprintApi:
         :type high_recall_id: str
         :param bot: Filter events by the Bot Detection result, specifically:   `all` - events where any kind of bot was detected.   `good` - events where a good bot was detected.   `bad` - events where a bad bot was detected.   `none` - events where no bot was detected. > Note: When using this parameter, only events with the `bot` property set to a valid value are returned. Events without a `bot` Smart Signal result are left out of the response.
         :type bot: SearchEventsBot
-        :param bot_info: Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected.
+        :param bot_info: Filter events by their Bot Info result, specifically:   - `all` - events where any kind of bot was detected.   - `none` - events where no bot was detected, and no `bot_info` was present.
         :type bot_info: SearchEventsBotInfo
         :param bot_info_category: Filter events by their Bot Info Category.  Multiple categories can be provided using the repeated keys syntax. For example, `bot_info_category=ai_agent&bot_info_category=ai_assistant`, will match events with a Bot Info Category of `ai_agent` or `ai_assistant`. Other notations like comma-separated or bracket notation are not supported.
         :type bot_info_category: List[BotInfoCategory]
@@ -1946,9 +1953,9 @@ class FingerprintApi:
         :type package_name: str
         :param origin: Filter events by the origin field of the event. This is applicable to web events only (e.g., https://example.com)
         :type origin: str
-        :param start: Include events that happened after this point (with timestamp greater than or equal the provided `start` Unix milliseconds value or RFC3339 timestamp). Defaults to 7 days ago. Setting `start` does not change `end`'s default of `now` — adjust it separately if needed.
+        :param start: Include events that happened after the provided `start` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to 7 days ago. Setting `start` does not change the default `end` date of `now` — adjust it separately if needed.
         :type start: SearchEventsStartParameter
-        :param end: Include events that happened before this point (with timestamp less than or equal the provided `end` Unix milliseconds value or RFC3339 timestamp). Defaults to now. Setting `end` does not change `start`'s default of `7 days ago` — adjust it separately if needed.
+        :param end: Include events that happened before the provided `end` date formatted as an RFC3339 timestamp. For backward compatibility, a Unix milliseconds timestamp is also accepted. Defaults to now. Setting `end` does not change the default `start` date of `7 days ago` — adjust it separately if needed.
         :type end: SearchEventsEndParameter
         :param reverse: When `true`, sort events oldest first (ascending timestamp order). Defaults to `false` (newest first, descending timestamp order).
         :type reverse: bool
@@ -1958,9 +1965,9 @@ class FingerprintApi:
         :type vpn: bool
         :param virtual_machine: Filter events by Virtual Machine Detection result. > Note: When using this parameter, only events with the `virtual_machine` property set to `true` or `false` are returned. Events without a `virtual_machine` Smart Signal result are left out of the response.
         :type virtual_machine: bool
-        :param tampering: Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering.result` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
+        :param tampering: Filter events by Browser Tampering Detection result. > Note: When using this parameter, only events with the `tampering` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
         :type tampering: bool
-        :param anti_detect_browser: Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
+        :param anti_detect_browser: Filter events by Anti-detect Browser Detection result. > Note: When using this parameter, only events with the `tampering_details.anti_detect_browser` property set to `true` or `false` are returned. Events without a `tampering` Smart Signal result are left out of the response.
         :type anti_detect_browser: bool
         :param incognito: Filter events by Browser Incognito Detection result. > Note: When using this parameter, only events with the `incognito` property set to `true` or `false` are returned. Events without an `incognito` Smart Signal result are left out of the response.
         :type incognito: bool
@@ -1970,7 +1977,7 @@ class FingerprintApi:
         :type jailbroken: bool
         :param frida: Filter events by Frida Detection result. > Note: When using this parameter, only events with the `frida` property set to `true` or `false` are returned. Events without a `frida` Smart Signal result are left out of the response.
         :type frida: bool
-        :param factory_reset: Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset` time. Events without a `factory_reset` Smart Signal result are left out of the response.
+        :param factory_reset: Filter events by Factory Reset Detection result. > Note: When using this parameter, only events with a `factory_reset_timestamp` property populated are included. Events without a `factory_reset_timestamp` Smart Signal result are left out of the response.
         :type factory_reset: bool
         :param cloned_app: Filter events by Cloned App Detection result. > Note: When using this parameter, only events with the `cloned_app` property set to `true` or `false` are returned. Events without a `cloned_app` Smart Signal result are left out of the response.
         :type cloned_app: bool
@@ -2010,7 +2017,7 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
         :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2092,7 +2099,9 @@ class FingerprintApi:
             '400': 'ErrorResponse',
             '403': 'ErrorResponse',
             '404': 'ErrorResponse',
+            '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '504': 'ErrorResponse',
         }
 
         response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)

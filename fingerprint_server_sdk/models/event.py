@@ -48,7 +48,7 @@ from fingerprint_server_sdk.models.vpn_methods import VpnMethods
 
 class Event(BaseModel):
     """
-    Contains results from Fingerprint Identification and all active Smart Signals.
+    Contains results from Fingerprint Identification and all active Smart Signals. Some Smart Signals are only supported for certain device types, these fields will be omitted for events not generated from the supported devices. Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details.
     """
 
     event_id: StrictStr = Field(
@@ -112,6 +112,10 @@ class Event(BaseModel):
     )
     browser_details: Optional[BrowserDetails] = None
     proximity: Optional[Proximity] = None
+    active_call: Optional[StrictBool] = Field(
+        default=None,
+        description='Indicates whether the mobile device had an active call (cellular or VoIP) at the time of the request. Available from SDK 2.16.0+ on iOS and Android. ',
+    )
     bot: Optional[BotResult] = None
     bot_type: Optional[StrictStr] = Field(
         default=None, description='Additional classification of the bot type if detected. '
@@ -235,7 +239,7 @@ class Event(BaseModel):
     )
     vpn_origin_country: Optional[StrictStr] = Field(
         default=None,
-        description='Country of the request (only for Android SDK version >= 2.4.0, ISO 3166 format or unknown). ',
+        description='Country of the request (Android SDK version >= 2.4.0, iOS SDK version >= 2.9.0, JS agent >= 3.12.9 / 4.0.2), ISO 3166 format or unknown. ',
     )
     vpn_methods: Optional[VpnMethods] = None
     high_activity_device: Optional[StrictBool] = Field(
@@ -275,6 +279,7 @@ class Event(BaseModel):
         'client_referrer',
         'browser_details',
         'proximity',
+        'active_call',
         'bot',
         'bot_type',
         'bot_info',
@@ -449,6 +454,7 @@ class Event(BaseModel):
                 'proximity': Proximity.from_dict(obj['proximity'])
                 if obj.get('proximity') is not None
                 else None,
+                'active_call': obj.get('active_call'),
                 'bot': obj.get('bot'),
                 'bot_type': obj.get('bot_type'),
                 'bot_info': BotInfo.from_dict(obj['bot_info'])

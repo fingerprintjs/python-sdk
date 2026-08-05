@@ -19,6 +19,7 @@ from {{packageName}}.exceptions import ServiceException
 from {{packageName}}.exceptions import ConflictException
 from {{packageName}}.exceptions import UnprocessableEntityException
 from {{packageName}}.exceptions import TooManyRequestsException
+from {{packageName}}.exceptions import GatewayTimeoutException
 {{#hasHttpSignatureMethods}}
 from {{packageName}}.signing import HttpSigningConfiguration
 {{/hasHttpSignatureMethods}}
