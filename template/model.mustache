@@ -23,7 +23,7 @@ from typing_extensions import deprecated
 {{#schema.deprecated}}
 @deprecated("This class is deprecated. Please avoid using it in new code.")
 {{/schema.deprecated}}
-class {{classname}}({{#parent}}{{parent}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
+class {{classname}}({{#isArrayModel}}list{{/isArrayModel}}{{^isArrayModel}}{{#parent}}{{parent}}{{/parent}}{{^parent}}BaseModel{{/parent}}{{/isArrayModel}}):
     """{{#description}}
     {{{.}}}
 
@@ -72,6 +72,11 @@ class {{classname}}({{#parent}}{{parent}}{{/parent}}{{^parent}}BaseModel{{/paren
     }
 {{/discriminator}}
 
+{{#isArrayModel}}
+    __parent_class__ = 'list'
+    __list_item_type__ = '{{{arrayModelType}}}'
+{{/isArrayModel}}
+{{^isArrayModel}}
 {{#parent}}
     __parent_class__ = '{{parent}}'
 {{/parent}}
@@ -85,6 +90,7 @@ class {{classname}}({{#parent}}{{parent}}{{/parent}}{{^parent}}BaseModel{{/paren
 {{/vars}}
         self.discriminator = {{#discriminator}}'{{discriminator}}'{{/discriminator}}{{^discriminator}}None{{/discriminator}}
 {{/parent}}
+{{/isArrayModel}}
 {{#vars}}{{#@first}}
 {{/@first}}
 {{#required}}

@@ -18,7 +18,8 @@ import urllib3
 
 from fingerprint_pro_server_api_sdk import (Configuration, ErrorResponse, ErrorPlainResponse, ErrorCode,
                                             RawDeviceAttributes, EventsUpdateRequest, RelatedVisitorsResponse,
-                                            SearchEventsResponse, SearchEventsResponseEvents, Products)
+                                            SearchEventsResponse, SearchEventsResponseEvents, Products,
+                                            GeolocationSubdivisions, GeolocationSubdivision)
 from fingerprint_pro_server_api_sdk.api.fingerprint_api import FingerprintApi  # noqa: E501
 from fingerprint_pro_server_api_sdk.rest import KnownApiException, ApiException
 from urllib.parse import urlencode
@@ -273,6 +274,16 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertIsNone(event_response_dict["products"]["identification"]["data"]["last_seen_at"]["_global"])
         self.assertIsNone(event_response_dict["products"]["identification"]["data"]["last_seen_at"]["subscription"])
         self.assertIsInstance(event_response.products.raw_device_attributes.data, RawDeviceAttributes)
+
+        subdivisions = event_response.products.identification.data.ip_location.subdivisions
+        self.assertIsInstance(subdivisions, GeolocationSubdivisions)
+        self.assertEqual(len(subdivisions), 1)
+        self.assertIsInstance(subdivisions[0], GeolocationSubdivision)
+        self.assertEqual(subdivisions[0].iso_code, "63")
+        self.assertEqual(subdivisions[0].name, "North Rhine-Westphalia")
+        self.assertEqual(
+            event_response_dict["products"]["identification"]["data"]["ip_location"]["subdivisions"],
+            [{"iso_code": "63", "name": "North Rhine-Westphalia"}])
 
     def test_get_event_errors_200(self):
         """Test checks correct code run result in scenario of arrors in BotD or identification API"""
