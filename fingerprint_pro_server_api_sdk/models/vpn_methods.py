@@ -32,7 +32,8 @@ class VPNMethods(BaseModel):
         'public_vpn': 'bool',
         'auxiliary_mobile': 'bool',
         'os_mismatch': 'bool',
-        'relay': 'bool'
+        'relay': 'bool',
+        'ml_prediction': 'bool'
     }
 
     nullable_map = {
@@ -40,7 +41,8 @@ class VPNMethods(BaseModel):
         'public_vpn': False,
         'auxiliary_mobile': False,
         'os_mismatch': False,
-        'relay': False
+        'relay': False,
+        'ml_prediction': False
     }
 
     attribute_map = {
@@ -48,22 +50,26 @@ class VPNMethods(BaseModel):
         'public_vpn': 'publicVPN',
         'auxiliary_mobile': 'auxiliaryMobile',
         'os_mismatch': 'osMismatch',
-        'relay': 'relay'
+        'relay': 'relay',
+        'ml_prediction': 'mlPrediction'
     }
 
-    def __init__(self, timezone_mismatch=None, public_vpn=None, auxiliary_mobile=None, os_mismatch=None, relay=None):  # noqa: E501
+    def __init__(self, timezone_mismatch=None, public_vpn=None, auxiliary_mobile=None, os_mismatch=None, relay=None, ml_prediction=None):  # noqa: E501
         """VPNMethods - a model defined in Swagger"""  # noqa: E501
         self._timezone_mismatch = None
         self._public_vpn = None
         self._auxiliary_mobile = None
         self._os_mismatch = None
         self._relay = None
+        self._ml_prediction = None
         self.discriminator = None
         self.timezone_mismatch = timezone_mismatch
         self.public_vpn = public_vpn
         self.auxiliary_mobile = auxiliary_mobile
         self.os_mismatch = os_mismatch
         self.relay = relay
+        if ml_prediction is not None:
+            self.ml_prediction = ml_prediction
 
     @property
     def timezone_mismatch(self) -> bool:
@@ -179,4 +185,25 @@ class VPNMethods(BaseModel):
             raise ValueError("Invalid value for `relay`, must not be `None`")  # noqa: E501
 
         self._relay = relay
+
+    @property
+    def ml_prediction(self) -> Optional[bool]:
+        """Gets the ml_prediction of this VPNMethods.  # noqa: E501
+
+        `true` if the request came from a device running a VPN, `false` otherwise.     # noqa: E501
+
+        :return: The ml_prediction of this VPNMethods.  # noqa: E501
+        """
+        return self._ml_prediction
+
+    @ml_prediction.setter
+    def ml_prediction(self, ml_prediction: Optional[bool]):
+        """Sets the ml_prediction of this VPNMethods.
+
+        `true` if the request came from a device running a VPN, `false` otherwise.     # noqa: E501
+
+        :param ml_prediction: The ml_prediction of this VPNMethods.  # noqa: E501
+        """
+
+        self._ml_prediction = ml_prediction
 

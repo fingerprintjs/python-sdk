@@ -1,9 +1,10 @@
-# WebhookDeveloperTools
+# ProductRareDevice
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**result** | **bool** | `true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise.  | [optional] 
+**data** | [**RareDevice**](RareDevice.md) |  | [optional] 
+**error** | [**Error**](Error.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

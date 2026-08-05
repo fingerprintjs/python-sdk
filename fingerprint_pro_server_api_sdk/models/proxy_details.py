@@ -59,7 +59,7 @@ class ProxyDetails(BaseModel):
     def proxy_type(self) -> str:
         """Gets the proxy_type of this ProxyDetails.  # noqa: E501
 
-        Residential proxies use real user IP addresses to appear as legitimate traffic,  while data center proxies are public proxies hosted in data centers   # noqa: E501
+        Residential proxies use real user IP addresses to appear as legitimate traffic, while data center proxies are public proxies hosted in data centers. `unknown` is reported when a proxy is detected solely by the ML model and the IP sources did not determine a specific type.   # noqa: E501
 
         :return: The proxy_type of this ProxyDetails.  # noqa: E501
         """
@@ -69,13 +69,13 @@ class ProxyDetails(BaseModel):
     def proxy_type(self, proxy_type: str):
         """Sets the proxy_type of this ProxyDetails.
 
-        Residential proxies use real user IP addresses to appear as legitimate traffic,  while data center proxies are public proxies hosted in data centers   # noqa: E501
+        Residential proxies use real user IP addresses to appear as legitimate traffic, while data center proxies are public proxies hosted in data centers. `unknown` is reported when a proxy is detected solely by the ML model and the IP sources did not determine a specific type.   # noqa: E501
 
         :param proxy_type: The proxy_type of this ProxyDetails.  # noqa: E501
         """
         if proxy_type is None:
             raise ValueError("Invalid value for `proxy_type`, must not be `None`")  # noqa: E501
-        allowed_values = ["residential", "data_center"]  # noqa: E501
+        allowed_values = ["residential", "data_center", "unknown"]  # noqa: E501
         if (proxy_type not in allowed_values):
             raise ValueError(
                 "Invalid value for `proxy_type` ({0}), must be one of {1}"  # noqa: E501

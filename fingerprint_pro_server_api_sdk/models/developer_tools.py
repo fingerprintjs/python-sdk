@@ -49,7 +49,7 @@ class DeveloperTools(BaseModel):
     def result(self) -> bool:
         """Gets the result of this DeveloperTools.  # noqa: E501
 
-        `true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise.   # noqa: E501
+        `true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise.   # noqa: E501
 
         :return: The result of this DeveloperTools.  # noqa: E501
         """
@@ -59,7 +59,7 @@ class DeveloperTools(BaseModel):
     def result(self, result: bool):
         """Sets the result of this DeveloperTools.
 
-        `true` if the browser is Chrome with DevTools open or Firefox with Developer Tools open, `false` otherwise.   # noqa: E501
+        `true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise.   # noqa: E501
 
         :param result: The result of this DeveloperTools.  # noqa: E501
         """

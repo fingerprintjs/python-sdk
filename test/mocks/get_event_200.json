@@ -365,6 +365,15 @@
         "precisionRadius": 10,
         "confidence": 0.95
       }
+    },
+    "labels": {
+      "data": [
+        {
+          "label": "test",
+          "prediction": true,
+          "mlScore": 0.95
+        }
+      ]
     }
   }
 }
