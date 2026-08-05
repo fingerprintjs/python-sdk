@@ -91,6 +91,31 @@ class MyTestCase(unittest.TestCase):
         }
         self.assertEqual(model.to_dict(), expected)
 
+    def test_to_dict_with_list_of_models(self):
+        """Test conversion to dictionary when a list attribute holds models.
+
+        This mirrors how array schemas (e.g. GeolocationSubdivisions) expose a
+        list of typed items that each must be serialized via to_dict().
+        """
+        model = ExampleModel(
+            name="Test Model",
+            details={"key": "value"},
+            items=[SubModel(id=1, value="first"), SubModel(id=2, value="second")],
+            sub_model=self.sub_model,
+        )
+        expected = {
+            'name': "Test Model",
+            'details': {"key": "value"},
+            'items': [{'id': 1, 'value': 'first'}, {'id': 2, 'value': 'second'}],
+            'sub_model': {'id': 1, 'value': 'sub_value'},
+        }
+        self.assertEqual(model.to_dict(), expected)
+
+    def test_to_dict_with_list_of_mixed_items(self):
+        """Test that a list mixing models and primitives serializes each correctly."""
+        model = ExampleModel(items=[SubModel(id=1, value="first"), "plain", 3])
+        self.assertEqual(model.to_dict(), {'items': [{'id': 1, 'value': 'first'}, "plain", 3]})
+
     def test_to_str(self):
         """Test conversion to string."""
         expected_str = pprint.pformat(self.model.to_dict())

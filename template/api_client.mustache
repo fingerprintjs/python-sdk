@@ -582,6 +582,12 @@ class ApiClientDeserializer:
         if not klass.swagger_types and not ApiClientDeserializer.__hasattr(klass, 'get_real_child_model'):
             if hasattr(klass, '__parent_class__') and klass.__parent_class__ == 'dict':
                 return klass(**data)
+            if hasattr(klass, '__parent_class__') and klass.__parent_class__ == 'list':
+                item_type = getattr(klass, '__list_item_type__', None)
+                if item_type is not None and isinstance(data, list):
+                    return klass(ApiClientDeserializer.deserialize(sub_data, item_type)
+                                 for sub_data in data)
+                return klass(data)
             return data
 
         kwargs = {}
