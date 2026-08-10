@@ -17,6 +17,7 @@ docs/EventRuleAction.md
 docs/EventRuleActionAllow.md
 docs/EventRuleActionBlock.md
 docs/EventSearch.md
+docs/EventSource.md
 docs/EventUpdate.md
 docs/FingerprintApi.md
 docs/FontPreferences.md
@@ -87,6 +88,7 @@ fingerprint_server_sdk/models/event_rule_action.py
 fingerprint_server_sdk/models/event_rule_action_allow.py
 fingerprint_server_sdk/models/event_rule_action_block.py
 fingerprint_server_sdk/models/event_search.py
+fingerprint_server_sdk/models/event_source.py
 fingerprint_server_sdk/models/event_update.py
 fingerprint_server_sdk/models/font_preferences.py
 fingerprint_server_sdk/models/geolocation.py
