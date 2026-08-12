@@ -5,6 +5,7 @@ from typing import Any
 
 from fingerprint_server_sdk import Event
 from fingerprint_server_sdk.models.bot_info import BotInfo
+from fingerprint_server_sdk.models.event_source import EventSource
 from fingerprint_server_sdk.models.proxy_details import ProxyDetails
 from fingerprint_server_sdk.models.sdk import SDK
 
@@ -82,6 +83,24 @@ class TestUnknownEnumValues(unittest.TestCase):
         self.assertIsInstance(event, Event)
         self.assertEqual(event.rare_device_percentile_bucket, 'unknown-value')
 
+    def test_event_with_unknown_source(self) -> None:
+        """Unknown source value should be accepted and preserved."""
+        data = self._load_event_json()
+        data['source'] = 'unknown-value'
+
+        event = Event.from_json(json.dumps(data))
+        self.assertIsInstance(event, Event)
+        self.assertEqual(event.source, 'unknown-value')
+
+    def test_event_without_source(self) -> None:
+        """Event should deserialize when the optional source field is absent."""
+        data = self._load_event_json()
+        del data['source']
+
+        event = Event.from_json(json.dumps(data))
+        self.assertIsInstance(event, Event)
+        self.assertIsNone(event.source)
+
     def test_proxy_details_with_unknown_proxy_type(self) -> None:
         """ProxyDetails model should accept unknown proxy_type directly."""
         details = ProxyDetails.from_dict({'proxy_type': 'unknown-value', 'last_seen_at': 123})
@@ -120,6 +139,7 @@ class TestUnknownEnumValues(unittest.TestCase):
         data['proxy_confidence'] = 'unknown-value'
         data['tampering_confidence'] = 'unknown-value'
         data['rare_device_percentile_bucket'] = 'unknown-value'
+        data['source'] = 'unknown-value'
 
         event = Event.from_json(json.dumps(data))
         self.assertIsInstance(event, Event)
@@ -130,6 +150,7 @@ class TestUnknownEnumValues(unittest.TestCase):
         self.assertEqual(event.proxy_confidence, 'unknown-value')
         self.assertEqual(event.tampering_confidence, 'unknown-value')
         self.assertEqual(event.rare_device_percentile_bucket, 'unknown-value')
+        self.assertEqual(event.source, 'unknown-value')
 
     def test_known_enum_values_still_work(self) -> None:
         """Known enum values should continue to work as before."""
@@ -139,6 +160,16 @@ class TestUnknownEnumValues(unittest.TestCase):
         self.assertIsInstance(event, Event)
         self.assertEqual(event.proxy_details.proxy_type, 'residential')
         self.assertEqual(event.sdk.platform, 'js')
+        self.assertEqual(event.source, EventSource.DEVICE)
+
+    def test_event_with_edge_source(self) -> None:
+        """The edge source value should be deserialized into the enum member."""
+        data = self._load_event_json()
+        data['source'] = 'edge'
+
+        event = Event.from_json(json.dumps(data))
+        self.assertIsInstance(event, Event)
+        self.assertEqual(event.source, EventSource.EDGE)
 
 
 if __name__ == '__main__':
