@@ -95,7 +95,7 @@ class TestUnknownEnumValues(unittest.TestCase):
     def test_event_without_source(self) -> None:
         """Event should deserialize when the optional source field is absent."""
         data = self._load_event_json()
-        del data['source']
+        data.pop('source', None)
 
         event = Event.from_json(json.dumps(data))
         self.assertIsInstance(event, Event)
