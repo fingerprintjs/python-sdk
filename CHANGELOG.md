@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.6.0
+
+### Minor Changes
+
+- Add `source` field to `Event` to identify how the event was generated (`device` or `edge`) ([df05d7e](https://github.com/fingerprintjs/python-sdk/commit/df05d7ebfcb26ea5cf6a46881dc558e6c84908ea))
+
 ## 9.5.0
 
 ### Minor Changes
