@@ -59,6 +59,7 @@ __all__ = [
     'EventRuleActionAllow',
     'EventRuleActionBlock',
     'EventSearch',
+    'EventSource',
     'EventUpdate',
     'FontPreferences',
     'Geolocation',
@@ -145,6 +146,7 @@ from fingerprint_server_sdk.models.event_rule_action import EventRuleAction
 from fingerprint_server_sdk.models.event_rule_action_allow import EventRuleActionAllow
 from fingerprint_server_sdk.models.event_rule_action_block import EventRuleActionBlock
 from fingerprint_server_sdk.models.event_search import EventSearch
+from fingerprint_server_sdk.models.event_source import EventSource
 from fingerprint_server_sdk.models.event_update import EventUpdate
 from fingerprint_server_sdk.models.font_preferences import FontPreferences
 from fingerprint_server_sdk.models.geolocation import Geolocation

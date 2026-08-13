@@ -323,6 +323,7 @@ Class | Method | HTTP request | Description
  - [EventRuleActionAllow](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleActionAllow.md)
  - [EventRuleActionBlock](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleActionBlock.md)
  - [EventSearch](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventSearch.md)
+ - [EventSource](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventSource.md)
  - [EventUpdate](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventUpdate.md)
  - [FontPreferences](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FontPreferences.md)
  - [Geolocation](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Geolocation.md)

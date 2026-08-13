@@ -25,6 +25,7 @@ from fingerprint_server_sdk.models.bot_info import BotInfo
 from fingerprint_server_sdk.models.bot_result import BotResult
 from fingerprint_server_sdk.models.browser_details import BrowserDetails
 from fingerprint_server_sdk.models.event_rule_action import EventRuleAction
+from fingerprint_server_sdk.models.event_source import EventSource
 from fingerprint_server_sdk.models.identification import Identification
 from fingerprint_server_sdk.models.incremental_identification_status import (
     IncrementalIdentificationStatus,
@@ -57,6 +58,7 @@ class Event(BaseModel):
     timestamp: StrictInt = Field(
         description='Timestamp of the event with millisecond precision in Unix time.'
     )
+    source: Optional[EventSource] = None
     incremental_identification_status: Optional[IncrementalIdentificationStatus] = None
     linked_id: Optional[StrictStr] = Field(
         default=None, description='A customer-provided id that was sent with the request.'
@@ -259,6 +261,7 @@ class Event(BaseModel):
     __properties: ClassVar[list[str]] = [
         'event_id',
         'timestamp',
+        'source',
         'incremental_identification_status',
         'linked_id',
         'environment_id',
@@ -424,6 +427,7 @@ class Event(BaseModel):
             {
                 'event_id': obj.get('event_id'),
                 'timestamp': obj.get('timestamp'),
+                'source': obj.get('source'),
                 'incremental_identification_status': obj.get('incremental_identification_status'),
                 'linked_id': obj.get('linked_id'),
                 'environment_id': obj.get('environment_id'),
