@@ -429,6 +429,7 @@ class TestFingerprintApi(unittest.TestCase):
                 SearchEventsIncrementalIdentificationStatus.PARTIALLY_COMPLETED
             ),
             'simulator': True,
+            'active_call': True,
             'bot_info': SearchEventsBotInfo.ALL,
             'bot_info_category': [BotInfoCategory.AI_AGENT, BotInfoCategory.SECURITY],
             'bot_info_identity': [BotInfoIdentity.SPOOFED],
@@ -488,6 +489,7 @@ class TestFingerprintApi(unittest.TestCase):
             'tor_node': 'true',
             'incremental_identification_status': 'partially_completed',
             'simulator': 'true',
+            'active_call': 'true',
             'source': ['edge'],
         }
 
