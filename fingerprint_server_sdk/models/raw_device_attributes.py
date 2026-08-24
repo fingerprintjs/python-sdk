@@ -130,6 +130,10 @@ class RawDeviceAttributes(BaseModel):
     keyboard_layout_hash: Optional[StrictStr] = Field(
         default=None, description="Unique identifier for the user's keyboard layout."
     )
+    keyboard_layout_name: Optional[StrictStr] = Field(
+        default=None,
+        description="Name of the user's configured keyboard layout as a BCP 47-style identifier. Only available in Chromium-based browsers, omitted otherwise.",
+    )
     __properties: ClassVar[list[str]] = [
         'font_preferences',
         'emoji',
@@ -164,6 +168,7 @@ class RawDeviceAttributes(BaseModel):
         'battery_charging',
         'battery_low_power_mode',
         'keyboard_layout_hash',
+        'keyboard_layout_name',
     ]
 
     model_config = ConfigDict(
@@ -286,6 +291,7 @@ class RawDeviceAttributes(BaseModel):
                 'battery_charging': obj.get('battery_charging'),
                 'battery_low_power_mode': obj.get('battery_low_power_mode'),
                 'keyboard_layout_hash': obj.get('keyboard_layout_hash'),
+                'keyboard_layout_name': obj.get('keyboard_layout_name'),
             }
         )
         return _obj
