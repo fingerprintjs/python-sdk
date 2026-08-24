@@ -429,7 +429,6 @@ class TestFingerprintApi(unittest.TestCase):
                 SearchEventsIncrementalIdentificationStatus.PARTIALLY_COMPLETED
             ),
             'simulator': True,
-            'active_call': True,
             'bot_info': SearchEventsBotInfo.ALL,
             'bot_info_category': [BotInfoCategory.AI_AGENT, BotInfoCategory.SECURITY],
             'bot_info_identity': [BotInfoIdentity.SPOOFED],
@@ -437,6 +436,7 @@ class TestFingerprintApi(unittest.TestCase):
             'bot_info_provider': ['provider'],
             'bot_info_name': ['name1', 'name2'],
             'source': [SearchEventsSource.EDGE],
+            'active_call': True,
         }
         # URL params use serialized values (enum.value, lowercase bool) in API definition order
         url_params = {
@@ -489,8 +489,8 @@ class TestFingerprintApi(unittest.TestCase):
             'tor_node': 'true',
             'incremental_identification_status': 'partially_completed',
             'simulator': 'true',
-            'active_call': 'true',
             'source': ['edge'],
+            'active_call': 'true',
         }
 
         mock_pool = MockPoolManager(self)
