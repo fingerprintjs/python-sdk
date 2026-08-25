@@ -1,5 +1,12 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.7.0
+
+### Minor Changes
+
+- **events-search**: Add `active_call` filter parameter ([e3164f0](https://github.com/fingerprintjs/python-sdk/commit/e3164f00679bcb6ba4d81edebde0977b96dbfdf4))
+- Add `keyboard_layout_name` to `RawDeviceAttributes` ([e3164f0](https://github.com/fingerprintjs/python-sdk/commit/e3164f00679bcb6ba4d81edebde0977b96dbfdf4))
+
 ## 9.6.0
 
 ### Minor Changes
