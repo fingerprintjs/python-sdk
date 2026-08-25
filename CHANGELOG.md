@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.7.1
+
+### Patch Changes
+
+- Fix package publishing to PyPI. ([9ebdd43](https://github.com/fingerprintjs/python-sdk/commit/9ebdd430e461411208edda92f8eb203ca6636cbf))
+
 ## 9.7.0
 
 ### Minor Changes
