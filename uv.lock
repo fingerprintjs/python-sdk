@@ -8,6 +8,12 @@ resolution-markers = [
     "python_full_version <= '3.9'",
 ]
 
+[manifest]
+build-constraints = [
+    { name = "hatchling", marker = "python_full_version < '3.10'", specifier = "==1.27.0" },
+    { name = "hatchling", marker = "python_full_version >= '3.10'", specifier = "==1.32.0" },
+]
+
 [[package]]
 name = "annotated-types"
 version = "0.7.0"
