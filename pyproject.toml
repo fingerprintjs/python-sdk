@@ -53,6 +53,13 @@ dev = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.uv]
+# TODO: remove multiple-pin based on python version after we drop Python 3.9 support
+build-constraint-dependencies = [
+  "hatchling==1.32.0; python_version >= '3.10'",
+  "hatchling==1.27.0; python_version < '3.10'",
+]
+
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
 
