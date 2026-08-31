@@ -1,0 +1,10 @@
+{
+  "event_id": "1700000000000.AbCdEf",
+  "timestamp": 1700000000000,
+  "source": "edge",
+  "ip_info": {
+    "v4": {
+      "address": "34.162.244.71"
+    }
+  }
+}

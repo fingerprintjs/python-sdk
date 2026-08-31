@@ -9,9 +9,12 @@ from fingerprint_server_sdk import (
     BotInfoIdentity,
     Configuration,
     ConflictException,
+    EdgeRequest,
+    EdgeRequestHeadersInner,
     ErrorCode,
     ErrorResponse,
     Event,
+    EventEdge,
     EventSearch,
     EventUpdate,
     ForbiddenException,
@@ -82,6 +85,74 @@ class TestFingerprintApi(unittest.TestCase):
     def delete_visitor_path(visitor_id, region: Region = Region.US):
         base = Configuration.get_host(region)
         return f'{base}/visitors/{visitor_id}'
+
+    @staticmethod
+    def get_edge_path(region: Region = Region.US):
+        base = Configuration.get_host(region)
+        return f'{base}/edge'
+
+    def test_analyze_request_for_automation_intelligence(self) -> None:
+        """Test case for analyze_request_for_automation_intelligence
+
+        Collect Automation Intelligence.
+        """
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        edge_request = EdgeRequest(
+            headers=[EdgeRequestHeadersInner(name='Host', value='example.com')],
+            method='GET',
+            url='https://example.com/login',
+            ipv4_address='34.162.244.71',
+        )
+        mock_pool.expect_request(
+            'POST',
+            TestFingerprintApi.get_edge_path(),
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            body=(
+                '{"headers": [{"name": "Host", "value": "example.com"}], '
+                '"method": "GET", "url": "https://example.com/login", '
+                '"ipv4_address": "34.162.244.71"}'
+            ),
+            response_data_file='edge/post_edge_200.json',
+        )
+
+        event_edge_response = self.api.analyze_request_for_automation_intelligence(edge_request)
+        self.assertIsInstance(event_edge_response, EventEdge)
+        self.assertEqual(event_edge_response.source, 'edge')
+
+    def test_analyze_request_for_automation_intelligence_bad_request(self) -> None:
+        """Test case for analyze_request_for_automation_intelligence with 400 Bad Request"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        edge_request = EdgeRequest(
+            headers=[EdgeRequestHeadersInner(name='Host', value='example.com')],
+            method='GET',
+            url='https://example.com/login',
+            ipv4_address='34.162.244.71',
+        )
+        mock_pool.expect_request(
+            'POST',
+            TestFingerprintApi.get_edge_path(),
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            body=(
+                '{"headers": [{"name": "Host", "value": "example.com"}], '
+                '"method": "GET", "url": "https://example.com/login", '
+                '"ipv4_address": "34.162.244.71"}'
+            ),
+            response_status_code=400,
+            response_data_file='errors/400_request_body_invalid.json',
+        )
+
+        with self.assertRaises(BadRequestException) as context:
+            self.api.analyze_request_for_automation_intelligence(edge_request)
+
+        self.assertEqual(context.exception.status, 400)
+        self.assertIsInstance(context.exception.data, ErrorResponse)
+        self.assertEqual(context.exception.data.error.code, ErrorCode.REQUEST_CANNOT_BE_PARSED)
 
     def test_delete_visitor_data(self) -> None:
         """Test case for delete_visitor_data
