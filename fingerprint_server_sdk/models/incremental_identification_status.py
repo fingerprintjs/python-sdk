@@ -12,16 +12,14 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 from enum import Enum
-
 from typing_extensions import Self
 
 
 class IncrementalIdentificationStatus(str, Enum):
     """
-    Only included for requests using incremental identification. - `partially_completed` - Indicates this event corresponds to a 'minimal' request. Smart Signals, even if included in your plan, are not computed; hence, their values must be ignored. - `completed` - Indicates this event corresponds to a 'complete' request. Smart Signals, if included in your plan, are computed; hence, their values are valid and relevant.
+    Only included for requests using incremental identification. - `partially_completed` - Indicates this event corresponds to a 'minimal' request. Smart Signals, even if included in your plan, are not computed; hence, their values must be ignored. - `completed` - Indicates this event corresponds to a 'complete' request. Smart Signals, if included in your plan, are computed; hence, their values are valid and relevant.  
     """
 
     """
@@ -39,7 +37,7 @@ class IncrementalIdentificationStatus(str, Enum):
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
         if not isinstance(value, str):
-            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+            raise ValueError(f"{value!r} is not a valid {cls.__name__}")
         obj = str.__new__(cls, value)
         obj._name_ = str(value)
         obj._value_ = value

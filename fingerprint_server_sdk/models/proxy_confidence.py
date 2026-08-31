@@ -12,16 +12,14 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 from enum import Enum
-
 from typing_extensions import Self
 
 
 class ProxyConfidence(str, Enum):
     """
-    Confidence level of the proxy detection. If a proxy is not detected, confidence is \"high\". If it's detected, can be \"low\", \"medium\", or \"high\".
+    Confidence level of the proxy detection. If a proxy is not detected, confidence is \"high\". If it's detected, can be \"low\", \"medium\", or \"high\". 
     """
 
     """
@@ -40,7 +38,7 @@ class ProxyConfidence(str, Enum):
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
         if not isinstance(value, str):
-            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+            raise ValueError(f"{value!r} is not a valid {cls.__name__}")
         obj = str.__new__(cls, value)
         obj._name_ = str(value)
         obj._value_ = value

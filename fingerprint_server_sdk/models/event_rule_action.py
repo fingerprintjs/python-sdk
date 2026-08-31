@@ -12,49 +12,43 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 import pprint
 from typing import Any, Optional, Union
-
-from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
-from typing_extensions import Self
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
+from typing import Any, List, Optional
 from fingerprint_server_sdk.models.event_rule_action_allow import EventRuleActionAllow
 from fingerprint_server_sdk.models.event_rule_action_block import EventRuleActionBlock
+from typing_extensions import Self
 
-EVENTRULEACTION_ONE_OF_SCHEMAS = ['EventRuleActionAllow', 'EventRuleActionBlock']
-
+EVENTRULEACTION_ONE_OF_SCHEMAS = ["EventRuleActionAllow", "EventRuleActionBlock"]
 
 class EventRuleAction(BaseModel):
     """
     Describes the action the client should take, according to the rule in the ruleset that matched the event. When getting an event by event ID, the rule_action will only be included when the ruleset_id query parameter is specified.
     """
-
     # data type: EventRuleActionAllow
     oneof_schema_1_validator: Optional[EventRuleActionAllow] = None
     # data type: EventRuleActionBlock
     oneof_schema_2_validator: Optional[EventRuleActionBlock] = None
     actual_instance: Optional[Union[EventRuleActionAllow, EventRuleActionBlock]] = None
-    one_of_schemas: set[str] = {'EventRuleActionAllow', 'EventRuleActionBlock'}
+    one_of_schemas: set[str] = { "EventRuleActionAllow", "EventRuleActionBlock" }
 
     model_config = ConfigDict(
         validate_assignment=True,
         protected_namespaces=(),
     )
 
-    discriminator_value_class_map: dict[str, str] = {}
+
+    discriminator_value_class_map: dict[str, str] = {
+    }
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         if args:
             if len(args) > 1:
-                raise ValueError(
-                    'If a position argument is used, only 1 is allowed to set `actual_instance`'
-                )
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
             if kwargs:
-                raise ValueError(
-                    'If a position argument is used, keyword arguments cannot be used.'
-                )
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
             super().__init__(actual_instance=args[0])
         else:
             super().__init__(**kwargs)
@@ -66,26 +60,20 @@ class EventRuleAction(BaseModel):
         match = 0
         # validate data type: EventRuleActionAllow
         if not isinstance(v, EventRuleActionAllow):
-            error_messages.append(f'Error! Input type `{type(v)}` is not `EventRuleActionAllow`')
+            error_messages.append(f"Error! Input type `{type(v)}` is not `EventRuleActionAllow`")
         else:
             match += 1
         # validate data type: EventRuleActionBlock
         if not isinstance(v, EventRuleActionBlock):
-            error_messages.append(f'Error! Input type `{type(v)}` is not `EventRuleActionBlock`')
+            error_messages.append(f"Error! Input type `{type(v)}` is not `EventRuleActionBlock`")
         else:
             match += 1
         if match > 1:
             # more than 1 match
-            raise ValueError(
-                'Multiple matches found when setting `actual_instance` in EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: '
-                + ', '.join(error_messages)
-            )
+            raise ValueError("Multiple matches found when setting `actual_instance` in EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError(
-                'No match found when setting `actual_instance` in EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: '
-                + ', '.join(error_messages)
-            )
+            raise ValueError("No match found when setting `actual_instance` in EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -101,17 +89,17 @@ class EventRuleAction(BaseModel):
         match = 0
 
         # use oneOf discriminator to lookup the data type
-        _data_type = json.loads(json_str).get('type')
+        _data_type = json.loads(json_str).get("type")
         if not _data_type:
-            raise ValueError('Failed to lookup data type from the field `type` in the input.')
+            raise ValueError("Failed to lookup data type from the field `type` in the input.")
 
         # check if data type is `EventRuleActionAllow`
-        if _data_type == 'allow':
+        if _data_type == "allow":
             instance.actual_instance = EventRuleActionAllow.from_json(json_str)
             return instance
 
         # check if data type is `EventRuleActionBlock`
-        if _data_type == 'block':
+        if _data_type == "block":
             instance.actual_instance = EventRuleActionBlock.from_json(json_str)
             return instance
 
@@ -130,37 +118,29 @@ class EventRuleAction(BaseModel):
 
         if match > 1:
             # more than 1 match
-            raise ValueError(
-                'Multiple matches found when deserializing the JSON string into EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: '
-                + ', '.join(error_messages)
-            )
+            raise ValueError("Multiple matches found when deserializing the JSON string into EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError(
-                'No match found when deserializing the JSON string into EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: '
-                + ', '.join(error_messages)
-            )
+            raise ValueError("No match found when deserializing the JSON string into EventRuleAction with oneOf schemas: EventRuleActionAllow, EventRuleActionBlock. Details: " + ", ".join(error_messages))
         else:
             return instance
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
         if self.actual_instance is None:
-            return 'null'
+            return "null"
 
-        if hasattr(self.actual_instance, 'to_json') and callable(self.actual_instance.to_json):
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(
-        self,
-    ) -> Optional[Union[dict[str, Any], EventRuleActionAllow, EventRuleActionBlock]]:
+    def to_dict(self) -> Optional[Union[dict[str, Any], EventRuleActionAllow, EventRuleActionBlock]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
 
-        if hasattr(self.actual_instance, 'to_dict') and callable(self.actual_instance.to_dict):
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
             return self.actual_instance.to_dict()
         else:
             # primitive type
@@ -169,3 +149,5 @@ class EventRuleAction(BaseModel):
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.model_dump())
+
+

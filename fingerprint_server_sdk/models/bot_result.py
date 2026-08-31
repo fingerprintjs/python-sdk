@@ -12,16 +12,14 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 from enum import Enum
-
 from typing_extensions import Self
 
 
 class BotResult(str, Enum):
     """
-    Bot detection result:  * `bad` - bad bot detected, such as Selenium, Puppeteer, Playwright, headless browsers, and so on  * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on  * `not_detected` - the visitor is not a bot
+    Bot detection result:  * `bad` - bad bot detected, such as Selenium, Puppeteer, Playwright, headless browsers, and so on  * `good` - good bot detected, such as Google bot, Baidu Spider, AlexaBot and so on  * `not_detected` - the visitor is not a bot 
     """
 
     """
@@ -40,7 +38,7 @@ class BotResult(str, Enum):
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
         if not isinstance(value, str):
-            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+            raise ValueError(f"{value!r} is not a valid {cls.__name__}")
         obj = str.__new__(cls, value)
         obj._name_ = str(value)
         obj._value_ = value

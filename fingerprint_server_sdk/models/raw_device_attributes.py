@@ -16,11 +16,11 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing_extensions import Annotated
 from fingerprint_server_sdk.models.canvas import Canvas
 from fingerprint_server_sdk.models.emoji import Emoji
 from fingerprint_server_sdk.models.font_preferences import FontPreferences
@@ -28,148 +28,49 @@ from fingerprint_server_sdk.models.plugins_inner import PluginsInner
 from fingerprint_server_sdk.models.touch_support import TouchSupport
 from fingerprint_server_sdk.models.web_gl_basics import WebGlBasics
 from fingerprint_server_sdk.models.web_gl_extensions import WebGlExtensions
+from typing_extensions import Self
 
 
 class RawDeviceAttributes(BaseModel):
     """
-    A curated subset of raw browser/device attributes that the API surface exposes. Each property contains a value or object with the data for the collected signal.
+    A curated subset of raw browser/device attributes that the API surface exposes. Each property contains a value or object with the data for the collected signal. 
     """
 
     font_preferences: Optional[FontPreferences] = None
     emoji: Optional[Emoji] = None
-    fonts: Optional[list[StrictStr]] = Field(
-        default=None, description='List of fonts detected on the device.'
-    )
-    device_memory: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
-        default=None,
-        description='Rounded amount of RAM in gigabytes. Available for browsers, Android, and iOS devices.',
-    )
-    timezone: Optional[StrictStr] = Field(
-        default=None, description='Timezone identifier detected on the client.'
-    )
+    fonts: Optional[List[StrictStr]] = Field(default=None, description="List of fonts detected on the device.")
+    device_memory: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="Rounded amount of RAM in gigabytes. Available for browsers, Android, and iOS devices.")
+    timezone: Optional[StrictStr] = Field(default=None, description="Timezone identifier detected on the client.")
     canvas: Optional[Canvas] = None
-    languages: Optional[list[list[StrictStr]]] = Field(
-        default=None,
-        description='Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for browsers, iOS, and Android devices. ',
-    )
+    languages: Optional[List[List[StrictStr]]] = Field(default=None, description="Navigator languages reported by the agent including fallbacks. Each inner array represents ordered language preferences reported by different APIs. Available for browsers, iOS, and Android devices. ")
     webgl_extensions: Optional[WebGlExtensions] = None
     webgl_basics: Optional[WebGlBasics] = None
-    screen_resolution: Optional[Annotated[list[StrictInt], Field(min_length=2, max_length=2)]] = (
-        Field(
-            default=None,
-            description='Current screen resolution. Available for both browsers and iOS devices',
-        )
-    )
+    screen_resolution: Optional[Annotated[List[StrictInt], Field(min_length=2, max_length=2)]] = Field(default=None, description="Current screen resolution. Available for both browsers and iOS devices")
     touch_support: Optional[TouchSupport] = None
-    oscpu: Optional[StrictStr] = Field(default=None, description='Navigator `oscpu` string.')
-    architecture: Optional[StrictInt] = Field(
-        default=None,
-        description='Integer representing the CPU architecture exposed by the browser.',
-    )
-    cookies_enabled: Optional[StrictBool] = Field(
-        default=None, description='Whether the cookies are enabled in the browser.'
-    )
-    hardware_concurrency: Optional[StrictInt] = Field(
-        default=None, description='Number of logical CPU cores reported by the browser.'
-    )
-    date_time_locale: Optional[StrictStr] = Field(
-        default=None,
-        description='Locale derived from the Intl.DateTimeFormat API. Negative values indicate known error states. The negative statuses can be: - "-1": A permanent status for browsers that don\'t support Intl API. - "-2": A permanent status for browsers that don\'t supportDateTimeFormat constructor. - "-3": A permanent status for browsers in which DateTimeFormat locale is undefined or null. ',
-    )
-    vendor: Optional[StrictStr] = Field(default=None, description='Navigator vendor string.')
-    color_depth: Optional[StrictInt] = Field(
-        default=None, description='Screen color depth in bits.'
-    )
-    platform: Optional[StrictStr] = Field(default=None, description='Navigator platform string.')
-    session_storage: Optional[StrictBool] = Field(
-        default=None, description='Whether sessionStorage is available.'
-    )
-    local_storage: Optional[StrictBool] = Field(
-        default=None, description='Whether localStorage is available.'
-    )
-    audio: Optional[Union[StrictFloat, StrictInt]] = Field(
-        default=None,
-        description="AudioContext fingerprint or negative status when unavailable. The negative statuses can be: - -1: A permanent status for those browsers which are known to always suspend audio context - -2: A permanent status for browsers that don't support the signal - -3: A temporary status that means that an unexpected timeout has happened ",
-    )
-    plugins: Optional[list[PluginsInner]] = Field(
-        default=None, description='Browser plugins reported by `navigator.plugins`.'
-    )
-    indexed_db: Optional[StrictBool] = Field(
-        default=None, description='Whether IndexedDB is available.'
-    )
-    math: Optional[StrictStr] = Field(
-        default=None, description='Hash of Math APIs used for entropy collection.'
-    )
-    device_model: Optional[StrictStr] = Field(
-        default=None,
-        description='Device model string. Available only for Android and iOS devices.',
-    )
-    device_manufacturer: Optional[StrictStr] = Field(
-        default=None,
-        description='Device manufacturer string. Available only for Android and iOS devices.',
-    )
-    font_hash: Optional[StrictStr] = Field(
-        default=None, description='Unique identifier for the user’s installed fonts.'
-    )
-    timezone_offset: Optional[StrictStr] = Field(
-        default=None,
-        description='UTC offset in "±HH:MM" format derived from the detected IANA timezone.',
-    )
-    battery_level: Optional[Annotated[int, Field(le=100, strict=True, ge=0)]] = Field(
-        default=None,
-        description='Battery charge level as a percentage (0-100). Available for Android, iOS, and web devices. On web, only available in Chromium-based browsers.',
-    )
-    battery_charging: Optional[StrictBool] = Field(
-        default=None,
-        description='When `true`, the device is currently charging. Available only for web devices on Chromium-based browsers.',
-    )
-    battery_low_power_mode: Optional[StrictBool] = Field(
-        default=None,
-        description="Whether the device's low power mode is enabled. Available only for Android and iOS devices.",
-    )
-    keyboard_layout_hash: Optional[StrictStr] = Field(
-        default=None, description="Unique identifier for the user's keyboard layout."
-    )
-    keyboard_layout_name: Optional[StrictStr] = Field(
-        default=None,
-        description="Name of the user's configured keyboard layout as a BCP 47-style identifier. Only available in Chromium-based browsers, omitted otherwise.",
-    )
-    __properties: ClassVar[list[str]] = [
-        'font_preferences',
-        'emoji',
-        'fonts',
-        'device_memory',
-        'timezone',
-        'canvas',
-        'languages',
-        'webgl_extensions',
-        'webgl_basics',
-        'screen_resolution',
-        'touch_support',
-        'oscpu',
-        'architecture',
-        'cookies_enabled',
-        'hardware_concurrency',
-        'date_time_locale',
-        'vendor',
-        'color_depth',
-        'platform',
-        'session_storage',
-        'local_storage',
-        'audio',
-        'plugins',
-        'indexed_db',
-        'math',
-        'device_model',
-        'device_manufacturer',
-        'font_hash',
-        'timezone_offset',
-        'battery_level',
-        'battery_charging',
-        'battery_low_power_mode',
-        'keyboard_layout_hash',
-        'keyboard_layout_name',
-    ]
+    oscpu: Optional[StrictStr] = Field(default=None, description="Navigator `oscpu` string.")
+    architecture: Optional[StrictInt] = Field(default=None, description="Integer representing the CPU architecture exposed by the browser.")
+    cookies_enabled: Optional[StrictBool] = Field(default=None, description="Whether the cookies are enabled in the browser.")
+    hardware_concurrency: Optional[StrictInt] = Field(default=None, description="Number of logical CPU cores reported by the browser.")
+    date_time_locale: Optional[StrictStr] = Field(default=None, description="Locale derived from the Intl.DateTimeFormat API. Negative values indicate known error states. The negative statuses can be: - \"-1\": A permanent status for browsers that don't support Intl API. - \"-2\": A permanent status for browsers that don't supportDateTimeFormat constructor. - \"-3\": A permanent status for browsers in which DateTimeFormat locale is undefined or null. ")
+    vendor: Optional[StrictStr] = Field(default=None, description="Navigator vendor string.")
+    color_depth: Optional[StrictInt] = Field(default=None, description="Screen color depth in bits.")
+    platform: Optional[StrictStr] = Field(default=None, description="Navigator platform string.")
+    session_storage: Optional[StrictBool] = Field(default=None, description="Whether sessionStorage is available.")
+    local_storage: Optional[StrictBool] = Field(default=None, description="Whether localStorage is available.")
+    audio: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="AudioContext fingerprint or negative status when unavailable. The negative statuses can be: - -1: A permanent status for those browsers which are known to always suspend audio context - -2: A permanent status for browsers that don't support the signal - -3: A temporary status that means that an unexpected timeout has happened ")
+    plugins: Optional[List[PluginsInner]] = Field(default=None, description="Browser plugins reported by `navigator.plugins`.")
+    indexed_db: Optional[StrictBool] = Field(default=None, description="Whether IndexedDB is available.")
+    math: Optional[StrictStr] = Field(default=None, description="Hash of Math APIs used for entropy collection.")
+    device_model: Optional[StrictStr] = Field(default=None, description="Device model string. Available only for Android and iOS devices.")
+    device_manufacturer: Optional[StrictStr] = Field(default=None, description="Device manufacturer string. Available only for Android and iOS devices.")
+    font_hash: Optional[StrictStr] = Field(default=None, description="Unique identifier for the user’s installed fonts.")
+    timezone_offset: Optional[StrictStr] = Field(default=None, description="UTC offset in \"±HH:MM\" format derived from the detected IANA timezone.")
+    battery_level: Optional[Annotated[int, Field(le=100, strict=True, ge=0)]] = Field(default=None, description="Battery charge level as a percentage (0-100). Available for Android, iOS, and web devices. On web, only available in Chromium-based browsers.")
+    battery_charging: Optional[StrictBool] = Field(default=None, description="When `true`, the device is currently charging. Available only for web devices on Chromium-based browsers.")
+    battery_low_power_mode: Optional[StrictBool] = Field(default=None, description="Whether the device's low power mode is enabled. Available only for Android and iOS devices.")
+    keyboard_layout_hash: Optional[StrictStr] = Field(default=None, description="Unique identifier for the user's keyboard layout.")
+    keyboard_layout_name: Optional[StrictStr] = Field(default=None, description="Name of the user's configured keyboard layout as a BCP 47-style identifier. Only available in Chromium-based browsers, omitted otherwise.")
+    __properties: ClassVar[list[str]] = ['font_preferences', 'emoji', 'fonts', 'device_memory', 'timezone', 'canvas', 'languages', 'webgl_extensions', 'webgl_basics', 'screen_resolution', 'touch_support', 'oscpu', 'architecture', 'cookies_enabled', 'hardware_concurrency', 'date_time_locale', 'vendor', 'color_depth', 'platform', 'session_storage', 'local_storage', 'audio', 'plugins', 'indexed_db', 'math', 'device_model', 'device_manufacturer', 'font_hash', 'timezone_offset', 'battery_level', 'battery_charging', 'battery_low_power_mode', 'keyboard_layout_hash', 'keyboard_layout_name']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -201,7 +102,8 @@ class RawDeviceAttributes(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -244,54 +146,42 @@ class RawDeviceAttributes(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'font_preferences': FontPreferences.from_dict(obj['font_preferences'])
-                if obj.get('font_preferences') is not None
-                else None,
-                'emoji': Emoji.from_dict(obj['emoji']) if obj.get('emoji') is not None else None,
-                'fonts': obj.get('fonts'),
-                'device_memory': obj.get('device_memory'),
-                'timezone': obj.get('timezone'),
-                'canvas': Canvas.from_dict(obj['canvas'])
-                if obj.get('canvas') is not None
-                else None,
-                'languages': obj.get('languages'),
-                'webgl_extensions': WebGlExtensions.from_dict(obj['webgl_extensions'])
-                if obj.get('webgl_extensions') is not None
-                else None,
-                'webgl_basics': WebGlBasics.from_dict(obj['webgl_basics'])
-                if obj.get('webgl_basics') is not None
-                else None,
-                'screen_resolution': obj.get('screen_resolution'),
-                'touch_support': TouchSupport.from_dict(obj['touch_support'])
-                if obj.get('touch_support') is not None
-                else None,
-                'oscpu': obj.get('oscpu'),
-                'architecture': obj.get('architecture'),
-                'cookies_enabled': obj.get('cookies_enabled'),
-                'hardware_concurrency': obj.get('hardware_concurrency'),
-                'date_time_locale': obj.get('date_time_locale'),
-                'vendor': obj.get('vendor'),
-                'color_depth': obj.get('color_depth'),
-                'platform': obj.get('platform'),
-                'session_storage': obj.get('session_storage'),
-                'local_storage': obj.get('local_storage'),
-                'audio': obj.get('audio'),
-                'plugins': [PluginsInner.from_dict(_item) for _item in obj['plugins']]
-                if obj.get('plugins') is not None
-                else None,
-                'indexed_db': obj.get('indexed_db'),
-                'math': obj.get('math'),
-                'device_model': obj.get('device_model'),
-                'device_manufacturer': obj.get('device_manufacturer'),
-                'font_hash': obj.get('font_hash'),
-                'timezone_offset': obj.get('timezone_offset'),
-                'battery_level': obj.get('battery_level'),
-                'battery_charging': obj.get('battery_charging'),
-                'battery_low_power_mode': obj.get('battery_low_power_mode'),
-                'keyboard_layout_hash': obj.get('keyboard_layout_hash'),
-                'keyboard_layout_name': obj.get('keyboard_layout_name'),
-            }
-        )
+        _obj = cls.model_validate({
+            "font_preferences": FontPreferences.from_dict(obj["font_preferences"]) if obj.get("font_preferences") is not None else None,
+            "emoji": Emoji.from_dict(obj["emoji"]) if obj.get("emoji") is not None else None,
+            "fonts": obj.get("fonts"),
+            "device_memory": obj.get("device_memory"),
+            "timezone": obj.get("timezone"),
+            "canvas": Canvas.from_dict(obj["canvas"]) if obj.get("canvas") is not None else None,
+            "languages": obj.get("languages"),
+            "webgl_extensions": WebGlExtensions.from_dict(obj["webgl_extensions"]) if obj.get("webgl_extensions") is not None else None,
+            "webgl_basics": WebGlBasics.from_dict(obj["webgl_basics"]) if obj.get("webgl_basics") is not None else None,
+            "screen_resolution": obj.get("screen_resolution"),
+            "touch_support": TouchSupport.from_dict(obj["touch_support"]) if obj.get("touch_support") is not None else None,
+            "oscpu": obj.get("oscpu"),
+            "architecture": obj.get("architecture"),
+            "cookies_enabled": obj.get("cookies_enabled"),
+            "hardware_concurrency": obj.get("hardware_concurrency"),
+            "date_time_locale": obj.get("date_time_locale"),
+            "vendor": obj.get("vendor"),
+            "color_depth": obj.get("color_depth"),
+            "platform": obj.get("platform"),
+            "session_storage": obj.get("session_storage"),
+            "local_storage": obj.get("local_storage"),
+            "audio": obj.get("audio"),
+            "plugins": [PluginsInner.from_dict(_item) for _item in obj["plugins"]] if obj.get("plugins") is not None else None,
+            "indexed_db": obj.get("indexed_db"),
+            "math": obj.get("math"),
+            "device_model": obj.get("device_model"),
+            "device_manufacturer": obj.get("device_manufacturer"),
+            "font_hash": obj.get("font_hash"),
+            "timezone_offset": obj.get("timezone_offset"),
+            "battery_level": obj.get("battery_level"),
+            "battery_charging": obj.get("battery_charging"),
+            "battery_low_power_mode": obj.get("battery_low_power_mode"),
+            "keyboard_layout_hash": obj.get("keyboard_layout_hash"),
+            "keyboard_layout_name": obj.get("keyboard_layout_name")
+        })
         return _obj
+
+

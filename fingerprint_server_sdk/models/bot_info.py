@@ -18,7 +18,8 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -27,24 +28,13 @@ class BotInfo(BaseModel):
     Extended bot information.
     """
 
-    category: StrictStr = Field(description='The type and purpose of the bot. ')
-    provider: StrictStr = Field(description='The organization or company operating the bot.')
-    provider_url: Optional[StrictStr] = Field(
-        default=None, description="The URL of the bot provider's website."
-    )
-    name: StrictStr = Field(description='The specific name or identifier of the bot.')
-    identity: StrictStr = Field(
-        description="The verification status of the bot's identity:  * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.  * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.  * `spoofed` - bot that claims a public identity but fails verification.  * `unknown` - bot that does not publish a verifiable identity. "
-    )
-    confidence: StrictStr = Field(description='Confidence level of the bot identification.')
-    __properties: ClassVar[list[str]] = [
-        'category',
-        'provider',
-        'provider_url',
-        'name',
-        'identity',
-        'confidence',
-    ]
+    category: StrictStr = Field(description="The type and purpose of the bot. ")
+    provider: StrictStr = Field(description="The organization or company operating the bot.")
+    provider_url: Optional[StrictStr] = Field(default=None, description="The URL of the bot provider's website.")
+    name: StrictStr = Field(description="The specific name or identifier of the bot.")
+    identity: StrictStr = Field(description="The verification status of the bot's identity:  * `verified` - well-known bot with publicly verifiable identity, directed by the bot provider.  * `signed` - bot that signs its platform via Web Bot Auth, directed by the bot provider's customers.  * `spoofed` - bot that claims a public identity but fails verification.  * `unknown` - bot that does not publish a verifiable identity. ")
+    confidence: StrictStr = Field(description="Confidence level of the bot identification.")
+    __properties: ClassVar[list[str]] = ['category', 'provider', 'provider_url', 'name', 'identity', 'confidence']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,7 +66,8 @@ class BotInfo(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -94,14 +85,14 @@ class BotInfo(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'category': obj.get('category'),
-                'provider': obj.get('provider'),
-                'provider_url': obj.get('provider_url'),
-                'name': obj.get('name'),
-                'identity': obj.get('identity'),
-                'confidence': obj.get('confidence'),
-            }
-        )
+        _obj = cls.model_validate({
+            "category": obj.get("category"),
+            "provider": obj.get("provider"),
+            "provider_url": obj.get("provider_url"),
+            "name": obj.get("name"),
+            "identity": obj.get("identity"),
+            "confidence": obj.get("confidence")
+        })
         return _obj
+
+

@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -27,38 +28,13 @@ class VpnMethods(BaseModel):
     VpnMethods
     """
 
-    timezone_mismatch: Optional[StrictBool] = Field(
-        default=None,
-        description="The browser timezone doesn't match the timezone inferred from the request IP address.",
-    )
-    public_vpn: Optional[StrictBool] = Field(
-        default=None,
-        description='Request IP address is owned and used by a public VPN service provider.',
-    )
-    auxiliary_mobile: Optional[StrictBool] = Field(
-        default=None,
-        description='This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.',
-    )
-    os_mismatch: Optional[StrictBool] = Field(
-        default=None,
-        description='The browser runs on a different operating system than the operating system inferred from the request network signature.',
-    )
-    relay: Optional[StrictBool] = Field(
-        default=None,
-        description="Request IP address belongs to a relay service provider, indicating the use of relay services like [Apple Private relay](https://support.apple.com/en-us/102602) or [Cloudflare Warp](https://developers.cloudflare.com/warp-client/).  * Like VPNs, relay services anonymize the visitor's true IP address. * Unlike traditional VPNs, relay services don't let visitors spoof their location by choosing an exit node in a different country.  This field allows you to differentiate VPN users and relay service users in your fraud prevention logic. ",
-    )
-    ml_prediction: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if the request came from a device running a VPN, `false` otherwise.   ',
-    )
-    __properties: ClassVar[list[str]] = [
-        'timezone_mismatch',
-        'public_vpn',
-        'auxiliary_mobile',
-        'os_mismatch',
-        'relay',
-        'ml_prediction',
-    ]
+    timezone_mismatch: Optional[StrictBool] = Field(default=None, description="The browser timezone doesn't match the timezone inferred from the request IP address.")
+    public_vpn: Optional[StrictBool] = Field(default=None, description="Request IP address is owned and used by a public VPN service provider.")
+    auxiliary_mobile: Optional[StrictBool] = Field(default=None, description="This method applies to mobile devices only. Indicates the result of additional methods used to detect a VPN in mobile devices.")
+    os_mismatch: Optional[StrictBool] = Field(default=None, description="The browser runs on a different operating system than the operating system inferred from the request network signature.")
+    relay: Optional[StrictBool] = Field(default=None, description="Request IP address belongs to a relay service provider, indicating the use of relay services like [Apple Private relay](https://support.apple.com/en-us/102602) or [Cloudflare Warp](https://developers.cloudflare.com/warp-client/).  * Like VPNs, relay services anonymize the visitor's true IP address. * Unlike traditional VPNs, relay services don't let visitors spoof their location by choosing an exit node in a different country.  This field allows you to differentiate VPN users and relay service users in your fraud prevention logic. ")
+    ml_prediction: Optional[StrictBool] = Field(default=None, description="`true` if the request came from a device running a VPN, `false` otherwise.   ")
+    __properties: ClassVar[list[str]] = ['timezone_mismatch', 'public_vpn', 'auxiliary_mobile', 'os_mismatch', 'relay', 'ml_prediction']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,7 +66,8 @@ class VpnMethods(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -108,14 +85,14 @@ class VpnMethods(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'timezone_mismatch': obj.get('timezone_mismatch'),
-                'public_vpn': obj.get('public_vpn'),
-                'auxiliary_mobile': obj.get('auxiliary_mobile'),
-                'os_mismatch': obj.get('os_mismatch'),
-                'relay': obj.get('relay'),
-                'ml_prediction': obj.get('ml_prediction'),
-            }
-        )
+        _obj = cls.model_validate({
+            "timezone_mismatch": obj.get("timezone_mismatch"),
+            "public_vpn": obj.get("public_vpn"),
+            "auxiliary_mobile": obj.get("auxiliary_mobile"),
+            "os_mismatch": obj.get("os_mismatch"),
+            "relay": obj.get("relay"),
+            "ml_prediction": obj.get("ml_prediction")
+        })
         return _obj
+
+

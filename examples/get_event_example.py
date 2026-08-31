@@ -33,6 +33,8 @@ try:
     event = api_instance.get_event(event_id, ruleset_id)
     print(f'Event ID: {event.event_id}')
     print(f'Timestamp: {event.timestamp}')
+    # SPIKE INTER-2457 — RUNTIME BREAK. Event has no `identification` or `event_id`.
+    # Those live on event.actual_instance (EventDevice | EventEdge).
     if event.identification:
         print(f'Visitor ID: {event.identification.visitor_id}')
         if event.identification.confidence is not None:

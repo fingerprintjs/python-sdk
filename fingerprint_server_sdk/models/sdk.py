@@ -18,10 +18,10 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing_extensions import Self
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.integration import Integration
+from typing_extensions import Self
 
 
 class SDK(BaseModel):
@@ -29,13 +29,9 @@ class SDK(BaseModel):
     Contains information about the SDK used to perform the request.
     """
 
-    platform: StrictStr = Field(
-        description='Platform of the SDK used for the identification request.'
-    )
-    version: StrictStr = Field(
-        description='Version string of the SDK used for the identification request.'
-    )
-    integrations: Optional[list[Integration]] = None
+    platform: StrictStr = Field(description="Platform of the SDK used for the identification request.")
+    version: StrictStr = Field(description="Version string of the SDK used for the identification request.")
+    integrations: Optional[List[Integration]] = None
     __properties: ClassVar[list[str]] = ['platform', 'version', 'integrations']
 
     model_config = ConfigDict(
@@ -68,7 +64,8 @@ class SDK(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -93,13 +90,11 @@ class SDK(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'platform': obj.get('platform'),
-                'version': obj.get('version'),
-                'integrations': [Integration.from_dict(_item) for _item in obj['integrations']]
-                if obj.get('integrations') is not None
-                else None,
-            }
-        )
+        _obj = cls.model_validate({
+            "platform": obj.get("platform"),
+            "version": obj.get("version"),
+            "integrations": [Integration.from_dict(_item) for _item in obj["integrations"]] if obj.get("integrations") is not None else None
+        })
         return _obj
+
+

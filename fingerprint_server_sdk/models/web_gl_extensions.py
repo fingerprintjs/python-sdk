@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -32,15 +33,8 @@ class WebGlExtensions(BaseModel):
     shader_precisions: Optional[StrictStr] = None
     extensions: Optional[StrictStr] = None
     extension_parameters: Optional[StrictStr] = None
-    unsupported_extensions: Optional[list[StrictStr]] = None
-    __properties: ClassVar[list[str]] = [
-        'context_attributes',
-        'parameters',
-        'shader_precisions',
-        'extensions',
-        'extension_parameters',
-        'unsupported_extensions',
-    ]
+    unsupported_extensions: Optional[List[StrictStr]] = None
+    __properties: ClassVar[list[str]] = ['context_attributes', 'parameters', 'shader_precisions', 'extensions', 'extension_parameters', 'unsupported_extensions']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,7 +66,8 @@ class WebGlExtensions(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -90,14 +85,14 @@ class WebGlExtensions(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'context_attributes': obj.get('context_attributes'),
-                'parameters': obj.get('parameters'),
-                'shader_precisions': obj.get('shader_precisions'),
-                'extensions': obj.get('extensions'),
-                'extension_parameters': obj.get('extension_parameters'),
-                'unsupported_extensions': obj.get('unsupported_extensions'),
-            }
-        )
+        _obj = cls.model_validate({
+            "context_attributes": obj.get("context_attributes"),
+            "parameters": obj.get("parameters"),
+            "shader_precisions": obj.get("shader_precisions"),
+            "extensions": obj.get("extensions"),
+            "extension_parameters": obj.get("extension_parameters"),
+            "unsupported_extensions": obj.get("unsupported_extensions")
+        })
         return _obj
+
+

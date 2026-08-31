@@ -19,9 +19,9 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.identification_confidence import IdentificationConfidence
+from typing_extensions import Self
 
 
 class SupplementaryIDHighRecall(BaseModel):
@@ -29,28 +29,12 @@ class SupplementaryIDHighRecall(BaseModel):
     The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.
     """
 
-    visitor_id: StrictStr = Field(
-        description="The High Recall identifier for the visitor's browser. It is an alphanumeric string with a maximum length of 25 characters."
-    )
-    visitor_found: StrictBool = Field(
-        description='True if this is a returning browser and has been previously identified. Otherwise, false.'
-    )
+    visitor_id: StrictStr = Field(description="The High Recall identifier for the visitor's browser. It is an alphanumeric string with a maximum length of 25 characters.")
+    visitor_found: StrictBool = Field(description="True if this is a returning browser and has been previously identified. Otherwise, false.")
     confidence: Optional[IdentificationConfidence] = None
-    first_seen_at: Optional[StrictInt] = Field(
-        default=None,
-        description='Unix epoch timestamp (in milliseconds) indicating when the browser was first identified. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )
-    last_seen_at: Optional[StrictInt] = Field(
-        default=None,
-        description='Unix epoch timestamp (in milliseconds) corresponding to the most recent visit by this browser. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )
-    __properties: ClassVar[list[str]] = [
-        'visitor_id',
-        'visitor_found',
-        'confidence',
-        'first_seen_at',
-        'last_seen_at',
-    ]
+    first_seen_at: Optional[StrictInt] = Field(default=None, description="Unix epoch timestamp (in milliseconds) indicating when the browser was first identified. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ")
+    last_seen_at: Optional[StrictInt] = Field(default=None, description="Unix epoch timestamp (in milliseconds) corresponding to the most recent visit by this browser. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ")
+    __properties: ClassVar[list[str]] = ['visitor_id', 'visitor_found', 'confidence', 'first_seen_at', 'last_seen_at']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +66,8 @@ class SupplementaryIDHighRecall(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -103,15 +88,13 @@ class SupplementaryIDHighRecall(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'visitor_id': obj.get('visitor_id'),
-                'visitor_found': obj.get('visitor_found'),
-                'confidence': IdentificationConfidence.from_dict(obj['confidence'])
-                if obj.get('confidence') is not None
-                else None,
-                'first_seen_at': obj.get('first_seen_at'),
-                'last_seen_at': obj.get('last_seen_at'),
-            }
-        )
+        _obj = cls.model_validate({
+            "visitor_id": obj.get("visitor_id"),
+            "visitor_found": obj.get("visitor_found"),
+            "confidence": IdentificationConfidence.from_dict(obj["confidence"]) if obj.get("confidence") is not None else None,
+            "first_seen_at": obj.get("first_seen_at"),
+            "last_seen_at": obj.get("last_seen_at")
+        })
         return _obj
+
+

@@ -16,9 +16,10 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Self
 
 
@@ -27,9 +28,7 @@ class Emoji(BaseModel):
     Bounding box metrics describing how the emoji glyph renders.
     """
 
-    font: Optional[StrictStr] = Field(
-        default=None, description='Font family reported by the browser when drawing the emoji.'
-    )
+    font: Optional[StrictStr] = Field(default=None, description="Font family reported by the browser when drawing the emoji.")
     width: Optional[Union[StrictFloat, StrictInt]] = None
     height: Optional[Union[StrictFloat, StrictInt]] = None
     top: Optional[Union[StrictFloat, StrictInt]] = None
@@ -38,17 +37,7 @@ class Emoji(BaseModel):
     right: Optional[Union[StrictFloat, StrictInt]] = None
     x: Optional[Union[StrictFloat, StrictInt]] = None
     y: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties: ClassVar[list[str]] = [
-        'font',
-        'width',
-        'height',
-        'top',
-        'bottom',
-        'left',
-        'right',
-        'x',
-        'y',
-    ]
+    __properties: ClassVar[list[str]] = ['font', 'width', 'height', 'top', 'bottom', 'left', 'right', 'x', 'y']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +69,8 @@ class Emoji(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -98,17 +88,17 @@ class Emoji(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'font': obj.get('font'),
-                'width': obj.get('width'),
-                'height': obj.get('height'),
-                'top': obj.get('top'),
-                'bottom': obj.get('bottom'),
-                'left': obj.get('left'),
-                'right': obj.get('right'),
-                'x': obj.get('x'),
-                'y': obj.get('y'),
-            }
-        )
+        _obj = cls.model_validate({
+            "font": obj.get("font"),
+            "width": obj.get("width"),
+            "height": obj.get("height"),
+            "top": obj.get("top"),
+            "bottom": obj.get("bottom"),
+            "left": obj.get("left"),
+            "right": obj.get("right"),
+            "x": obj.get("x"),
+            "y": obj.get("y")
+        })
         return _obj
+
+

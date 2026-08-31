@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -62,7 +63,8 @@ class PluginsInnerMimeTypesInner(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -80,11 +82,11 @@ class PluginsInnerMimeTypesInner(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'type': obj.get('type'),
-                'suffixes': obj.get('suffixes'),
-                'description': obj.get('description'),
-            }
-        )
+        _obj = cls.model_validate({
+            "type": obj.get("type"),
+            "suffixes": obj.get("suffixes"),
+            "description": obj.get("description")
+        })
         return _obj
+
+

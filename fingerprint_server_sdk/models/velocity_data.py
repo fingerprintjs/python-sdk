@@ -19,27 +19,18 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
 class VelocityData(BaseModel):
     """
-    Is absent if the velocity data could not be generated for the visitor Id.
+    Is absent if the velocity data could not be generated for the visitor Id. 
     """
 
-    var_5_minutes: StrictInt = Field(
-        description='Count for the last 5 minutes of velocity data, from the time of the event. ',
-        alias='5_minutes',
-    )
-    var_1_hour: StrictInt = Field(
-        description='Count for the last 1 hour of velocity data, from the time of the event. ',
-        alias='1_hour',
-    )
-    var_24_hours: Optional[StrictInt] = Field(
-        default=None,
-        description='Count for the last 24 hours of velocity data, from the time of the event. ',
-        alias='24_hours',
-    )
+    var_5_minutes: StrictInt = Field(description="Count for the last 5 minutes of velocity data, from the time of the event. ", alias="5_minutes")
+    var_1_hour: StrictInt = Field(description="Count for the last 1 hour of velocity data, from the time of the event. ", alias="1_hour")
+    var_24_hours: Optional[StrictInt] = Field(default=None, description="Count for the last 24 hours of velocity data, from the time of the event. ", alias="24_hours")
     __properties: ClassVar[list[str]] = ['5_minutes', '1_hour', '24_hours']
 
     model_config = ConfigDict(
@@ -72,7 +63,8 @@ class VelocityData(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -90,11 +82,11 @@ class VelocityData(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                '5_minutes': obj.get('5_minutes'),
-                '1_hour': obj.get('1_hour'),
-                '24_hours': obj.get('24_hours'),
-            }
-        )
+        _obj = cls.model_validate({
+            "5_minutes": obj.get("5_minutes"),
+            "1_hour": obj.get("1_hour"),
+            "24_hours": obj.get("24_hours")
+        })
         return _obj
+
+

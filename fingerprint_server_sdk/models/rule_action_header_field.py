@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing_extensions import Self
 
 
@@ -27,8 +28,8 @@ class RuleActionHeaderField(BaseModel):
     RuleActionHeaderField
     """
 
-    name: StrictStr = Field(description='The header field name.')
-    value: StrictStr = Field(description='The value of the header field.')
+    name: StrictStr = Field(description="The header field name.")
+    value: StrictStr = Field(description="The value of the header field.")
     __properties: ClassVar[list[str]] = ['name', 'value']
 
     model_config = ConfigDict(
@@ -61,7 +62,8 @@ class RuleActionHeaderField(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -79,5 +81,10 @@ class RuleActionHeaderField(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({'name': obj.get('name'), 'value': obj.get('value')})
+        _obj = cls.model_validate({
+            "name": obj.get("name"),
+            "value": obj.get("value")
+        })
         return _obj
+
+

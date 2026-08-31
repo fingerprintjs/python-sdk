@@ -16,14 +16,13 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing_extensions import Annotated
+from fingerprint_server_sdk.models.geolocation_subdivisions_inner import GeolocationSubdivisionsInner
 from typing_extensions import Self
-
-from fingerprint_server_sdk.models.geolocation_subdivisions_inner import (
-    GeolocationSubdivisionsInner,
-)
 
 
 class Geolocation(BaseModel):
@@ -31,22 +30,9 @@ class Geolocation(BaseModel):
     Geolocation
     """
 
-    accuracy_radius: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(
-        default=None,
-        description='The IP address is likely to be within this radius (in km) of the specified location.',
-    )
-    latitude: Optional[
-        Union[
-            Annotated[float, Field(le=90, strict=True, ge=-90)],
-            Annotated[int, Field(le=90, strict=True, ge=-90)],
-        ]
-    ] = None
-    longitude: Optional[
-        Union[
-            Annotated[float, Field(le=180, strict=True, ge=-180)],
-            Annotated[int, Field(le=180, strict=True, ge=-180)],
-        ]
-    ] = None
+    accuracy_radius: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, description="The IP address is likely to be within this radius (in km) of the specified location.")
+    latitude: Optional[Union[Annotated[float, Field(le=90, strict=True, ge=-90)], Annotated[int, Field(le=90, strict=True, ge=-90)]]] = None
+    longitude: Optional[Union[Annotated[float, Field(le=180, strict=True, ge=-180)], Annotated[int, Field(le=180, strict=True, ge=-180)]]] = None
     postal_code: Optional[StrictStr] = None
     timezone: Optional[StrictStr] = None
     city_name: Optional[StrictStr] = None
@@ -54,20 +40,8 @@ class Geolocation(BaseModel):
     country_name: Optional[StrictStr] = None
     continent_code: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=2)]] = None
     continent_name: Optional[StrictStr] = None
-    subdivisions: Optional[list[GeolocationSubdivisionsInner]] = None
-    __properties: ClassVar[list[str]] = [
-        'accuracy_radius',
-        'latitude',
-        'longitude',
-        'postal_code',
-        'timezone',
-        'city_name',
-        'country_code',
-        'country_name',
-        'continent_code',
-        'continent_name',
-        'subdivisions',
-    ]
+    subdivisions: Optional[List[GeolocationSubdivisionsInner]] = None
+    __properties: ClassVar[list[str]] = ['accuracy_radius', 'latitude', 'longitude', 'postal_code', 'timezone', 'city_name', 'country_code', 'country_name', 'continent_code', 'continent_name', 'subdivisions']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,7 +73,8 @@ class Geolocation(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -124,23 +99,19 @@ class Geolocation(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'accuracy_radius': obj.get('accuracy_radius'),
-                'latitude': obj.get('latitude'),
-                'longitude': obj.get('longitude'),
-                'postal_code': obj.get('postal_code'),
-                'timezone': obj.get('timezone'),
-                'city_name': obj.get('city_name'),
-                'country_code': obj.get('country_code'),
-                'country_name': obj.get('country_name'),
-                'continent_code': obj.get('continent_code'),
-                'continent_name': obj.get('continent_name'),
-                'subdivisions': [
-                    GeolocationSubdivisionsInner.from_dict(_item) for _item in obj['subdivisions']
-                ]
-                if obj.get('subdivisions') is not None
-                else None,
-            }
-        )
+        _obj = cls.model_validate({
+            "accuracy_radius": obj.get("accuracy_radius"),
+            "latitude": obj.get("latitude"),
+            "longitude": obj.get("longitude"),
+            "postal_code": obj.get("postal_code"),
+            "timezone": obj.get("timezone"),
+            "city_name": obj.get("city_name"),
+            "country_code": obj.get("country_code"),
+            "country_name": obj.get("country_name"),
+            "continent_code": obj.get("continent_code"),
+            "continent_name": obj.get("continent_name"),
+            "subdivisions": [GeolocationSubdivisionsInner.from_dict(_item) for _item in obj["subdivisions"]] if obj.get("subdivisions") is not None else None
+        })
         return _obj
+
+

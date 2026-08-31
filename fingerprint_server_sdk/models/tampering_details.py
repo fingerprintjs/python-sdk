@@ -16,9 +16,11 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing_extensions import Annotated
 from typing_extensions import Self
 
 
@@ -27,19 +29,8 @@ class TamperingDetails(BaseModel):
     TamperingDetails
     """
 
-    anomaly_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description="The output of this model is captured as anomaly_score, a statistical score indicating how rare the visitor's browser signature is compared to the overall population. Values close to 1 signify highly anomalous browsers and we consider anything above the threshold of 0.5 to be actionable (the result field conveniently captures that fact). ",
-    )
-    anti_detect_browser: Optional[StrictBool] = Field(
-        default=None,
-        description='Detects whether the request shows evidence of anti-detect browser usage. This field may be triggered by: * heuristic detection of known anti-detect browser behavior * machine learning detection of anti-detect browser patterns  Examples of anti-detect browsers include tools such as AdsPower, DolphinAnty, OctoBrowser, and GoLogin. ',
-    )
+    anomaly_score: Optional[Union[Annotated[float, Field(le=1, strict=True, ge=0)], Annotated[int, Field(le=1, strict=True, ge=0)]]] = Field(default=None, description="The output of this model is captured as anomaly_score, a statistical score indicating how rare the visitor's browser signature is compared to the overall population. Values close to 1 signify highly anomalous browsers and we consider anything above the threshold of 0.5 to be actionable (the result field conveniently captures that fact). ")
+    anti_detect_browser: Optional[StrictBool] = Field(default=None, description="Detects whether the request shows evidence of anti-detect browser usage. This field may be triggered by: * heuristic detection of known anti-detect browser behavior * machine learning detection of anti-detect browser patterns  Examples of anti-detect browsers include tools such as AdsPower, DolphinAnty, OctoBrowser, and GoLogin. ")
     __properties: ClassVar[list[str]] = ['anomaly_score', 'anti_detect_browser']
 
     model_config = ConfigDict(
@@ -72,7 +63,8 @@ class TamperingDetails(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -90,10 +82,10 @@ class TamperingDetails(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'anomaly_score': obj.get('anomaly_score'),
-                'anti_detect_browser': obj.get('anti_detect_browser'),
-            }
-        )
+        _obj = cls.model_validate({
+            "anomaly_score": obj.get("anomaly_score"),
+            "anti_detect_browser": obj.get("anti_detect_browser")
+        })
         return _obj
+
+

@@ -16,27 +16,21 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing_extensions import Annotated
 from typing_extensions import Self
 
 
 class IdentificationConfidence(BaseModel):
     """
-    The confidence score represents the probability of a false-positive identification. To learn more, visit [Confidence Score](https://docs.fingerprint.com/docs/identification-accuracy-and-confidence#confidence-score). Please note that the confidence score is not yet supported for [High Recall ID](https://docs.fingerprint.com/docs/supplementary-identifiers-highrecall).
+    The confidence score represents the probability of a false-positive identification. To learn more, visit [Confidence Score](https://docs.fingerprint.com/docs/identification-accuracy-and-confidence#confidence-score). Please note that the confidence score is not yet supported for [High Recall ID](https://docs.fingerprint.com/docs/supplementary-identifiers-highrecall). 
     """
 
-    score: Union[
-        Annotated[float, Field(le=1, strict=True, ge=0)],
-        Annotated[int, Field(le=1, strict=True, ge=0)],
-    ] = Field(
-        description='A floating-point number between 0 and 1 that represents the probability of a false-positive identification. For High Recall ID, this value is 0. '
-    )
-    version: Optional[StrictStr] = Field(
-        default=None,
-        description='The version name of the method used to calculate the confidence score. For High Recall ID, this value is "Not Supported". ',
-    )
+    score: Union[Annotated[float, Field(le=1, strict=True, ge=0)], Annotated[int, Field(le=1, strict=True, ge=0)]] = Field(description="A floating-point number between 0 and 1 that represents the probability of a false-positive identification. For High Recall ID, this value is 0. ")
+    version: Optional[StrictStr] = Field(default=None, description="The version name of the method used to calculate the confidence score. For High Recall ID, this value is \"Not Supported\". ")
     comment: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = ['score', 'version', 'comment']
 
@@ -70,7 +64,8 @@ class IdentificationConfidence(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -88,11 +83,11 @@ class IdentificationConfidence(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'score': obj.get('score'),
-                'version': obj.get('version'),
-                'comment': obj.get('comment'),
-            }
-        )
+        _obj = cls.model_validate({
+            "score": obj.get("score"),
+            "version": obj.get("version"),
+            "comment": obj.get("comment")
+        })
         return _obj
+
+

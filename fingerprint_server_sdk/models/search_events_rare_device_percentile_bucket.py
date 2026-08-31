@@ -12,16 +12,14 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 from enum import Enum
-
 from typing_extensions import Self
 
 
 class SearchEventsRareDevicePercentileBucket(str, Enum):
     """
-    Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before.  > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/).
+    Filter events by Device Rarity percentile bucket. `<p95` - device configuration is in the bottom 95% (most common). `p95-p99` - device is in the 95th to 99th percentile. `p99-p99.5` - device is in the 99th to 99.5th percentile. `p99.5-p99.9` - device is in the 99.5th to 99.9th percentile. `p99.9+` - device is in the top 0.1% (rarest). `not_seen` - device configuration has never been observed before.  > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). 
     """
 
     """
@@ -43,7 +41,7 @@ class SearchEventsRareDevicePercentileBucket(str, Enum):
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
         if not isinstance(value, str):
-            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+            raise ValueError(f"{value!r} is not a valid {cls.__name__}")
         obj = str.__new__(cls, value)
         obj._name_ = str(value)
         obj._value_ = value

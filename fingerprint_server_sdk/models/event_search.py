@@ -19,9 +19,9 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.event import Event
+from typing_extensions import Self
 
 
 class EventSearch(BaseModel):
@@ -29,15 +29,9 @@ class EventSearch(BaseModel):
     Contains a list of all identification events matching the specified search criteria.
     """
 
-    events: list[Event]
-    pagination_key: Optional[StrictStr] = Field(
-        default=None,
-        description='Use this value in the `pagination_key` parameter to request the next page of search results.',
-    )
-    total_hits: Optional[StrictInt] = Field(
-        default=None,
-        description='This value represents the total number of events matching the search query, up to the limit provided in the `total_hits` query parameter. Only present if the `total_hits` query parameter was provided.',
-    )
+    events: List[Event]
+    pagination_key: Optional[StrictStr] = Field(default=None, description="Use this value in the `pagination_key` parameter to request the next page of search results.")
+    total_hits: Optional[StrictInt] = Field(default=None, description="This value represents the total number of events matching the search query, up to the limit provided in the `total_hits` query parameter. Only present if the `total_hits` query parameter was provided.")
     __properties: ClassVar[list[str]] = ['events', 'pagination_key', 'total_hits']
 
     model_config = ConfigDict(
@@ -70,7 +64,8 @@ class EventSearch(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -95,13 +90,11 @@ class EventSearch(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'events': [Event.from_dict(_item) for _item in obj['events']]
-                if obj.get('events') is not None
-                else None,
-                'pagination_key': obj.get('pagination_key'),
-                'total_hits': obj.get('total_hits'),
-            }
-        )
+        _obj = cls.model_validate({
+            "events": [Event.from_dict(_item) for _item in obj["events"]] if obj.get("events") is not None else None,
+            "pagination_key": obj.get("pagination_key"),
+            "total_hits": obj.get("total_hits")
+        })
         return _obj
+
+

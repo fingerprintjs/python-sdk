@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -28,12 +29,8 @@ class Canvas(BaseModel):
     """
 
     winding: Optional[StrictBool] = None
-    geometry: Optional[StrictStr] = Field(
-        default=None, description='Hash of geometry rendering output or `unsupported` markers.'
-    )
-    text: Optional[StrictStr] = Field(
-        default=None, description='Hash of text rendering output or `unsupported` markers.'
-    )
+    geometry: Optional[StrictStr] = Field(default=None, description="Hash of geometry rendering output or `unsupported` markers.")
+    text: Optional[StrictStr] = Field(default=None, description="Hash of text rendering output or `unsupported` markers.")
     __properties: ClassVar[list[str]] = ['winding', 'geometry', 'text']
 
     model_config = ConfigDict(
@@ -66,7 +63,8 @@ class Canvas(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -84,11 +82,11 @@ class Canvas(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'winding': obj.get('winding'),
-                'geometry': obj.get('geometry'),
-                'text': obj.get('text'),
-            }
-        )
+        _obj = cls.model_validate({
+            "winding": obj.get("winding"),
+            "geometry": obj.get("geometry"),
+            "text": obj.get("text")
+        })
         return _obj
+
+

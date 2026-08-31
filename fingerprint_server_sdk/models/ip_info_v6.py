@@ -19,9 +19,9 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.geolocation import Geolocation
+from typing_extensions import Self
 
 
 class IPInfoV6(BaseModel):
@@ -35,20 +35,9 @@ class IPInfoV6(BaseModel):
     asn_name: Optional[StrictStr] = None
     asn_network: Optional[StrictStr] = None
     asn_type: Optional[StrictStr] = None
-    datacenter_result: Optional[StrictBool] = Field(
-        default=None, description='When true, the request originated from a datacenter.'
-    )
+    datacenter_result: Optional[StrictBool] = Field(default=None, description="When true, the request originated from a datacenter.")
     datacenter_name: Optional[StrictStr] = None
-    __properties: ClassVar[list[str]] = [
-        'address',
-        'geolocation',
-        'asn',
-        'asn_name',
-        'asn_network',
-        'asn_type',
-        'datacenter_result',
-        'datacenter_name',
-    ]
+    __properties: ClassVar[list[str]] = ['address', 'geolocation', 'asn', 'asn_name', 'asn_network', 'asn_type', 'datacenter_result', 'datacenter_name']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,7 +69,8 @@ class IPInfoV6(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -101,18 +91,16 @@ class IPInfoV6(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'address': obj.get('address'),
-                'geolocation': Geolocation.from_dict(obj['geolocation'])
-                if obj.get('geolocation') is not None
-                else None,
-                'asn': obj.get('asn'),
-                'asn_name': obj.get('asn_name'),
-                'asn_network': obj.get('asn_network'),
-                'asn_type': obj.get('asn_type'),
-                'datacenter_result': obj.get('datacenter_result'),
-                'datacenter_name': obj.get('datacenter_name'),
-            }
-        )
+        _obj = cls.model_validate({
+            "address": obj.get("address"),
+            "geolocation": Geolocation.from_dict(obj["geolocation"]) if obj.get("geolocation") is not None else None,
+            "asn": obj.get("asn"),
+            "asn_name": obj.get("asn_name"),
+            "asn_network": obj.get("asn_network"),
+            "asn_type": obj.get("asn_type"),
+            "datacenter_result": obj.get("datacenter_result"),
+            "datacenter_name": obj.get("datacenter_name")
+        })
         return _obj
+
+

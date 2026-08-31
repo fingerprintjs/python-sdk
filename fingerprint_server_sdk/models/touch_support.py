@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -62,7 +63,8 @@ class TouchSupport(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -80,11 +82,11 @@ class TouchSupport(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'touch_event': obj.get('touch_event'),
-                'touch_start': obj.get('touch_start'),
-                'max_touch_points': obj.get('max_touch_points'),
-            }
-        )
+        _obj = cls.model_validate({
+            "touch_event": obj.get("touch_event"),
+            "touch_start": obj.get("touch_start"),
+            "max_touch_points": obj.get("max_touch_points")
+        })
         return _obj
+
+

@@ -19,14 +19,14 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.velocity_data import VelocityData
+from typing_extensions import Self
 
 
 class Velocity(BaseModel):
     """
-    Sums key data points for a specific `visitor_id`, `ip_address` and `linked_id` at three distinct time intervals: 5 minutes, 1 hour, and 24 hours as follows:   - Number of distinct IP addresses associated to the visitor Id. - Number of distinct linked Ids associated with the visitor Id. - Number of distinct countries associated with the visitor Id. - Number of identification events associated with the visitor Id. - Number of identification events associated with the detected IP address. - Number of distinct IP addresses associated with the provided linked Id. - Number of distinct visitor Ids associated with the provided linked Id.  The `24_hours` interval of `distinct_ip`, `distinct_linked_id`, `distinct_country`, `distinct_ip_by_linked_id` and `distinct_visitor_id_by_linked_id` will be omitted  if the number of `events` for the visitor Id in the last 24 hours (`events.['24_hours']`) is higher than 20.000.  All will not necessarily be returned in a response, some may be omitted if the  associated event does not have the required data, such as a linked_id.
+    Sums key data points for a specific `visitor_id`, `ip_address` and `linked_id` at three distinct time intervals: 5 minutes, 1 hour, and 24 hours as follows:   - Number of distinct IP addresses associated to the visitor Id. - Number of distinct linked Ids associated with the visitor Id. - Number of distinct countries associated with the visitor Id. - Number of identification events associated with the visitor Id. - Number of identification events associated with the detected IP address. - Number of distinct IP addresses associated with the provided linked Id. - Number of distinct visitor Ids associated with the provided linked Id.  The `24_hours` interval of `distinct_ip`, `distinct_linked_id`, `distinct_country`, `distinct_ip_by_linked_id` and `distinct_visitor_id_by_linked_id` will be omitted  if the number of `events` for the visitor Id in the last 24 hours (`events.['24_hours']`) is higher than 20.000.  All will not necessarily be returned in a response, some may be omitted if the  associated event does not have the required data, such as a linked_id. 
     """
 
     distinct_ip: Optional[VelocityData] = None
@@ -36,15 +36,7 @@ class Velocity(BaseModel):
     ip_events: Optional[VelocityData] = None
     distinct_ip_by_linked_id: Optional[VelocityData] = None
     distinct_visitor_id_by_linked_id: Optional[VelocityData] = None
-    __properties: ClassVar[list[str]] = [
-        'distinct_ip',
-        'distinct_linked_id',
-        'distinct_country',
-        'events',
-        'ip_events',
-        'distinct_ip_by_linked_id',
-        'distinct_visitor_id_by_linked_id',
-    ]
+    __properties: ClassVar[list[str]] = ['distinct_ip', 'distinct_linked_id', 'distinct_country', 'events', 'ip_events', 'distinct_ip_by_linked_id', 'distinct_visitor_id_by_linked_id']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -76,7 +68,8 @@ class Velocity(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -103,9 +96,7 @@ class Velocity(BaseModel):
             _dict['distinct_ip_by_linked_id'] = self.distinct_ip_by_linked_id.to_dict()
         # override the default output from pydantic by calling `to_dict()` of distinct_visitor_id_by_linked_id
         if self.distinct_visitor_id_by_linked_id:
-            _dict['distinct_visitor_id_by_linked_id'] = (
-                self.distinct_visitor_id_by_linked_id.to_dict()
-            )
+            _dict['distinct_visitor_id_by_linked_id'] = self.distinct_visitor_id_by_linked_id.to_dict()
         return _dict
 
     @classmethod
@@ -117,31 +108,15 @@ class Velocity(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'distinct_ip': VelocityData.from_dict(obj['distinct_ip'])
-                if obj.get('distinct_ip') is not None
-                else None,
-                'distinct_linked_id': VelocityData.from_dict(obj['distinct_linked_id'])
-                if obj.get('distinct_linked_id') is not None
-                else None,
-                'distinct_country': VelocityData.from_dict(obj['distinct_country'])
-                if obj.get('distinct_country') is not None
-                else None,
-                'events': VelocityData.from_dict(obj['events'])
-                if obj.get('events') is not None
-                else None,
-                'ip_events': VelocityData.from_dict(obj['ip_events'])
-                if obj.get('ip_events') is not None
-                else None,
-                'distinct_ip_by_linked_id': VelocityData.from_dict(obj['distinct_ip_by_linked_id'])
-                if obj.get('distinct_ip_by_linked_id') is not None
-                else None,
-                'distinct_visitor_id_by_linked_id': VelocityData.from_dict(
-                    obj['distinct_visitor_id_by_linked_id']
-                )
-                if obj.get('distinct_visitor_id_by_linked_id') is not None
-                else None,
-            }
-        )
+        _obj = cls.model_validate({
+            "distinct_ip": VelocityData.from_dict(obj["distinct_ip"]) if obj.get("distinct_ip") is not None else None,
+            "distinct_linked_id": VelocityData.from_dict(obj["distinct_linked_id"]) if obj.get("distinct_linked_id") is not None else None,
+            "distinct_country": VelocityData.from_dict(obj["distinct_country"]) if obj.get("distinct_country") is not None else None,
+            "events": VelocityData.from_dict(obj["events"]) if obj.get("events") is not None else None,
+            "ip_events": VelocityData.from_dict(obj["ip_events"]) if obj.get("ip_events") is not None else None,
+            "distinct_ip_by_linked_id": VelocityData.from_dict(obj["distinct_ip_by_linked_id"]) if obj.get("distinct_ip_by_linked_id") is not None else None,
+            "distinct_visitor_id_by_linked_id": VelocityData.from_dict(obj["distinct_visitor_id_by_linked_id"]) if obj.get("distinct_visitor_id_by_linked_id") is not None else None
+        })
         return _obj
+
+

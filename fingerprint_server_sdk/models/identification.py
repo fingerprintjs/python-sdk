@@ -19,9 +19,9 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.identification_confidence import IdentificationConfidence
+from typing_extensions import Self
 
 
 class Identification(BaseModel):
@@ -29,28 +29,12 @@ class Identification(BaseModel):
     Identification
     """
 
-    visitor_id: StrictStr = Field(
-        description="String of 20 characters that uniquely identifies the visitor's browser or mobile device."
-    )
+    visitor_id: StrictStr = Field(description="String of 20 characters that uniquely identifies the visitor's browser or mobile device.")
     confidence: Optional[IdentificationConfidence] = None
-    visitor_found: StrictBool = Field(
-        description='Attribute represents if a visitor had been identified before.'
-    )
-    first_seen_at: Optional[StrictInt] = Field(
-        default=None,
-        description='Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was first seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )
-    last_seen_at: Optional[StrictInt] = Field(
-        default=None,
-        description='Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was last seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ',
-    )
-    __properties: ClassVar[list[str]] = [
-        'visitor_id',
-        'confidence',
-        'visitor_found',
-        'first_seen_at',
-        'last_seen_at',
-    ]
+    visitor_found: StrictBool = Field(description="Attribute represents if a visitor had been identified before.")
+    first_seen_at: Optional[StrictInt] = Field(default=None, description="Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was first seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ")
+    last_seen_at: Optional[StrictInt] = Field(default=None, description="Unix epoch time milliseconds timestamp indicating the time at which this visitor ID was last seen. example: `1758069706642` - Corresponding to Wed Sep 17 2025 00:41:46 GMT+0000 ")
+    __properties: ClassVar[list[str]] = ['visitor_id', 'confidence', 'visitor_found', 'first_seen_at', 'last_seen_at']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,7 +66,8 @@ class Identification(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -103,15 +88,13 @@ class Identification(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'visitor_id': obj.get('visitor_id'),
-                'confidence': IdentificationConfidence.from_dict(obj['confidence'])
-                if obj.get('confidence') is not None
-                else None,
-                'visitor_found': obj.get('visitor_found'),
-                'first_seen_at': obj.get('first_seen_at'),
-                'last_seen_at': obj.get('last_seen_at'),
-            }
-        )
+        _obj = cls.model_validate({
+            "visitor_id": obj.get("visitor_id"),
+            "confidence": IdentificationConfidence.from_dict(obj["confidence"]) if obj.get("confidence") is not None else None,
+            "visitor_found": obj.get("visitor_found"),
+            "first_seen_at": obj.get("first_seen_at"),
+            "last_seen_at": obj.get("last_seen_at")
+        })
         return _obj
+
+

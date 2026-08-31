@@ -299,6 +299,7 @@ All URIs are relative to *https://api.fpjs.io/v4*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FingerprintApi* | [**analyze_request_for_automation_intelligence**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#analyze_request_for_automation_intelligence) | **POST** /edge | Collect Automation Intelligence.
 *FingerprintApi* | [**delete_visitor_data**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#delete_visitor_data) | **DELETE** /visitors/{visitor_id} | Delete a visitor ID
 *FingerprintApi* | [**get_event**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#get_event) | **GET** /events/{event_id} | Get an event by event ID
 *FingerprintApi* | [**search_events**](https://github.com/fingerprintjs/python-sdk/blob/main/docs/FingerprintApi.md#search_events) | **GET** /events | Search events
@@ -314,11 +315,15 @@ Class | Method | HTTP request | Description
  - [BotResult](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotResult.md)
  - [BrowserDetails](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BrowserDetails.md)
  - [Canvas](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Canvas.md)
+ - [EdgeRequest](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EdgeRequest.md)
+ - [EdgeRequestHeadersInner](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EdgeRequestHeadersInner.md)
  - [Emoji](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Emoji.md)
  - [Error](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Error.md)
  - [ErrorCode](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ErrorCode.md)
  - [ErrorResponse](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ErrorResponse.md)
  - [Event](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Event.md)
+ - [EventDevice](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventDevice.md)
+ - [EventEdge](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventEdge.md)
  - [EventRuleAction](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleAction.md)
  - [EventRuleActionAllow](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleActionAllow.md)
  - [EventRuleActionBlock](https://github.com/fingerprintjs/python-sdk/blob/main/docs/EventRuleActionBlock.md)

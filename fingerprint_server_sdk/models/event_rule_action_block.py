@@ -19,10 +19,10 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHeaderField
 from fingerprint_server_sdk.models.rule_action_type import RuleActionType
+from typing_extensions import Self
 
 
 class EventRuleActionBlock(BaseModel):
@@ -30,31 +30,14 @@ class EventRuleActionBlock(BaseModel):
     Informs the client the request should be blocked using the response described by this rule action.
     """
 
-    ruleset_id: StrictStr = Field(description='The ID of the evaluated ruleset.')
-    rule_id: Optional[StrictStr] = Field(
-        default=None, description='The ID of the rule that matched the identification event.'
-    )
-    rule_expression: Optional[StrictStr] = Field(
-        default=None,
-        description='The expression of the rule that matched the identification event.',
-    )
+    ruleset_id: StrictStr = Field(description="The ID of the evaluated ruleset.")
+    rule_id: Optional[StrictStr] = Field(default=None, description="The ID of the rule that matched the identification event.")
+    rule_expression: Optional[StrictStr] = Field(default=None, description="The expression of the rule that matched the identification event.")
     type: RuleActionType
-    status_code: Optional[StrictInt] = Field(default=None, description='A valid HTTP status code.')
-    headers: Optional[list[RuleActionHeaderField]] = Field(
-        default=None, description='A list of headers to send.'
-    )
-    body: Optional[StrictStr] = Field(
-        default=None, description='The response body to send to the client.'
-    )
-    __properties: ClassVar[list[str]] = [
-        'ruleset_id',
-        'rule_id',
-        'rule_expression',
-        'type',
-        'status_code',
-        'headers',
-        'body',
-    ]
+    status_code: Optional[StrictInt] = Field(default=None, description="A valid HTTP status code.")
+    headers: Optional[List[RuleActionHeaderField]] = Field(default=None, description="A list of headers to send.")
+    body: Optional[StrictStr] = Field(default=None, description="The response body to send to the client.")
+    __properties: ClassVar[list[str]] = ['ruleset_id', 'rule_id', 'rule_expression', 'type', 'status_code', 'headers', 'body']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +69,8 @@ class EventRuleActionBlock(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -111,17 +95,15 @@ class EventRuleActionBlock(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'ruleset_id': obj.get('ruleset_id'),
-                'rule_id': obj.get('rule_id'),
-                'rule_expression': obj.get('rule_expression'),
-                'type': obj.get('type'),
-                'status_code': obj.get('status_code'),
-                'headers': [RuleActionHeaderField.from_dict(_item) for _item in obj['headers']]
-                if obj.get('headers') is not None
-                else None,
-                'body': obj.get('body'),
-            }
-        )
+        _obj = cls.model_validate({
+            "ruleset_id": obj.get("ruleset_id"),
+            "rule_id": obj.get("rule_id"),
+            "rule_expression": obj.get("rule_expression"),
+            "type": obj.get("type"),
+            "status_code": obj.get("status_code"),
+            "headers": [RuleActionHeaderField.from_dict(_item) for _item in obj["headers"]] if obj.get("headers") is not None else None,
+            "body": obj.get("body")
+        })
         return _obj
+
+
