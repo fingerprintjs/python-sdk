@@ -12,16 +12,14 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 from enum import Enum
-
 from typing_extensions import Self
 
 
 class TamperingConfidence(str, Enum):
     """
-    The confidence level indicates how certain Fingerprint is that the current request involves browser tampering. This confidence level is determined by evaluating multiple factors, such as heuristic rules, probabilistic anomaly detection, an anti detect browser ml model, and other relevant methods. It is conveyed as a string with possible values such as high, medium, or low In case of tampering: `true` * **High confidence**: heuristic anti detect browser signals and the ml model are triggered, or all of the methods are triggered. * **Medium confidence**: either the ml model triggers alone, the anomaly score triggers alone with or without the heuristic anti detect browser methods trigger. * **Low confidence**: only the heuristic anti detect methods are triggered.  In case of tampering: `false` * **High confidence:** Strong signals suggest the user is not tampering with their request.
+    The confidence level indicates how certain Fingerprint is that the current request involves browser tampering. This confidence level is determined by evaluating multiple factors, such as heuristic rules, probabilistic anomaly detection, an anti detect browser ml model, and other relevant methods. It is conveyed as a string with possible values such as high, medium, or low In case of tampering: `true` * **High confidence**: heuristic anti detect browser signals and the ml model are triggered, or all of the methods are triggered. * **Medium confidence**: either the ml model triggers alone, the anomaly score triggers alone with or without the heuristic anti detect browser methods trigger. * **Low confidence**: only the heuristic anti detect methods are triggered.  In case of tampering: `false` * **High confidence:** Strong signals suggest the user is not tampering with their request. 
     """
 
     """
@@ -40,7 +38,7 @@ class TamperingConfidence(str, Enum):
     def _missing_(cls, value: object) -> Self:
         """Accept unknown enum values gracefully."""
         if not isinstance(value, str):
-            raise ValueError(f'{value!r} is not a valid {cls.__name__}')
+            raise ValueError(f"{value!r} is not a valid {cls.__name__}")
         obj = str.__new__(cls, value)
         obj._name_ = str(value)
         obj._value_ = value

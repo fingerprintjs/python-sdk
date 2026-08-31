@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing_extensions import Self
 
 
@@ -61,7 +62,8 @@ class GeolocationSubdivisionsInner(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -79,5 +81,10 @@ class GeolocationSubdivisionsInner(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({'iso_code': obj.get('iso_code'), 'name': obj.get('name')})
+        _obj = cls.model_validate({
+            "iso_code": obj.get("iso_code"),
+            "name": obj.get("name")
+        })
         return _obj
+
+

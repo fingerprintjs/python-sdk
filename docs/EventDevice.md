@@ -1,9 +1,5 @@
-# Event
-An identification event (`source: device`) or an Automation Intelligence event (`source: edge`).
-
-Use `source` to tell them apart. Device events include Identification and device-derived Smart Signals. Edge events do not.
-
-Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details.
+# EventDevice
+Contains results from Fingerprint Identification and Smart Signals derived from client-side device telemetry. Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details.
 
 
 ## Properties
@@ -15,7 +11,7 @@ Name | Type | Description | Notes
 **tags** | **Dict[str, object]** | A customer-provided value or an object that was sent with the identification request or updated later. | [optional] 
 **url** | **str** | Page URL from which the request was sent. | [optional] 
 **bot_info** | [**BotInfo**](BotInfo.md) |  | [optional] 
-**ip_info** | [**IPInfo**](IPInfo.md) |  | 
+**ip_info** | [**IPInfo**](IPInfo.md) |  | [optional] 
 **proxy** | **bool** | IP address was used by a public proxy provider or belonged to a known recent residential proxy  | [optional] 
 **proxy_confidence** | [**ProxyConfidence**](ProxyConfidence.md) |  | [optional] 
 **proxy_details** | [**ProxyDetails**](ProxyDetails.md) |  | [optional] 

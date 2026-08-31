@@ -12,7 +12,6 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from typing import Union
-
 from pydantic import AwareDatetime
+SearchEventsStartParameter = Union[AwareDatetime,int]
 
-SearchEventsStartParameter = Union[AwareDatetime, int]

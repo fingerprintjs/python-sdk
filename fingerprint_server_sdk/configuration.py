@@ -25,40 +25,38 @@ from typing_extensions import Self
 from fingerprint_server_sdk import __version__
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
-    'multipleOf',
-    'maximum',
-    'exclusiveMaximum',
-    'minimum',
-    'exclusiveMinimum',
-    'maxLength',
-    'minLength',
-    'pattern',
-    'maxItems',
-    'minItems',
+    'multipleOf', 'maximum', 'exclusiveMaximum',
+    'minimum', 'exclusiveMinimum', 'maxLength',
+    'minLength', 'pattern', 'maxItems', 'minItems'
 }
 
 ServerVariablesT = dict[str, str]
 
 BearerFormatAuthSetting = TypedDict(
-    'BearerFormatAuthSetting',
+    "BearerFormatAuthSetting",
     {
-        'type': Literal['bearer'],
-        'in': Literal['header'],
-        'format': Literal['JWT'],
-        'key': Literal['Authorization'],
-        'value': str,
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
     },
 )
 
 
-class AuthSettings(TypedDict, total=False):
-    bearerAuth: BearerFormatAuthSetting
+AuthSettings = TypedDict(
+    "AuthSettings",
+    {
+        "bearerAuth": BearerFormatAuthSetting,
+    },
+    total=False,
+)
 
 
 class Region(Enum):
-    US = 'us'
-    EU = 'eu'
-    AP = 'ap'
+    US = "us"
+    EU = "eu"
+    AP = "ap"
 
 
 class Configuration:
@@ -89,7 +87,8 @@ class Configuration:
         *,
         debug: Optional[bool] = None,
     ) -> None:
-        """Constructor"""
+        """Constructor
+        """
         if host:
             self._base_path = host
         else:
@@ -100,8 +99,8 @@ class Configuration:
         self.logger = {}
         """Logging Settings
         """
-        self.logger['package_logger'] = logging.getLogger('fingerprint_server_sdk')
-        self.logger['urllib3_logger'] = logging.getLogger('urllib3')
+        self.logger["package_logger"] = logging.getLogger("fingerprint_server_sdk")
+        self.logger["urllib3_logger"] = logging.getLogger("urllib3")
         self.logger_format = '%(asctime)s %(levelname)s %(message)s'
         """Log format
         """
@@ -174,21 +173,21 @@ class Configuration:
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = '%Y-%m-%dT%H:%M:%S.%f%z'
+        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
         """datetime format
         """
 
-        self.date_format = '%Y-%m-%d'
+        self.date_format = "%Y-%m-%d"
         """date format
         """
 
         self.default_query_params: list[tuple[str, str]] = (
             default_query_params
             if default_query_params
-            else [('ii', f'fingerprint-pro-server-python-sdk/{__version__}')]
+            else [("ii", f"fingerprint-pro-server-python-sdk/{__version__}")]
         )
 
-    def __deepcopy__(self, memo: dict[int, Any]) -> Self:
+    def __deepcopy__(self, memo:  dict[int, Any]) -> Self:
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
@@ -309,7 +308,7 @@ class Configuration:
             'in': 'header',
             'format': 'JWT',
             'key': 'Authorization',
-            'value': 'Bearer ' + self.api_key,
+            'value': 'Bearer ' + self.api_key
         }
 
         auth['bearerAuth'] = bearerAuth
@@ -320,21 +319,20 @@ class Configuration:
 
         :return: The report for debugging.
         """
-        return (
-            'Python SDK Debug Report:\n'
-            f'OS: {sys.platform}\n'
-            f'Python Version: {sys.version}\n'
-            'Version of the API: 4\n'
-            'SDK Package Version: 9.7.1'
-        )
+        return "Python SDK Debug Report:\n"\
+               "OS: {env}\n"\
+               "Python Version: {pyversion}\n"\
+               "Version of the API: 4\n"\
+               "SDK Package Version: 9.7.1".\
+               format(env=sys.platform, pyversion=sys.version)
 
     @staticmethod
     def get_host(region: Region) -> str:
         return {
-            Region.US: 'https://api.fpjs.io/v4',
-            Region.EU: 'https://eu.api.fpjs.io/v4',
-            Region.AP: 'https://ap.api.fpjs.io/v4',
-        }.get(region, 'https://api.fpjs.io/v4')
+            Region.US: "https://api.fpjs.io/v4",
+            Region.EU: "https://eu.api.fpjs.io/v4",
+            Region.AP: "https://ap.api.fpjs.io/v4",
+        }.get(region, "https://api.fpjs.io/v4")
 
     @property
     def host(self) -> str:

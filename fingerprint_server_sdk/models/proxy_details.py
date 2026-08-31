@@ -18,7 +18,8 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -27,17 +28,9 @@ class ProxyDetails(BaseModel):
     Proxy detection details (present if `proxy` is `true`)
     """
 
-    proxy_type: StrictStr = Field(
-        description='Proxy type:  * `residential` - proxies that route through residential and telecom IP addresses to appear as legitimate traffic  * `data_center` - proxies which route through data centers  * `unknown` - reported when a proxy is detected solely by the ML model and the IP sources did not determine a specific type '
-    )
-    last_seen_at: Optional[StrictInt] = Field(
-        default=None,
-        description='Unix millisecond timestamp with hourly resolution of when this IP was last seen as a proxy ',
-    )
-    provider: Optional[StrictStr] = Field(
-        default=None,
-        description='String representing the last proxy service provider detected when this IP was synced. An IP can be shared by multiple service providers. ',
-    )
+    proxy_type: StrictStr = Field(description="Proxy type:  * `residential` - proxies that route through residential and telecom IP addresses to appear as legitimate traffic  * `data_center` - proxies which route through data centers  * `unknown` - reported when a proxy is detected solely by the ML model and the IP sources did not determine a specific type ")
+    last_seen_at: Optional[StrictInt] = Field(default=None, description="Unix millisecond timestamp with hourly resolution of when this IP was last seen as a proxy ")
+    provider: Optional[StrictStr] = Field(default=None, description="String representing the last proxy service provider detected when this IP was synced. An IP can be shared by multiple service providers. ")
     __properties: ClassVar[list[str]] = ['proxy_type', 'last_seen_at', 'provider']
 
     model_config = ConfigDict(
@@ -70,7 +63,8 @@ class ProxyDetails(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -88,11 +82,11 @@ class ProxyDetails(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'proxy_type': obj.get('proxy_type'),
-                'last_seen_at': obj.get('last_seen_at'),
-                'provider': obj.get('provider'),
-            }
-        )
+        _obj = cls.model_validate({
+            "proxy_type": obj.get("proxy_type"),
+            "last_seen_at": obj.get("last_seen_at"),
+            "provider": obj.get("provider")
+        })
         return _obj
+
+

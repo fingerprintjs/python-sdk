@@ -16,15 +16,16 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Self
 
 
 class FontPreferences(BaseModel):
     """
-    Baseline measurement of canonical fonts rendered on the device. Numeric width metrics, in CSS pixels, for the canonical fonts collected by the agent.
+    Baseline measurement of canonical fonts rendered on the device. Numeric width metrics, in CSS pixels, for the canonical fonts collected by the agent. 
     """
 
     default: Optional[Union[StrictFloat, StrictInt]] = None
@@ -34,15 +35,7 @@ class FontPreferences(BaseModel):
     apple: Optional[Union[StrictFloat, StrictInt]] = None
     min: Optional[Union[StrictFloat, StrictInt]] = None
     system: Optional[Union[StrictFloat, StrictInt]] = None
-    __properties: ClassVar[list[str]] = [
-        'default',
-        'serif',
-        'sans',
-        'mono',
-        'apple',
-        'min',
-        'system',
-    ]
+    __properties: ClassVar[list[str]] = ['default', 'serif', 'sans', 'mono', 'apple', 'min', 'system']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -74,7 +67,8 @@ class FontPreferences(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -92,15 +86,15 @@ class FontPreferences(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'default': obj.get('default'),
-                'serif': obj.get('serif'),
-                'sans': obj.get('sans'),
-                'mono': obj.get('mono'),
-                'apple': obj.get('apple'),
-                'min': obj.get('min'),
-                'system': obj.get('system'),
-            }
-        )
+        _obj = cls.model_validate({
+            "default": obj.get("default"),
+            "serif": obj.get("serif"),
+            "sans": obj.get("sans"),
+            "mono": obj.get("mono"),
+            "apple": obj.get("apple"),
+            "min": obj.get("min"),
+            "system": obj.get("system")
+        })
         return _obj
+
+

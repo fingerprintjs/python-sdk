@@ -16,29 +16,22 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Union
+from typing_extensions import Annotated
 from typing_extensions import Self
 
 
 class Proximity(BaseModel):
     """
-    Proximity ID represents a fixed geographical zone in a discrete global grid within which the device is observed.
+    Proximity ID represents a fixed geographical zone in a discrete global grid within which the device is observed. 
     """
 
-    id: StrictStr = Field(
-        description='A stable privacy-preserving identifier for a given proximity zone. '
-    )
-    precision_radius: StrictInt = Field(
-        description='The radius of the proximity zone’s precision level, in meters. '
-    )
-    confidence: Union[
-        Annotated[float, Field(le=1, strict=True, ge=0)],
-        Annotated[int, Field(le=1, strict=True, ge=0)],
-    ] = Field(
-        description='A value between `0` and `1` representing the likelihood that the true device location lies within the mapped proximity zone.   * Scores closer to `1` indicate high confidence that the location is inside the mapped proximity zone.   * Scores closer to `0` indicate lower confidence, suggesting the true location may fall in an adjacent zone. '
-    )
+    id: StrictStr = Field(description="A stable privacy-preserving identifier for a given proximity zone. ")
+    precision_radius: StrictInt = Field(description="The radius of the proximity zone’s precision level, in meters. ")
+    confidence: Union[Annotated[float, Field(le=1, strict=True, ge=0)], Annotated[int, Field(le=1, strict=True, ge=0)]] = Field(description="A value between `0` and `1` representing the likelihood that the true device location lies within the mapped proximity zone.   * Scores closer to `1` indicate high confidence that the location is inside the mapped proximity zone.   * Scores closer to `0` indicate lower confidence, suggesting the true location may fall in an adjacent zone. ")
     __properties: ClassVar[list[str]] = ['id', 'precision_radius', 'confidence']
 
     model_config = ConfigDict(
@@ -71,7 +64,8 @@ class Proximity(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -89,11 +83,11 @@ class Proximity(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'id': obj.get('id'),
-                'precision_radius': obj.get('precision_radius'),
-                'confidence': obj.get('confidence'),
-            }
-        )
+        _obj = cls.model_validate({
+            "id": obj.get("id"),
+            "precision_radius": obj.get("precision_radius"),
+            "confidence": obj.get("confidence")
+        })
         return _obj
+
+

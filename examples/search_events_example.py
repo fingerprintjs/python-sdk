@@ -30,6 +30,8 @@ try:
 
     print(f'Found {len(response.events)} events')
     for event in response.events:
+        # SPIKE INTER-2457 — RUNTIME BREAK. Search hits are Event oneOf wrappers.
+        # `event.identification` raises AttributeError.
         event_visitor_id = event.identification.visitor_id if event.identification else '-'
         print(f'Event ID: {event.event_id}, Visitor ID: {event_visitor_id}')
 

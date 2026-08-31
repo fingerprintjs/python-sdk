@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -27,16 +28,9 @@ class EventUpdate(BaseModel):
     EventUpdate
     """
 
-    linked_id: Optional[StrictStr] = Field(
-        default=None, description='Linked ID value to assign to the existing event'
-    )
-    tags: Optional[dict[str, Any]] = Field(
-        default=None,
-        description='A customer-provided value or an object that was sent with the identification request or updated later.',
-    )
-    suspect: Optional[StrictBool] = Field(
-        default=None, description='Suspect flag indicating observed suspicious or fraudulent event'
-    )
+    linked_id: Optional[StrictStr] = Field(default=None, description="Linked ID value to assign to the existing event")
+    tags: Optional[Dict[str, Any]] = Field(default=None, description="A customer-provided value or an object that was sent with the identification request or updated later.")
+    suspect: Optional[StrictBool] = Field(default=None, description="Suspect flag indicating observed suspicious or fraudulent event")
     __properties: ClassVar[list[str]] = ['linked_id', 'tags', 'suspect']
 
     model_config = ConfigDict(
@@ -69,7 +63,8 @@ class EventUpdate(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -87,11 +82,11 @@ class EventUpdate(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'linked_id': obj.get('linked_id'),
-                'tags': obj.get('tags'),
-                'suspect': obj.get('suspect'),
-            }
-        )
+        _obj = cls.model_validate({
+            "linked_id": obj.get("linked_id"),
+            "tags": obj.get("tags"),
+            "suspect": obj.get("suspect")
+        })
         return _obj
+
+

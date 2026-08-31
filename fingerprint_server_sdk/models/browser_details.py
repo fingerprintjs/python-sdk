@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing_extensions import Self
 
 
@@ -33,14 +34,7 @@ class BrowserDetails(BaseModel):
     os: StrictStr
     os_version: StrictStr
     device: StrictStr
-    __properties: ClassVar[list[str]] = [
-        'browser_name',
-        'browser_major_version',
-        'browser_full_version',
-        'os',
-        'os_version',
-        'device',
-    ]
+    __properties: ClassVar[list[str]] = ['browser_name', 'browser_major_version', 'browser_full_version', 'os', 'os_version', 'device']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,7 +66,8 @@ class BrowserDetails(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -90,14 +85,14 @@ class BrowserDetails(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'browser_name': obj.get('browser_name'),
-                'browser_major_version': obj.get('browser_major_version'),
-                'browser_full_version': obj.get('browser_full_version'),
-                'os': obj.get('os'),
-                'os_version': obj.get('os_version'),
-                'device': obj.get('device'),
-            }
-        )
+        _obj = cls.model_validate({
+            "browser_name": obj.get("browser_name"),
+            "browser_major_version": obj.get("browser_major_version"),
+            "browser_full_version": obj.get("browser_full_version"),
+            "os": obj.get("os"),
+            "os_version": obj.get("os_version"),
+            "device": obj.get("device")
+        })
         return _obj
+
+

@@ -16,9 +16,11 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing_extensions import Annotated
 from typing_extensions import Self
 
 
@@ -29,12 +31,7 @@ class LabelsInner(BaseModel):
 
     label: StrictStr
     prediction: Optional[StrictBool] = None
-    ml_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = None
+    ml_score: Optional[Union[Annotated[float, Field(le=1, strict=True, ge=0)], Annotated[int, Field(le=1, strict=True, ge=0)]]] = None
     __properties: ClassVar[list[str]] = ['label', 'prediction', 'ml_score']
 
     model_config = ConfigDict(
@@ -67,7 +64,8 @@ class LabelsInner(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -85,11 +83,11 @@ class LabelsInner(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'label': obj.get('label'),
-                'prediction': obj.get('prediction'),
-                'ml_score': obj.get('ml_score'),
-            }
-        )
+        _obj = cls.model_validate({
+            "label": obj.get("label"),
+            "prediction": obj.get("prediction"),
+            "ml_score": obj.get("ml_score")
+        })
         return _obj
+
+

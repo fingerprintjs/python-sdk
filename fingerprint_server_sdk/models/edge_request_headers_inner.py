@@ -18,23 +18,19 @@ import pprint
 import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing_extensions import Self
 
 
-class WebGlBasics(BaseModel):
+class EdgeRequestHeadersInner(BaseModel):
     """
-    Render and vendor strings reported by the WebGL context.
+    EdgeRequestHeadersInner
     """
 
-    version: Optional[StrictStr] = None
-    vendor: Optional[StrictStr] = None
-    vendor_unmasked: Optional[StrictStr] = None
-    renderer: Optional[StrictStr] = None
-    renderer_unmasked: Optional[StrictStr] = None
-    shading_language_version: Optional[StrictStr] = None
-    __properties: ClassVar[list[str]] = ['version', 'vendor', 'vendor_unmasked', 'renderer', 'renderer_unmasked', 'shading_language_version']
+    name: StrictStr = Field(description="Header name as forwarded by your server. Headers must be valid according to RFC 7230 and will be canonicalized according to RFC 9112.")
+    value: StrictStr = Field(description="Value of a single forwarded header entry. Be careful to preserve the original encoding and escaping. For example, do not double escape quotes.")
+    __properties: ClassVar[list[str]] = ['name', 'value']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +49,7 @@ class WebGlBasics(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of WebGlBasics from a JSON string"""
+        """Create an instance of EdgeRequestHeadersInner from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -78,7 +74,7 @@ class WebGlBasics(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of WebGlBasics from a dict"""
+        """Create an instance of EdgeRequestHeadersInner from a dict"""
         if obj is None:
             return None
 
@@ -86,12 +82,8 @@ class WebGlBasics(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "version": obj.get("version"),
-            "vendor": obj.get("vendor"),
-            "vendor_unmasked": obj.get("vendor_unmasked"),
-            "renderer": obj.get("renderer"),
-            "renderer_unmasked": obj.get("renderer_unmasked"),
-            "shading_language_version": obj.get("shading_language_version")
+            "name": obj.get("name"),
+            "value": obj.get("value")
         })
         return _obj
 

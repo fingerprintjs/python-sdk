@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -27,15 +28,9 @@ class IPBlockList(BaseModel):
     IPBlockList
     """
 
-    email_spam: Optional[StrictBool] = Field(
-        default=None, description='IP address was part of a known email spam attack (SMTP).'
-    )
-    attack_source: Optional[StrictBool] = Field(
-        default=None, description='IP address was part of a known network attack (SSH/HTTPS).'
-    )
-    tor_node: Optional[StrictBool] = Field(
-        default=None, description='IP address was part of known TOR network activity.'
-    )
+    email_spam: Optional[StrictBool] = Field(default=None, description="IP address was part of a known email spam attack (SMTP).")
+    attack_source: Optional[StrictBool] = Field(default=None, description="IP address was part of a known network attack (SSH/HTTPS).")
+    tor_node: Optional[StrictBool] = Field(default=None, description="IP address was part of known TOR network activity.")
     __properties: ClassVar[list[str]] = ['email_spam', 'attack_source', 'tor_node']
 
     model_config = ConfigDict(
@@ -68,7 +63,8 @@ class IPBlockList(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -86,11 +82,11 @@ class IPBlockList(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'email_spam': obj.get('email_spam'),
-                'attack_source': obj.get('attack_source'),
-                'tor_node': obj.get('tor_node'),
-            }
-        )
+        _obj = cls.model_validate({
+            "email_spam": obj.get("email_spam"),
+            "attack_source": obj.get("attack_source"),
+            "tor_node": obj.get("tor_node")
+        })
         return _obj
+
+

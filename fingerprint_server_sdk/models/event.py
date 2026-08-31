@@ -12,516 +12,150 @@ Do not edit the class manually.
 """  # noqa: E501
 
 from __future__ import annotations
-
 import json
 import pprint
-import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
-
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from typing import Any, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
+from typing import Any, List, Optional
+from fingerprint_server_sdk.models.event_device import EventDevice
+from fingerprint_server_sdk.models.event_edge import EventEdge
 from typing_extensions import Self
 
-from fingerprint_server_sdk.models.bot_info import BotInfo
-from fingerprint_server_sdk.models.bot_result import BotResult
-from fingerprint_server_sdk.models.browser_details import BrowserDetails
-from fingerprint_server_sdk.models.event_rule_action import EventRuleAction
-from fingerprint_server_sdk.models.event_source import EventSource
-from fingerprint_server_sdk.models.identification import Identification
-from fingerprint_server_sdk.models.incremental_identification_status import (
-    IncrementalIdentificationStatus,
-)
-from fingerprint_server_sdk.models.ip_block_list import IPBlockList
-from fingerprint_server_sdk.models.ip_info import IPInfo
-from fingerprint_server_sdk.models.labels_inner import LabelsInner
-from fingerprint_server_sdk.models.proximity import Proximity
-from fingerprint_server_sdk.models.proxy_confidence import ProxyConfidence
-from fingerprint_server_sdk.models.proxy_details import ProxyDetails
-from fingerprint_server_sdk.models.rare_device_percentile_bucket import RareDevicePercentileBucket
-from fingerprint_server_sdk.models.raw_device_attributes import RawDeviceAttributes
-from fingerprint_server_sdk.models.sdk import SDK
-from fingerprint_server_sdk.models.supplementary_id_high_recall import SupplementaryIDHighRecall
-from fingerprint_server_sdk.models.tampering_confidence import TamperingConfidence
-from fingerprint_server_sdk.models.tampering_details import TamperingDetails
-from fingerprint_server_sdk.models.velocity import Velocity
-from fingerprint_server_sdk.models.vpn_confidence import VpnConfidence
-from fingerprint_server_sdk.models.vpn_methods import VpnMethods
-
+EVENT_ONE_OF_SCHEMAS = ["EventDevice", "EventEdge"]
 
 class Event(BaseModel):
     """
-    Contains results from Fingerprint Identification and all active Smart Signals. Some Smart Signals are only supported for certain device types, these fields will be omitted for events not generated from the supported devices. Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details.
+    An identification event (`source: device`) or an Automation Intelligence event (`source: edge`).  Use `source` to tell them apart. Device events include Identification and device-derived Smart Signals. Edge events do not.  Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details. 
     """
-
-    event_id: StrictStr = Field(
-        description="Unique identifier of the user's request. The first portion of the event_id is a unix epoch milliseconds timestamp. "
-    )
-    timestamp: StrictInt = Field(
-        description='Timestamp of the event with millisecond precision in Unix time.'
-    )
-    source: Optional[EventSource] = None
-    incremental_identification_status: Optional[IncrementalIdentificationStatus] = None
-    linked_id: Optional[StrictStr] = Field(
-        default=None, description='A customer-provided id that was sent with the request.'
-    )
-    environment_id: Optional[StrictStr] = Field(
-        default=None, description='Environment Id of the event.'
-    )
-    suspect: Optional[StrictBool] = Field(
-        default=None,
-        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).',
-    )
-    sdk: Optional[SDK] = None
-    replayed: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if we determined that this payload was replayed, `false` otherwise. ',
-    )
-    identification: Optional[Identification] = None
-    supplementary_id_high_recall: Optional[SupplementaryIDHighRecall] = None
-    tags: Optional[dict[str, Any]] = Field(
-        default=None,
-        description='A customer-provided value or an object that was sent with the identification request or updated later.',
-    )
-    url: Optional[StrictStr] = Field(
-        default=None, description='Page URL from which the request was sent.'
-    )
-    bundle_id: Optional[StrictStr] = Field(
-        default=None,
-        description='Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. ',
-    )
-    package_name: Optional[StrictStr] = Field(
-        default=None,
-        description='Package name of the Android application integrated with the Fingerprint SDK for the event. ',
-    )
-    ip_address: Optional[StrictStr] = Field(
-        default=None, description='IP address of the requesting browser or bot.'
-    )
-    user_agent: Optional[StrictStr] = Field(default=None, description='User Agent of the client.')
-    device: Optional[StrictStr] = Field(
-        default=None,
-        description='Device model or family extracted from the user agent string. On web, this field is also present inside `browser_details`. ',
-    )
-    os: Optional[StrictStr] = Field(
-        default=None,
-        description='Operating system family extracted from the user agent string. On web, this field is also present inside `browser_details`. ',
-    )
-    os_version: Optional[StrictStr] = Field(
-        default=None,
-        description='Operating system version string extracted from the user agent string. On web, this field is also present inside `browser_details`. ',
-    )
-    client_referrer: Optional[StrictStr] = Field(
-        default=None,
-        description='Client Referrer field corresponds to the `document.referrer` field gathered during an identification request. The value is an empty string if the user navigated to the page directly (not through a link, but, for example, by using a bookmark). ',
-    )
-    browser_details: Optional[BrowserDetails] = None
-    proximity: Optional[Proximity] = None
-    active_call: Optional[StrictBool] = Field(
-        default=None,
-        description='Indicates whether the mobile device had an active call (cellular or VoIP) at the time of the request. Available from SDK 2.16.0+ on iOS and Android. ',
-    )
-    bot: Optional[BotResult] = None
-    bot_type: Optional[StrictStr] = Field(
-        default=None, description='Additional classification of the bot type if detected. '
-    )
-    bot_info: Optional[BotInfo] = None
-    cloned_app: Optional[StrictBool] = Field(
-        default=None,
-        description='Android specific cloned application detection. There are 2 values:  * `true` - Presence of app cloners work detected (e.g. fully cloned application found or launch of it inside of a not main working profile detected). * `false` - No signs of cloned application detected or the client is not Android. ',
-    )
-    developer_tools: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise. ',
-    )
-    emulator: Optional[StrictBool] = Field(
-        default=None,
-        description='Android specific emulator detection. There are 2 values:  * `true` - Emulated environment detected (e.g. launch inside of AVD).  * `false` - No signs of emulated environment detected or the client is not Android. ',
-    )
-    factory_reset_timestamp: Optional[StrictInt] = Field(
-        default=None,
-        description='The time of the most recent factory reset that happened on the **mobile device** is expressed as Unix epoch time. When a factory reset cannot be detected on the mobile device or when the request is initiated from a browser,  this field will correspond to the *epoch* time (i.e 1 Jan 1970 UTC) as a value of 0. See [Factory Reset Detection](https://docs.fingerprint.com/docs/smart-signals-reference#factory-reset-detection) to learn more about this Smart Signal. ',
-    )
-    frida: Optional[StrictBool] = Field(
-        default=None,
-        description='[Frida](https://frida.re/docs/) detection for Android and iOS devices. There are 2 values: * `true` - Frida detected * `false` - No signs of Frida or the client is not a mobile device. ',
-    )
-    ip_blocklist: Optional[IPBlockList] = None
-    ip_info: Optional[IPInfo] = None
-    proxy: Optional[StrictBool] = Field(
-        default=None,
-        description='IP address was used by a public proxy provider or belonged to a known recent residential proxy ',
-    )
-    proxy_confidence: Optional[ProxyConfidence] = None
-    proxy_details: Optional[ProxyDetails] = None
-    proxy_ml_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description='Machine learning–based proxy score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `proxy` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
-    )
-    incognito: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if we detected incognito mode used in the browser, `false` otherwise. ',
-    )
-    jailbroken: Optional[StrictBool] = Field(
-        default=None,
-        description='iOS specific jailbreak detection. There are 2 values:  * `true` - Jailbreak detected. * `false` - No signs of jailbreak or the client is not iOS. ',
-    )
-    location_spoofing: Optional[StrictBool] = Field(
-        default=None,
-        description='Flag indicating whether the request came from a mobile device with location spoofing enabled.',
-    )
-    mitm_attack: Optional[StrictBool] = Field(
-        default=None,
-        description="* `true` - When requests made from your users' mobile devices to Fingerprint servers have been intercepted and potentially modified.  * `false` - Otherwise or when the request originated from a browser. See [MitM Attack Detection](https://docs.fingerprint.com/docs/smart-signals-reference#mitm-attack-detection) to learn more about this Smart Signal. ",
-    )
-    privacy_settings: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if the request is from a privacy aware browser (e.g. Tor) or from a browser in which fingerprinting is blocked. Otherwise `false`. ',
-    )
-    root_apps: Optional[StrictBool] = Field(
-        default=None,
-        description="Android specific root management apps detection. There are 2 values:  * `true` - Root Management Apps detected (e.g. Magisk). * `false` - No Root Management Apps detected or the client isn't Android. ",
-    )
-    rule_action: Optional[EventRuleAction] = None
-    simulator: Optional[StrictBool] = Field(
-        default=None,
-        description='iOS specific simulator detection. There are 2 values: * `true` - Simulator environment detected. * `false` - No signs of simulator or the client is not iOS. ',
-    )
-    suspect_score: Optional[StrictInt] = Field(
-        default=None,
-        description='Suspect Score is an easy way to integrate Smart Signals into your fraud protection work flow.  It is a weighted representation of all Smart Signals present in the payload that helps identify suspicious activity. The value range is [0; S] where S is sum of all Smart Signals weights.  See more details here: https://docs.fingerprint.com/docs/suspect-score ',
-    )
-    tampering: Optional[StrictBool] = Field(
-        default=None,
-        description='The field can be used as a standalone flag for tampering detection. Alternatively, the more granular fields documented below can be used for workflows that require more context. * `true` if tampering is detected through an anomalous browser signature, anti-detect browser detection, or other tampering-related methods * `false` if none of the tampering checks return a positive result ',
-    )
-    tampering_confidence: Optional[TamperingConfidence] = None
-    tampering_ml_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description='The output of this model is captured as tampering_ml_score, a number indicating how likely an event is coming from an anti detect browser. Values close to 1 signify higher confidence and we consider anything above the threshold of 0.8 to be actionable (the result and anti_detect_browser fields conveniently captures that fact) ',
-    )
-    tampering_details: Optional[TamperingDetails] = None
-    velocity: Optional[Velocity] = None
-    virtual_machine: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if the request came from a browser running inside a virtual machine (e.g. VMWare), `false` otherwise. ',
-    )
-    virtual_machine_ml_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description='Machine learning–based virtual machine score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
-    )
-    vpn: Optional[StrictBool] = Field(
-        default=None,
-        description='VPN or other anonymizing service has been used when sending the request. ',
-    )
-    vpn_confidence: Optional[VpnConfidence] = None
-    vpn_ml_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(
-        default=None,
-        description='Machine learning–based VPN score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `vpn` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
-    )
-    vpn_origin_timezone: Optional[StrictStr] = Field(
-        default=None, description='Local timezone which is used in timezone_mismatch method. '
-    )
-    vpn_origin_country: Optional[StrictStr] = Field(
-        default=None,
-        description='Country of the request (Android SDK version >= 2.4.0, iOS SDK version >= 2.9.0, JS agent >= 3.12.9 / 4.0.2), ISO 3166 format or unknown. ',
-    )
-    vpn_methods: Optional[VpnMethods] = None
-    high_activity_device: Optional[StrictBool] = Field(
-        default=None,
-        description='Flag indicating if the request came from a high-activity visitor.',
-    )
-    rare_device: Optional[StrictBool] = Field(
-        default=None,
-        description='`true` if the device is considered rare based on its combination of hardware and software attributes.  A device is classified as rare if it falls within the top 99.9 percentile (lowest-frequency segment) of observed traffic,  or if its configuration has not been previously seen (`not_seen`). > This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
-    )
-    rare_device_percentile_bucket: Optional[RareDevicePercentileBucket] = None
-    raw_device_attributes: Optional[RawDeviceAttributes] = None
-    labels: Optional[list[LabelsInner]] = Field(
-        default=None,
-        description='Each label returns a prediction (true or false) for a specific use case (label field) based on a machine learning score. The machine learning score is determined by a model trained on customer data for that use case. This field is in the beta phase and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
-    )
-    __properties: ClassVar[list[str]] = [
-        'event_id',
-        'timestamp',
-        'source',
-        'incremental_identification_status',
-        'linked_id',
-        'environment_id',
-        'suspect',
-        'sdk',
-        'replayed',
-        'identification',
-        'supplementary_id_high_recall',
-        'tags',
-        'url',
-        'bundle_id',
-        'package_name',
-        'ip_address',
-        'user_agent',
-        'device',
-        'os',
-        'os_version',
-        'client_referrer',
-        'browser_details',
-        'proximity',
-        'active_call',
-        'bot',
-        'bot_type',
-        'bot_info',
-        'cloned_app',
-        'developer_tools',
-        'emulator',
-        'factory_reset_timestamp',
-        'frida',
-        'ip_blocklist',
-        'ip_info',
-        'proxy',
-        'proxy_confidence',
-        'proxy_details',
-        'proxy_ml_score',
-        'incognito',
-        'jailbroken',
-        'location_spoofing',
-        'mitm_attack',
-        'privacy_settings',
-        'root_apps',
-        'rule_action',
-        'simulator',
-        'suspect_score',
-        'tampering',
-        'tampering_confidence',
-        'tampering_ml_score',
-        'tampering_details',
-        'velocity',
-        'virtual_machine',
-        'virtual_machine_ml_score',
-        'vpn',
-        'vpn_confidence',
-        'vpn_ml_score',
-        'vpn_origin_timezone',
-        'vpn_origin_country',
-        'vpn_methods',
-        'high_activity_device',
-        'rare_device',
-        'rare_device_percentile_bucket',
-        'raw_device_attributes',
-        'labels',
-    ]
+    # SPIKE INTER-2457 — BREAKING CHANGE. DO NOT SHIP.
+    # Event is no longer a flat model. Fields like `identification` live on
+    # `actual_instance` (EventDevice | EventEdge). Existing callers that do
+    # `event.identification` raise AttributeError at runtime.
+    # data type: EventDevice
+    oneof_schema_1_validator: Optional[EventDevice] = None
+    # data type: EventEdge
+    oneof_schema_2_validator: Optional[EventEdge] = None
+    actual_instance: Optional[Union[EventDevice, EventEdge]] = None
+    one_of_schemas: set[str] = { "EventDevice", "EventEdge" }
 
     model_config = ConfigDict(
-        populate_by_name=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
 
-    def to_str(self) -> str:
-        """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.model_dump(by_alias=True))
+
+    discriminator_value_class_map: dict[str, str] = {
+    }
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
+    @field_validator('actual_instance')
+    def actual_instance_must_validate_oneof(cls, v: Any) -> Any:
+        Event.model_construct()
+        error_messages = []
+        match = 0
+        # validate data type: EventDevice
+        if not isinstance(v, EventDevice):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `EventDevice`")
+        else:
+            match += 1
+        # validate data type: EventEdge
+        if not isinstance(v, EventEdge):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `EventEdge`")
+        else:
+            match += 1
+        if match > 1:
+            # more than 1 match
+            raise ValueError("Multiple matches found when setting `actual_instance` in Event with oneOf schemas: EventDevice, EventEdge. Details: " + ", ".join(error_messages))
+        elif match == 0:
+            # no match
+            raise ValueError("No match found when setting `actual_instance` in Event with oneOf schemas: EventDevice, EventEdge. Details: " + ", ".join(error_messages))
+        else:
+            return v
+
+    @classmethod
+    def from_dict(cls, obj: Union[str, dict[str, Any]]) -> Self:
+        return cls.from_json(json.dumps(obj))
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        instance = cls.model_construct()
+        error_messages = []
+        match = 0
+
+        # SPIKE INTER-2457 — RUNTIME BREAK.
+        # Existing events (and sealed payloads) without `source` raise ValueError here.
+        # Even with `source`, callers must use `event.actual_instance.identification`,
+        # not `event.identification`.
+        # use oneOf discriminator to lookup the data type
+        _data_type = json.loads(json_str).get("source")
+        if not _data_type:
+            raise ValueError("Failed to lookup data type from the field `source` in the input.")
+
+        # check if data type is `EventDevice`
+        if _data_type == "device":
+            instance.actual_instance = EventDevice.from_json(json_str)
+            return instance
+
+        # check if data type is `EventEdge`
+        if _data_type == "edge":
+            instance.actual_instance = EventEdge.from_json(json_str)
+            return instance
+
+        # deserialize data into EventDevice
+        try:
+            instance.actual_instance = EventDevice.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # deserialize data into EventEdge
+        try:
+            instance.actual_instance = EventEdge.from_json(json_str)
+            match += 1
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+
+        if match > 1:
+            # more than 1 match
+            raise ValueError("Multiple matches found when deserializing the JSON string into Event with oneOf schemas: EventDevice, EventEdge. Details: " + ", ".join(error_messages))
+        elif match == 0:
+            # no match
+            raise ValueError("No match found when deserializing the JSON string into Event with oneOf schemas: EventDevice, EventEdge. Details: " + ", ".join(error_messages))
+        else:
+            return instance
 
     def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        """Returns the JSON representation of the actual instance"""
+        if self.actual_instance is None:
+            return "null"
 
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Event from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
+            return self.actual_instance.to_json()
+        else:
+            return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: set[str] = set([])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of sdk
-        if self.sdk:
-            _dict['sdk'] = self.sdk.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of identification
-        if self.identification:
-            _dict['identification'] = self.identification.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of supplementary_id_high_recall
-        if self.supplementary_id_high_recall:
-            _dict['supplementary_id_high_recall'] = self.supplementary_id_high_recall.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of browser_details
-        if self.browser_details:
-            _dict['browser_details'] = self.browser_details.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of proximity
-        if self.proximity:
-            _dict['proximity'] = self.proximity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of bot_info
-        if self.bot_info:
-            _dict['bot_info'] = self.bot_info.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of ip_blocklist
-        if self.ip_blocklist:
-            _dict['ip_blocklist'] = self.ip_blocklist.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of ip_info
-        if self.ip_info:
-            _dict['ip_info'] = self.ip_info.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of proxy_details
-        if self.proxy_details:
-            _dict['proxy_details'] = self.proxy_details.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of rule_action
-        if self.rule_action:
-            _dict['rule_action'] = self.rule_action.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of tampering_details
-        if self.tampering_details:
-            _dict['tampering_details'] = self.tampering_details.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of velocity
-        if self.velocity:
-            _dict['velocity'] = self.velocity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of vpn_methods
-        if self.vpn_methods:
-            _dict['vpn_methods'] = self.vpn_methods.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of raw_device_attributes
-        if self.raw_device_attributes:
-            _dict['raw_device_attributes'] = self.raw_device_attributes.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in labels (list)
-        _items = []
-        if self.labels:
-            for _item_labels in self.labels:
-                if _item_labels:
-                    _items.append(_item_labels.to_dict())
-            _dict['labels'] = _items
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Event from a dict"""
-        if obj is None:
+    def to_dict(self) -> Optional[Union[dict[str, Any], EventDevice, EventEdge]]:
+        """Returns the dict representation of the actual instance"""
+        if self.actual_instance is None:
             return None
 
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
+            return self.actual_instance.to_dict()
+        else:
+            # primitive type
+            return self.actual_instance
 
-        _obj = cls.model_validate(
-            {
-                'event_id': obj.get('event_id'),
-                'timestamp': obj.get('timestamp'),
-                'source': obj.get('source'),
-                'incremental_identification_status': obj.get('incremental_identification_status'),
-                'linked_id': obj.get('linked_id'),
-                'environment_id': obj.get('environment_id'),
-                'suspect': obj.get('suspect'),
-                'sdk': SDK.from_dict(obj['sdk']) if obj.get('sdk') is not None else None,
-                'replayed': obj.get('replayed'),
-                'identification': Identification.from_dict(obj['identification'])
-                if obj.get('identification') is not None
-                else None,
-                'supplementary_id_high_recall': SupplementaryIDHighRecall.from_dict(
-                    obj['supplementary_id_high_recall']
-                )
-                if obj.get('supplementary_id_high_recall') is not None
-                else None,
-                'tags': obj.get('tags'),
-                'url': obj.get('url'),
-                'bundle_id': obj.get('bundle_id'),
-                'package_name': obj.get('package_name'),
-                'ip_address': obj.get('ip_address'),
-                'user_agent': obj.get('user_agent'),
-                'device': obj.get('device'),
-                'os': obj.get('os'),
-                'os_version': obj.get('os_version'),
-                'client_referrer': obj.get('client_referrer'),
-                'browser_details': BrowserDetails.from_dict(obj['browser_details'])
-                if obj.get('browser_details') is not None
-                else None,
-                'proximity': Proximity.from_dict(obj['proximity'])
-                if obj.get('proximity') is not None
-                else None,
-                'active_call': obj.get('active_call'),
-                'bot': obj.get('bot'),
-                'bot_type': obj.get('bot_type'),
-                'bot_info': BotInfo.from_dict(obj['bot_info'])
-                if obj.get('bot_info') is not None
-                else None,
-                'cloned_app': obj.get('cloned_app'),
-                'developer_tools': obj.get('developer_tools'),
-                'emulator': obj.get('emulator'),
-                'factory_reset_timestamp': obj.get('factory_reset_timestamp'),
-                'frida': obj.get('frida'),
-                'ip_blocklist': IPBlockList.from_dict(obj['ip_blocklist'])
-                if obj.get('ip_blocklist') is not None
-                else None,
-                'ip_info': IPInfo.from_dict(obj['ip_info'])
-                if obj.get('ip_info') is not None
-                else None,
-                'proxy': obj.get('proxy'),
-                'proxy_confidence': obj.get('proxy_confidence'),
-                'proxy_details': ProxyDetails.from_dict(obj['proxy_details'])
-                if obj.get('proxy_details') is not None
-                else None,
-                'proxy_ml_score': obj.get('proxy_ml_score'),
-                'incognito': obj.get('incognito'),
-                'jailbroken': obj.get('jailbroken'),
-                'location_spoofing': obj.get('location_spoofing'),
-                'mitm_attack': obj.get('mitm_attack'),
-                'privacy_settings': obj.get('privacy_settings'),
-                'root_apps': obj.get('root_apps'),
-                'rule_action': EventRuleAction.from_dict(obj['rule_action'])
-                if obj.get('rule_action') is not None
-                else None,
-                'simulator': obj.get('simulator'),
-                'suspect_score': obj.get('suspect_score'),
-                'tampering': obj.get('tampering'),
-                'tampering_confidence': obj.get('tampering_confidence'),
-                'tampering_ml_score': obj.get('tampering_ml_score'),
-                'tampering_details': TamperingDetails.from_dict(obj['tampering_details'])
-                if obj.get('tampering_details') is not None
-                else None,
-                'velocity': Velocity.from_dict(obj['velocity'])
-                if obj.get('velocity') is not None
-                else None,
-                'virtual_machine': obj.get('virtual_machine'),
-                'virtual_machine_ml_score': obj.get('virtual_machine_ml_score'),
-                'vpn': obj.get('vpn'),
-                'vpn_confidence': obj.get('vpn_confidence'),
-                'vpn_ml_score': obj.get('vpn_ml_score'),
-                'vpn_origin_timezone': obj.get('vpn_origin_timezone'),
-                'vpn_origin_country': obj.get('vpn_origin_country'),
-                'vpn_methods': VpnMethods.from_dict(obj['vpn_methods'])
-                if obj.get('vpn_methods') is not None
-                else None,
-                'high_activity_device': obj.get('high_activity_device'),
-                'rare_device': obj.get('rare_device'),
-                'rare_device_percentile_bucket': obj.get('rare_device_percentile_bucket'),
-                'raw_device_attributes': RawDeviceAttributes.from_dict(
-                    obj['raw_device_attributes']
-                )
-                if obj.get('raw_device_attributes') is not None
-                else None,
-                'labels': [LabelsInner.from_dict(_item) for _item in obj['labels']]
-                if obj.get('labels') is not None
-                else None,
-            }
-        )
-        return _obj
+    def to_str(self) -> str:
+        """Returns the string representation of the actual instance"""
+        return pprint.pformat(self.model_dump())
+
+

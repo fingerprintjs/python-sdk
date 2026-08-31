@@ -19,9 +19,9 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List
 from fingerprint_server_sdk.models.error import Error
+from typing_extensions import Self
 
 
 class ErrorResponse(BaseModel):
@@ -62,7 +62,8 @@ class ErrorResponse(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -83,7 +84,9 @@ class ErrorResponse(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {'error': Error.from_dict(obj['error']) if obj.get('error') is not None else None}
-        )
+        _obj = cls.model_validate({
+            "error": Error.from_dict(obj["error"]) if obj.get("error") is not None else None
+        })
         return _obj
+
+

@@ -19,10 +19,10 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.ip_info_v4 import IPInfoV4
 from fingerprint_server_sdk.models.ip_info_v6 import IPInfoV6
+from typing_extensions import Self
 
 
 class IPInfo(BaseModel):
@@ -64,7 +64,8 @@ class IPInfo(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -88,10 +89,10 @@ class IPInfo(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'v4': IPInfoV4.from_dict(obj['v4']) if obj.get('v4') is not None else None,
-                'v6': IPInfoV6.from_dict(obj['v6']) if obj.get('v6') is not None else None,
-            }
-        )
+        _obj = cls.model_validate({
+            "v4": IPInfoV4.from_dict(obj["v4"]) if obj.get("v4") is not None else None,
+            "v6": IPInfoV6.from_dict(obj["v6"]) if obj.get("v6") is not None else None
+        })
         return _obj
+
+

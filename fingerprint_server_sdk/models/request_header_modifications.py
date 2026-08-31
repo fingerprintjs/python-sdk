@@ -19,9 +19,9 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing_extensions import Self
-
+from typing import Any, ClassVar, Dict, List, Optional
 from fingerprint_server_sdk.models.rule_action_header_field import RuleActionHeaderField
+from typing_extensions import Self
 
 
 class RequestHeaderModifications(BaseModel):
@@ -29,16 +29,9 @@ class RequestHeaderModifications(BaseModel):
     The set of header modifications to apply, in the following order: remove, set, append.
     """
 
-    remove: Optional[list[StrictStr]] = Field(
-        default=None, description='The list of headers to remove.'
-    )
-    set: Optional[list[RuleActionHeaderField]] = Field(
-        default=None,
-        description='The list of headers to set, overwriting any existing headers with the same name.',
-    )
-    append: Optional[list[RuleActionHeaderField]] = Field(
-        default=None, description='The list of headers to append.'
-    )
+    remove: Optional[List[StrictStr]] = Field(default=None, description="The list of headers to remove.")
+    set: Optional[List[RuleActionHeaderField]] = Field(default=None, description="The list of headers to set, overwriting any existing headers with the same name.")
+    append: Optional[List[RuleActionHeaderField]] = Field(default=None, description="The list of headers to append.")
     __properties: ClassVar[list[str]] = ['remove', 'set', 'append']
 
     model_config = ConfigDict(
@@ -71,7 +64,8 @@ class RequestHeaderModifications(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -103,15 +97,11 @@ class RequestHeaderModifications(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate(
-            {
-                'remove': obj.get('remove'),
-                'set': [RuleActionHeaderField.from_dict(_item) for _item in obj['set']]
-                if obj.get('set') is not None
-                else None,
-                'append': [RuleActionHeaderField.from_dict(_item) for _item in obj['append']]
-                if obj.get('append') is not None
-                else None,
-            }
-        )
+        _obj = cls.model_validate({
+            "remove": obj.get("remove"),
+            "set": [RuleActionHeaderField.from_dict(_item) for _item in obj["set"]] if obj.get("set") is not None else None,
+            "append": [RuleActionHeaderField.from_dict(_item) for _item in obj["append"]] if obj.get("append") is not None else None
+        })
         return _obj
+
+

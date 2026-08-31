@@ -19,6 +19,7 @@ import re  # noqa: F401
 from typing import Any, ClassVar, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Self
 
 
@@ -27,12 +28,8 @@ class IntegrationSubintegration(BaseModel):
     IntegrationSubintegration
     """
 
-    name: Optional[StrictStr] = Field(
-        default=None, description='The name of the specific subintegration.'
-    )
-    version: Optional[StrictStr] = Field(
-        default=None, description='The version of the specific subintegration.'
-    )
+    name: Optional[StrictStr] = Field(default=None, description="The name of the specific subintegration.")
+    version: Optional[StrictStr] = Field(default=None, description="The version of the specific subintegration.")
     __properties: ClassVar[list[str]] = ['name', 'version']
 
     model_config = ConfigDict(
@@ -65,7 +62,8 @@ class IntegrationSubintegration(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: set[str] = set([])
+        excluded_fields: set[str] = set([
+        ])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -83,5 +81,10 @@ class IntegrationSubintegration(BaseModel):
         if not isinstance(obj, dict):
             return cls.model_validate(obj)
 
-        _obj = cls.model_validate({'name': obj.get('name'), 'version': obj.get('version')})
+        _obj = cls.model_validate({
+            "name": obj.get("name"),
+            "version": obj.get("version")
+        })
         return _obj
+
+

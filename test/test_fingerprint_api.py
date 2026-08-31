@@ -238,6 +238,8 @@ class TestFingerprintApi(unittest.TestCase):
 
         event_response = self.api.get_event(event_id)
         self.assertIsInstance(event_response, Event)
+        # SPIKE INTER-2457 — RUNTIME BREAK. Event has no `identification`.
+        # This raises AttributeError. Identification is on EventDevice via actual_instance.
         self.assertEqual(event_response.identification.visitor_id, 'Ibk1527CUFmcnjLwIs4A9')
 
     def test_get_event_bad_request(self) -> None:
