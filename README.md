@@ -303,6 +303,7 @@ All URIs are relative to *https://api.fpjs.io/v4*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FingerprintApi* | [**analyze_request_for_automation_intelligence**](docs/FingerprintApi.md#analyze_request_for_automation_intelligence) | **POST** /edge | Collect Automation Intelligence.
 *FingerprintApi* | [**delete_visitor_data**](docs/FingerprintApi.md#delete_visitor_data) | **DELETE** /visitors/{visitor_id} | Delete a visitor ID
 *FingerprintApi* | [**get_event**](docs/FingerprintApi.md#get_event) | **GET** /events/{event_id} | Get an event by event ID
 *FingerprintApi* | [**search_events**](docs/FingerprintApi.md#search_events) | **GET** /events | Search events
@@ -318,11 +319,14 @@ Class | Method | HTTP request | Description
  - [BotResult](docs/BotResult.md)
  - [BrowserDetails](docs/BrowserDetails.md)
  - [Canvas](docs/Canvas.md)
+ - [EdgeRequest](docs/EdgeRequest.md)
+ - [EdgeRequestHeadersInner](docs/EdgeRequestHeadersInner.md)
  - [Emoji](docs/Emoji.md)
  - [Error](docs/Error.md)
  - [ErrorCode](docs/ErrorCode.md)
  - [ErrorResponse](docs/ErrorResponse.md)
  - [Event](docs/Event.md)
+ - [EventEdge](docs/EventEdge.md)
  - [EventRuleAction](docs/EventRuleAction.md)
  - [EventRuleActionAllow](docs/EventRuleActionAllow.md)
  - [EventRuleActionBlock](docs/EventRuleActionBlock.md)

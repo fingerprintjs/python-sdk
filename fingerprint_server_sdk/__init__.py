@@ -50,11 +50,14 @@ __all__ = [
     'BotResult',
     'BrowserDetails',
     'Canvas',
+    'EdgeRequest',
+    'EdgeRequestHeadersInner',
     'Emoji',
     'Error',
     'ErrorCode',
     'ErrorResponse',
     'Event',
+    'EventEdge',
     'EventRuleAction',
     'EventRuleActionAllow',
     'EventRuleActionBlock',
@@ -137,11 +140,14 @@ from fingerprint_server_sdk.models.bot_info_identity import BotInfoIdentity
 from fingerprint_server_sdk.models.bot_result import BotResult
 from fingerprint_server_sdk.models.browser_details import BrowserDetails
 from fingerprint_server_sdk.models.canvas import Canvas
+from fingerprint_server_sdk.models.edge_request import EdgeRequest
+from fingerprint_server_sdk.models.edge_request_headers_inner import EdgeRequestHeadersInner
 from fingerprint_server_sdk.models.emoji import Emoji
 from fingerprint_server_sdk.models.error import Error
 from fingerprint_server_sdk.models.error_code import ErrorCode
 from fingerprint_server_sdk.models.error_response import ErrorResponse
 from fingerprint_server_sdk.models.event import Event
+from fingerprint_server_sdk.models.event_edge import EventEdge
 from fingerprint_server_sdk.models.event_rule_action import EventRuleAction
 from fingerprint_server_sdk.models.event_rule_action_allow import EventRuleActionAllow
 from fingerprint_server_sdk.models.event_rule_action_block import EventRuleActionBlock

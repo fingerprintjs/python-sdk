@@ -22,7 +22,9 @@ from fingerprint_server_sdk.configuration import Configuration
 from fingerprint_server_sdk.models.bot_info_category import BotInfoCategory
 from fingerprint_server_sdk.models.bot_info_confidence import BotInfoConfidence
 from fingerprint_server_sdk.models.bot_info_identity import BotInfoIdentity
+from fingerprint_server_sdk.models.edge_request import EdgeRequest
 from fingerprint_server_sdk.models.event import Event
+from fingerprint_server_sdk.models.event_edge import EventEdge
 from fingerprint_server_sdk.models.event_search import EventSearch
 from fingerprint_server_sdk.models.event_update import EventUpdate
 from fingerprint_server_sdk.models.search_events_bot import SearchEventsBot
@@ -66,12 +68,243 @@ class FingerprintApi:
         self.api_client = ApiClient(configuration)
 
     @validate_call
+    def analyze_request_for_automation_intelligence(
+        self,
+        edge_request: EdgeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            tuple[Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]],
+        ] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
+    ) -> EventEdge:
+        """Collect Automation Intelligence.
+
+        The Automation Intelligence API gives you the tools to determine whether traffic is legitimate and should be accepted by your application.  This feature is currently in a Public Preview testing phase. All feedback is welcome! If you encounter any issues, please [contact our support team](https://fingerprint.com/support/).  The API detects automation tools like AI Agents, AI Assistants, AI Browsers, and other bots. Additionally, it provides IP intelligence like geolocation, residential proxy, VPN and data center detection.  Automation Intelligence is derived from HTTP request metadata that reaches your server. It does not require the use of a JavaScript client-side agent or mobile SDKs to collect device context.  The API is fast, with average response times of less than 30ms, making it a great fit for edge, pre-origin or middleware contexts. The API is platform-agnostic and can be used with different CDN providers, cloud platforms, or any server backend.  Because this API doesn’t require the use of a client-side device collection agent, it doesn’t support device identification via `visitor_id` and a few Smart Signals derived from deep device telemetry.  ### Event Retrieval  Events created by the Automation Intelligence API can be fetched via the [`/v4/events/{event_id}`](https://docs.fingerprint.com/reference/server-api-get-event) API using the `event_id` present in the API response.  Fetch all Automation Intelligence API events via the [`/v4/events?source=edge`](https://docs.fingerprint.com/reference/server-api-search-events#parameter-source) API.
+
+        :param edge_request: (required)
+        :type edge_request: EdgeRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+
+        _param = self._analyze_request_for_automation_intelligence_serialize(
+            edge_request=edge_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+        )
+
+        _response_types_map: dict[str, Optional[str]] = {
+            '200': 'EventEdge',
+            '400': 'ErrorResponse',
+            '403': 'ErrorResponse',
+            '413': 'ErrorResponse',
+            '429': 'ErrorResponse',
+            '500': 'ErrorResponse',
+        }
+
+        response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def analyze_request_for_automation_intelligence_with_http_info(
+        self,
+        edge_request: EdgeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            tuple[Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]],
+        ] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
+    ) -> ApiResponse[EventEdge]:
+        """Collect Automation Intelligence.
+
+        The Automation Intelligence API gives you the tools to determine whether traffic is legitimate and should be accepted by your application.  This feature is currently in a Public Preview testing phase. All feedback is welcome! If you encounter any issues, please [contact our support team](https://fingerprint.com/support/).  The API detects automation tools like AI Agents, AI Assistants, AI Browsers, and other bots. Additionally, it provides IP intelligence like geolocation, residential proxy, VPN and data center detection.  Automation Intelligence is derived from HTTP request metadata that reaches your server. It does not require the use of a JavaScript client-side agent or mobile SDKs to collect device context.  The API is fast, with average response times of less than 30ms, making it a great fit for edge, pre-origin or middleware contexts. The API is platform-agnostic and can be used with different CDN providers, cloud platforms, or any server backend.  Because this API doesn’t require the use of a client-side device collection agent, it doesn’t support device identification via `visitor_id` and a few Smart Signals derived from deep device telemetry.  ### Event Retrieval  Events created by the Automation Intelligence API can be fetched via the [`/v4/events/{event_id}`](https://docs.fingerprint.com/reference/server-api-get-event) API using the `event_id` present in the API response.  Fetch all Automation Intelligence API events via the [`/v4/events?source=edge`](https://docs.fingerprint.com/reference/server-api-search-events#parameter-source) API.
+
+        :param edge_request: (required)
+        :type edge_request: EdgeRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+
+        _param = self._analyze_request_for_automation_intelligence_serialize(
+            edge_request=edge_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+        )
+
+        _response_types_map: dict[str, Optional[str]] = {
+            '200': 'EventEdge',
+            '400': 'ErrorResponse',
+            '403': 'ErrorResponse',
+            '413': 'ErrorResponse',
+            '429': 'ErrorResponse',
+            '500': 'ErrorResponse',
+        }
+
+        response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def analyze_request_for_automation_intelligence_without_preload_content(
+        self,
+        edge_request: EdgeRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            tuple[Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]],
+        ] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
+    ) -> RESTResponseType:
+        """Collect Automation Intelligence.
+
+        The Automation Intelligence API gives you the tools to determine whether traffic is legitimate and should be accepted by your application.  This feature is currently in a Public Preview testing phase. All feedback is welcome! If you encounter any issues, please [contact our support team](https://fingerprint.com/support/).  The API detects automation tools like AI Agents, AI Assistants, AI Browsers, and other bots. Additionally, it provides IP intelligence like geolocation, residential proxy, VPN and data center detection.  Automation Intelligence is derived from HTTP request metadata that reaches your server. It does not require the use of a JavaScript client-side agent or mobile SDKs to collect device context.  The API is fast, with average response times of less than 30ms, making it a great fit for edge, pre-origin or middleware contexts. The API is platform-agnostic and can be used with different CDN providers, cloud platforms, or any server backend.  Because this API doesn’t require the use of a client-side device collection agent, it doesn’t support device identification via `visitor_id` and a few Smart Signals derived from deep device telemetry.  ### Event Retrieval  Events created by the Automation Intelligence API can be fetched via the [`/v4/events/{event_id}`](https://docs.fingerprint.com/reference/server-api-get-event) API using the `event_id` present in the API response.  Fetch all Automation Intelligence API events via the [`/v4/events?source=edge`](https://docs.fingerprint.com/reference/server-api-search-events#parameter-source) API.
+
+        :param edge_request: (required)
+        :type edge_request: EdgeRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :return: Returns the result object.
+        """  # noqa: E501
+
+        _param = self._analyze_request_for_automation_intelligence_serialize(
+            edge_request=edge_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+        )
+
+        _response_types_map: dict[str, Optional[str]] = {
+            '200': 'EventEdge',
+            '400': 'ErrorResponse',
+            '403': 'ErrorResponse',
+            '413': 'ErrorResponse',
+            '429': 'ErrorResponse',
+            '500': 'ErrorResponse',
+        }
+
+        response_data = self.api_client.call_api(*_param, _request_timeout=_request_timeout)
+        return response_data.response
+
+    def _analyze_request_for_automation_intelligence_serialize(
+        self,
+        edge_request: EdgeRequest,
+        _request_auth: Optional[dict[StrictStr, Any]],
+        _content_type: Optional[StrictStr],
+        _headers: Optional[dict[StrictStr, Any]],
+    ) -> RequestSerialized:
+
+        _collection_formats: dict[str, str] = {}
+
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, ParamValue]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, ParamValue]] = []
+        _files: dict[
+            str,
+            Union[str, bytes, list[str], list[bytes], tuple[str, bytes], list[tuple[str, bytes]]],
+        ] = {}
+        _body_params: Optional[Any] = None
+
+        # process the body parameter
+        if edge_request is not None:
+            _body_params = edge_request
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(['application/json'])
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = self.api_client.select_header_content_type(
+                ['application/json']
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: list[str] = ['bearerAuth']
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/edge',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
     def delete_visitor_data(
         self,
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -87,7 +320,7 @@ class FingerprintApi:
 
         Use this API to request the deletion of all data associated with a specific visitor ID.  Upon a request to delete data for a visitor ID, - The data collected from the corresponding browser (or device) will be deleted asynchronously, typically within a few minutes. This data will no longer be available to identify this browser (or device). When the same browser (or device) revisits, it will receive a new visitor ID. - The identification events made from this browser (or device) in the past 10 days are typically deleted within 24 hrs.  - The identification events made from this browser (or device) outside of the 10 days will be purged as per your [data retention period](https://docs.fingerprint.com/docs/regions#data-retention).  The following timeline illustrates which events are deleted and which remain after a DELETE API request: ``` Day 1:  First visit from browser A. (Assigned visitor ID: VID1000) Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000) Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000) Day 14: Delete VID1000 Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999) Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days of deleting VID1000 and will have been deleted) Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10 days of deleting VID1000 and is still available) ```  ### Availability This API is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).  ### Rate limits and daily quota The rate limits and daily quota for this API **differ** from those for our other API.  The maximum number of DELETE requests that can be made in an hour cannot exceed 30 RPH, and the maximum number that can be made in a day cannot exceed 500 RPD.  You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/).
 
-        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -135,7 +368,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -151,7 +384,7 @@ class FingerprintApi:
 
         Use this API to request the deletion of all data associated with a specific visitor ID.  Upon a request to delete data for a visitor ID, - The data collected from the corresponding browser (or device) will be deleted asynchronously, typically within a few minutes. This data will no longer be available to identify this browser (or device). When the same browser (or device) revisits, it will receive a new visitor ID. - The identification events made from this browser (or device) in the past 10 days are typically deleted within 24 hrs.  - The identification events made from this browser (or device) outside of the 10 days will be purged as per your [data retention period](https://docs.fingerprint.com/docs/regions#data-retention).  The following timeline illustrates which events are deleted and which remain after a DELETE API request: ``` Day 1:  First visit from browser A. (Assigned visitor ID: VID1000) Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000) Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000) Day 14: Delete VID1000 Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999) Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days of deleting VID1000 and will have been deleted) Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10 days of deleting VID1000 and is still available) ```  ### Availability This API is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).  ### Rate limits and daily quota The rate limits and daily quota for this API **differ** from those for our other API.  The maximum number of DELETE requests that can be made in an hour cannot exceed 30 RPH, and the maximum number that can be made in a day cannot exceed 500 RPD.  You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/).
 
-        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -199,7 +432,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -215,7 +448,7 @@ class FingerprintApi:
 
         Use this API to request the deletion of all data associated with a specific visitor ID.  Upon a request to delete data for a visitor ID, - The data collected from the corresponding browser (or device) will be deleted asynchronously, typically within a few minutes. This data will no longer be available to identify this browser (or device). When the same browser (or device) revisits, it will receive a new visitor ID. - The identification events made from this browser (or device) in the past 10 days are typically deleted within 24 hrs.  - The identification events made from this browser (or device) outside of the 10 days will be purged as per your [data retention period](https://docs.fingerprint.com/docs/regions#data-retention).  The following timeline illustrates which events are deleted and which remain after a DELETE API request: ``` Day 1:  First visit from browser A. (Assigned visitor ID: VID1000) Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000) Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000) Day 14: Delete VID1000 Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999) Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days of deleting VID1000 and will have been deleted) Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10 days of deleting VID1000 and is still available) ```  ### Availability This API is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).  ### Rate limits and daily quota The rate limits and daily quota for this API **differ** from those for our other API.  The maximum number of DELETE requests that can be made in an hour cannot exceed 30 RPH, and the maximum number that can be made in a day cannot exceed 500 RPD.  You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/).
 
-        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -304,7 +537,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -324,9 +557,9 @@ class FingerprintApi:
     ) -> Event:
         """Get an event by event ID
 
-        Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
+        Get a detailed analysis of an individual event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.  Returns `EventDevice` when `source` is `device`, and `EventEdge` when `source` is `edge`.
 
-        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -379,7 +612,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -399,9 +632,9 @@ class FingerprintApi:
     ) -> ApiResponse[Event]:
         """Get an event by event ID
 
-        Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
+        Get a detailed analysis of an individual event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.  Returns `EventDevice` when `source` is `device`, and `EventEdge` when `source` is `edge`.
 
-        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -454,7 +687,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -474,9 +707,9 @@ class FingerprintApi:
     ) -> RESTResponseType:
         """Get an event by event ID
 
-        Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
+        Get a detailed analysis of an individual event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.  Returns `EventDevice` when `source` is `device`, and `EventEdge` when `source` is `edge`.
 
-        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -587,7 +820,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
             ),
         ] = None,
         high_recall_id: Annotated[
@@ -653,7 +886,7 @@ class FingerprintApi:
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -870,16 +1103,16 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
-        source: Annotated[
-            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
-            Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
-            ),
-        ] = None,
         active_call: Annotated[
             Optional[StrictBool],
             Field(
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -899,7 +1132,7 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
         :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
         :type high_recall_id: str
@@ -921,7 +1154,7 @@ class FingerprintApi:
         :type ip_address: str
         :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -995,10 +1228,10 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
-        :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1068,8 +1301,8 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
-            source=source,
             active_call=active_call,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1110,7 +1343,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
             ),
         ] = None,
         high_recall_id: Annotated[
@@ -1176,7 +1409,7 @@ class FingerprintApi:
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -1393,16 +1626,16 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
-        source: Annotated[
-            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
-            Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
-            ),
-        ] = None,
         active_call: Annotated[
             Optional[StrictBool],
             Field(
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -1422,7 +1655,7 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
         :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
         :type high_recall_id: str
@@ -1444,7 +1677,7 @@ class FingerprintApi:
         :type ip_address: str
         :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -1518,10 +1751,10 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
-        :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1591,8 +1824,8 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
-            source=source,
             active_call=active_call,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1633,7 +1866,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
             ),
         ] = None,
         high_recall_id: Annotated[
@@ -1699,7 +1932,7 @@ class FingerprintApi:
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -1916,16 +2149,16 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
-        source: Annotated[
-            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
-            Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
-            ),
-        ] = None,
         active_call: Annotated[
             Optional[StrictBool],
             Field(
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -1945,7 +2178,7 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
         :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
         :type high_recall_id: str
@@ -1967,7 +2200,7 @@ class FingerprintApi:
         :type ip_address: str
         :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -2041,10 +2274,10 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
-        :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2114,8 +2347,8 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
-            source=source,
             active_call=active_call,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2186,8 +2419,8 @@ class FingerprintApi:
         tor_node: Optional[bool],
         incremental_identification_status: Optional[SearchEventsIncrementalIdentificationStatus],
         simulator: Optional[bool],
-        source: Optional[list[SearchEventsSource]],
         active_call: Optional[bool],
+        source: Optional[list[SearchEventsSource]],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -2426,12 +2659,12 @@ class FingerprintApi:
             _query_params.append(('simulator', simulator))
 
         # process the query parameters
-        if source is not None:
-            _query_params.append(('source', source))
-
-        # process the query parameters
         if active_call is not None:
             _query_params.append(('active_call', active_call))
+
+        # process the query parameters
+        if source is not None:
+            _query_params.append(('source', source))
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
@@ -2460,7 +2693,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2477,7 +2710,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
@@ -2528,7 +2761,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2545,7 +2778,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
@@ -2596,7 +2829,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2613,7 +2846,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
