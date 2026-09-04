@@ -49,7 +49,7 @@ from fingerprint_server_sdk.models.vpn_methods import VpnMethods
 
 class Event(BaseModel):
     """
-    Contains results from Fingerprint Identification and all active Smart Signals. Some Smart Signals are only supported for certain device types, these fields will be omitted for events not generated from the supported devices. Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details.
+    An identification event (`source: device`) or an Automation Intelligence event (`source: edge`).  Use `source` to tell them apart. Device events include Identification and device-derived Smart Signals. Edge events do not.  Consult the [Smart Signals reference](https://docs.fingerprint.com/docs/smart-signals-reference) for more details.
     """
 
     event_id: StrictStr = Field(
@@ -58,17 +58,38 @@ class Event(BaseModel):
     timestamp: StrictInt = Field(
         description='Timestamp of the event with millisecond precision in Unix time.'
     )
-    source: Optional[EventSource] = None
-    incremental_identification_status: Optional[IncrementalIdentificationStatus] = None
     linked_id: Optional[StrictStr] = Field(
         default=None, description='A customer-provided id that was sent with the request.'
     )
+    tags: Optional[dict[str, Any]] = Field(
+        default=None,
+        description='A customer-provided value or an object that was sent with the identification request or updated later.',
+    )
+    url: Optional[StrictStr] = Field(
+        default=None, description='Page URL from which the request was sent.'
+    )
+    bot_info: Optional[BotInfo] = None
+    ip_info: Optional[IPInfo] = None
+    proxy: Optional[StrictBool] = Field(
+        default=None,
+        description='IP address was used by a public proxy provider or belonged to a known recent residential proxy ',
+    )
+    proxy_confidence: Optional[ProxyConfidence] = None
+    proxy_details: Optional[ProxyDetails] = None
+    vpn: Optional[StrictBool] = Field(
+        default=None,
+        description='VPN or other anonymizing service has been used when sending the request. ',
+    )
+    vpn_confidence: Optional[VpnConfidence] = None
+    vpn_methods: Optional[VpnMethods] = None
+    source: Optional[EventSource] = None
+    incremental_identification_status: Optional[IncrementalIdentificationStatus] = None
     environment_id: Optional[StrictStr] = Field(
         default=None, description='Environment Id of the event.'
     )
     suspect: Optional[StrictBool] = Field(
         default=None,
-        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).',
+        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-update-event).',
     )
     sdk: Optional[SDK] = None
     replayed: Optional[StrictBool] = Field(
@@ -77,13 +98,6 @@ class Event(BaseModel):
     )
     identification: Optional[Identification] = None
     supplementary_id_high_recall: Optional[SupplementaryIDHighRecall] = None
-    tags: Optional[dict[str, Any]] = Field(
-        default=None,
-        description='A customer-provided value or an object that was sent with the identification request or updated later.',
-    )
-    url: Optional[StrictStr] = Field(
-        default=None, description='Page URL from which the request was sent.'
-    )
     bundle_id: Optional[StrictStr] = Field(
         default=None,
         description='Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. ',
@@ -122,7 +136,6 @@ class Event(BaseModel):
     bot_type: Optional[StrictStr] = Field(
         default=None, description='Additional classification of the bot type if detected. '
     )
-    bot_info: Optional[BotInfo] = None
     cloned_app: Optional[StrictBool] = Field(
         default=None,
         description='Android specific cloned application detection. There are 2 values:  * `true` - Presence of app cloners work detected (e.g. fully cloned application found or launch of it inside of a not main working profile detected). * `false` - No signs of cloned application detected or the client is not Android. ',
@@ -144,13 +157,6 @@ class Event(BaseModel):
         description='[Frida](https://frida.re/docs/) detection for Android and iOS devices. There are 2 values: * `true` - Frida detected * `false` - No signs of Frida or the client is not a mobile device. ',
     )
     ip_blocklist: Optional[IPBlockList] = None
-    ip_info: Optional[IPInfo] = None
-    proxy: Optional[StrictBool] = Field(
-        default=None,
-        description='IP address was used by a public proxy provider or belonged to a known recent residential proxy ',
-    )
-    proxy_confidence: Optional[ProxyConfidence] = None
-    proxy_details: Optional[ProxyDetails] = None
     proxy_ml_score: Optional[
         Union[
             Annotated[float, Field(le=1, strict=True, ge=0)],
@@ -222,11 +228,6 @@ class Event(BaseModel):
         default=None,
         description='Machine learning–based virtual machine score, represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result. This Smart Signal is currently in beta and only available to select customers. If you are interested, please [contact our support team](https://fingerprint.com/support/). ',
     )
-    vpn: Optional[StrictBool] = Field(
-        default=None,
-        description='VPN or other anonymizing service has been used when sending the request. ',
-    )
-    vpn_confidence: Optional[VpnConfidence] = None
     vpn_ml_score: Optional[
         Union[
             Annotated[float, Field(le=1, strict=True, ge=0)],
@@ -243,7 +244,6 @@ class Event(BaseModel):
         default=None,
         description='Country of the request (Android SDK version >= 2.4.0, iOS SDK version >= 2.9.0, JS agent >= 3.12.9 / 4.0.2), ISO 3166 format or unknown. ',
     )
-    vpn_methods: Optional[VpnMethods] = None
     high_activity_device: Optional[StrictBool] = Field(
         default=None,
         description='Flag indicating if the request came from a high-activity visitor.',
@@ -261,17 +261,25 @@ class Event(BaseModel):
     __properties: ClassVar[list[str]] = [
         'event_id',
         'timestamp',
+        'linked_id',
+        'tags',
+        'url',
+        'bot_info',
+        'ip_info',
+        'proxy',
+        'proxy_confidence',
+        'proxy_details',
+        'vpn',
+        'vpn_confidence',
+        'vpn_methods',
         'source',
         'incremental_identification_status',
-        'linked_id',
         'environment_id',
         'suspect',
         'sdk',
         'replayed',
         'identification',
         'supplementary_id_high_recall',
-        'tags',
-        'url',
         'bundle_id',
         'package_name',
         'ip_address',
@@ -285,17 +293,12 @@ class Event(BaseModel):
         'active_call',
         'bot',
         'bot_type',
-        'bot_info',
         'cloned_app',
         'developer_tools',
         'emulator',
         'factory_reset_timestamp',
         'frida',
         'ip_blocklist',
-        'ip_info',
-        'proxy',
-        'proxy_confidence',
-        'proxy_details',
         'proxy_ml_score',
         'incognito',
         'jailbroken',
@@ -313,12 +316,9 @@ class Event(BaseModel):
         'velocity',
         'virtual_machine',
         'virtual_machine_ml_score',
-        'vpn',
-        'vpn_confidence',
         'vpn_ml_score',
         'vpn_origin_timezone',
         'vpn_origin_country',
-        'vpn_methods',
         'high_activity_device',
         'rare_device',
         'rare_device_percentile_bucket',
@@ -363,6 +363,18 @@ class Event(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of bot_info
+        if self.bot_info:
+            _dict['bot_info'] = self.bot_info.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of ip_info
+        if self.ip_info:
+            _dict['ip_info'] = self.ip_info.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of proxy_details
+        if self.proxy_details:
+            _dict['proxy_details'] = self.proxy_details.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of vpn_methods
+        if self.vpn_methods:
+            _dict['vpn_methods'] = self.vpn_methods.to_dict()
         # override the default output from pydantic by calling `to_dict()` of sdk
         if self.sdk:
             _dict['sdk'] = self.sdk.to_dict()
@@ -378,18 +390,9 @@ class Event(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of proximity
         if self.proximity:
             _dict['proximity'] = self.proximity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of bot_info
-        if self.bot_info:
-            _dict['bot_info'] = self.bot_info.to_dict()
         # override the default output from pydantic by calling `to_dict()` of ip_blocklist
         if self.ip_blocklist:
             _dict['ip_blocklist'] = self.ip_blocklist.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of ip_info
-        if self.ip_info:
-            _dict['ip_info'] = self.ip_info.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of proxy_details
-        if self.proxy_details:
-            _dict['proxy_details'] = self.proxy_details.to_dict()
         # override the default output from pydantic by calling `to_dict()` of rule_action
         if self.rule_action:
             _dict['rule_action'] = self.rule_action.to_dict()
@@ -399,9 +402,6 @@ class Event(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of velocity
         if self.velocity:
             _dict['velocity'] = self.velocity.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of vpn_methods
-        if self.vpn_methods:
-            _dict['vpn_methods'] = self.vpn_methods.to_dict()
         # override the default output from pydantic by calling `to_dict()` of raw_device_attributes
         if self.raw_device_attributes:
             _dict['raw_device_attributes'] = self.raw_device_attributes.to_dict()
@@ -427,9 +427,27 @@ class Event(BaseModel):
             {
                 'event_id': obj.get('event_id'),
                 'timestamp': obj.get('timestamp'),
+                'linked_id': obj.get('linked_id'),
+                'tags': obj.get('tags'),
+                'url': obj.get('url'),
+                'bot_info': BotInfo.from_dict(obj['bot_info'])
+                if obj.get('bot_info') is not None
+                else None,
+                'ip_info': IPInfo.from_dict(obj['ip_info'])
+                if obj.get('ip_info') is not None
+                else None,
+                'proxy': obj.get('proxy'),
+                'proxy_confidence': obj.get('proxy_confidence'),
+                'proxy_details': ProxyDetails.from_dict(obj['proxy_details'])
+                if obj.get('proxy_details') is not None
+                else None,
+                'vpn': obj.get('vpn'),
+                'vpn_confidence': obj.get('vpn_confidence'),
+                'vpn_methods': VpnMethods.from_dict(obj['vpn_methods'])
+                if obj.get('vpn_methods') is not None
+                else None,
                 'source': obj.get('source'),
                 'incremental_identification_status': obj.get('incremental_identification_status'),
-                'linked_id': obj.get('linked_id'),
                 'environment_id': obj.get('environment_id'),
                 'suspect': obj.get('suspect'),
                 'sdk': SDK.from_dict(obj['sdk']) if obj.get('sdk') is not None else None,
@@ -442,8 +460,6 @@ class Event(BaseModel):
                 )
                 if obj.get('supplementary_id_high_recall') is not None
                 else None,
-                'tags': obj.get('tags'),
-                'url': obj.get('url'),
                 'bundle_id': obj.get('bundle_id'),
                 'package_name': obj.get('package_name'),
                 'ip_address': obj.get('ip_address'),
@@ -461,9 +477,6 @@ class Event(BaseModel):
                 'active_call': obj.get('active_call'),
                 'bot': obj.get('bot'),
                 'bot_type': obj.get('bot_type'),
-                'bot_info': BotInfo.from_dict(obj['bot_info'])
-                if obj.get('bot_info') is not None
-                else None,
                 'cloned_app': obj.get('cloned_app'),
                 'developer_tools': obj.get('developer_tools'),
                 'emulator': obj.get('emulator'),
@@ -471,14 +484,6 @@ class Event(BaseModel):
                 'frida': obj.get('frida'),
                 'ip_blocklist': IPBlockList.from_dict(obj['ip_blocklist'])
                 if obj.get('ip_blocklist') is not None
-                else None,
-                'ip_info': IPInfo.from_dict(obj['ip_info'])
-                if obj.get('ip_info') is not None
-                else None,
-                'proxy': obj.get('proxy'),
-                'proxy_confidence': obj.get('proxy_confidence'),
-                'proxy_details': ProxyDetails.from_dict(obj['proxy_details'])
-                if obj.get('proxy_details') is not None
                 else None,
                 'proxy_ml_score': obj.get('proxy_ml_score'),
                 'incognito': obj.get('incognito'),
@@ -503,14 +508,9 @@ class Event(BaseModel):
                 else None,
                 'virtual_machine': obj.get('virtual_machine'),
                 'virtual_machine_ml_score': obj.get('virtual_machine_ml_score'),
-                'vpn': obj.get('vpn'),
-                'vpn_confidence': obj.get('vpn_confidence'),
                 'vpn_ml_score': obj.get('vpn_ml_score'),
                 'vpn_origin_timezone': obj.get('vpn_origin_timezone'),
                 'vpn_origin_country': obj.get('vpn_origin_country'),
-                'vpn_methods': VpnMethods.from_dict(obj['vpn_methods'])
-                if obj.get('vpn_methods') is not None
-                else None,
                 'high_activity_device': obj.get('high_activity_device'),
                 'rare_device': obj.get('rare_device'),
                 'rare_device_percentile_bucket': obj.get('rare_device_percentile_bucket'),

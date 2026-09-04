@@ -2,12 +2,22 @@
 set -euo pipefail
 
 defaultBaseUrl="https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi"
-schemaUrl="${1:-$defaultBaseUrl/schemas/fingerprint-server-api-v4.yaml}"
+# Flattened Event (single object, source optional). start/end stay a date|int oneOf.
+flatSchemaUrl="$defaultBaseUrl/schemas/fingerprint-server-api-v4-flat.yaml"
+fallbackSchemaUrl="$defaultBaseUrl/schemas/fingerprint-server-api-v4.yaml"
+schemaUrl="${1:-$flatSchemaUrl}"
 examplesBaseUrl="${2:-$defaultBaseUrl/examples}"
 
 mkdir -p ./res
 
-curl -fSL --retry 3 -o ./res/fingerprint-server-api.yaml "$schemaUrl"
+if ! curl -fSL --retry 3 -o ./res/fingerprint-server-api.yaml "$schemaUrl"; then
+  if [ -z "${1:-}" ]; then
+    echo "Failed to download $schemaUrl, falling back to $fallbackSchemaUrl" >&2
+    curl -fSL --retry 3 -o ./res/fingerprint-server-api.yaml "$fallbackSchemaUrl"
+  else
+    exit 1
+  fi
+fi
 
 examples=(
   'events/search/get_event_search_200.json'
