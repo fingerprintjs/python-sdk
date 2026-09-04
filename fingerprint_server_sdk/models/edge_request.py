@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 from typing import Annotated, Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
 from fingerprint_server_sdk.models.edge_request_headers_inner import EdgeRequestHeadersInner
@@ -66,13 +66,6 @@ class EdgeRequest(BaseModel):
         validate_assignment=True,
         protected_namespaces=(),
     )
-
-    @model_validator(mode='after')
-    def check_at_least_one_ip_address(self) -> Self:
-        """Validates that at least one of `ipv4_address` or `ipv6_address` is set"""
-        if self.ipv4_address is None and self.ipv6_address is None:
-            raise ValueError('At least one of `ipv4_address` or `ipv6_address` must be provided')
-        return self
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
