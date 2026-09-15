@@ -11,6 +11,7 @@ jobs:
     with:
       appId: ${{ vars.APP_ID }}
       runnerAppId: ${{ vars.RUNNER_APP_ID }}
+      unmarkReleaseAsLatest: true
       version-command: bash ./changeset-version.sh
       publish-command: bash ./changeset-publish.sh
       language: python

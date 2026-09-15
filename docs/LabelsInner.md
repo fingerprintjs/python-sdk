@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**label** | **str** |  | [optional] 
+**label** | **str** |  | 
 **prediction** | **bool** |  | [optional] 
 **ml_score** | **float** |  | [optional] 
 

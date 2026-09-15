@@ -3,7 +3,7 @@
 """
     Server API v3 (deprecated)
 
-    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
+    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
 
     OpenAPI spec version: 3
     Contact: support@fingerprint.com
@@ -78,7 +78,7 @@ class VirtualMachine(BaseModel):
     def ml_score(self) -> Optional[float]:
         """Gets the ml_score of this VirtualMachine.  # noqa: E501
 
-        Machine learning-based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result       # noqa: E501
+        Machine learning-based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result   # noqa: E501
 
         :return: The ml_score of this VirtualMachine.  # noqa: E501
         """
@@ -88,7 +88,7 @@ class VirtualMachine(BaseModel):
     def ml_score(self, ml_score: Optional[float]):
         """Sets the ml_score of this VirtualMachine.
 
-        Machine learning-based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result       # noqa: E501
+        Machine learning-based virtual machine score,  represented as a floating-point value between 0 and 1 (inclusive), with up to three decimal places of precision. A higher score means a higher confidence in the positive `virtual_machine` detection result   # noqa: E501
 
         :param ml_score: The ml_score of this VirtualMachine.  # noqa: E501
         """

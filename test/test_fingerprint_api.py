@@ -57,6 +57,8 @@ MOCK_GET_EVENT_403_TOKEN_REQUIRED = '403_token_required.json'  # errors/
 MOCK_GET_EVENT_403_TOKEN_NOT_FOUND = '403_token_not_found.json'  # errors/
 MOCK_GET_EVENT_403_WRONG_REGION = '403_wrong_region.json'  # errors/
 MOCK_GET_EVENT_404 = '404_request_not_found.json'  # errors/
+MOCK_GET_EVENT_429 = '429_too_many_requests.json'  # errors/
+MOCK_GET_EVENT_504 = '504_search_timeout_exceeded.json'  # errors/
 
 MOCK_UPDATE_EVENT_400 = '400_request_body_invalid.json'  # errors/
 MOCK_UPDATE_EVENT_403_TOKEN_REQUIRED = '403_token_required.json'  # errors/
@@ -71,9 +73,13 @@ MOCK_GET_RELATED_VISITORS_403 = '403_feature_not_enabled.json'  # errors/
 MOCK_GET_RELATED_VISITORS_404 = '404_visitor_not_found.json'  # errors/
 MOCK_GET_RELATED_VISITORS_429 = '429_too_many_requests.json'  # errors/
 
+MOCK_GET_VISITORS_504 = '504_search_timeout_exceeded.json'  # errors/
+
 MOCK_SEARCH_EVENTS_200 = 'get_event_search_200.json'
 MOCK_SEARCH_EVENTS_400 = '400_ip_address_invalid.json' # errors/
 MOCK_SEARCH_EVENTS_403 = '403_feature_not_enabled.json' # errors/
+MOCK_SEARCH_EVENTS_429 = '429_too_many_requests.json' # errors/
+MOCK_SEARCH_EVENTS_504 = '504_search_timeout_exceeded.json' # errors/
 
 class MockPoolManager(object):
 
@@ -262,6 +268,19 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertIsInstance(context.exception.structured_error, ErrorPlainResponse)
         self.assertEqual(context.exception.structured_error.retry_after, 1)
 
+    def test_get_visits_error_504(self):
+        """Test checks correct code run result in case of 504 error for get_visits method"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request('GET', TestFingerprintApi.get_visitors_path(visitor_id=MOCK_GET_VISITORS_504),
+                                 fields=[self.integration_info], headers=self.request_headers,
+                                 preload_content=True, timeout=None, status=504)
+        with self.assertRaises(KnownApiException) as context:
+            self.api.get_visits(MOCK_GET_VISITORS_504)
+        self.assertEqual(context.exception.status, 504)
+        self.assertIsInstance(context.exception.structured_error, ErrorResponse)
+        self.assertEqual(context.exception.structured_error.error.code, ErrorCode.FAILED)
+
     def test_get_event_correct_data(self):
         """Test checks correct code run result in default scenario"""
         mock_pool = MockPoolManager(self)
@@ -350,6 +369,45 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertEqual(context.exception.status, 404)
         self.assertIsInstance(context.exception.structured_error, ErrorResponse)
         self.assertEqual(context.exception.structured_error.error.code, ErrorCode.REQUESTNOTFOUND)
+
+    def test_get_event_error_429(self):
+        """Test checks correct code run result in case of 429 error for get_event method"""
+        mock_pool = MockPoolManager(self, request_headers={'Retry-After': '4'})
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request('GET', TestFingerprintApi.get_events_path(request_id=MOCK_GET_EVENT_429),
+                                 fields=[self.integration_info], headers=self.request_headers,
+                                 preload_content=True, timeout=None, status=429)
+        with self.assertRaises(KnownApiException) as context:
+            self.api.get_event(MOCK_GET_EVENT_429)
+        self.assertEqual(context.exception.status, 429)
+        self.assertIsInstance(context.exception.structured_error, ErrorResponse)
+        self.assertEqual(context.exception.structured_error.error.code, ErrorCode.TOOMANYREQUESTS)
+        self.assertEqual(context.exception.structured_error.retry_after, 4)
+
+    def test_get_event_error_429_empty_retry_after(self):
+        """Test checks retry after value in exception in case of 429 error for get_event method"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request('GET', TestFingerprintApi.get_events_path(request_id=MOCK_GET_EVENT_429),
+                                 fields=[self.integration_info], headers=self.request_headers,
+                                 preload_content=True, timeout=None, status=429)
+        with self.assertRaises(KnownApiException) as context:
+            self.api.get_event(MOCK_GET_EVENT_429)
+        self.assertEqual(context.exception.status, 429)
+        self.assertEqual(context.exception.structured_error.retry_after, 1)
+
+    def test_get_event_error_504(self):
+        """Test checks correct code run result in case of 504 error for get_event method"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request('GET', TestFingerprintApi.get_events_path(request_id=MOCK_GET_EVENT_504),
+                                 fields=[self.integration_info], headers=self.request_headers,
+                                 preload_content=True, timeout=None, status=504)
+        with self.assertRaises(KnownApiException) as context:
+            self.api.get_event(MOCK_GET_EVENT_504)
+        self.assertEqual(context.exception.status, 504)
+        self.assertIsInstance(context.exception.structured_error, ErrorResponse)
+        self.assertEqual(context.exception.structured_error.error.code, ErrorCode.FAILED)
 
     def test_get_event_empty_data(self):
         """Test checks correct code running in case of there is no events"""
@@ -840,6 +898,35 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertEqual(context.exception.status, 403)
         self.assertIsInstance(context.exception.structured_error, ErrorResponse)
         self.assertEqual(context.exception.structured_error.error.code, ErrorCode.FEATURENOTENABLED)
+
+    def test_search_events_429(self):
+        """Test that search events returns 429 too many requests"""
+        mock_pool = MockPoolManager(self, request_headers={'Retry-After': '4'})
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request('GET', TestFingerprintApi.get_search_events_path(),
+                                 fields=[self.integration_info, ('limit', 1), ('visitor_id', MOCK_SEARCH_EVENTS_429)],
+                                 headers=self.request_headers, preload_content=True, timeout=None, status=429)
+
+        with self.assertRaises(KnownApiException) as context:
+            self.api.search_events(1, visitor_id=MOCK_SEARCH_EVENTS_429)
+        self.assertEqual(context.exception.status, 429)
+        self.assertIsInstance(context.exception.structured_error, ErrorResponse)
+        self.assertEqual(context.exception.structured_error.error.code, ErrorCode.TOOMANYREQUESTS)
+        self.assertEqual(context.exception.structured_error.retry_after, 4)
+
+    def test_search_events_504(self):
+        """Test that search events returns 504 gateway timeout"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request('GET', TestFingerprintApi.get_search_events_path(),
+                                 fields=[self.integration_info, ('limit', 1), ('visitor_id', MOCK_SEARCH_EVENTS_504)],
+                                 headers=self.request_headers, preload_content=True, timeout=None, status=504)
+
+        with self.assertRaises(KnownApiException) as context:
+            self.api.search_events(1, visitor_id=MOCK_SEARCH_EVENTS_504)
+        self.assertEqual(context.exception.status, 504)
+        self.assertIsInstance(context.exception.structured_error, ErrorResponse)
+        self.assertEqual(context.exception.structured_error.error.code, ErrorCode.FAILED)
 
 if __name__ == '__main__':
     unittest.main()

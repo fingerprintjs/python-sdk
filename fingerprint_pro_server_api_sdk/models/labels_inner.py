@@ -3,7 +3,7 @@
 """
     Server API v3 (deprecated)
 
-    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** and will be fully defunct on **Jan 7th 2027** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
+    > 🚧 Deprecation Notice > > This version of Server API is marked as deprecated starting on **Jan 7th 2026** according to our [API Deprecation Policy](https://dev.fingerprint.com/reference/api-deprecation-policy). If you still use this version, please follow our [migration guide](https://dev.fingerprint.com/reference/migrating-from-server-api-v3-to-v4) to migrate from this deprecated version to the new one.  Fingerprint Server API allows you to search, update, and delete identification events in a server environment. It can be used for data exports, decision-making, and data analysis scenarios. Server API is intended for server-side usage, it's not intended to be used from the client side, whether it's a browser or a mobile device.   # noqa: E501
 
     OpenAPI spec version: 3
     Contact: support@fingerprint.com
@@ -51,15 +51,14 @@ class LabelsInner(BaseModel):
         self._prediction = None
         self._ml_score = None
         self.discriminator = None
-        if label is not None:
-            self.label = label
+        self.label = label
         if prediction is not None:
             self.prediction = prediction
         if ml_score is not None:
             self.ml_score = ml_score
 
     @property
-    def label(self) -> Optional[str]:
+    def label(self) -> str:
         """Gets the label of this LabelsInner.  # noqa: E501
 
 
@@ -68,12 +67,14 @@ class LabelsInner(BaseModel):
         return self._label
 
     @label.setter
-    def label(self, label: Optional[str]):
+    def label(self, label: str):
         """Sets the label of this LabelsInner.
 
 
         :param label: The label of this LabelsInner.  # noqa: E501
         """
+        if label is None:
+            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
 
         self._label = label
 
