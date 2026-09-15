@@ -2,7 +2,6 @@
 Error code:
  * `RequestCannotBeParsed` - the query parameters or JSON payload contains some errors 
           that prevented us from parsing it (wrong type/surpassed limits).
- * `RequestReadTimeout` - the request body could not be read before the connection timed out.
  * `TokenRequired` - `Auth-API-Key` header is missing or empty.
  * `TokenNotFound` - no Fingerprint application found for specified secret key.
  * `SubscriptionNotActive` - Fingerprint application is not active.
@@ -19,5 +18,6 @@ Error code:
           after receiving the request id on the client. In case you need to send
           information right away, we recommend using the JS agent API instead.
  * `Failed` - internal server error.
+ * `RequestReadTimeout` - the request body could not be read before the connection timed out.
 
 
