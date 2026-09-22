@@ -37,6 +37,7 @@ from fingerprint_server_sdk.configuration import Configuration
 from fingerprint_server_sdk.exceptions import (
     ApiException,
     ApiValueError,
+    InvalidPathParameterError,
 )
 
 RequestSerialized = tuple[str, str, dict[str, Any], Optional[Any], Any]
@@ -169,9 +170,10 @@ class ApiClient:
             )
             for k, v in path_params_tuples:
                 # specified safe chars, encode everything
-                resource_path = resource_path.replace(
-                    '{' + k + '}', quote(str(v), safe=config.safe_chars_for_path_param)
-                )
+                encoded = quote(str(v), safe=config.safe_chars_for_path_param)
+                if encoded in ('.', '..'):
+                    raise InvalidPathParameterError(k, str(v))
+                resource_path = resource_path.replace('{' + k + '}', encoded)
 
         # post parameters
         post_params_result: Any = None

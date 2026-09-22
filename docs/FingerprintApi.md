@@ -86,6 +86,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **visitor_id** | **str**| The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. | 
 
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `visitor_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
+
 ### Return type
 
 void (empty response body)
@@ -163,6 +168,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **event_id** | **str**| The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). | 
  **ruleset_id** | **str**| The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.  | [optional] 
+
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `event_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
 
 ### Return type
 
@@ -460,6 +470,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **event_id** | **str**| The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). | 
  **event_update** | [**EventUpdate**](EventUpdate.md)|  | 
+
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `event_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
 
 ### Return type
 
