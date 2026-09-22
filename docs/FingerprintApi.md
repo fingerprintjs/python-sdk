@@ -75,7 +75,7 @@ Name | Type | Description  | Notes
 > [!WARNING]
 > #### Invalid values
 >
-> `visitor_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
+> `visitor_id` must not be `.` or `..`. When you use them, the call raises `InvalidArgumentError` without sending a request.
 
 ### Return type
 
@@ -139,7 +139,7 @@ Name | Type | Description  | Notes
 > [!WARNING]
 > #### Invalid values
 >
-> `request_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
+> `request_id` must not be `.` or `..`. When you use them, the call raises `InvalidArgumentError` without sending a request.
 
 ### Return type
 
@@ -277,7 +277,7 @@ Name | Type | Description  | Notes
 > [!WARNING]
 > #### Invalid values
 >
-> `visitor_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
+> `visitor_id` must not be `.` or `..`. When you use them, the call raises `InvalidArgumentError` without sending a request.
 
 ### Return type
 
@@ -471,7 +471,7 @@ Name | Type | Description  | Notes
 > [!WARNING]
 > #### Invalid values
 >
-> `request_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
+> `request_id` must not be `.` or `..`. When you use them, the call raises `InvalidArgumentError` without sending a request.
 
 ### Return type
 

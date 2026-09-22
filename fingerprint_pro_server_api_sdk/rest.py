@@ -262,12 +262,12 @@ class KnownApiException(ApiException):
         self.structured_error = structured_error
 
 
-class InvalidParameterError(ValueError):
+class InvalidArgumentError(ValueError):
     """Exception when ``.`` or ``..`` used as resource identifier."""
 
-    def __init__(self, parameter: str, value: str):
-        self.parameter = parameter
+    def __init__(self, argument: str, value: str):
+        self.argument = argument
         self.value = value
-        super(InvalidParameterError, self).__init__(
-            "invalid value {0!r} for {1}: not a valid identifier".format(value, parameter)
+        super(InvalidArgumentError, self).__init__(
+            "invalid value {0!r} for {1}: not a valid identifier".format(value, argument)
         )

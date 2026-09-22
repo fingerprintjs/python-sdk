@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from typing import Optional
 
 from fingerprint_pro_server_api_sdk import (Configuration, EventsUpdateRequest,
-                                            InvalidParameterError)
+                                            InvalidArgumentError)
 from fingerprint_pro_server_api_sdk.api.fingerprint_api import FingerprintApi  # noqa: E501
 
 API_KEY = 'private_key'
@@ -20,20 +20,20 @@ EVENT_BODY = b'{"products": {}}'
 VISITS_BODY = b'{"visitorId": "visitor_id", "visits": []}'
 
 PathParamOperation = namedtuple(
-    'PathParamOperation', ['name', 'param', 'prefix', 'call', 'response_body']
+    'PathParamOperation', ['name', 'argument', 'prefix', 'call', 'response_body']
 )
 
 OPERATIONS = (
     PathParamOperation(
         name='get_event',
-        param='request_id',
+        argument='request_id',
         prefix='/events/',
         call=lambda api, request_id: api.get_event(request_id),
         response_body=EVENT_BODY,
     ),
     PathParamOperation(
         name='update_event',
-        param='request_id',
+        argument='request_id',
         prefix='/events/',
         call=lambda api, request_id: api.update_event(
             EventsUpdateRequest(linked_id='linked_id'), request_id
@@ -42,14 +42,14 @@ OPERATIONS = (
     ),
     PathParamOperation(
         name='get_visits',
-        param='visitor_id',
+        argument='visitor_id',
         prefix='/visitors/',
         call=lambda api, visitor_id: api.get_visits(visitor_id),
         response_body=VISITS_BODY,
     ),
     PathParamOperation(
         name='delete_visitor_data',
-        param='visitor_id',
+        argument='visitor_id',
         prefix='/visitors/',
         call=lambda api, visitor_id: api.delete_visitor_data(visitor_id),
         response_body=EMPTY_BODY,
@@ -172,13 +172,13 @@ class TestPathParams(unittest.TestCase):
                 with self.subTest(operation=operation.name, value=value):
                     self.server.reset(operation.response_body)
 
-                    with self.assertRaises(InvalidParameterError) as context:
+                    with self.assertRaises(InvalidArgumentError) as context:
                         operation.call(self.api, value)
 
                     self.assertIsNone(self.server.request_target)
-                    self.assertEqual(operation.param, context.exception.parameter)
+                    self.assertEqual(operation.argument, context.exception.argument)
                     self.assertEqual(value, context.exception.value)
-                    self.assertIn(operation.param, str(context.exception))
+                    self.assertIn(operation.argument, str(context.exception))
 
     def test_empty_value_does_not_address_the_collection(self):
         """An empty ID leaves a trailing slash"""
