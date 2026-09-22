@@ -9,7 +9,7 @@ from typing import Callable, Optional
 from fingerprint_server_sdk import (
     Configuration,
     EventUpdate,
-    InvalidPathParameterError,
+    InvalidParameterError,
 )
 from fingerprint_server_sdk.api.fingerprint_api import FingerprintApi
 
@@ -163,7 +163,7 @@ class TestPathParams(unittest.TestCase):
                 with self.subTest(operation=operation.name, value=value):
                     self.server.reset()
 
-                    with self.assertRaises(InvalidPathParameterError) as context:
+                    with self.assertRaises(InvalidParameterError) as context:
                         operation.call(self.api, value)
 
                     self.assertIsNone(self.server.request_target)

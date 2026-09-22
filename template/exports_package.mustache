@@ -20,7 +20,7 @@ from {{packageName}}.exceptions import ConflictException
 from {{packageName}}.exceptions import UnprocessableEntityException
 from {{packageName}}.exceptions import TooManyRequestsException
 from {{packageName}}.exceptions import GatewayTimeoutException
-from {{packageName}}.exceptions import InvalidPathParameterError
+from {{packageName}}.exceptions import InvalidParameterError
 {{#hasHttpSignatureMethods}}
 from {{packageName}}.signing import HttpSigningConfiguration
 {{/hasHttpSignatureMethods}}
