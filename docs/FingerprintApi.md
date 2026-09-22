@@ -72,6 +72,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **visitor_id** | **str**| The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete. | 
 
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `visitor_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
+
 ### Return type
 
 void (empty response body)
@@ -130,6 +135,11 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request_id** | **str**| The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request. | 
+
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `request_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
 
 ### Return type
 
@@ -263,6 +273,11 @@ Name | Type | Description  | Notes
  **limit** | **int**| Limit scanned results.  `GET /visitors/{visitor_id}` currently returns at most one visit. Use `GET /events/search` for paginated multi-event queries.  | [optional] 
  **pagination_key** | **str**| Deprecated pagination parameter retained for backward compatibility.  `GET /visitors/{visitor_id}` currently returns at most one visit, so pagination is not expected. Use `GET /events/search` for paginated results.  | [optional] 
  **before** | **int**| ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results. `GET /visitors/{visitor_id}` currently returns at most one visit, so pagination is not expected.  | [optional] 
+
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `visitor_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
 
 ### Return type
 
@@ -452,6 +467,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**EventsUpdateRequest**](EventsUpdateRequest.md)|  | 
  **request_id** | **str**| The unique event [identifier](https://dev.fingerprint.com/reference/get-function#requestid). | 
+
+> [!WARNING]
+> #### Invalid path parameter values
+>
+> `request_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
 
 ### Return type
 

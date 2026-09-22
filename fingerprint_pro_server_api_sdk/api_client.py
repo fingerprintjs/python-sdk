@@ -22,7 +22,7 @@ from datetime import date, datetime
 from fingerprint_pro_server_api_sdk.configuration import Configuration
 import fingerprint_pro_server_api_sdk.models
 from fingerprint_pro_server_api_sdk import rest
-from fingerprint_pro_server_api_sdk.rest import ApiException, RESTResponse
+from fingerprint_pro_server_api_sdk.rest import ApiException, InvalidPathParameterError, RESTResponse
 from fingerprint_pro_server_api_sdk.base_model import BaseModel
 
 PRIMITIVE_TYPES = (float, bool, bytes, str, int)
@@ -125,10 +125,10 @@ class ApiClient:
                                                     collection_formats)
             for k, v in path_params:
                 # specified safe chars, encode everything
-                resource_path = resource_path.replace(
-                    '{%s}' % k,
-                    quote(str(v), safe=config.safe_chars_for_path_param)
-                )
+                encoded = quote(str(v), safe=config.safe_chars_for_path_param)
+                if encoded in ('.', '..'):
+                    raise InvalidPathParameterError(k, str(v))
+                resource_path = resource_path.replace('{%s}' % k, encoded)
 
         # query parameters
         if query_params:

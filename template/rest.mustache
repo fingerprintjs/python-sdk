@@ -252,3 +252,15 @@ class KnownApiException(ApiException):
         self.headers = original_exception.headers
         self.body = original_exception.body
         self.structured_error = structured_error
+
+
+class InvalidPathParameterError(ValueError):
+    """Exception when ``.`` or ``..`` used as resource identifier."""
+
+    def __init__(self, parameter: str, value: str):
+        self.parameter = parameter
+        self.value = value
+        super(InvalidPathParameterError, self).__init__(
+            "invalid value {0!r} for path parameter {1}: "
+            "path segment does not identify a resource".format(value, parameter)
+        )
