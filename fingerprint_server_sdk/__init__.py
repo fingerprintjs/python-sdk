@@ -37,7 +37,7 @@ __all__ = [
     'TooManyRequestsException',
     'ServiceException',
     'GatewayTimeoutException',
-    'InvalidParameterError',
+    'InvalidArgumentError',
     'WebhookValidation',
     'DecryptionKey',
     'DecryptionAlgorithm',
@@ -129,7 +129,7 @@ from fingerprint_server_sdk.exceptions import ConflictException
 from fingerprint_server_sdk.exceptions import UnprocessableEntityException
 from fingerprint_server_sdk.exceptions import TooManyRequestsException
 from fingerprint_server_sdk.exceptions import GatewayTimeoutException
-from fingerprint_server_sdk.exceptions import InvalidParameterError
+from fingerprint_server_sdk.exceptions import InvalidArgumentError
 
 # import models into sdk package
 from fingerprint_server_sdk.models.bot_info import BotInfo

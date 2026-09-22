@@ -9,7 +9,7 @@ from typing import Callable, Optional
 from fingerprint_server_sdk import (
     Configuration,
     EventUpdate,
-    InvalidParameterError,
+    InvalidArgumentError,
 )
 from fingerprint_server_sdk.api.fingerprint_api import FingerprintApi
 
@@ -23,7 +23,7 @@ class PathParamOperation:
     """An operation that takes an ID as a URL path parameter."""
 
     name: str
-    param: str
+    argument: str
     prefix: str
     call: Callable[[FingerprintApi, str], object]
 
@@ -31,19 +31,19 @@ class PathParamOperation:
 OPERATIONS = (
     PathParamOperation(
         name='get_event',
-        param='event_id',
+        argument='event_id',
         prefix='/events/',
         call=lambda api, event_id: api.get_event(event_id),
     ),
     PathParamOperation(
         name='update_event',
-        param='event_id',
+        argument='event_id',
         prefix='/events/',
         call=lambda api, event_id: api.update_event(event_id, EventUpdate(suspect=True)),
     ),
     PathParamOperation(
         name='delete_visitor_data',
-        param='visitor_id',
+        argument='visitor_id',
         prefix='/visitors/',
         call=lambda api, visitor_id: api.delete_visitor_data(visitor_id),
     ),
@@ -163,13 +163,13 @@ class TestPathParams(unittest.TestCase):
                 with self.subTest(operation=operation.name, value=value):
                     self.server.reset()
 
-                    with self.assertRaises(InvalidParameterError) as context:
+                    with self.assertRaises(InvalidArgumentError) as context:
                         operation.call(self.api, value)
 
                     self.assertIsNone(self.server.request_target)
-                    self.assertEqual(operation.param, context.exception.parameter)
+                    self.assertEqual(operation.argument, context.exception.argument)
                     self.assertEqual(value, context.exception.value)
-                    self.assertIn(operation.param, str(context.exception))
+                    self.assertIn(operation.argument, str(context.exception))
 
     def test_empty_value_does_not_address_the_collection(self) -> None:
         """An empty ID leaves a trailing slash"""
