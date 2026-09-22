@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from typing import Optional
 
 from fingerprint_pro_server_api_sdk import (Configuration, EventsUpdateRequest,
-                                            InvalidPathParameterError)
+                                            InvalidParameterError)
 from fingerprint_pro_server_api_sdk.api.fingerprint_api import FingerprintApi  # noqa: E501
 
 API_KEY = 'private_key'
@@ -172,7 +172,7 @@ class TestPathParams(unittest.TestCase):
                 with self.subTest(operation=operation.name, value=value):
                     self.server.reset(operation.response_body)
 
-                    with self.assertRaises(InvalidPathParameterError) as context:
+                    with self.assertRaises(InvalidParameterError) as context:
                         operation.call(self.api, value)
 
                     self.assertIsNone(self.server.request_target)

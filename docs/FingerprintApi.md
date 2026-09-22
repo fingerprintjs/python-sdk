@@ -73,9 +73,9 @@ Name | Type | Description  | Notes
  **visitor_id** | **str**| The [visitor ID](https://dev.fingerprint.com/reference/get-function#visitorid) you want to delete. | 
 
 > [!WARNING]
-> #### Invalid path parameter values
+> #### Invalid values
 >
-> `visitor_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
+> `visitor_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
 
 ### Return type
 
@@ -137,9 +137,9 @@ Name | Type | Description  | Notes
  **request_id** | **str**| The unique [identifier](https://dev.fingerprint.com/reference/get-function#requestid) of each identification request. | 
 
 > [!WARNING]
-> #### Invalid path parameter values
+> #### Invalid values
 >
-> `request_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
+> `request_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
 
 ### Return type
 
@@ -275,9 +275,9 @@ Name | Type | Description  | Notes
  **before** | **int**| ⚠️ Deprecated pagination method, please use `paginationKey` instead. Timestamp (in milliseconds since epoch) used to paginate results. `GET /visitors/{visitor_id}` currently returns at most one visit, so pagination is not expected.  | [optional] 
 
 > [!WARNING]
-> #### Invalid path parameter values
+> #### Invalid values
 >
-> `visitor_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
+> `visitor_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
 
 ### Return type
 
@@ -469,9 +469,9 @@ Name | Type | Description  | Notes
  **request_id** | **str**| The unique event [identifier](https://dev.fingerprint.com/reference/get-function#requestid). | 
 
 > [!WARNING]
-> #### Invalid path parameter values
+> #### Invalid values
 >
-> `request_id` must not be `.` or `..`. Those values are relative path segments, so the call raises `InvalidPathParameterError` without sending a request.
+> `request_id` must not be `.` or `..`. When you use them, the call raises `InvalidParameterError` without sending a request.
 
 ### Return type
 
