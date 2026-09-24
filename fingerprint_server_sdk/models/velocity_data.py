@@ -24,7 +24,7 @@ from typing_extensions import Self
 
 class VelocityData(BaseModel):
     """
-    Is absent if the velocity data could not be generated for the visitor Id.
+    Is absent if the velocity data could not be generated for the visitor ID.
     """
 
     var_5_minutes: StrictInt = Field(

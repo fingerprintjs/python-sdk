@@ -71,7 +71,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class FingerprintApi:
 
         Use this API to request the deletion of all data associated with a specific visitor ID.  Upon a request to delete data for a visitor ID, - The data collected from the corresponding browser (or device) will be deleted asynchronously, typically within a few minutes. This data will no longer be available to identify this browser (or device). When the same browser (or device) revisits, it will receive a new visitor ID. - The identification events made from this browser (or device) in the past 10 days are typically deleted within 24 hrs.  - The identification events made from this browser (or device) outside of the 10 days will be purged as per your [data retention period](https://docs.fingerprint.com/docs/regions#data-retention).  The following timeline illustrates which events are deleted and which remain after a DELETE API request: ``` Day 1:  First visit from browser A. (Assigned visitor ID: VID1000) Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000) Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000) Day 14: Delete VID1000 Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999) Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days of deleting VID1000 and will have been deleted) Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10 days of deleting VID1000 and is still available) ```  ### Availability This API is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).  ### Rate limits and daily quota The rate limits and daily quota for this API **differ** from those for our other API.  The maximum number of DELETE requests that can be made in an hour cannot exceed 30 RPH, and the maximum number that can be made in a day cannot exceed 500 RPD.  You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/).
 
-        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -135,7 +135,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -151,7 +151,7 @@ class FingerprintApi:
 
         Use this API to request the deletion of all data associated with a specific visitor ID.  Upon a request to delete data for a visitor ID, - The data collected from the corresponding browser (or device) will be deleted asynchronously, typically within a few minutes. This data will no longer be available to identify this browser (or device). When the same browser (or device) revisits, it will receive a new visitor ID. - The identification events made from this browser (or device) in the past 10 days are typically deleted within 24 hrs.  - The identification events made from this browser (or device) outside of the 10 days will be purged as per your [data retention period](https://docs.fingerprint.com/docs/regions#data-retention).  The following timeline illustrates which events are deleted and which remain after a DELETE API request: ``` Day 1:  First visit from browser A. (Assigned visitor ID: VID1000) Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000) Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000) Day 14: Delete VID1000 Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999) Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days of deleting VID1000 and will have been deleted) Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10 days of deleting VID1000 and is still available) ```  ### Availability This API is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).  ### Rate limits and daily quota The rate limits and daily quota for this API **differ** from those for our other API.  The maximum number of DELETE requests that can be made in an hour cannot exceed 30 RPH, and the maximum number that can be made in a day cannot exceed 500 RPD.  You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/).
 
-        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -199,7 +199,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             StrictStr,
             Field(
-                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete.'
+                description='The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete.'
             ),
         ],
         _request_timeout: Union[
@@ -215,7 +215,7 @@ class FingerprintApi:
 
         Use this API to request the deletion of all data associated with a specific visitor ID.  Upon a request to delete data for a visitor ID, - The data collected from the corresponding browser (or device) will be deleted asynchronously, typically within a few minutes. This data will no longer be available to identify this browser (or device). When the same browser (or device) revisits, it will receive a new visitor ID. - The identification events made from this browser (or device) in the past 10 days are typically deleted within 24 hrs.  - The identification events made from this browser (or device) outside of the 10 days will be purged as per your [data retention period](https://docs.fingerprint.com/docs/regions#data-retention).  The following timeline illustrates which events are deleted and which remain after a DELETE API request: ``` Day 1:  First visit from browser A. (Assigned visitor ID: VID1000) Day 2:  Browser A revisits. (Assigned the same visitor ID: VID1000) Day 13: Browser A revisits. (Assigned the same visitor ID: VID1000) Day 14: Delete VID1000 Day 15: Browser A re-visits. (Assigned a different visitor ID: VID9999) Day 15: GET /events/day-13 (Returns 404. The event is within the 10 days of deleting VID1000 and will have been deleted) Day 16: GET /events/day-2 (Returns 200. The event is outside of the 10 days of deleting VID1000 and is still available) ```  ### Availability This API is available only for Enterprise plans **upon request**. If you are interested, please [contact our support team](https://fingerprint.com/support/).  ### Rate limits and daily quota The rate limits and daily quota for this API **differ** from those for our other API.  The maximum number of DELETE requests that can be made in an hour cannot exceed 30 RPH, and the maximum number that can be made in a day cannot exceed 500 RPD.  You can request an increase to these limits by contacting [our support team](https://fingerprint.com/support/).
 
-        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) you want to delete. (required)
+        :param visitor_id: The [visitor ID](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) you want to delete. (required)
         :type visitor_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -304,7 +304,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -326,7 +326,7 @@ class FingerprintApi:
 
         Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
 
-        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -379,7 +379,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -401,7 +401,7 @@ class FingerprintApi:
 
         Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
 
-        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -454,7 +454,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place).'
+                description='The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place).'
             ),
         ],
         ruleset_id: Annotated[
@@ -476,7 +476,7 @@ class FingerprintApi:
 
         Get a detailed analysis of an individual identification event, including Smart Signals.  Use `event_id` as the URL path parameter. This API method is scoped to a request, i.e. all returned information is by `event_id`.
 
-        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
+        :param event_id: The unique [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id) of each identification request (`requestId` can be used in its place). (required)
         :type event_id: str
         :param ruleset_id: The ID of the ruleset to evaluate against the event, producing the action to take for this event. The resulting action is returned in the `rule_action` attribute of the response.
         :type ruleset_id: str
@@ -587,7 +587,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
             ),
         ] = None,
         high_recall_id: Annotated[
@@ -653,7 +653,7 @@ class FingerprintApi:
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -899,7 +899,7 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
         :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
         :type high_recall_id: str
@@ -921,7 +921,7 @@ class FingerprintApi:
         :type ip_address: str
         :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -1110,7 +1110,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
             ),
         ] = None,
         high_recall_id: Annotated[
@@ -1176,7 +1176,7 @@ class FingerprintApi:
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -1422,7 +1422,7 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
         :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
         :type high_recall_id: str
@@ -1444,7 +1444,7 @@ class FingerprintApi:
         :type ip_address: str
         :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -1633,7 +1633,7 @@ class FingerprintApi:
         visitor_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
+                description='Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property). '
             ),
         ] = None,
         high_recall_id: Annotated[
@@ -1699,7 +1699,7 @@ class FingerprintApi:
         linked_id: Annotated[
             Optional[StrictStr],
             Field(
-                description='Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
+                description='Filter events by your custom identifier.  You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier. '
             ),
         ] = None,
         url: Annotated[
@@ -1945,7 +1945,7 @@ class FingerprintApi:
         :type limit: int
         :param pagination_key: Use `pagination_key` to get the next page of results.  When more results are available (e.g., you requested up to 100 results for your query using `limit`, but there are more than 100 events total matching your request), the `pagination_key` field is added to the response. The pagination key is an arbitrary string that should not be interpreted in any way and should be passed as-is. In the following request, use that value in the `pagination_key` parameter to get the next page of results:  1. First request, returning most recent 100 events: `GET api-base-url/events?limit=100` 2. Use `response.pagination_key` to get the next page of results: `GET api-base-url/events?limit=100&pagination_key=S9rgMMUb4z3X5t5pr_tSgoSZlmyF0O8X7kCV2m981-iY1LmRTjraa1rTk3L-hQExnDWCi0RA-zAIjaVSTNO2AN2eqQWgzT0RjbieMxRfSdkM-HmOhdOgdQvYfPG3vqU1DJKh4Q`
         :type pagination_key: str
-        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
+        :param visitor_id: Unique [visitor identifier](https://docs.fingerprint.com/reference/js-agent-get-function#visitor_id) issued by Fingerprint Identification and all active Smart Signals.  Filter events by matching Visitor ID (`identification.visitor_id` property).
         :type visitor_id: str
         :param high_recall_id: The High Recall ID is a supplementary browser identifier designed for use cases that require wider coverage over precision. Compared to the standard visitor ID, the High Recall ID strives to match incoming browsers more generously (rather than precisely) with existing browsers and thus identifies fewer browsers as new. The High Recall ID is best suited for use cases that are sensitive to browsers being identified as new and where mismatched browsers are not detrimental.  Filter events by matching High Recall ID (`supplementary_id_high_recall.visitor_id` property).
         :type high_recall_id: str
@@ -1967,7 +1967,7 @@ class FingerprintApi:
         :type ip_address: str
         :param asn: Filter events by the ASN associated with the event's IP address. This corresponds to the `ip_info.(v4|v6).asn` property in the response.
         :type asn: str
-        :param linked_id: Filter events by your custom identifier.  You can use [linked Ids](https://docs.fingerprint.com/reference/js-agent-v4-get-function#linkedid) to associate identification requests with your own identifier, for example, session Id, purchase Id, or transaction Id. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
+        :param linked_id: Filter events by your custom identifier.  You can use [linked IDs](https://docs.fingerprint.com/reference/js-agent-get-function#linkedid) to associate identification requests with your own identifier, for example, session ID, purchase ID, or transaction ID. You can then use this `linked_id` parameter to retrieve all events associated with your custom identifier.
         :type linked_id: str
         :param url: Filter events by the URL (`url` property) associated with the event.
         :type url: str
@@ -2460,7 +2460,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2477,7 +2477,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
@@ -2528,7 +2528,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2545,7 +2545,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
@@ -2596,7 +2596,7 @@ class FingerprintApi:
         event_id: Annotated[
             StrictStr,
             Field(
-                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id).'
+                description='The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id).'
             ),
         ],
         event_update: EventUpdate,
@@ -2613,7 +2613,7 @@ class FingerprintApi:
 
         Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
-        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-v4-get-function#event_id). (required)
+        :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
         :param event_update: (required)
         :type event_update: EventUpdate
