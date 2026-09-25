@@ -50,6 +50,7 @@ __all__ = [
     'BotResult',
     'BrowserDetails',
     'Canvas',
+    'DeviceDetails',
     'Emoji',
     'Error',
     'ErrorCode',
@@ -137,6 +138,7 @@ from fingerprint_server_sdk.models.bot_info_identity import BotInfoIdentity
 from fingerprint_server_sdk.models.bot_result import BotResult
 from fingerprint_server_sdk.models.browser_details import BrowserDetails
 from fingerprint_server_sdk.models.canvas import Canvas
+from fingerprint_server_sdk.models.device_details import DeviceDetails
 from fingerprint_server_sdk.models.emoji import Emoji
 from fingerprint_server_sdk.models.error import Error
 from fingerprint_server_sdk.models.error_code import ErrorCode

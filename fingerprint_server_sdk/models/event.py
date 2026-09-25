@@ -24,6 +24,7 @@ from typing_extensions import Self
 from fingerprint_server_sdk.models.bot_info import BotInfo
 from fingerprint_server_sdk.models.bot_result import BotResult
 from fingerprint_server_sdk.models.browser_details import BrowserDetails
+from fingerprint_server_sdk.models.device_details import DeviceDetails
 from fingerprint_server_sdk.models.event_rule_action import EventRuleAction
 from fingerprint_server_sdk.models.event_source import EventSource
 from fingerprint_server_sdk.models.identification import Identification
@@ -61,14 +62,14 @@ class Event(BaseModel):
     source: Optional[EventSource] = None
     incremental_identification_status: Optional[IncrementalIdentificationStatus] = None
     linked_id: Optional[StrictStr] = Field(
-        default=None, description='A customer-provided id that was sent with the request.'
+        default=None, description='A customer-provided ID that was sent with the request.'
     )
     environment_id: Optional[StrictStr] = Field(
-        default=None, description='Environment Id of the event.'
+        default=None, description='Environment ID of the event.'
     )
     suspect: Optional[StrictBool] = Field(
         default=None,
-        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-v4-update-event).',
+        description='Field is `true` if you have previously set the `suspect` flag for this event using the [Server API Update event endpoint](https://docs.fingerprint.com/reference/server-api-update-event).',
     )
     sdk: Optional[SDK] = None
     replayed: Optional[StrictBool] = Field(
@@ -86,7 +87,7 @@ class Event(BaseModel):
     )
     bundle_id: Optional[StrictStr] = Field(
         default=None,
-        description='Bundle Id of the iOS application integrated with the Fingerprint SDK for the event. ',
+        description='Bundle ID of the iOS application integrated with the Fingerprint SDK for the event. ',
     )
     package_name: Optional[StrictStr] = Field(
         default=None,
@@ -131,6 +132,7 @@ class Event(BaseModel):
         default=None,
         description='`true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise. ',
     )
+    device_details: Optional[DeviceDetails] = None
     emulator: Optional[StrictBool] = Field(
         default=None,
         description='Android specific emulator detection. There are 2 values:  * `true` - Emulated environment detected (e.g. launch inside of AVD).  * `false` - No signs of emulated environment detected or the client is not Android. ',
@@ -288,6 +290,7 @@ class Event(BaseModel):
         'bot_info',
         'cloned_app',
         'developer_tools',
+        'device_details',
         'emulator',
         'factory_reset_timestamp',
         'frida',
@@ -381,6 +384,9 @@ class Event(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of bot_info
         if self.bot_info:
             _dict['bot_info'] = self.bot_info.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of device_details
+        if self.device_details:
+            _dict['device_details'] = self.device_details.to_dict()
         # override the default output from pydantic by calling `to_dict()` of ip_blocklist
         if self.ip_blocklist:
             _dict['ip_blocklist'] = self.ip_blocklist.to_dict()
@@ -466,6 +472,9 @@ class Event(BaseModel):
                 else None,
                 'cloned_app': obj.get('cloned_app'),
                 'developer_tools': obj.get('developer_tools'),
+                'device_details': DeviceDetails.from_dict(obj['device_details'])
+                if obj.get('device_details') is not None
+                else None,
                 'emulator': obj.get('emulator'),
                 'factory_reset_timestamp': obj.get('factory_reset_timestamp'),
                 'frida': obj.get('frida'),

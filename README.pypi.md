@@ -314,6 +314,7 @@ Class | Method | HTTP request | Description
  - [BotResult](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BotResult.md)
  - [BrowserDetails](https://github.com/fingerprintjs/python-sdk/blob/main/docs/BrowserDetails.md)
  - [Canvas](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Canvas.md)
+ - [DeviceDetails](https://github.com/fingerprintjs/python-sdk/blob/main/docs/DeviceDetails.md)
  - [Emoji](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Emoji.md)
  - [Error](https://github.com/fingerprintjs/python-sdk/blob/main/docs/Error.md)
  - [ErrorCode](https://github.com/fingerprintjs/python-sdk/blob/main/docs/ErrorCode.md)

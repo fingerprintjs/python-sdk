@@ -16,26 +16,29 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated, Any, ClassVar, Optional, Union
+from typing import Any, ClassVar, Optional
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing_extensions import Self
 
 
-class LabelsInner(BaseModel):
+class DeviceDetails(BaseModel):
     """
-    LabelsInner
+    Native, SDK-collected mobile device identification signals (manufacturer, model, and OS version). Structurally separate from the top-level `device`, `os`, and `os_version` fields and from `browser_details`, all of which are derived from user-agent parsing rather than native SDK signals.
     """
 
-    label: StrictStr = Field(description='Customer-facing label name defined by the customer.')
-    prediction: Optional[StrictBool] = None
-    ml_score: Optional[
-        Union[
-            Annotated[float, Field(le=1, strict=True, ge=0)],
-            Annotated[int, Field(le=1, strict=True, ge=0)],
-        ]
-    ] = Field(default=None, description='Raw model score between 0 and 1.')
-    __properties: ClassVar[list[str]] = ['label', 'prediction', 'ml_score']
+    device_manufacturer: Optional[StrictStr] = Field(
+        default=None,
+        description='Raw device manufacturer string as reported by the device OS. Not normalized: casing is vendor-defined (samsung, Xiaomi, OPPO, HUAWEI). Always `Apple` on iOS.',
+    )
+    device_model: Optional[StrictStr] = Field(
+        default=None, description='Raw device model identifier, as reported by the mobile OS.'
+    )
+    os_version: Optional[StrictStr] = Field(
+        default=None,
+        description="Mobile operating system version. Component count is not fixed and must not be assumed by consumers: iOS always reports `major.minor.patch` (e.g. `17.4.1`), while Android's precision varies by OS era and which raw signal resolved it — `major` only (`9`, `13`) since Android 10 dropped point releases, `major.minor` (`16.1`) from Android 16 (API 36+) reintroducing a minor component, or a genuine `major.minor.patch` (`8.1.0`) on pre-Android 10 devices that shipped real point releases. Never a fabricated/zero-padded component.",
+    )
+    __properties: ClassVar[list[str]] = ['device_manufacturer', 'device_model', 'os_version']
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +57,7 @@ class LabelsInner(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of LabelsInner from a JSON string"""
+        """Create an instance of DeviceDetails from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -78,7 +81,7 @@ class LabelsInner(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of LabelsInner from a dict"""
+        """Create an instance of DeviceDetails from a dict"""
         if obj is None:
             return None
 
@@ -87,9 +90,9 @@ class LabelsInner(BaseModel):
 
         _obj = cls.model_validate(
             {
-                'label': obj.get('label'),
-                'prediction': obj.get('prediction'),
-                'ml_score': obj.get('ml_score'),
+                'device_manufacturer': obj.get('device_manufacturer'),
+                'device_model': obj.get('device_model'),
+                'os_version': obj.get('os_version'),
             }
         )
         return _obj
