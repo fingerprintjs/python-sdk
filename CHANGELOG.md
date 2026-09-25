@@ -1,5 +1,15 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.8.0
+
+### Minor Changes
+
+- **events**: Add `device_details` smart signal to `Event` ([9ef045b](https://github.com/fingerprintjs/python-sdk/commit/9ef045b57d38ab05550de5f8c39194a89ac5c92a))
+
+### Patch Changes
+
+- **events**: Fix descriptions to use ID rather than Id. Clarify descriptions for Labels. ([9ef045b](https://github.com/fingerprintjs/python-sdk/commit/9ef045b57d38ab05550de5f8c39194a89ac5c92a))
+
 ## 9.7.1
 
 ### Patch Changes
