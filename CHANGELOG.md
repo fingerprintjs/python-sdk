@@ -1,5 +1,16 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.8.0
+
+### Minor Changes
+
+- **events**: Add `device_details` smart signal to `Event` ([9ef045b](https://github.com/fingerprintjs/python-sdk/commit/9ef045b57d38ab05550de5f8c39194a89ac5c92a))
+
+### Patch Changes
+
+- Reject `.` and `..` as event and visitor IDs. `get_event`, `update_event`, and `delete_visitor_data` now raise the new `InvalidArgumentError` without sending a request. ([4b7f5b6](https://github.com/fingerprintjs/python-sdk/commit/4b7f5b613437c2ef46c666882314e2f126cefa10))
+- **events**: Fix descriptions to use ID rather than Id. Clarify descriptions for Labels. ([9ef045b](https://github.com/fingerprintjs/python-sdk/commit/9ef045b57d38ab05550de5f8c39194a89ac5c92a))
+
 ## 9.7.1
 
 ### Patch Changes
