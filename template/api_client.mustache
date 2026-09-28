@@ -14,7 +14,7 @@ from datetime import date, datetime
 from {{packageName}}.configuration import Configuration
 import {{modelPackage}}
 from {{packageName}} import rest
-from {{packageName}}.rest import ApiException, RESTResponse
+from {{packageName}}.rest import ApiException, InvalidArgumentError, RESTResponse
 from {{packageName}}.base_model import BaseModel
 
 PRIMITIVE_TYPES = (float, bool, bytes, str, int)
@@ -117,10 +117,10 @@ class ApiClient:
                                                     collection_formats)
             for k, v in path_params:
                 # specified safe chars, encode everything
-                resource_path = resource_path.replace(
-                    '{%s}' % k,
-                    quote(str(v), safe=config.safe_chars_for_path_param)
-                )
+                encoded = quote(str(v), safe=config.safe_chars_for_path_param)
+                if encoded in ('.', '..'):
+                    raise InvalidArgumentError(k, str(v))
+                resource_path = resource_path.replace('{%s}' % k, encoded)
 
         # query parameters
         if query_params:
