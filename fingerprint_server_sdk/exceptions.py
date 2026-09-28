@@ -236,6 +236,15 @@ class GatewayTimeoutException(ServiceException):
     pass
 
 
+class InvalidArgumentError(ApiValueError):
+    """Exception when ``.`` or ``..`` used as resource identifier."""
+
+    def __init__(self, argument: str, value: str) -> None:
+        self.argument = argument
+        self.value = value
+        super().__init__(f'invalid value {value!r} for {argument}: not a valid identifier')
+
+
 def render_path(path_to_item: list[Any]) -> str:
     """Returns a string representation of a path"""
     result = ''
