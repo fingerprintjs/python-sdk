@@ -1,13 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-defaultBaseUrl="https://fingerprintjs.github.io/fingerprint-pro-server-api-openapi"
+# Resolve paths relative to the repository root, so the script can be run from
+# any working directory.
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+defaultBaseUrl="https://fingerprintjs.github.io/openapi"
 schemaUrl="${1:-$defaultBaseUrl/schemas/fingerprint-server-api-v4.yaml}"
 examplesBaseUrl="${2:-$defaultBaseUrl/examples}"
 
-mkdir -p ./res
+CURL_OPTS=(-fSL --retry 3 --proto-redir '=https' --connect-timeout 10 --max-time 300)
+if [[ "${TRACE:-}" != "true" && "${ACTIONS_STEP_DEBUG:-}" != "true" ]]; then
+  CURL_OPTS+=(-s)
+fi
 
-curl -fSL --retry 3 -o ./res/fingerprint-server-api.yaml "$schemaUrl"
+schemaDestination="./res/fingerprint-server-api.yaml"
+exampleBaseDestination="./test/mocks"
+
+mkdir -p "$(dirname "$schemaDestination")"
+
+echo "Downloading $schemaUrl to $schemaDestination"
+curl "${CURL_OPTS[@]}" -o "$schemaDestination" "$schemaUrl"
 
 examples=(
   'events/search/get_event_search_200.json'
@@ -27,17 +40,15 @@ examples=(
   'errors/429_too_many_requests.json'
 )
 
-baseDestination="./test/mocks"
-mkdir -p "$baseDestination"
-
 for example in "${examples[@]}"; do
-  destinationPath="$baseDestination/$example"
-  destinationDir="$(dirname "$destinationPath")"
-  mkdir -p "$destinationDir"
+  destinationPath="$exampleBaseDestination/$example"
+  mkdir -p "$(dirname "$destinationPath")"
 
   exampleUrl="$examplesBaseUrl/$example"
   echo "Downloading $exampleUrl to $destinationPath"
-  curl -fSL --retry 3 -o "$destinationPath" "$exampleUrl"
+  curl "${CURL_OPTS[@]}" -o "$destinationPath" "$exampleUrl"
 done
+
+echo "All OpenAPI schema downloads complete."
 
 ./generate.sh
