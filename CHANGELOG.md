@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 8.15.1
+
+### Patch Changes
+
+- Reject `.` and `..` as request and visitor IDs. `get_event`, `update_event`, `get_visits`, and `delete_visitor_data` now raise the new `InvalidArgumentError` without sending a request. ([a56e351](https://github.com/fingerprintjs/python-sdk/commit/a56e3512a72919ecc48f7a780a6138b27b3f4290))
+
 ## 8.15.0
 
 ### Minor Changes
