@@ -70,9 +70,10 @@ BREAKING CHANGE: The minimum supported Python version is now 3.10.
 
 This repository has two optional hook setups. You can only use one of them at a time.
 
-- [install_hooks.sh](./install_hooks.sh) sets `core.hooksPath` to the [.git_hooks](./.git_hooks) folder and installs commitlint globally with npm, so you need Node.js. Its `commit-msg` hook checks the commit message with commitlint, and its `pre-push` hook blocks pushing directly to `main`:
+- [install_hooks.sh](./install_hooks.sh) sets `core.hooksPath` to the [.git_hooks](./.git_hooks) folder and installs commitlint globally with npm, so you need Node.js. Its `commit-msg` hook checks the commit message with commitlint, and its `pre-push` hook tries to stop accidental pushes to `main`:
 
   ```shell
+  pnpm install
   ./install_hooks.sh
   ```
 
@@ -199,7 +200,7 @@ If a PR has several user-facing changes, add one changeset for each. When severa
 #### Release flow
 
 1. On every PR, a bot comments with a preview of the release notes that the PR's changesets will produce. If the PR has no changesets, the comment reminds you to add one.
-2. After the PR is merged to `main`, the [Release](./.github/workflows/release.yml) workflow opens a `Release [changeset]` PR, or updates it if it's already open. That PR consumes all pending changesets, bumps the version and updates `CHANGELOG.md`.
+2. After a PR with changesets is merged to `main`, the [Release](./.github/workflows/release.yml) workflow opens a `Release [changeset]` PR, or updates it if it's already open. That PR consumes all pending changesets, bumps the version and updates `CHANGELOG.md`.
 3. Merging the `Release [changeset]` PR creates the Git tag and the GitHub release. The [Publish](./.github/workflows/publish.yml) workflow then uploads the package to PyPI.
 
 #### Pre-release flow
