@@ -68,13 +68,23 @@ BREAKING CHANGE: The minimum supported Python version is now 3.10.
 
 ### Git hooks
 
-This repository uses [pre-commit](https://pre-commit.com/) to run Ruff (formatting and linting) and MyPy on every commit. Install the hooks once after `uv sync`:
+This repository has two optional hook setups. You can only use one of them at a time.
 
-```shell
-uv run pre-commit install
-```
+- [install_hooks.sh](./install_hooks.sh) sets `core.hooksPath` to the [.git_hooks](./.git_hooks) folder and installs commitlint globally with npm, so you need Node.js. Its `commit-msg` hook checks the commit message with commitlint, and its `pre-push` hook blocks pushing directly to `main`:
 
-The hooks don't check commit messages. Those are only checked in CI. If the check fails, reword the offending commits (for example, with `git rebase -i`) and force-push the branch.
+  ```shell
+  ./install_hooks.sh
+  ```
+
+- [pre-commit](https://pre-commit.com/) runs Ruff (formatting and linting) and MyPy on every commit. Install it after `uv sync`:
+
+  ```shell
+  uv run pre-commit install
+  ```
+
+`pre-commit install` refuses to run while `core.hooksPath` is set, so it doesn't work after `./install_hooks.sh`. To switch to pre-commit, run `git config --unset-all core.hooksPath` first.
+
+Commit messages are also checked in CI. If the check fails, reword the offending commits (for example, with `git rebase -i`) and force-push the branch.
 
 ## Code generation
 
@@ -158,7 +168,7 @@ We use [changesets](https://github.com/changesets/changesets) to version the SDK
 
 #### Adding a changeset
 
-If your PR changes anything that SDK users can notice, add a changeset to it:
+If your PR changes the SDK's public API or behavior, add a changeset to it:
 
 ```shell
 pnpm install
@@ -181,7 +191,7 @@ Pick the bump type that matches the commit type:
 |---|---|---|---|
 | Bug fix | `fix` | `patch` | 9.8.0 -> 9.8.1 |
 | New backward-compatible feature | `feat` | `minor` | 9.8.0 -> 9.9.0 |
-| Breaking change | `feat!`, `fix!` or a `BREAKING CHANGE:` footer | `major` | 9.8.0 -> 10.0.0 |
+| Breaking change | Any `<type>!` (for example, `feat!`) or a `BREAKING CHANGE:` footer | `major` | 9.8.0 -> 10.0.0 |
 | Docs, tests, CI, refactoring and other internal changes | `docs`, `test`, `ci`, `refactor`, `chore`, ... | No changeset | No release |
 
 If a PR has several user-facing changes, add one changeset for each. When several changesets are released together, the highest bump wins.
