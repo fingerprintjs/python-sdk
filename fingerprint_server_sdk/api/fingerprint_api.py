@@ -363,6 +363,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '503': 'ErrorResponse',
             '504': 'ErrorResponse',
         }
 
@@ -438,6 +439,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '503': 'ErrorResponse',
             '504': 'ErrorResponse',
         }
 
@@ -513,6 +515,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '503': 'ErrorResponse',
             '504': 'ErrorResponse',
         }
 
@@ -870,16 +873,16 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
-        source: Annotated[
-            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
-            Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
-            ),
-        ] = None,
         active_call: Annotated[
             Optional[StrictBool],
             Field(
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -995,10 +998,10 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
-        :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1068,8 +1071,8 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
-            source=source,
             active_call=active_call,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1082,6 +1085,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '503': 'ErrorResponse',
             '504': 'ErrorResponse',
         }
 
@@ -1393,16 +1397,16 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
-        source: Annotated[
-            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
-            Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
-            ),
-        ] = None,
         active_call: Annotated[
             Optional[StrictBool],
             Field(
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -1518,10 +1522,10 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
-        :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1591,8 +1595,8 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
-            source=source,
             active_call=active_call,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1605,6 +1609,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '503': 'ErrorResponse',
             '504': 'ErrorResponse',
         }
 
@@ -1916,16 +1921,16 @@ class FingerprintApi:
                 description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
-        source: Annotated[
-            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
-            Field(
-                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
-            ),
-        ] = None,
         active_call: Annotated[
             Optional[StrictBool],
             Field(
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
+        source: Annotated[
+            Optional[Annotated[list[SearchEventsSource], Field(max_length=1)]],
+            Field(
+                description='Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team. '
             ),
         ] = None,
         _request_timeout: Union[
@@ -2041,10 +2046,10 @@ class FingerprintApi:
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
         :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
-        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
-        :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
+        :type source: List[SearchEventsSource]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2114,8 +2119,8 @@ class FingerprintApi:
             tor_node=tor_node,
             incremental_identification_status=incremental_identification_status,
             simulator=simulator,
-            source=source,
             active_call=active_call,
+            source=source,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2128,6 +2133,7 @@ class FingerprintApi:
             '404': 'ErrorResponse',
             '429': 'ErrorResponse',
             '500': 'ErrorResponse',
+            '503': 'ErrorResponse',
             '504': 'ErrorResponse',
         }
 
@@ -2186,8 +2192,8 @@ class FingerprintApi:
         tor_node: Optional[bool],
         incremental_identification_status: Optional[SearchEventsIncrementalIdentificationStatus],
         simulator: Optional[bool],
-        source: Optional[list[SearchEventsSource]],
         active_call: Optional[bool],
+        source: Optional[list[SearchEventsSource]],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -2426,12 +2432,12 @@ class FingerprintApi:
             _query_params.append(('simulator', simulator))
 
         # process the query parameters
-        if source is not None:
-            _query_params.append(('source', source))
-
-        # process the query parameters
         if active_call is not None:
             _query_params.append(('active_call', active_call))
+
+        # process the query parameters
+        if source is not None:
+            _query_params.append(('source', source))
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
