@@ -32,7 +32,8 @@ class DeviceDetails(BaseModel):
         description='Raw device manufacturer string as reported by the device OS. Not normalized: casing is vendor-defined (samsung, Xiaomi, OPPO, HUAWEI). Always `Apple` on iOS.',
     )
     device_model: Optional[StrictStr] = Field(
-        default=None, description='Raw device model identifier, as reported by the mobile OS.'
+        default=None,
+        description='Raw device model identifier, as reported by the mobile OS. On Android, this is the vendor-defined model string (e.g., `SM-G991U`). On iOS, this is an Apple board code (e.g., `D84AP`).',
     )
     os_version: Optional[StrictStr] = Field(
         default=None,
