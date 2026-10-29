@@ -128,6 +128,10 @@ class Event(BaseModel):
         default=None,
         description='Android specific cloned application detection. There are 2 values:  * `true` - Presence of app cloners work detected (e.g. fully cloned application found or launch of it inside of a not main working profile detected). * `false` - No signs of cloned application detected or the client is not Android. ',
     )
+    compromised_device_integrity: Optional[StrictBool] = Field(
+        default=None,
+        description="`true` if the Android device's boot or system integrity is compromised (e.g., an unlocked bootloader or a failed verified boot), so the device cannot be trusted. `false` if no integrity issue was detected. Available from Android SDK 2.6.0+. ",
+    )
     developer_tools: Optional[StrictBool] = Field(
         default=None,
         description='`true` if the browser has DevTools open (Chrome, Firefox) or the Android/iOS device has Developer Tools enabled, `false` otherwise. ',
@@ -289,6 +293,7 @@ class Event(BaseModel):
         'bot_type',
         'bot_info',
         'cloned_app',
+        'compromised_device_integrity',
         'developer_tools',
         'device_details',
         'emulator',
@@ -471,6 +476,7 @@ class Event(BaseModel):
                 if obj.get('bot_info') is not None
                 else None,
                 'cloned_app': obj.get('cloned_app'),
+                'compromised_device_integrity': obj.get('compromised_device_integrity'),
                 'developer_tools': obj.get('developer_tools'),
                 'device_details': DeviceDetails.from_dict(obj['device_details'])
                 if obj.get('device_details') is not None

@@ -885,6 +885,12 @@ class FingerprintApi:
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        compromised_device_integrity: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by Compromised Device Integrity result on Android devices.  > Note: When using this parameter, only events with the `compromised_device_integrity` property set to `true` or `false` are returned. Events without a `compromised_device_integrity` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1002,6 +1008,8 @@ class FingerprintApi:
         :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param compromised_device_integrity: Filter events by Compromised Device Integrity result on Android devices.  > Note: When using this parameter, only events with the `compromised_device_integrity` property set to `true` or `false` are returned. Events without a `compromised_device_integrity` Smart Signal result are left out of the response.
+        :type compromised_device_integrity: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1073,6 +1081,7 @@ class FingerprintApi:
             simulator=simulator,
             source=source,
             active_call=active_call,
+            compromised_device_integrity=compromised_device_integrity,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1409,6 +1418,12 @@ class FingerprintApi:
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        compromised_device_integrity: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by Compromised Device Integrity result on Android devices.  > Note: When using this parameter, only events with the `compromised_device_integrity` property set to `true` or `false` are returned. Events without a `compromised_device_integrity` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1526,6 +1541,8 @@ class FingerprintApi:
         :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param compromised_device_integrity: Filter events by Compromised Device Integrity result on Android devices.  > Note: When using this parameter, only events with the `compromised_device_integrity` property set to `true` or `false` are returned. Events without a `compromised_device_integrity` Smart Signal result are left out of the response.
+        :type compromised_device_integrity: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1597,6 +1614,7 @@ class FingerprintApi:
             simulator=simulator,
             source=source,
             active_call=active_call,
+            compromised_device_integrity=compromised_device_integrity,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1933,6 +1951,12 @@ class FingerprintApi:
                 description='Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response. '
             ),
         ] = None,
+        compromised_device_integrity: Annotated[
+            Optional[StrictBool],
+            Field(
+                description='Filter events by Compromised Device Integrity result on Android devices.  > Note: When using this parameter, only events with the `compromised_device_integrity` property set to `true` or `false` are returned. Events without a `compromised_device_integrity` Smart Signal result are left out of the response. '
+            ),
+        ] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2050,6 +2074,8 @@ class FingerprintApi:
         :type source: List[SearchEventsSource]
         :param active_call: Filter events by Active Call Detection result on mobile devices.  > Note: When using this parameter, only events with the `active_call` property set to `true` or `false` are returned. Events without an `active_call` Smart Signal result are left out of the response.
         :type active_call: bool
+        :param compromised_device_integrity: Filter events by Compromised Device Integrity result on Android devices.  > Note: When using this parameter, only events with the `compromised_device_integrity` property set to `true` or `false` are returned. Events without a `compromised_device_integrity` Smart Signal result are left out of the response.
+        :type compromised_device_integrity: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2121,6 +2147,7 @@ class FingerprintApi:
             simulator=simulator,
             source=source,
             active_call=active_call,
+            compromised_device_integrity=compromised_device_integrity,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2194,6 +2221,7 @@ class FingerprintApi:
         simulator: Optional[bool],
         source: Optional[list[SearchEventsSource]],
         active_call: Optional[bool],
+        compromised_device_integrity: Optional[bool],
         _request_auth: Optional[dict[StrictStr, Any]],
         _content_type: Optional[StrictStr],
         _headers: Optional[dict[StrictStr, Any]],
@@ -2439,6 +2467,10 @@ class FingerprintApi:
         if active_call is not None:
             _query_params.append(('active_call', active_call))
 
+        # process the query parameters
+        if compromised_device_integrity is not None:
+            _query_params.append(('compromised_device_integrity', compromised_device_integrity))
+
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(['application/json'])
@@ -2481,7 +2513,7 @@ class FingerprintApi:
     ) -> None:
         """Update an event
 
-        Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
+        Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** You can only update events created within the last 10 days. Updating an older event returns HTTP 400 with the message `event is too old to be updated (> 10 days)`, even if your plan retains events for longer.  **Warning** Events created by the Automation Intelligence API (`POST /edge`) cannot be updated. Updating them returns HTTP 400.  **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
         :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
@@ -2549,7 +2581,7 @@ class FingerprintApi:
     ) -> ApiResponse[None]:
         """Update an event
 
-        Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
+        Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** You can only update events created within the last 10 days. Updating an older event returns HTTP 400 with the message `event is too old to be updated (> 10 days)`, even if your plan retains events for longer.  **Warning** Events created by the Automation Intelligence API (`POST /edge`) cannot be updated. Updating them returns HTTP 400.  **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
         :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
@@ -2617,7 +2649,7 @@ class FingerprintApi:
     ) -> RESTResponseType:
         """Update an event
 
-        Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** It's not possible to update events older than one month.   **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
+        Change information in existing events specified by `event_id` or *flag suspicious events*.  When an event is created, it can be assigned `linked_id` and `tags` submitted through the JS agent parameters.  This information might not have been available on the client initially, so the Server API permits updating these attributes after the fact.  **Warning** You can only update events created within the last 10 days. Updating an older event returns HTTP 400 with the message `event is too old to be updated (> 10 days)`, even if your plan retains events for longer.  **Warning** Events created by the Automation Intelligence API (`POST /edge`) cannot be updated. Updating them returns HTTP 400.  **Warning** Trying to update an event immediately after creation may temporarily result in an  error (HTTP 409 Conflict. The event is not mutable yet.) as the event is fully propagated across our systems. In such a case, simply retry the request.
 
         :param event_id: The unique event [identifier](https://docs.fingerprint.com/reference/js-agent-get-function#event_id). (required)
         :type event_id: str
