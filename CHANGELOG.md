@@ -1,5 +1,12 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.10.0-rc.0
+
+### Minor Changes
+
+- **events-search**: Add `compromised_device_integrity` filter query parameter ([74b9767](https://github.com/fingerprintjs/python-sdk/commit/74b97673d5a80b1b5f79b7fc736d90de354f4d8b))
+- **events**: Add `compromised_device_integrity` to `Event` ([74b9767](https://github.com/fingerprintjs/python-sdk/commit/74b97673d5a80b1b5f79b7fc736d90de354f4d8b))
+
 ## 9.9.0
 
 ### Minor Changes

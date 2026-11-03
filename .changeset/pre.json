@@ -4,5 +4,8 @@
   "initialVersions": {
     "@fingerprint/python-sdk": "9.9.0"
   },
-  "changesets": []
+  "changesets": [
+    "compromised-device-integrity-events-search",
+    "compromised-device-integrity-events"
+  ]
 }
