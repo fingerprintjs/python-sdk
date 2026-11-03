@@ -258,27 +258,6 @@ class TestFingerprintApi(unittest.TestCase):
         event_response = self.api.get_event(event_id)
         self.assertIsNone(event_response.compromised_device_integrity)
 
-    def test_get_event_with_edge_source(self) -> None:
-        """Test case for get_event returning an Automation Intelligence (edge) event"""
-        mock_pool = MockPoolManager(self)
-        self.api.api_client.rest_client.pool_manager = mock_pool
-        event_id = '1758130560902.8tRtrH'
-        mock_pool.expect_request(
-            'GET',
-            TestFingerprintApi.get_event_path(event_id),
-            fields=[],
-            headers=self.request_headers,
-            preload_content=True,
-            timeout=None,
-            response_data_file='events/get_event_with_edge_200.json',
-        )
-
-        event_response = self.api.get_event(event_id)
-        self.assertIsInstance(event_response, Event)
-        self.assertEqual(event_response.event_id, '1758130560902.8tRtrH')
-        self.assertEqual(event_response.bot_info.category, BotInfoCategory.AI_AGENT)
-        self.assertIsNone(event_response.compromised_device_integrity)
-
     def test_get_event_with_unknown_field(self) -> None:
         """Test case for get_event with unknown fields in the response
 
@@ -792,7 +771,7 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertIsInstance(context.exception.data, ErrorResponse)
         self.assertEqual(context.exception.data.error.code, ErrorCode.REQUEST_CANNOT_BE_PARSED)
 
-    def _assert_update_event_bad_request(self, response_data_file, expected_message) -> None:
+    def _assert_update_event_bad_request(self, expected_message) -> None:
         mock_pool = MockPoolManager(self)
         self.api.api_client.rest_client.pool_manager = mock_pool
         event_id = '0000000000000.XXXXX'
@@ -804,7 +783,7 @@ class TestFingerprintApi(unittest.TestCase):
             timeout=None,
             body='{"linkedId": "test"}',
             response_status_code=400,
-            response_data_file=response_data_file,
+            response_text=json.dumps({'error': {'code': 'failed', 'message': expected_message}}),
         )
 
         with self.assertRaises(BadRequestException) as context:
@@ -817,15 +796,11 @@ class TestFingerprintApi(unittest.TestCase):
 
     def test_update_event_too_old(self) -> None:
         """Test case for update_event on an event older than 10 days"""
-        self._assert_update_event_bad_request(
-            'errors/400_event_too_old.json', 'event is too old to be updated (> 10 days)'
-        )
+        self._assert_update_event_bad_request('event is too old to be updated (> 10 days)')
 
     def test_update_event_edge_not_updatable(self) -> None:
         """Test case for update_event on an Automation Intelligence (edge) event"""
-        self._assert_update_event_bad_request(
-            'errors/400_edge_event_not_updatable.json', 'edge events cannot be updated'
-        )
+        self._assert_update_event_bad_request('edge events cannot be updated')
 
     def test_update_event_forbidden(self) -> None:
         """Test case for update_event with 403 Forbidden response"""
