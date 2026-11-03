@@ -1,5 +1,7 @@
+import json
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
 from urllib.parse import urlencode
 
 from fingerprint_server_sdk import (
@@ -217,6 +219,44 @@ class TestFingerprintApi(unittest.TestCase):
 
         event_response = self.api.get_event(event_id)
         self.assertIsInstance(event_response, Event)
+        self.assertIs(event_response.compromised_device_integrity, False)
+
+    def _expect_get_event_response_text(self, mock_pool, event_id, response_text) -> None:
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_event_path(event_id),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_text=response_text,
+        )
+
+    def test_get_event_compromised_device_integrity_true(self) -> None:
+        """Test case for get_event with `compromised_device_integrity` set to true"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        event_id = '0000000000000.XXXXX'
+        mock_file = Path(__file__).resolve().parent / 'mocks' / 'events' / 'get_event_200.json'
+        data = json.loads(mock_file.read_text(encoding='utf-8'))
+        data['compromised_device_integrity'] = True
+        self._expect_get_event_response_text(mock_pool, event_id, json.dumps(data))
+
+        event_response = self.api.get_event(event_id)
+        self.assertIs(event_response.compromised_device_integrity, True)
+
+    def test_get_event_without_compromised_device_integrity(self) -> None:
+        """Test case for get_event when `compromised_device_integrity` is absent"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        event_id = '0000000000000.XXXXX'
+        mock_file = Path(__file__).resolve().parent / 'mocks' / 'events' / 'get_event_200.json'
+        data = json.loads(mock_file.read_text(encoding='utf-8'))
+        del data['compromised_device_integrity']
+        self._expect_get_event_response_text(mock_pool, event_id, json.dumps(data))
+
+        event_response = self.api.get_event(event_id)
+        self.assertIsNone(event_response.compromised_device_integrity)
 
     def test_get_event_with_unknown_field(self) -> None:
         """Test case for get_event with unknown fields in the response
@@ -400,6 +440,23 @@ class TestFingerprintApi(unittest.TestCase):
         )
         event_response = self.api.search_events(**params)
         self.assertIsInstance(event_response, EventSearch)
+        self.assertIs(event_response.events[0].compromised_device_integrity, False)
+
+    def test_search_events_compromised_device_integrity_false(self) -> None:
+        """Test case for search_events with `compromised_device_integrity=False` filter"""
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        mock_pool.expect_request(
+            'GET',
+            TestFingerprintApi.get_search_events_path({'compromised_device_integrity': 'false'}),
+            fields=[],
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            response_data_file='events/search/get_event_search_200.json',
+        )
+        event_response = self.api.search_events(compromised_device_integrity=False)
+        self.assertIsInstance(event_response, EventSearch)
         self.assertEqual(len(event_response.events), 1)
         first_event = event_response.events[0]
         self.assertIsInstance(first_event, Event)
@@ -462,6 +519,7 @@ class TestFingerprintApi(unittest.TestCase):
             'bot_info_name': ['name1', 'name2'],
             'source': [SearchEventsSource.EDGE],
             'active_call': True,
+            'compromised_device_integrity': True,
         }
         # URL params use serialized values (enum.value, lowercase bool) in API definition order
         url_params = {
@@ -516,6 +574,7 @@ class TestFingerprintApi(unittest.TestCase):
             'simulator': 'true',
             'source': ['edge'],
             'active_call': 'true',
+            'compromised_device_integrity': 'true',
         }
 
         mock_pool = MockPoolManager(self)
@@ -711,6 +770,37 @@ class TestFingerprintApi(unittest.TestCase):
         self.assertEqual(context.exception.status, 400)
         self.assertIsInstance(context.exception.data, ErrorResponse)
         self.assertEqual(context.exception.data.error.code, ErrorCode.REQUEST_CANNOT_BE_PARSED)
+
+    def _assert_update_event_bad_request(self, expected_message) -> None:
+        mock_pool = MockPoolManager(self)
+        self.api.api_client.rest_client.pool_manager = mock_pool
+        event_id = '0000000000000.XXXXX'
+        mock_pool.expect_request(
+            'PATCH',
+            TestFingerprintApi.get_event_path(event_id),
+            headers=self.request_headers,
+            preload_content=True,
+            timeout=None,
+            body='{"linkedId": "test"}',
+            response_status_code=400,
+            response_text=json.dumps({'error': {'code': 'failed', 'message': expected_message}}),
+        )
+
+        with self.assertRaises(BadRequestException) as context:
+            self.api.update_event(event_id, EventUpdate(linked_id='test'))
+
+        self.assertEqual(context.exception.status, 400)
+        self.assertIsInstance(context.exception.data, ErrorResponse)
+        self.assertEqual(context.exception.data.error.code, ErrorCode.FAILED)
+        self.assertEqual(context.exception.data.error.message, expected_message)
+
+    def test_update_event_too_old(self) -> None:
+        """Test case for update_event on an event older than 10 days"""
+        self._assert_update_event_bad_request('event is too old to be updated (> 10 days)')
+
+    def test_update_event_edge_not_updatable(self) -> None:
+        """Test case for update_event on an Automation Intelligence (edge) event"""
+        self._assert_update_event_bad_request('edge events cannot be updated')
 
     def test_update_event_forbidden(self) -> None:
         """Test case for update_event with 403 Forbidden response"""
