@@ -870,7 +870,7 @@ class FingerprintApi:
         simulator: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
+                description='Filter events by the Simulator Detection result (native iOS SDK and Safari on iOS).  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
         source: Annotated[
@@ -1002,7 +1002,7 @@ class FingerprintApi:
         :type tor_node: bool
         :param incremental_identification_status: Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
-        :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+        :param simulator: Filter events by the Simulator Detection result (native iOS SDK and Safari on iOS).  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
         :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
         :type source: List[SearchEventsSource]
@@ -1403,7 +1403,7 @@ class FingerprintApi:
         simulator: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
+                description='Filter events by the Simulator Detection result (native iOS SDK and Safari on iOS).  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
         source: Annotated[
@@ -1535,7 +1535,7 @@ class FingerprintApi:
         :type tor_node: bool
         :param incremental_identification_status: Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
-        :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+        :param simulator: Filter events by the Simulator Detection result (native iOS SDK and Safari on iOS).  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
         :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
         :type source: List[SearchEventsSource]
@@ -1936,7 +1936,7 @@ class FingerprintApi:
         simulator: Annotated[
             Optional[StrictBool],
             Field(
-                description='Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
+                description='Filter events by the Simulator Detection result (native iOS SDK and Safari on iOS).  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response. '
             ),
         ] = None,
         source: Annotated[
@@ -2068,7 +2068,7 @@ class FingerprintApi:
         :type tor_node: bool
         :param incremental_identification_status: Filter events by their incremental identification status (`incremental_identification_status` property). Non incremental identification events are left out of the response.
         :type incremental_identification_status: SearchEventsIncrementalIdentificationStatus
-        :param simulator: Filter events by iOS Simulator Detection result.  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
+        :param simulator: Filter events by the Simulator Detection result (native iOS SDK and Safari on iOS).  > Note: When using this parameter, only events with the `simulator` property set to `true` or `false` are returned. Events without a `simulator` Smart Signal result are left out of the response.
         :type simulator: bool
         :param source: Selects the source of events to search. When omitted, only traditional identification events generated from devices are returned (the default behavior). When set to `edge`, only Automation Intelligence (Edge) events are returned.  To retrieve all events regardless of source, you must make two requests. One with the `source` parameter set to `edge`, and another with the `source` parameter omitted.  > Note: The Automation Intelligence API is in public preview testing phase.  If you encounter any issues, please [contact](https://fingerprint.com/support/) our support team.
         :type source: List[SearchEventsSource]
