@@ -14,7 +14,16 @@ jobs:
     secrets:
       DD_API_KEY: ${{ secrets.INTEGRATIONS_DATADOG_API_KEY }}
 
+  seed_events:
+    name: 'Seed identification events'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fingerprintjs/dx-team-toolkit/.github/actions/seed-identification-events@v1
+        with:
+          public-api-key: ${{ secrets.FINGERPRINT_PUBLIC_KEY }}
+
   functional_tests:
+    needs: seed_events
     name: Functional tests for Python ${{ matrix.python-version }}
     runs-on: "ubuntu-latest"
 
