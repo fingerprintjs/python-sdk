@@ -42,7 +42,7 @@ def main() -> int:
     cfg = load_config()
     api = make_client(cfg)
 
-    start, end = create_range(89)
+    start, end = create_range(29)
 
     # FingerprintApi->search_events usage example
     try:
