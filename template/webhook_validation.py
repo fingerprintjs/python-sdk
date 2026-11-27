@@ -10,7 +10,7 @@ class WebhookValidation:
         """Validates an HMAC signature."""
         hmac_instance = hmac.new(secret.encode('utf-8'), data, hashlib.sha256)
         computed_hash = hmac_instance.hexdigest()
-        return signature == computed_hash
+        return hmac.compare_digest(signature.encode('utf-8'), computed_hash.encode('utf-8'))
 
     @staticmethod
     def is_valid_webhook_signature(header: str, data: bytes, secret: str) -> bool:
