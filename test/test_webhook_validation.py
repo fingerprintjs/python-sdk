@@ -41,6 +41,22 @@ class TestWebhookValidation(unittest.TestCase):
         result = WebhookValidation.is_valid_webhook_signature(self.valid_header, b'', self.secret)
         self.assertFalse(result)
 
+    def test_valid_signature_after_invalid_v1(self):
+        result = WebhookValidation.is_valid_webhook_signature(
+            f'v1=invalid,{self.valid_header}', self.data, self.secret
+        )
+        self.assertTrue(result)
+
+    def test_truncated_signature(self):
+        result = WebhookValidation.is_valid_webhook_signature(
+            self.valid_header[:-1], self.data, self.secret
+        )
+        self.assertFalse(result)
+
+    def test_non_ascii_signature(self):
+        result = WebhookValidation.is_valid_webhook_signature('v1=é', self.data, self.secret)
+        self.assertFalse(result)
+
 
 if __name__ == '__main__':
     unittest.main()
