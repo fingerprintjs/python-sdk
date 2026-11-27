@@ -1,5 +1,11 @@
 # Fingerprint Pro Server Python SDK
 
+## 9.10.1
+
+### Patch Changes
+
+- Compare webhook signatures in constant time using `hmac.compare_digest`. ([a912a13](https://github.com/fingerprintjs/python-sdk/commit/a912a136fb4fe6c07f7a3fa0737763e9cb0a91d2))
+
 ## 9.10.0
 
 ### Minor Changes
